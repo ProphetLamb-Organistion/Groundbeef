@@ -23,7 +23,7 @@ namespace ProphetLamb.Tools
             return enumValues;
         }
 
-        public static T Parse(string value)
+        public static T Parse(in string value)
         {
             if (String.IsNullOrEmpty(value))
                 throw new ArgumentException("Value cannot be null or empty.", nameof(value));

@@ -12,13 +12,17 @@ namespace ProphetLamb.Tools.Localisation.JsonResources
     {
         private ConcurrentDictionary<string, object> resourceTable,
                                                      caseInsenstiveTable;
-        private readonly string assFileName;
+        private readonly string fileName;
 
         internal event EventHandler ResourceFileLoadedEvent;
 
-        internal ResourceSet(string fileName)
+        /// <summary>
+        /// Initializes a new instance of ResourceSet.
+        /// </summary>
+        /// <param name="fileName">The full path the the resource .json file.</param>
+        internal ResourceSet(in string fileName)
         {
-            assFileName = fileName;
+            this.fileName = fileName;
         }
 
         /// <summary>
@@ -26,7 +30,11 @@ namespace ProphetLamb.Tools.Localisation.JsonResources
         /// </summary>
         internal bool Loaded { get; private set; } = false;
 
-        internal static bool ThrowExceptionOnResourceMiss { get; set; } = true;
+        /// <summary>
+        /// Determins wherther to throw a ArgumentException if the specified key was not found or the <see cref="ResourceSet"/> is currently unloaded.
+        /// </summary>
+        /// <value>If <see cref="true"/> throws a ArguemntException; otherwise, returns <see cref="null"/>.</value>
+        public static bool ThrowExceptionOnResourceMiss { get; set; } = true;
 
         /// <summary>
         /// Cerates a task that loads or refreshes the <see cref="ResourceSet"/> by reading the resource tables from the associated file.
@@ -55,7 +63,7 @@ namespace ProphetLamb.Tools.Localisation.JsonResources
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="ignoreCase">Whether the key is treated case insensitive.</param>
-        internal string GetString(string key, bool ignoreCase = false)
+        internal string GetString(in string key, bool ignoreCase = false)
         {
             return InternalGetObject(key, ignoreCase) is string str ? str : throw new InvalidCastException("The object at the key is no string.");
         }
@@ -65,12 +73,41 @@ namespace ProphetLamb.Tools.Localisation.JsonResources
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="ignoreCase">Whether the key is treated case insensitive.</param>
-        internal object GetObject(string key, bool ignoreCase = false)
+        internal object GetObject(in string key, bool ignoreCase = false)
         {
             return InternalGetObject(key, ignoreCase);
         }
 
-        protected object InternalGetObject(string key, bool ignoreCase)
+        /// <summary>
+        /// Adds the specified key and value to the tables. If the key already exists overwrites the exisiting value.
+        /// </summary>
+        /// <param name="key">The key of the element to add.</param>
+        /// <param name="value">The value of the element to add. The value can not be null.</param>
+        internal void Add(in string key, in object value)
+        {
+            if (String.IsNullOrWhiteSpace(key))
+                throw new ArgumentException($"'{nameof(key)}' cannot be null or whitespace", nameof(key));
+            if (value is null)
+                throw new ArgumentNullException(nameof(value));
+            resourceTable.Add(key, value);
+            caseInsenstiveTable.Add(key.ToUpperInvariant(), value);
+        }
+
+        /// <summary>
+        /// Adds the specified key and value to the tables. If the key already exists overwrites the exisiting value.
+        /// </summary>
+        /// <param name="keyValuePair">The key value pair to add.</param>
+        internal void Add(in KeyValuePair<string, object> keyValuePair)
+        {
+            if (String.IsNullOrWhiteSpace(keyValuePair.Key))
+                throw new ArgumentException($"'{nameof(keyValuePair.Key)}' cannot be null or whitespace", nameof(keyValuePair));
+            if (keyValuePair.Value is null)
+                throw new ArgumentNullException(nameof(keyValuePair.Value));
+            resourceTable.Add(keyValuePair);
+            caseInsenstiveTable.Add(keyValuePair.Key.ToUpperInvariant(), keyValuePair.Value);
+        }
+
+        private object InternalGetObject(in string key, bool ignoreCase)
         {
             IDictionary<string, object> resources = null;
             string iKey = null;
@@ -92,11 +129,16 @@ namespace ProphetLamb.Tools.Localisation.JsonResources
             return value;
         }
 
+        internal Task<string> WriteResources()
+        {
+            return Task.Run(() => JsonConvert.SerializeObject(resourceTable.AsEnumerable()));
+        }
+
         private async Task ReadResources()
         {
             Loaded = false;
             IEnumerable<KeyValuePair<string, object>> kvpEnu;
-            using (var sr = new StreamReader(assFileName))
+            using (var sr = new StreamReader(fileName))
                 kvpEnu = JsonConvert.DeserializeObject<IEnumerable<KeyValuePair<string, object>>>(await sr.ReadToEndAsync());
             lock(resourceTable)
                 resourceTable = new ConcurrentDictionary<string, object>(kvpEnu);

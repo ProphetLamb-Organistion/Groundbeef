@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace ProphetLamb.Tools
 {
@@ -6,6 +7,7 @@ namespace ProphetLamb.Tools
     public static class StringHelper
     {
         internal static readonly MethodInfo methodFastAllocateString = typeof(string).GetMethod("FastAllocateString", BindingFlags.NonPublic | BindingFlags.Static);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string FastAllocateString(int length) => methodFastAllocateString.Invoke(null, new object[] { length }) as string;
     }
 }

@@ -62,7 +62,6 @@ namespace ProphetLamb.Tools.Localisation
 
         /// <summary>
         /// Gets or sets a string representing the default ResourceManager. 
-        /// 
         /// When set a resource string can be obtained without specifing a ManagerName, in that case the value of DefaultManager is used as such.
         /// </summary>
         public string DefaultManager

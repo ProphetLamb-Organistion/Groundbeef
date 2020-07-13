@@ -21,7 +21,7 @@ namespace ProphetLamb.Tools.Core
         /// <param name="enumerable">The source <see cref="IEnumerable{T}"/> for the conversion.</param>
         /// <param name="sourceType">The type of TSource.</param>
         /// <returns>A <see cref="List{TSource}"/> with the data of <paramref name="enumerable"/>.</returns>
-        public static object ToGenericList(object enumerable, out Type sourceType)
+        public static object ToGenericList(in object enumerable, out Type sourceType)
         {
             sourceType = TypeHelper.GetEnumerableBaseType(enumerable.GetType());
             return MakeToListMethod(sourceType).Invoke(null, new[] { enumerable });
@@ -33,13 +33,13 @@ namespace ProphetLamb.Tools.Core
         /// <param name="enumerable">The source <see cref="IEnumerable{T}"/> for the conversion.</param>
         /// <param name="sourceType">The type of TSource.</param>
         /// <returns>A <see cref="List{TSource}"/> with the data of <paramref name="enumerable"/>.</returns>
-        public static object ToGenericArray(object enumerable, out Type sourceType)
+        public static object ToGenericArray(in object enumerable, out Type sourceType)
         {
             sourceType = TypeHelper.GetEnumerableBaseType(enumerable.GetType());
             return MakeToArrayMethod(sourceType).Invoke(null, new[] { enumerable });
         }
 
-        public static MethodInfo MakeToListMethod(Type sourceType)
+        public static MethodInfo MakeToListMethod(in Type sourceType)
         {
             if (GenericToListMethodsDictionary.TryGetValue(sourceType.GUID, out MethodInfo genericToListMethod))
                 return genericToListMethod;
@@ -49,7 +49,7 @@ namespace ProphetLamb.Tools.Core
             return genericToListMethod;
         }
 
-        public static MethodInfo MakeToArrayMethod(Type sourceType)
+        public static MethodInfo MakeToArrayMethod(in Type sourceType)
         {
             if (GenericToArrayMethodsDictionary.TryGetValue(sourceType.GUID, out MethodInfo genericToArrayMethod))
                 return genericToArrayMethod;
