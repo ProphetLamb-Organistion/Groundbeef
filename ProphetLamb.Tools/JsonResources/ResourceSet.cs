@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.IO;
 
-namespace ProphetLamb.Tools.Localisation.JsonResources
+namespace ProphetLamb.Tools.JsonResources
 {
     internal class ResourceSet : IDisposable
     {

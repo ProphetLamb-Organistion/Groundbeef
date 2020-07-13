@@ -2,12 +2,13 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Globalization;
 
-namespace ProphetLamb.Tools.Localisation.JsonResources
+namespace ProphetLamb.Tools.JsonResources
 {
     [System.Runtime.InteropServices.ComVisible(true)]
     public class ResourceWriter : System.Resources.IResourceWriter
     {
         private readonly ResourceSet resourceSet;
+        private readonly string resourceFileName;
 
         public ResourceWriter(in ResourceManager sourceResourceManager, in CultureInfo culture)
         {
@@ -19,6 +20,8 @@ namespace ProphetLamb.Tools.Localisation.JsonResources
                 File.CreateText(fileName);
                 resourceSet = new ResourceSet(fileName);
             }
+            // Locate resource file
+            resourceFileName = sourceResourceManager.GetResourceFileName(culture);
             if (!resourceSet.Loaded)
                 resourceSet.Load().Wait();
         }
@@ -38,15 +41,11 @@ namespace ProphetLamb.Tools.Localisation.JsonResources
             resourceSet.Add(name, value);
         }
 
-        public void Close()
+        public async void Close()
         {
-            Parallel.ForEach(changedResources, async (CultureInfo culture) =>
-            {
-                using var sr = new StreamWriter(resourceManager.GetResourceFileName(culture));
-                ResourceSet resSet = resourceManager.resourceSetTable[culture.Name];
-                await sr.WriteLineAsync(await resSet.WriteResources());
-                await sr.FlushAsync();
-            });
+            using var sr = new StreamWriter(resourceFileName);
+            await sr.WriteLineAsync(await resourceSet.WriteResources());
+            await sr.FlushAsync();
         }
 
         public void Generate()
