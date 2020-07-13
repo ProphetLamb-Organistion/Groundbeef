@@ -7,9 +7,10 @@ namespace ProphetLamb.Tools
     /// Simpler implementation of a range structure then <see cref="Range"/>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    [System.Runtime.InteropServices.ComVisible(true)]
+    [ComVisible(true)]
     public readonly ref struct Int32Range
     {
+        private static readonly Type thisType = typeof(Int32Range);
         public readonly int Start;
         public readonly int End;
         public readonly int Count;
@@ -48,14 +49,19 @@ namespace ProphetLamb.Tools
             return Start <= value && value < End;
         }
 
-        public bool Equals(Int32Range other) => Start == other.Start && End == other.End;
+        public bool Equals(in Int32Range other) => Start == other.Start && End == other.End;
         public override int GetHashCode() => System.HashCode.Combine(Start, End);
 
-        public static bool operator ==(Int32Range left, Int32Range right) => left.Equals(right);
-        public static bool operator !=(Int32Range left, Int32Range right) => !(left == right);
+        public override bool Equals(object obj)
+        {
+            return Object.ReferenceEquals(obj, this);
+        }
+
+        public static bool operator ==(in Int32Range left, in Int32Range right) => left.Equals(right);
+        public static bool operator !=(in Int32Range left, in Int32Range right) => !(left == right);
 
         public static implicit operator Int32Range(Range range) => new Int32Range(range.Start.Value, range.End.Value);
 
-        public static implicit operator Range(Int32Range range) => new Range(new Index(range.Start), new Index(range.End));
+        public static implicit operator Range(in Int32Range range) => new Range(new Index(range.Start), new Index(range.End));
     }
 }
