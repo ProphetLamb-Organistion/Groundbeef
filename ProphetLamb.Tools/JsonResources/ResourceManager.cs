@@ -1,8 +1,8 @@
-﻿using System.IO;
+﻿using System.Linq;
+using System.IO;
 using System.Collections.Generic;
 using ProphetLamb.Tools.Core;
 using System;
-using System.Collections.Concurrent;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
@@ -14,13 +14,12 @@ namespace ProphetLamb.Tools.JsonResources
     [System.Runtime.InteropServices.ComVisible(true)]
     public class ResourceManager : IDisposable
     {
-        internal const string ResourceFileExtention = ".json";
+        internal static readonly string ResourceFileExtention = ".json";
 
-        internal readonly Dictionary<string, ResourceSet> resourceSetTable = new Dictionary<string, ResourceSet>();
+        private readonly Dictionary<string, ResourceSet> resourceSetTable = new Dictionary<string, ResourceSet>();
         private readonly string baseFilePath;
-        private CultureInfo _resourceCulture;
+        private CultureInfo _resourceCulture = null;
         private ResourceSet _loadedResourceSet;
-        private bool hasLoadedResourceSet;
 
         public event ValueChangedEventHandler<CultureInfo> CultureChangedEvent;
 
@@ -40,8 +39,6 @@ namespace ProphetLamb.Tools.JsonResources
             if (!Directory.Exists(ResourceRootPath))
                 ResourceRootPath = new FileInfo(ResourceRootPath).DirectoryName;
             baseFilePath = GetBaseFileName(ResourceRootPath, baseName);
-            _resourceCulture = CultureInfo.InvariantCulture;
-            ChangeCulture(null, _resourceCulture).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -55,8 +52,6 @@ namespace ProphetLamb.Tools.JsonResources
             BaseName = baseName ?? throw new ArgumentNullException(nameof(baseName));
             ResourceRootPath = resourcePath ?? throw new ArgumentNullException(nameof(resourcePath));
             baseFilePath = GetBaseFileName(ResourceRootPath, baseName);
-            _resourceCulture = CultureInfo.InvariantCulture;
-            ChangeCulture(null, _resourceCulture).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -72,10 +67,12 @@ namespace ProphetLamb.Tools.JsonResources
             ResourceRootPath = resourcePath ?? throw new ArgumentNullException(nameof(resourcePath));
             baseFilePath = GetBaseFileName(ResourceRootPath, baseName);
             _resourceCulture = defaultCulture??CultureInfo.InvariantCulture;
-            ChangeCulture(null,_resourceCulture).ConfigureAwait(false);
         }
-
-        public object this[in string key] => GetObject(key);
+        /// <summary>
+        /// Returns the string value associated with the <paramref cref="key"/> with the culture <see cref="ResourceManager.Culture"/>.
+        /// </summary>
+        /// <param name="key">The case sensitive key.</param>
+        public string this[in string key] => GetString(key);
 
         /// <summary>
         /// Gets the first component of the name of a resource file. Format: [baseName].[culture identifier].json
@@ -88,7 +85,7 @@ namespace ProphetLamb.Tools.JsonResources
         public CultureInfo Culture
         {
             get => _resourceCulture;
-            set => ChangeCulture(_resourceCulture, _resourceCulture = value).ConfigureAwait(false);
+            set => ChangeCulture(_resourceCulture, _resourceCulture = value);
         }
 
         /// <summary>
@@ -106,7 +103,7 @@ namespace ProphetLamb.Tools.JsonResources
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="caseInsensitive">Whether the key is treated case insensitive.</param>
-        public object GetString(in string key, bool caseInsensitive = false)
+        public string GetString(in string key, bool caseInsensitive = false)
         {
             return GetString(key, _resourceCulture, caseInsensitive);
         }
@@ -117,7 +114,7 @@ namespace ProphetLamb.Tools.JsonResources
         /// <param name="key">The key.</param>
         /// <param name="culture">The culture of the resource value</param>
         /// <param name="caseInsensitive">Whether the key is treated case insensitive.</param>
-        public object GetString(in string key, in CultureInfo culture, bool caseInsensitive = false)
+        public string GetString(in string key, in CultureInfo culture, bool caseInsensitive = false)
         {
             VerifyGet(key, culture);
             return _loadedResourceSet.GetString(key, caseInsensitive);
@@ -145,34 +142,74 @@ namespace ProphetLamb.Tools.JsonResources
             return _loadedResourceSet.GetObject(key, caseInsensitive);
         }
 
-        private async Task ChangeCulture(CultureInfo oldCulture, CultureInfo newCulture)
+        internal void AddResourceSet(in CultureInfo resourceCulture, in ResourceSet resourceSet)
+        {
+            if (resourceCulture is null)
+                throw new ArgumentNullException(nameof(resourceCulture));
+            if (resourceSet is null)
+                throw new ArgumentNullException(nameof(resourceSet));
+            resourceCulture.VerifyCultureName(true);
+            string cultureName = resourceCulture.Name,
+                   fileName = GetResourceFileName(baseFilePath, resourceCulture);
+            if (resourceSetTable.ContainsKey(cultureName))
+                throw new ArgumentException("A resource set with the same culture already exisits");
+            if (!File.Exists(fileName))
+                throw new FileNotFoundException("The resource set .json-file does not exist in the device.", fileName);
+            resourceSetTable.Add(cultureName, resourceSet);
+        }
+
+        internal bool TryGetResourceSet(in CultureInfo culture, out ResourceSet resourceSet)
+        {
+            if (culture is null)
+                throw new ArgumentNullException(nameof(culture));
+            culture.VerifyCultureName(true);
+            return resourceSetTable.TryGetValue(culture.Name, out resourceSet);
+        }
+
+        public IEnumerable<CultureInfo> Cultures
+        {
+            get => resourceSetTable.Keys.Select(CultureInfo.GetCultureInfo);
+        }
+
+        public void Clean()
+        {
+
+            foreach((string key, ResourceSet value) in resourceSetTable)
+            {
+                // Skip current ResourceSet
+                if (key.Equals(_resourceCulture.Name, StringComparison.InvariantCulture))
+                    continue;
+                // Dispose all other ResourceSets & remove entry
+                value.Dispose();
+                resourceSetTable.Remove(key);
+            }
+        }
+
+        private void ChangeCulture(CultureInfo oldCulture, CultureInfo newCulture)
         {
             // Cultures must be different
-            if (oldCulture?.Name.Equals(newCulture.Name, StringComparison.InvariantCulture) ?? false)
+            if (oldCulture != null || oldCulture.Name.Equals(newCulture.Name, StringComparison.InvariantCulture))
                 return;
-            // Unload previous ResourceSet if nessessary
-            if (hasLoadedResourceSet)
-                _loadedResourceSet.Unload();
-            hasLoadedResourceSet = false;
             if (newCulture != null)
             {
+                newCulture.VerifyCultureName(true);
                 // Attempt to grab new resource set from resSets
                 if (!resourceSetTable.TryGetValue(newCulture.Name, out _loadedResourceSet))
                 {
                     // Create new ResourceSet from file
-                    string fileName = GetResourceFileName(newCulture);
-                    if (!File.Exists(fileName))
-                        throw new FileNotFoundException();
-                    _loadedResourceSet = new ResourceSet(fileName);
+                    _loadedResourceSet = new ResourceSet(new ResourceReader(this, newCulture));
                     resourceSetTable.Add(newCulture.Name, _loadedResourceSet);
                 }
-                await _loadedResourceSet.Load();
-                hasLoadedResourceSet = true;
             }
             CultureChangedEvent?.Invoke(this, new ValueChangedEventArgs<CultureInfo>(oldCulture, newCulture));
         }
 
         internal string GetResourceFileName(in CultureInfo culture)
+        {
+            return GetResourceFileName(baseFilePath, culture);
+        }
+
+        internal static string GetResourceFileName(in string baseFilePath, in CultureInfo culture)
         {
             var sb = new StringBuilder(255);
             sb.Append(baseFilePath);
@@ -181,7 +218,7 @@ namespace ProphetLamb.Tools.JsonResources
             {
                 // Call internal VerifyCultureName function with throw exception flag.
                 culture.VerifyCultureName(true);
-                sb.Append('.').Append(culture.Name);
+                sb.Append('.').Append(culture.IetfLanguageTag);
             }
             sb.Append(ResourceFileExtention);
             return sb.ToString();
@@ -194,8 +231,8 @@ namespace ProphetLamb.Tools.JsonResources
             if (culture is null)
                 throw new ArgumentNullException(nameof(culture));
             // Change culture & ResourceSet to the requested culture
-            if (!hasLoadedResourceSet || !culture.Name.Equals(_resourceCulture.Name))
-                Culture = culture;
+            if (!culture.Name.Equals(_resourceCulture.Name))
+                ChangeCulture(_resourceCulture, _resourceCulture = culture);
         }
 
         internal static string GetBaseFileName(in string rootPath, in string baseName)
@@ -215,7 +252,6 @@ namespace ProphetLamb.Tools.JsonResources
                 if (disposing)
                 {
                     // Dispose all ResourceSets
-                    hasLoadedResourceSet = false;
                     lock(_loadedResourceSet)
                         _loadedResourceSet = null;
                     foreach(ResourceSet resSet in resourceSetTable.Values)
