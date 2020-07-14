@@ -61,7 +61,7 @@ namespace ProphetLamb.Tools.Core
             int exponent = 1;
             for (int i = encodedValue.Length - 1; i >= 0; i--)
             {
-                var value = Alphabet.FindIndex(encodedValue[i]);
+                var value = Alphabet.IndexOf(encodedValue[i]);
                 if (value == -1) throw new FormatException();
                 integer += value * exponent;
                 exponent *= 85;
@@ -83,7 +83,7 @@ namespace ProphetLamb.Tools.Core
             long exponent = 1;
             for (int i = encodedValue.Length - 1; i >= 0; i--)
             {
-                var value = Alphabet.FindIndex(encodedValue[i]);
+                var value = Alphabet.IndexOf(encodedValue[i]);
                 if (value == -1) throw new FormatException();
                 integer += value * exponent;
                 exponent *= 85;

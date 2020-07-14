@@ -7,7 +7,7 @@ namespace ProphetLamb.Tools.Core
 {
     /// <summary>
     /// Collection of extention functions for arrays, and generic arrays: 
-    /// SortByKeys(keys), Find(predicate), FindLast(predicate), FindAll(predicate), FindIndex(element|predicate), FindLastIndex(element|predicate), FindAllIndicies(element|predicate), GetHashCode(fromValues)
+    /// SortByKeys(keys), FindFirst(predicate), FindLast(predicate), FindAll(predicate), IndexOf(element|predicate), IndexOfLast(element|predicate), IndexOfAll(element|predicate), GetHashCode(fromValues)
     /// </summary>
     [System.Runtime.InteropServices.ComVisible(true)]
     public static class ArrayExtention
@@ -64,9 +64,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static object Find(this Array array, in Predicate<object> match)
+        public static object FindFirst(this Array array, in Predicate<object> match)
         {
-            return Find(array, 0, match);
+            return FindFirst(array, 0, match);
         }
 
         /// <summary>
@@ -80,11 +80,11 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static object Find(this Array array, int startIndex, in Predicate<object> match)
+        public static object FindFirst(this Array array, int startIndex, in Predicate<object> match)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
-            return Find(array, startIndex, array.Length - startIndex, match);
+            return FindFirst(array, startIndex, array.Length - startIndex, match);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static object Find(this Array array, int startIndex, int count, in Predicate<object> match)
+        public static object FindFirst(this Array array, int startIndex, int count, in Predicate<object> match)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
@@ -133,9 +133,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Find<T>(this T[] array, in Predicate<T> match)
+        public static T FindFirst<T>(this T[] array, in Predicate<T> match)
         {
-            return Find(array, 0, match);
+            return FindFirst(array, 0, match);
         }
 
         /// <summary>
@@ -149,11 +149,11 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Find<T>(this T[] array, int startIndex, in Predicate<T> match)
+        public static T FindFirst<T>(this T[] array, int startIndex, in Predicate<T> match)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
-            return Find(array, startIndex, array.Length - startIndex, match);
+            return FindFirst(array, startIndex, array.Length - startIndex, match);
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static T Find<T>(this T[] array, int startIndex, int count, in Predicate<T> match)
+        public static T FindFirst<T>(this T[] array, int startIndex, int count, in Predicate<T> match)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
@@ -201,9 +201,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Find<T>(this ReadOnlySpan<T> span, in Predicate<T> match)
+        public static T FindFirst<T>(this ReadOnlySpan<T> span, in Predicate<T> match)
         {
-            return Find(span, 0, match);
+            return FindFirst(span, 0, match);
         }
 
         /// <summary>
@@ -217,9 +217,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Find<T>(this ReadOnlySpan<T> span, int startIndex, in Predicate<T> match)
+        public static T FindFirst<T>(this ReadOnlySpan<T> span, int startIndex, in Predicate<T> match)
         {
-            return Find(span, startIndex, span.Length - startIndex, match);
+            return FindFirst(span, startIndex, span.Length - startIndex, match);
         }
 
         /// <summary>
@@ -235,7 +235,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static T Find<T>(this ReadOnlySpan<T> span, int startIndex, int count, in Predicate<T> match)
+        public static T FindFirst<T>(this ReadOnlySpan<T> span, int startIndex, int count, in Predicate<T> match)
         {
             int length = span.Length;
             if (length == 0)
@@ -317,7 +317,7 @@ namespace ProphetLamb.Tools.Core
             int endIndex = startIndex + count;
             if (endIndex > length)
                 throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
-            for (int i = endIndex - 1; i >= startIndex; i++)
+            for (int i = endIndex - 1; i >= startIndex; i--)
             {
                 object value = array.GetValue(i);
                 if (match(value)) return value;
@@ -386,7 +386,7 @@ namespace ProphetLamb.Tools.Core
             int endIndex = startIndex + count;
             if (endIndex > length)
                 throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
-            for (int i = endIndex - 1; i >= startIndex; i++)
+            for (int i = endIndex - 1; i >= startIndex; i--)
             {
                 if (match(array[i])) return array[i];
             }
@@ -450,7 +450,7 @@ namespace ProphetLamb.Tools.Core
             int endIndex = startIndex + count;
             if (endIndex > length)
                 throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
-            for (int i = endIndex - 1; i >= startIndex; i++)
+            for (int i = endIndex - 1; i >= startIndex; i--)
             {
                 if (match(span[i])) return span[i];
             }
@@ -597,9 +597,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindIndex(this Array array, in Predicate<object> match)
+        public static int IndexOf(this Array array, in Predicate<object> match)
         {
-            return FindIndex(array, 0, match);
+            return IndexOf(array, 0, match);
         }
 
         /// <summary>
@@ -613,11 +613,11 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindIndex(this Array array, int startIndex, in Predicate<object> match)
+        public static int IndexOf(this Array array, int startIndex, in Predicate<object> match)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
-            return FindIndex(array, startIndex, array.Length - startIndex, match);
+            return IndexOf(array, startIndex, array.Length - startIndex, match);
         }
 
         /// <summary>
@@ -633,7 +633,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static int FindIndex(this Array array, int startIndex, int count, in Predicate<object> match)
+        public static int IndexOf(this Array array, int startIndex, int count, in Predicate<object> match)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
@@ -665,9 +665,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindIndex<T>(this T[] array, in Predicate<T> match)
+        public static int IndexOf<T>(this T[] array, in Predicate<T> match)
         {
-            return FindIndex(array, 0, match);
+            return IndexOf(array, 0, match);
         }
 
         /// <summary>
@@ -681,11 +681,11 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindIndex<T>(this T[] array, int startIndex, in Predicate<T> match)
+        public static int IndexOf<T>(this T[] array, int startIndex, in Predicate<T> match)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
-            return FindIndex(array, startIndex, array.Length - startIndex, match);
+            return IndexOf(array, startIndex, array.Length - startIndex, match);
         }
 
         /// <summary>
@@ -701,7 +701,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static int FindIndex<T>(this T[] array, int startIndex, int count, in Predicate<T> match)
+        public static int IndexOf<T>(this T[] array, int startIndex, int count, in Predicate<T> match)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
@@ -734,9 +734,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindIndex<T>(this T[] array, T element)
+        public static int IndexOf<T>(this T[] array, T element)
         {
-            return FindIndex(array, 0, element);
+            return IndexOf(array, 0, element);
         }
 
         /// <summary>
@@ -751,11 +751,11 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindIndex<T>(this T[] array, int startIndex, T element)
+        public static int IndexOf<T>(this T[] array, int startIndex, T element)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
-            return FindIndex(array, startIndex, array.Length - startIndex, element);
+            return IndexOf(array, startIndex, array.Length - startIndex, element);
         }
 
         /// <summary>
@@ -772,7 +772,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static int FindIndex<T>(this T[] array, int startIndex, int count, T element)
+        public static int IndexOf<T>(this T[] array, int startIndex, int count, T element)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
@@ -805,9 +805,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindIndex<T>(this ReadOnlySpan<T> span, in Predicate<T> match)
+        public static int IndexOf<T>(this ReadOnlySpan<T> span, in Predicate<T> match)
         {
-            return FindIndex(span, 0, match);
+            return IndexOf(span, 0, match);
         }
 
         /// <summary>
@@ -821,9 +821,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindIndex<T>(this ReadOnlySpan<T> span, int startIndex, in Predicate<T> match)
+        public static int IndexOf<T>(this ReadOnlySpan<T> span, int startIndex, in Predicate<T> match)
         {
-            return FindIndex(span, startIndex, span.Length - startIndex, match);
+            return IndexOf(span, startIndex, span.Length - startIndex, match);
         }
 
         /// <summary>
@@ -839,7 +839,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static int FindIndex<T>(this ReadOnlySpan<T> span, int startIndex, int count, in Predicate<T> match)
+        public static int IndexOf<T>(this ReadOnlySpan<T> span, int startIndex, int count, in Predicate<T> match)
         {
             int length = span.Length;
             if (length == 0)
@@ -870,9 +870,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindIndex<T>(this ReadOnlySpan<T> span, T element)
+        public static int IndexOf<T>(this ReadOnlySpan<T> span, T element)
         {
-            return FindIndex(span, 0, element);
+            return IndexOf(span, 0, element);
         }
 
         /// <summary>
@@ -887,9 +887,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindIndex<T>(this ReadOnlySpan<T> span, int startIndex, T element)
+        public static int IndexOf<T>(this ReadOnlySpan<T> span, int startIndex, T element)
         {
-            return FindIndex(span, startIndex, span.Length - startIndex, element);
+            return IndexOf(span, startIndex, span.Length - startIndex, element);
         }
 
         /// <summary>
@@ -906,7 +906,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static int FindIndex<T>(this ReadOnlySpan<T> span, int startIndex, int count, T element)
+        public static int IndexOf<T>(this ReadOnlySpan<T> span, int startIndex, int count, T element)
         {
             int length = span.Length;
             if (length == 0)
@@ -937,9 +937,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindLastIndex(this Array array, in Predicate<object> match)
+        public static int IndexOfLast(this Array array, in Predicate<object> match)
         {
-            return FindLastIndex(array, 0, match);
+            return IndexOfLast(array, 0, match);
         }
 
         /// <summary>
@@ -953,11 +953,11 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindLastIndex(this Array array, int startIndex, in Predicate<object> match)
+        public static int IndexOfLast(this Array array, int startIndex, in Predicate<object> match)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
-            return FindLastIndex(array, startIndex, array.Length - startIndex, match);
+            return IndexOfLast(array, startIndex, array.Length - startIndex, match);
         }
 
         /// <summary>
@@ -973,7 +973,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static int FindLastIndex(this Array array, int startIndex, int count, in Predicate<object> match)
+        public static int IndexOfLast(this Array array, int startIndex, int count, in Predicate<object> match)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
@@ -989,7 +989,7 @@ namespace ProphetLamb.Tools.Core
             int endIndex = startIndex + count;
             if (endIndex > length)
                 throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
-            for (int i = endIndex - 1; i >= startIndex; i++)
+            for (int i = endIndex - 1; i >= startIndex; i--)
             {
                 if (match(array.GetValue(i))) return i;
             }
@@ -1006,9 +1006,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindLastIndex<T>(this T[] array, in Predicate<T> match)
+        public static int IndexOfLast<T>(this T[] array, in Predicate<T> match)
         {
-            return FindLastIndex(array, 0, match);
+            return IndexOfLast(array, 0, match);
         }
 
         /// <summary>
@@ -1022,11 +1022,11 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindLastIndex<T>(this T[] array, int startIndex, in Predicate<T> match)
+        public static int IndexOfLast<T>(this T[] array, int startIndex, in Predicate<T> match)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
-            return FindLastIndex(array, startIndex, array.Length - startIndex, match);
+            return IndexOfLast(array, startIndex, array.Length - startIndex, match);
         }
 
         /// <summary>
@@ -1042,7 +1042,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static int FindLastIndex<T>(this T[] array, int startIndex, int count, in Predicate<T> match)
+        public static int IndexOfLast<T>(this T[] array, int startIndex, int count, in Predicate<T> match)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
@@ -1058,7 +1058,7 @@ namespace ProphetLamb.Tools.Core
             int endIndex = startIndex + count;
             if (endIndex > length)
                 throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
-            for (int i = endIndex - 1; i >= startIndex; i++)
+            for (int i = endIndex - 1; i >= startIndex; i--)
             {
                 if (match(array[i])) return i;
             }
@@ -1075,9 +1075,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindLastIndex<T>(this T[] array, T element)
+        public static int IndexOfLast<T>(this T[] array, T element)
         {
-            return FindLastIndex(array, 0, element);
+            return IndexOfLast(array, 0, element);
         }
 
         /// <summary>
@@ -1092,11 +1092,11 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindLastIndex<T>(this T[] array, int startIndex, T element)
+        public static int IndexOfLast<T>(this T[] array, int startIndex, T element)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
-            return FindLastIndex(array, startIndex, array.Length - startIndex, element);
+            return IndexOfLast(array, startIndex, array.Length - startIndex, element);
         }
 
         /// <summary>
@@ -1113,7 +1113,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static int FindLastIndex<T>(this T[] array, int startIndex, int count, T element)
+        public static int IndexOfLast<T>(this T[] array, int startIndex, int count, T element)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
@@ -1130,7 +1130,7 @@ namespace ProphetLamb.Tools.Core
             if (endIndex > length)
                 throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
             IEqualityComparer<T> comparer = EqualityComparer<T>.Default;
-            for (int i = endIndex - 1; i >= startIndex; i++)
+            for (int i = endIndex - 1; i >= startIndex; i--)
             {
                 if (comparer.Equals(array[i], element)) return i;
             }
@@ -1146,9 +1146,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindLastIndex<T>(this ReadOnlySpan<T> span, in Predicate<T> match)
+        public static int IndexOfLast<T>(this ReadOnlySpan<T> span, in Predicate<T> match)
         {
-            return FindLastIndex(span, 0, match);
+            return IndexOfLast(span, 0, match);
         }
 
         /// <summary>
@@ -1162,9 +1162,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindLastIndex<T>(this ReadOnlySpan<T> span, int startIndex, in Predicate<T> match)
+        public static int IndexOfLast<T>(this ReadOnlySpan<T> span, int startIndex, in Predicate<T> match)
         {
-            return FindLastIndex(span, startIndex, span.Length - startIndex, match);
+            return IndexOfLast(span, startIndex, span.Length - startIndex, match);
         }
 
         /// <summary>
@@ -1180,7 +1180,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static int FindLastIndex<T>(this ReadOnlySpan<T> span, int startIndex, int count, in Predicate<T> match)
+        public static int IndexOfLast<T>(this ReadOnlySpan<T> span, int startIndex, int count, in Predicate<T> match)
         {
             int length = span.Length;
             if (length == 0)
@@ -1194,7 +1194,7 @@ namespace ProphetLamb.Tools.Core
             int endIndex = startIndex + count;
             if (endIndex > length)
                 throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
-            for (int i = endIndex - 1; i >= startIndex; i++)
+            for (int i = endIndex - 1; i >= startIndex; i--)
             {
                 if (match(span[i])) return i;
             }
@@ -1211,9 +1211,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindLastIndex<T>(this ReadOnlySpan<T> span, T element)
+        public static int IndexOfLast<T>(this ReadOnlySpan<T> span, T element)
         {
-            return FindLastIndex(span, 0, element);
+            return IndexOfLast(span, 0, element);
         }
 
         /// <summary>
@@ -1228,9 +1228,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindLastIndex<T>(this ReadOnlySpan<T> span, int startIndex, T element)
+        public static int IndexOfLast<T>(this ReadOnlySpan<T> span, int startIndex, T element)
         {
-            return FindIndex(span, startIndex, span.Length - startIndex, element);
+            return IndexOf(span, startIndex, span.Length - startIndex, element);
         }
 
         /// <summary>
@@ -1247,7 +1247,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static int FindLastIndex<T>(this ReadOnlySpan<T> span, int startIndex, int count, T element)
+        public static int IndexOfLast<T>(this ReadOnlySpan<T> span, int startIndex, int count, T element)
         {
             int length = span.Length;
             if (length == 0)
@@ -1262,7 +1262,7 @@ namespace ProphetLamb.Tools.Core
             if (endIndex > length)
                 throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
             IEqualityComparer<T> comparer = EqualityComparer<T>.Default;
-            for (int i = endIndex - 1; i >= startIndex; i++)
+            for (int i = endIndex - 1; i >= startIndex; i--)
             {
                 if (comparer.Equals(span[i], element)) return i;
             }
@@ -1278,9 +1278,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IEnumerable<int> FindAllIndicies(this Array array, in Predicate<object> match)
+        public static IEnumerable<int> IndexOfAll(this Array array, in Predicate<object> match)
         {
-            return FindAllIndicies(array, 0, match);
+            return IndexOfAll(array, 0, match);
         }
 
         /// <summary>
@@ -1294,11 +1294,11 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IEnumerable<int> FindAllIndicies(this Array array, int startIndex, in Predicate<object> match)
+        public static IEnumerable<int> IndexOfAll(this Array array, int startIndex, in Predicate<object> match)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
-            return FindAllIndicies(array, startIndex, array.Length - startIndex, match);
+            return IndexOfAll(array, startIndex, array.Length - startIndex, match);
         }
 
         /// <summary>
@@ -1314,7 +1314,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static IEnumerable<int> FindAllIndicies(this Array array, int startIndex, int count, Predicate<object> match)
+        public static IEnumerable<int> IndexOfAll(this Array array, int startIndex, int count, Predicate<object> match)
         {
             int length = array.Length;
             if (length == 0)
@@ -1344,9 +1344,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IEnumerable<int> FindAllIndicies(this Array array, in object element)
+        public static IEnumerable<int> IndexOfAll(this Array array, in object element)
         {
-            return FindAllIndicies(array, 0, element);
+            return IndexOfAll(array, 0, element);
         }
 
         /// <summary>
@@ -1361,11 +1361,11 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IEnumerable<int> FindAllIndicies(this Array array, int startIndex, in object element)
+        public static IEnumerable<int> IndexOfAll(this Array array, int startIndex, in object element)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
-            return FindAllIndicies(array, startIndex, array.Length - startIndex, element);
+            return IndexOfAll(array, startIndex, array.Length - startIndex, element);
         }
 
         /// <summary>
@@ -1382,7 +1382,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static IEnumerable<int> FindAllIndicies(this Array array, int startIndex, int count, object element)
+        public static IEnumerable<int> IndexOfAll(this Array array, int startIndex, int count, object element)
         {
             int length = array.Length;
             if (length == 0)
@@ -1412,9 +1412,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IEnumerable<int> FindAllIndicies<T>(this T[] array, in Predicate<T> match)
+        public static IEnumerable<int> IndexOfAll<T>(this T[] array, in Predicate<T> match)
         {
-            return FindAllIndicies(array, 0, match);
+            return IndexOfAll(array, 0, match);
         }
 
         /// <summary>
@@ -1428,11 +1428,11 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IEnumerable<int> FindAllIndicies<T>(this T[] array, int startIndex, in Predicate<T> match)
+        public static IEnumerable<int> IndexOfAll<T>(this T[] array, int startIndex, in Predicate<T> match)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
-            return FindAllIndicies(array, startIndex, match);
+            return IndexOfAll(array, startIndex, array.Length - startIndex, match);
         }
 
         /// <summary>
@@ -1448,7 +1448,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static IEnumerable<int> FindAllIndicies<T>(this T[] array, int startIndex, int count, Predicate<T> match)
+        public static IEnumerable<int> IndexOfAll<T>(this T[] array, int startIndex, int count, Predicate<T> match)
         {
             int length = array.Length;
             if (length == 0)
@@ -1479,9 +1479,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IEnumerable<int> FindAllIndicies<T>(this T[] array, T element)
+        public static IEnumerable<int> IndexOfAll<T>(this T[] array, T element)
         {
-            return FindAllIndicies(array, 0, element);
+            return IndexOfAll(array, 0, element);
         }
 
         /// <summary>
@@ -1496,11 +1496,11 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IEnumerable<int> FindAllIndicies<T>(this T[] array, int startIndex, T element)
+        public static IEnumerable<int> IndexOfAll<T>(this T[] array, int startIndex, T element)
         {
             if (array is null)
                 throw new ArgumentNullException(nameof(array));
-            return FindAllIndicies(array, startIndex, array.Length - startIndex, element);
+            return IndexOfAll(array, startIndex, array.Length - startIndex, element);
         }
 
         /// <summary>
@@ -1517,7 +1517,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static IEnumerable<int> FindAllIndicies<T>(this T[] array, int startIndex, int count, T element)
+        public static IEnumerable<int> IndexOfAll<T>(this T[] array, int startIndex, int count, T element)
         {
             int length = array.Length;
             if (length == 0)

@@ -44,7 +44,7 @@ namespace ProphetLamb.Tools.Core
             if (GenericToListMethodsDictionary.TryGetValue(sourceType.GUID, out MethodInfo genericToListMethod))
                 return genericToListMethod;
             // Make generic method Enumerable.ToList<TSource>(IEnumerable<TSource)
-            genericToListMethod = EnumerableToListMethod.MakeGenericMethod();
+            genericToListMethod = EnumerableToListMethod.MakeGenericMethod(sourceType);
             GenericToListMethodsDictionary.Add(sourceType.GUID, genericToListMethod);
             return genericToListMethod;
         }
@@ -54,7 +54,7 @@ namespace ProphetLamb.Tools.Core
             if (GenericToArrayMethodsDictionary.TryGetValue(sourceType.GUID, out MethodInfo genericToArrayMethod))
                 return genericToArrayMethod;
             // Make generic method Enumerable.ToArray<TSource>(IEnumerable<TSource)
-            genericToArrayMethod = EnumerableToListMethod.MakeGenericMethod();
+            genericToArrayMethod = EnumerableToArrayMethod.MakeGenericMethod(sourceType);
             GenericToArrayMethodsDictionary.Add(sourceType.GUID, genericToArrayMethod);
             return genericToArrayMethod;
         }

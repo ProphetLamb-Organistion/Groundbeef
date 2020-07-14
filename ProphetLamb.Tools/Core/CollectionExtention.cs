@@ -106,9 +106,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindIndex<T>(this Collection<T> collection, Predicate<T> match)
+        public static int IndexOf<T>(this Collection<T> collection, Predicate<T> match)
         {
-            return FindIndex(collection, 0, match);
+            return IndexOf(collection, 0, match);
         }
 
 
@@ -123,11 +123,11 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindIndex<T>(this Collection<T> collection, int startIndex, Predicate<T> match)
+        public static int IndexOf<T>(this Collection<T> collection, int startIndex, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
-            return FindIndex(collection, startIndex, collection.Count - startIndex, match);
+            return IndexOf(collection, startIndex, collection.Count - startIndex, match);
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static int FindIndex<T>(this Collection<T> collection, int startIndex, int count, Predicate<T> match)
+        public static int IndexOf<T>(this Collection<T> collection, int startIndex, int count, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -171,9 +171,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindIndex(this ICollection collection, Predicate<object> match)
+        public static int IndexOf(this ICollection collection, Predicate<object> match)
         {
-            return FindIndex(collection, 0, match);
+            return IndexOf(collection, 0, match);
         }
 
 
@@ -188,11 +188,11 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindIndex(this ICollection collection, int startIndex, Predicate<object> match)
+        public static int IndexOf(this ICollection collection, int startIndex, Predicate<object> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
-            return FindIndex(collection, startIndex, collection.Count - startIndex, match);
+            return IndexOf(collection, startIndex, collection.Count - startIndex, match);
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static int FindIndex(this ICollection collection, int startIndex, int count, Predicate<object> match)
+        public static int IndexOf(this ICollection collection, int startIndex, int count, Predicate<object> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -230,7 +230,6 @@ namespace ProphetLamb.Tools.Core
             return -1;
         }
 
-
         /// <summary>
         /// Searches the elements in the <see cref="Collection{T}"/> for the specified element and returns the zero-based index of the last occurence.
         /// </summary>
@@ -240,11 +239,10 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindLastIndex<T>(this Collection<T> collection, Predicate<T> match)
+        public static int IndexOfLast<T>(this Collection<T> collection, Predicate<T> match)
         {
-            return FindLastIndex(collection, 0, match);
+            return IndexOfLast(collection, 0, match);
         }
-
 
         /// <summary>
         /// Searches a portion of the elements in the <see cref="Collection{T}"/> for the specified element and returns the zero-based index of the last occurence.
@@ -257,9 +255,9 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int FindLastIndex<T>(this Collection<T> collection, int startIndex, Predicate<T> match)
+        public static int IndexOfLast<T>(this Collection<T> collection, int startIndex, Predicate<T> match)
         {
-            return FindLastIndex(collection, startIndex, collection.Count - startIndex, match);
+            return IndexOfLast(collection, startIndex, collection.Count - startIndex, match);
         }
 
         /// <summary>
@@ -275,7 +273,7 @@ namespace ProphetLamb.Tools.Core
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-        public static int FindLastIndex<T>(this Collection<T> collection, int startIndex, int count, Predicate<T> match)
+        public static int IndexOfLast<T>(this Collection<T> collection, int startIndex, int count, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -286,11 +284,211 @@ namespace ProphetLamb.Tools.Core
             int endIndex = startIndex + count;
             if (startIndex + count > collection.Count)
                 throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
-            for (int i = endIndex - 1; i >= startIndex; i++)
+            for (int i = endIndex - 1; i >= startIndex; i--)
             {
                 if (match(collection[i])) return i;
             }
             return -1;
+        }
+
+        /// <summary>
+        /// Searches the elements in the <see cref="ICollection"/> for the specified element and returns the zero-based index of the last occurence.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <returns>The zero-based index of the last occurence of the specified element or -1 if no match was found.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int IndexOfLast(this ICollection collection, Predicate<object> match)
+        {
+            return IndexOfLast(collection, 0, match);
+        }
+
+        /// <summary>
+        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and returns the zero-based index of the last occurence.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="startIndex">The zero-based starting index of the range to search.</param>
+        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <returns>The zero-based index of the last occurence of the specified element or -1 if no match was found.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int IndexOfLast(this ICollection collection, int startIndex, Predicate<object> match)
+        {
+            return IndexOfLast(collection, startIndex, collection.Count - startIndex, match);
+        }
+
+        /// <summary>
+        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and returns the zero-based index of the last occurence.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="startIndex">The zero-based starting index of the range to search.</param>
+        /// <param name="count">The length of the range to search.</param>
+        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <returns>The zero-based index of the last occurence of the specified element or -1 if no match was found.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+        public static int IndexOfLast(this ICollection collection, int startIndex, int count, Predicate<object> match)
+        {
+            if (collection is null)
+                throw new ArgumentNullException(nameof(collection));
+            if (match is null)
+                throw new ArgumentNullException(nameof(match));
+            if (count < 0)
+                throw new ArgumentOutOfRangeException(nameof(count), ExceptionResource.INTEGER_POSITIVEZERO);
+            int endIndex = startIndex + count;
+            if (startIndex + count > collection.Count)
+                throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
+            IEnumerator en = collection.GetEnumerator();
+            int i = 0,
+                last = -1;
+            while (i < startIndex && en.MoveNext()) i++;
+            while (i < endIndex && en.MoveNext())
+            {
+                if (match(en.Current)) last = i;
+                i++;
+            }
+            return last;
+        }
+
+        /// <summary>
+        /// Searches the elements in the <see cref="Collection{T}"/> for the specified element and enumerates the zero-based index of all occurences.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="match">The <see cref="Predicate{T}"/> use to locate the object.</param>
+        /// <returns>The zero-based index of all occurences of the specified element.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<int> IndexOfAll<T>(this Collection<T> collection, in Predicate<T> match)
+        {
+            return IndexOfAll(collection, 0, match);
+        }
+
+        /// <summary>
+        /// Searches a portion of the elements in the <see cref="Collection{T}"/> for the specified element and enumerates the zero-based index of all occurences.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="startIndex">The zero-based starting index of the range to search.</param>
+        /// <param name="match">The <see cref="Predicate{T}"/> use to locate the object.</param>
+        /// <returns>The zero-based index of all occurences of the specified element.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<int> IndexOfAll<T>(this Collection<T> collection, int startIndex, in Predicate<T> match)
+        {
+            if (collection is null)
+                throw new ArgumentNullException(nameof(collection));
+            return IndexOfAll(collection, startIndex, collection.Count - startIndex, match);
+        }
+
+        /// <summary>
+        /// Searches a portion of the elements in the <see cref="Collection{T}"/> for the specified element and enumerates the zero-based index of all occurences.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="startIndex">The zero-based starting index of the range to search.</param>
+        /// <param name="count">The length of the range to search.</param>
+        /// <param name="match">The <see cref="Predicate{T}"/> use to locate the object.</param>
+        /// <returns>The zero-based index of all occurences of the specified element.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+        public static IEnumerable<int> IndexOfAll<T>(this Collection<T> collection, int startIndex, int count, Predicate<T> match)
+        {
+            int length = collection.Count;
+            if (length == 0)
+                throw new ArgumentException(nameof(collection), ExceptionResource.ARRAY_NOTEMPTY);
+            if (match is null)
+                throw new ArgumentNullException(nameof(match));
+            if (startIndex < 0)
+                throw new ArgumentOutOfRangeException(nameof(startIndex), ExceptionResource.INTEGER_POSITIVEZERO);
+            if (count < 0)
+                throw new ArgumentOutOfRangeException(nameof(count), ExceptionResource.INTEGER_POSITIVEZERO);
+            int endIndex = startIndex + count;
+            if (endIndex > length)
+                throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
+            for (int i = startIndex; i < endIndex; i++)
+            {
+                if (match(collection[i])) yield return i;
+            }
+        }
+
+        /// <summary>
+        /// Searches the elements in the <see cref="ICollection"/> for the specified element and enumerates the zero-based index of all occurences.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="match">The <see cref="Predicate{T}"/> use to locate the object.</param>
+        /// <returns>The zero-based index of all occurences of the specified element.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<int> IndexOfAll(this ICollection collection, in Predicate<object> match)
+        {
+            return IndexOfAll(collection, 0, match);
+        }
+
+        /// <summary>
+        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and enumerates the zero-based index of all occurences.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="startIndex">The zero-based starting index of the range to search.</param>
+        /// <param name="match">The <see cref="Predicate{T}"/> use to locate the object.</param>
+        /// <returns>The zero-based index of all occurences of the specified element.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<int> IndexOfAll(this ICollection collection, int startIndex, in Predicate<object> match)
+        {
+            if (collection is null)
+                throw new ArgumentNullException(nameof(collection));
+            return IndexOfAll(collection, startIndex, collection.Count - startIndex, match);
+        }
+
+        /// <summary>
+        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and enumerates the zero-based index of all occurences.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="startIndex">The zero-based starting index of the range to search.</param>
+        /// <param name="count">The length of the range to search.</param>
+        /// <param name="match">The <see cref="Predicate{T}"/> use to locate the object.</param>
+        /// <returns>The zero-based index of all occurences of the specified element.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+        public static IEnumerable<int> IndexOfAll(this ICollection collection, int startIndex, int count, Predicate<object> match)
+        {
+            int length = collection.Count;
+            if (length == 0)
+                throw new ArgumentException(nameof(collection), ExceptionResource.ARRAY_NOTEMPTY);
+            if (match is null)
+                throw new ArgumentNullException(nameof(match));
+            if (startIndex < 0)
+                throw new ArgumentOutOfRangeException(nameof(startIndex), ExceptionResource.INTEGER_POSITIVEZERO);
+            if (count < 0)
+                throw new ArgumentOutOfRangeException(nameof(count), ExceptionResource.INTEGER_POSITIVEZERO);
+            int endIndex = startIndex + count;
+            if (endIndex > length)
+                throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
+            IEnumerator en = collection.GetEnumerator();
+            int i = 0;
+            while (i < startIndex && en.MoveNext()) i++;
+            while (i < endIndex && en.MoveNext())
+            {
+                if (match(en.Current)) yield return i;
+                i++;
+            }
         }
 
         /// <summary>
@@ -352,13 +550,74 @@ namespace ProphetLamb.Tools.Core
             for (int i = startIndex; i < endIndex; i++)
             {
                 if (match(collection[i]))
-                {
                     return collection[i];
-                }
             }
             return default;
         }
 
+        /// <summary>
+        /// Searches the elements in the <see cref="Collection{T}"/> for the specified element and returns the last occurence.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T FindLast<T>(this Collection<T> collection, Predicate<T> match)
+        {
+            return FindLast(collection, 0, match);
+        }
+
+        /// <summary>
+        /// Searches a portion of the elements in the <see cref="Collection{T}"/> for the specified element and returns the last occurence.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="startIndex">The zero-based starting index of the range to search.</param>
+        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T FindLast<T>(this Collection<T> collection, int startIndex,  Predicate<T> match)
+        {
+            if (collection is null)
+                throw new ArgumentNullException(nameof(collection));
+            return FindLast(collection, startIndex, collection.Count - startIndex, match);
+        }
+
+        /// <summary>
+        /// Searches a portion of the elements in the <see cref="Collection{T}"/> for the specified element and returns the last occurence.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="startIndex">The zero-based starting index of the range to search.</param>
+        /// <param name="count">The length of the range to search.</param>
+        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+        public static T FindLast<T>(this Collection<T> collection, int startIndex, int count, Predicate<T> match)
+        {
+            if (collection is null)
+                throw new ArgumentNullException(nameof(collection));
+            if (match is null)
+                throw new ArgumentNullException(nameof(match));
+            if (count < 0)
+                throw new ArgumentOutOfRangeException(nameof(count), ExceptionResource.INTEGER_POSITIVEZERO);
+            int endIndex = startIndex + count;
+            if (startIndex + count > collection.Count)
+                throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
+            for (int i = endIndex - 1; i >= startIndex; i--)
+            {
+                if (match(collection[i]))
+                    return collection[i];
+            }
+            return default;
+        }
 
         /// <summary>
         /// Searches the elements in the <see cref="Collection{T}"/> for the specified element and enumerates all occurences.
@@ -373,7 +632,6 @@ namespace ProphetLamb.Tools.Core
         {
             return FindAll(collection, 0, match);
         }
-
 
         /// <summary>
         /// Searches a portion of the elements in the <see cref="Collection{T}"/> for the specified element and enumerates all occurences.
@@ -421,6 +679,213 @@ namespace ProphetLamb.Tools.Core
             {
                 if (match(collection[i]))
                     yield return collection[i];
+            }
+        }
+
+        /// <summary>
+        /// Searches the elements in the <see cref="ICollection"/> for the specified element and returns the first occurence.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static object Find(this ICollection collection, Predicate<object> match)
+        {
+            return Find(collection, 0, match);
+        }
+
+        /// <summary>
+        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and returns the first occurence.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="startIndex">The zero-based starting index of the range to search.</param>
+        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static object Find(this ICollection collection, int startIndex,  Predicate<object> match)
+        {
+            if (collection is null)
+                throw new ArgumentNullException(nameof(collection));
+            return Find(collection, startIndex, collection.Count - startIndex, match);
+        }
+
+        /// <summary>
+        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and returns the first occurence.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="startIndex">The zero-based starting index of the range to search.</param>
+        /// <param name="count">The length of the range to search.</param>
+        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+        public static object Find(this ICollection collection, int startIndex, int count, Predicate<object> match)
+        {
+            if (collection is null)
+                throw new ArgumentNullException(nameof(collection));
+            if (match is null)
+                throw new ArgumentNullException(nameof(match));
+            if (count < 0)
+                throw new ArgumentOutOfRangeException(nameof(count), ExceptionResource.INTEGER_POSITIVEZERO);
+            int endIndex = startIndex + count;
+            if (startIndex + count > collection.Count)
+                throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
+            IEnumerator en = collection.GetEnumerator();
+            int i = 0;
+            while (i < startIndex && en.MoveNext()) i++;
+            while (i < endIndex && en.MoveNext())
+            {
+                object current = en.Current;
+                if (match(current))
+                    return current;
+                i++;
+            }
+            return default;
+        }
+
+        /// <summary>
+        /// Searches the elements in the <see cref="ICollection"/> for the specified element and returns the last occurence.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static object FindLast(this ICollection collection, Predicate<object> match)
+        {
+            return FindLast(collection, 0, match);
+        }
+
+        /// <summary>
+        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and returns the last occurence.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="startIndex">The zero-based starting index of the range to search.</param>
+        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static object FindLast(this ICollection collection, int startIndex,  Predicate<object> match)
+        {
+            if (collection is null)
+                throw new ArgumentNullException(nameof(collection));
+            return FindLast(collection, startIndex, collection.Count - startIndex, match);
+        }
+
+        /// <summary>
+        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and returns the last occurence.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="startIndex">The zero-based starting index of the range to search.</param>
+        /// <param name="count">The length of the range to search.</param>
+        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+        public static object FindLast(this ICollection collection, int startIndex, int count, Predicate<object> match)
+        {
+            if (collection is null)
+                throw new ArgumentNullException(nameof(collection));
+            if (match is null)
+                throw new ArgumentNullException(nameof(match));
+            if (count < 0)
+                throw new ArgumentOutOfRangeException(nameof(count), ExceptionResource.INTEGER_POSITIVEZERO);
+            int endIndex = startIndex + count;
+            if (startIndex + count > collection.Count)
+                throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
+            IEnumerator en = collection.GetEnumerator();
+            int i = 0;
+            object last = default;
+            while (i < startIndex && en.MoveNext()) i++;
+            while (i < endIndex && en.MoveNext())
+            {
+                object current = en.Current;
+                if (match(current))
+                    last = current;
+                i++;
+            }
+            return last;
+        }
+
+        /// <summary>
+        /// Searches the elements in the <see cref="ICollection"/> for the specified element and enumerates all occurences.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <returns>All occurences of the specified element.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable FindAll(this ICollection collection, Predicate<object> match)
+        {
+            return FindAll(collection, 0, match);
+        }
+
+        /// <summary>
+        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and enumerates all occurences.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="startIndex">The zero-based starting index of the range to search.</param>
+        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <returns>All occurences of the specified element.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable FindAll(this ICollection collection, int startIndex, Predicate<object> match)
+        {
+            if (collection is null)
+                throw new ArgumentNullException(nameof(collection));
+            return FindAll(collection, startIndex, collection.Count - startIndex, match);
+        }
+
+        /// <summary>
+        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and enumerates all occurences.
+        /// </summary>
+        /// <param name="collection">The collection containing the elements.</param>
+        /// <param name="startIndex">The zero-based starting index of the range to search.</param>
+        /// <param name="count">The length of the range to search.</param>
+        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <returns>All occurences of the specified element.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+        public static IEnumerable FindAll(this ICollection collection, int startIndex, int count, Predicate<object> match)
+        {
+            if (collection is null)
+                throw new ArgumentNullException(nameof(collection));
+            if (match is null)
+                throw new ArgumentNullException(nameof(match));
+            if (count < 0)
+                throw new ArgumentOutOfRangeException(nameof(count), ExceptionResource.INTEGER_POSITIVEZERO);
+            int endIndex = startIndex + count;
+            if (startIndex + count > collection.Count)
+                throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
+            IEnumerator en = collection.GetEnumerator();
+            int i = 0;
+            while(i < startIndex && en.MoveNext()) i++;
+            while(i < endIndex && en.MoveNext())
+            {
+                object current = en.Current;
+                if (match(current))
+                    yield return current;
+                i++;
             }
         }
 
