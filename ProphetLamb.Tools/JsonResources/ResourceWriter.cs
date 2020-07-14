@@ -11,8 +11,9 @@ namespace ProphetLamb.Tools.JsonResources
     {
         private readonly ResourceManager resourceManager;
         private readonly CultureInfo culture;
-        private string resourceFileName;
-        private ResourceSet resourceSet;
+        private readonly string resourceFileName;
+        private readonly ResourceSet resourceSet;
+        private StreamWriter writer;
 
         public ResourceWriter(in ResourceManager resourceManager, in CultureInfo resourceCulture)
         {
@@ -37,6 +38,8 @@ namespace ProphetLamb.Tools.JsonResources
             // Add resource set to manager
             if (!hasResource)
                 resourceManager.AddResourceSet(culture, resourceSet);
+            // Open file
+            writer = new StreamWriter(resourceFileName, append: false);
         }
 
         public void AddResource(string name, byte[] value)
@@ -57,14 +60,14 @@ namespace ProphetLamb.Tools.JsonResources
         public void Close()
         {
             Generate();
+            writer.Close();
         }
 
         public void Generate()
         {
-            using var sw = new StreamWriter(resourceFileName, append: false);
             JsonSerializer serializer = JsonSerializer.CreateDefault();
             serializer.Culture = CultureInfo.InvariantCulture;
-            serializer.Serialize(sw, resourceSet.ResourceTable, ResourceSet.SerializedType);
+            serializer.Serialize(writer, resourceSet.ResourceTable, ResourceSet.SerializedType);
         }
 
         #region IDisposable support
@@ -75,8 +78,6 @@ namespace ProphetLamb.Tools.JsonResources
             {
                 if (disposing)
                     Close();
-                resourceSet = null; // null the reference but dont dispose.
-                resourceFileName = null;
                 disposedValue = true;
             }
         }
