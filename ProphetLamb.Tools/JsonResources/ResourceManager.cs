@@ -1,13 +1,13 @@
-﻿using System.Linq;
-using System.IO;
-using System.Collections.Generic;
-using ProphetLamb.Tools.Core;
+﻿using ProphetLamb.Tools.Core;
+using ProphetLamb.Tools.Events;
+
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
-using ProphetLamb.Tools.Events;
 
 namespace ProphetLamb.Tools.JsonResources
 {
@@ -54,20 +54,6 @@ namespace ProphetLamb.Tools.JsonResources
             baseFilePath = GetBaseFileName(ResourceRootPath, baseName, false);
         }
 
-        /// <summary>
-        /// Initializses a new instance of <see cref="ResourceManager"/>.
-        /// A task loading the <see cref="CultureInfo.InvariantCulture"/> ist started, upon completion the <see cref="CultureChangedEvent"/> is raised.
-        /// </summary>
-        /// <param name="baseName">The first component of the name of a resource file. Format: [baseName].[culture identifier].json</param>
-        /// <param name="resourcePath">The path leading to the directory that contains the resource files.</param>
-        /// <param name="defaultCulture">The culture that will initially be accessed unless specifing otherwise; if <see cref="null"/> the <see cref="CultureInfo.InvariantCulture"/> is used.</param>
-        public ResourceManager(in string baseName, in string resourcePath, in CultureInfo defaultCulture)
-        {
-            BaseName = baseName ?? throw new ArgumentNullException(nameof(baseName));
-            ResourceRootPath = resourcePath ?? throw new ArgumentNullException(nameof(resourcePath));
-            baseFilePath = GetBaseFileName(ResourceRootPath, baseName, false);
-            _resourceCulture = defaultCulture??CultureInfo.InvariantCulture;
-        }
         /// <summary>
         /// Returns the string value associated with the <paramref cref="key"/> with the culture <see cref="ResourceManager.Culture"/>.
         /// </summary>
@@ -142,7 +128,7 @@ namespace ProphetLamb.Tools.JsonResources
             return _loadedResourceSet.GetObject(key, caseInsensitive);
         }
 
-        internal void AddResourceSet(in CultureInfo resourceCulture, in ResourceSet resourceSet)
+        internal void AddResourceSet(in CultureInfo resourceCulture, in ResourceSet resourceSet, bool overwriteExisting = false)
         {
             if (resourceCulture is null)
                 throw new ArgumentNullException(nameof(resourceCulture));
@@ -155,6 +141,11 @@ namespace ProphetLamb.Tools.JsonResources
                 throw new ArgumentException("A resource set with the same culture already exisits");
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("The resource set .json-file does not exist in the device.", fileName);
+            if (overwriteExisting && resourceSetTable.TryGetValue(cultureName, out ResourceSet _dispose))
+            {
+                resourceSetTable.Remove(cultureName);
+                _dispose.Dispose();                
+            }
             resourceSetTable.Add(cultureName, resourceSet);
         }
 
@@ -162,8 +153,17 @@ namespace ProphetLamb.Tools.JsonResources
         {
             if (culture is null)
                 throw new ArgumentNullException(nameof(culture));
-            culture.VerifyCultureName(true);
+            string cultureName = culture.Name;
+            CultureInfoExtention.VerifyCultureName(cultureName, true);
             return resourceSetTable.TryGetValue(culture.Name, out resourceSet);
+        }
+
+        internal void SetResourceSet(in CultureInfo resourceCulture, in ResourceSet newValue)
+        {
+            string cultureName = resourceCulture.Name;
+            CultureInfoExtention.VerifyCultureName(cultureName, true);
+
+            resourceSetTable[cultureName] = newValue;
         }
 
         public IEnumerable<CultureInfo> Cultures
@@ -174,7 +174,7 @@ namespace ProphetLamb.Tools.JsonResources
         public void Clean()
         {
 
-            foreach((string key, ResourceSet value) in resourceSetTable)
+            foreach ((string key, ResourceSet value) in resourceSetTable)
             {
                 // Skip current ResourceSet
                 if (key.Equals(_resourceCulture.Name, StringComparison.InvariantCulture))
@@ -188,7 +188,7 @@ namespace ProphetLamb.Tools.JsonResources
         private void ChangeCulture(CultureInfo oldCulture, CultureInfo newCulture)
         {
             // Cultures must be different
-            if (oldCulture != null || oldCulture.Name.Equals(newCulture.Name, StringComparison.InvariantCulture))
+            if (oldCulture != null && newCulture != null && oldCulture.Name.Equals(newCulture.Name, StringComparison.InvariantCulture))
                 return;
             if (newCulture != null)
             {
@@ -197,7 +197,7 @@ namespace ProphetLamb.Tools.JsonResources
                 if (!resourceSetTable.TryGetValue(newCulture.Name, out _loadedResourceSet))
                 {
                     // Create new ResourceSet from file
-                    _loadedResourceSet = new ResourceSet(new ResourceReader(this, newCulture));
+                    _loadedResourceSet = ResourceSet.FromDictionary(new ResourceReader(this, newCulture));
                     resourceSetTable.Add(newCulture.Name, _loadedResourceSet);
                 }
             }
@@ -226,7 +226,7 @@ namespace ProphetLamb.Tools.JsonResources
 
         private void VerifyGet(in string key, in CultureInfo culture)
         {
-            if (string.IsNullOrWhiteSpace(key))
+            if (String.IsNullOrWhiteSpace(key))
                 throw new ArgumentException($"'{nameof(key)}' cannot be null or white space", nameof(key));
             if (culture is null)
                 throw new ArgumentNullException(nameof(culture));
@@ -252,11 +252,14 @@ namespace ProphetLamb.Tools.JsonResources
                 if (disposing)
                 {
                     // Dispose all ResourceSets
-                    lock(_loadedResourceSet)
-                        _loadedResourceSet = null;
-                    foreach(ResourceSet resSet in resourceSetTable.Values)
+                    if (_loadedResourceSet != null)
                     {
-                        resSet?.Dispose();
+                        _loadedResourceSet = null;
+                    }
+                    foreach (ResourceSet resSet in resourceSetTable.Values)
+                    {
+                        lock(resSet)
+                            resSet.Dispose();
                     }
                 }
                 disposedValue = true;

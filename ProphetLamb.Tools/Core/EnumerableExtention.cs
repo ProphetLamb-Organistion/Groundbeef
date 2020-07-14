@@ -16,7 +16,7 @@ namespace ProphetLamb.Tools.Core
                 throw new ArgumentNullException(nameof(enumerable));
             var en = enumerable.GetEnumerator();
             int count = 0;
-            while(en.MoveNext())
+            while (en.MoveNext())
                 count++;
             return count;
         }

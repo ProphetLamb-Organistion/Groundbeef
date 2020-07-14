@@ -27,6 +27,8 @@ namespace ProphetLamb.Tools.UnitTest
             var array = (char[])GenericCollectionConversion.ToGenericArray(enumerable, out _);
             Assert.NotNull(array);
             Assert.AreEqual(LoremIpsu.Length, array.Length);
+
+            Assert.Pass();
         }
 
         [Test]
@@ -35,6 +37,8 @@ namespace ProphetLamb.Tools.UnitTest
             var array = (List<char>)GenericCollectionConversion.ToGenericList(enumerable, out _);
             Assert.NotNull(array);
             Assert.AreEqual(LoremIpsu.Length, array.Count);
+
+            Assert.Pass();
         }
     }
 }

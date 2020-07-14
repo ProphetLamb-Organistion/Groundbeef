@@ -234,7 +234,7 @@ namespace ProphetLamb.Tools.Core
         /// Searches the elements in the <see cref="Collection{T}"/> for the specified element and returns the zero-based index of the last occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The zero-based index of the last occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -249,7 +249,7 @@ namespace ProphetLamb.Tools.Core
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The zero-based index of the last occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -266,7 +266,7 @@ namespace ProphetLamb.Tools.Core
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
         /// <param name="count">The length of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The zero-based index of the last occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -295,7 +295,7 @@ namespace ProphetLamb.Tools.Core
         /// Searches the elements in the <see cref="ICollection"/> for the specified element and returns the zero-based index of the last occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The zero-based index of the last occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -310,7 +310,7 @@ namespace ProphetLamb.Tools.Core
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The zero-based index of the last occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -327,7 +327,7 @@ namespace ProphetLamb.Tools.Core
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
         /// <param name="count">The length of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The zero-based index of the last occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -495,7 +495,7 @@ namespace ProphetLamb.Tools.Core
         /// Searches the elements in the <see cref="Collection{T}"/> for the specified element and returns the first occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -510,13 +510,13 @@ namespace ProphetLamb.Tools.Core
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Find<T>(this Collection<T> collection, int startIndex,  Predicate<T> match)
+        public static T Find<T>(this Collection<T> collection, int startIndex, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -529,7 +529,7 @@ namespace ProphetLamb.Tools.Core
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
         /// <param name="count">The length of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -559,7 +559,7 @@ namespace ProphetLamb.Tools.Core
         /// Searches the elements in the <see cref="Collection{T}"/> for the specified element and returns the last occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -574,13 +574,13 @@ namespace ProphetLamb.Tools.Core
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T FindLast<T>(this Collection<T> collection, int startIndex,  Predicate<T> match)
+        public static T FindLast<T>(this Collection<T> collection, int startIndex, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -593,7 +593,7 @@ namespace ProphetLamb.Tools.Core
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
         /// <param name="count">The length of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -623,7 +623,7 @@ namespace ProphetLamb.Tools.Core
         /// Searches the elements in the <see cref="Collection{T}"/> for the specified element and enumerates all occurences.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>All occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -638,7 +638,7 @@ namespace ProphetLamb.Tools.Core
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>All occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -657,7 +657,7 @@ namespace ProphetLamb.Tools.Core
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
         /// <param name="count">The length of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>All occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -686,7 +686,7 @@ namespace ProphetLamb.Tools.Core
         /// Searches the elements in the <see cref="ICollection"/> for the specified element and returns the first occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -701,13 +701,13 @@ namespace ProphetLamb.Tools.Core
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static object Find(this ICollection collection, int startIndex,  Predicate<object> match)
+        public static object Find(this ICollection collection, int startIndex, Predicate<object> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -720,7 +720,7 @@ namespace ProphetLamb.Tools.Core
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
         /// <param name="count">The length of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -755,7 +755,7 @@ namespace ProphetLamb.Tools.Core
         /// Searches the elements in the <see cref="ICollection"/> for the specified element and returns the last occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -770,13 +770,13 @@ namespace ProphetLamb.Tools.Core
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static object FindLast(this ICollection collection, int startIndex,  Predicate<object> match)
+        public static object FindLast(this ICollection collection, int startIndex, Predicate<object> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -789,7 +789,7 @@ namespace ProphetLamb.Tools.Core
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
         /// <param name="count">The length of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -825,7 +825,7 @@ namespace ProphetLamb.Tools.Core
         /// Searches the elements in the <see cref="ICollection"/> for the specified element and enumerates all occurences.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>All occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -840,7 +840,7 @@ namespace ProphetLamb.Tools.Core
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>All occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -859,7 +859,7 @@ namespace ProphetLamb.Tools.Core
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
         /// <param name="count">The length of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>All occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -879,8 +879,8 @@ namespace ProphetLamb.Tools.Core
                 throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
             IEnumerator en = collection.GetEnumerator();
             int i = 0;
-            while(i < startIndex && en.MoveNext()) i++;
-            while(i < endIndex && en.MoveNext())
+            while (i < startIndex && en.MoveNext()) i++;
+            while (i < endIndex && en.MoveNext())
             {
                 object current = en.Current;
                 if (match(current))
@@ -1038,7 +1038,7 @@ namespace ProphetLamb.Tools.Core
                 throw new ArgumentOutOfRangeException(nameof(length), ExceptionResource.INTEGER_POSITIVEZERO);
             if (length + left > keys.Count)
                 throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
-            if (length < 2) 
+            if (length < 2)
                 return;
             IntroSort(keys, left, length + left - 1, 2 * FloorLog2(keys.Count), comparer);
         }

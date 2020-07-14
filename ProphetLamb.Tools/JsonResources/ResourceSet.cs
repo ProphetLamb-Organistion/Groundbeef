@@ -1,24 +1,30 @@
-using System.Linq;
-using System.Collections.Generic;
 using System;
-using System.Collections.Concurrent;
 using System.Collections;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 
 namespace ProphetLamb.Tools.JsonResources
 {
     internal class ResourceSet : IDisposable, IEnumerable<KeyValuePair<string, object>>
     {
-        internal static readonly Type SerializedType = typeof(IEnumerable<KeyValuePair<string, object>>);
         private ConcurrentDictionary<string, object> resourceTable = new ConcurrentDictionary<string, object>(),
                                                      caseInsenstiveTable = new ConcurrentDictionary<string, object>();
 
-        internal ResourceSet() { }
-        internal ResourceSet(IEnumerable<KeyValuePair<string, object>> dictionary)
+        /// <summary>
+        /// Creates a new instance of <see cref="ResourceSet"/> from a <paramref name="dictionary"/>.
+        /// </summary>
+        /// <param name="dictionary">The data source dictionary for the new <see cref="ResourceSet"/>.</param>
+        /// <returns>A new instance of <see cref="ResourceSet"/> from a <paramref name="dictionary"/>.</returns>
+        public static ResourceSet FromDictionary(in IEnumerable<KeyValuePair<string, object>> dictionary)
         {
+            var resourceSet = new ResourceSet();
             if (dictionary is null)
                 throw new ArgumentNullException(nameof(dictionary));
             foreach ((string key, object value) in dictionary)
-                Add(key, value);
+                resourceSet.Add(key, value);
+            return resourceSet;
         }
 
         /// <summary>
@@ -32,7 +38,7 @@ namespace ProphetLamb.Tools.JsonResources
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="ignoreCase">Whether the key is treated case insensitive.</param>
-        internal string GetString(in string key, bool ignoreCase = false)
+        public string GetString(in string key, bool ignoreCase = false)
         {
             return InternalGetObject(key, ignoreCase) is string str ? str : throw new InvalidCastException("The object at the key is no string.");
         }
@@ -42,7 +48,7 @@ namespace ProphetLamb.Tools.JsonResources
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="ignoreCase">Whether the key is treated case insensitive.</param>
-        internal object GetObject(in string key, bool ignoreCase = false)
+        public object GetObject(in string key, bool ignoreCase = false)
         {
             return InternalGetObject(key, ignoreCase);
         }
@@ -52,7 +58,7 @@ namespace ProphetLamb.Tools.JsonResources
         /// </summary>
         /// <param name="key">The key of the element to add.</param>
         /// <param name="value">The value of the element to add. The value can not be null.</param>
-        internal void Add(in string key, in object value)
+        public void Add(in string key, in object value)
         {
             if (String.IsNullOrWhiteSpace(key))
                 throw new ArgumentException($"'{nameof(key)}' cannot be null or whitespace", nameof(key));
@@ -67,7 +73,7 @@ namespace ProphetLamb.Tools.JsonResources
         private object InternalGetObject(in string key, bool ignoreCase)
         {
             string iKey;
-            IDictionary<string, object> resources;
+            ConcurrentDictionary<string, object> resources;
             if (ignoreCase)
             {
                 resources = caseInsenstiveTable;
@@ -78,7 +84,7 @@ namespace ProphetLamb.Tools.JsonResources
                 resources = resourceTable;
                 iKey = key;
             }
-            if (resources.TryGetValue(iKey, out object value) && ThrowExceptionOnResourceMiss)
+            if (!resources.TryGetValue(iKey, out object value) && ThrowExceptionOnResourceMiss)
                 throw new ArgumentException("The key is not present in the dictionary or the ResourceSet is not loaded.");
             return value;
         }

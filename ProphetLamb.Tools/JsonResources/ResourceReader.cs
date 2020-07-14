@@ -1,9 +1,12 @@
+using Newtonsoft.Json;
+
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Collections;
 using System.IO;
-using System;
-using Newtonsoft.Json;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace ProphetLamb.Tools.JsonResources
 {
@@ -11,14 +14,16 @@ namespace ProphetLamb.Tools.JsonResources
     public class ResourceReader : System.Resources.IResourceReader, IEnumerable<KeyValuePair<string, object>>
     {
         private readonly StreamReader reader;
-        private IEnumerable<KeyValuePair<string, object>> resourceSetValue;
+        private readonly ResourceManager resourceManager;
+        private readonly CultureInfo culture;
+        private IEnumerable<KeyValuePair<string, object>> resourceSetDictionary;
 
         /// <summary>
         /// Initializes a new intance of <see cref="ResourceReader"/>. To initially read the resource file specify readToEnd.
         /// </summary>
         /// <param name="resourceManager">The resource manager the resource file belongs to.</param>
         /// <param name="resourceCulture">The culture of the resource file.</param>
-        public ResourceReader(in ResourceManager resourceManager, in CultureInfo resourceCulture) : this (resourceManager, resourceCulture, false) { }
+        public ResourceReader(in ResourceManager resourceManager, in CultureInfo resourceCulture) : this(resourceManager, resourceCulture, false) { }
 
         /// <summary>
         /// Initializes a new intance of <see cref="ResourceReader"/>.
@@ -30,7 +35,8 @@ namespace ProphetLamb.Tools.JsonResources
         {
             if (resourceManager is null)
                 throw new ArgumentNullException(nameof(resourceManager));
-            CultureInfo culture = resourceCulture??CultureInfo.InvariantCulture;
+            this.resourceManager = resourceManager;
+            culture = resourceCulture ?? CultureInfo.InvariantCulture;
             string fileName = resourceManager.GetResourceFileName(culture);
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("The resource .json-file does not exist on the device", fileName);
@@ -39,37 +45,43 @@ namespace ProphetLamb.Tools.JsonResources
                 ReadToEnd();
         }
 
+        /// <summary>
+        /// Reads all data from the underlying stream. Required to enumerate.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<KeyValuePair<string, object>> ReadToEnd()
         {
             JsonSerializer serializer = JsonSerializer.CreateDefault();
-            resourceSetValue = serializer.Deserialize(reader, ResourceSet.SerializedType) as IEnumerable<KeyValuePair<string, object>>;
-            return resourceSetValue;
+            resourceSetDictionary = serializer.Deserialize(reader, typeof(IDictionary<string, object>)) as IDictionary<string, object>;
+            return resourceSetDictionary;
         }
 
         public void Close()
         {
             reader.Close();
+            // Add resource set to ResourceManager
+            resourceManager.AddResourceSet(culture, ResourceSet.FromDictionary(resourceSetDictionary), true);
         }
 
         IEnumerator<KeyValuePair<string, object>> IEnumerable<KeyValuePair<string, object>>.GetEnumerator()
         {
-            if (resourceSetValue is null)
+            if (resourceSetDictionary is null)
                 throw new InvalidOperationException("Call ReadToEnd before enumerating.");
-            return resourceSetValue.GetEnumerator();
+            return resourceSetDictionary.GetEnumerator();
         }
 
         public IDictionaryEnumerator GetEnumerator()
         {
-            if (resourceSetValue is null)
+            if (resourceSetDictionary is null)
                 throw new InvalidOperationException("Call ReadToEnd before enumerating.");
-            return resourceSetValue.GetDictionaryEnumerator();
+            return resourceSetDictionary.GetDictionaryEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            if (resourceSetValue is null)
+            if (resourceSetDictionary is null)
                 throw new InvalidOperationException("Call ReadToEnd before enumerating.");
-            return resourceSetValue.GetEnumerator();
+            return resourceSetDictionary.GetEnumerator();
         }
 
         #region IDisposable members
@@ -80,7 +92,7 @@ namespace ProphetLamb.Tools.JsonResources
             {
                 if (disposing)
                     Close();
-                resourceSetValue = null;
+                resourceSetDictionary = null;
                 disposedValue = true;
             }
         }

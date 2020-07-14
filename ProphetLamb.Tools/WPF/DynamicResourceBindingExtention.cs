@@ -136,7 +136,8 @@ namespace ProphetLamb.Tools.WPF
                 // Note: since we're currently in the Convert method from the current operation,
                 // we must make the change via a 'Post' call or else we will get results returned
                 // out of order and the UI won't refresh properly.
-                SynchronizationContext.Current.Post((state) => {
+                SynchronizationContext.Current.Post((state) =>
+                {
 
                     bindingTrigger.Refresh();
 

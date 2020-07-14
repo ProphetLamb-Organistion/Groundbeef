@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Runtime.CompilerServices;
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace ProphetLamb.Tools
 {
@@ -107,7 +107,7 @@ namespace ProphetLamb.Tools
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AddRange<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, in IEnumerable<KeyValuePair<TKey, TValue>> keyValuePairs) where TKey : notnull
         {
-            foreach(var kvpair in keyValuePairs)
+            foreach (var kvpair in keyValuePairs)
                 dictionary.AddOrUpdate(kvpair.Key, kvpair.Value, (k, oldValue) => kvpair.Value);
         }
 
@@ -169,7 +169,7 @@ namespace ProphetLamb.Tools
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Reset()
         {
-             enumerator.Reset();
+            enumerator.Reset();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -183,7 +183,7 @@ namespace ProphetLamb.Tools
         /// </summary>
         /// <value>The element in the collection at the current position of the enumerator.</value>
         public DictionaryEntry Entry
-         {
+        {
             get
             {
                 (TKey key, TValue value) = enumerator.Current;

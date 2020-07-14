@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace ProphetLamb.Tools.Core
 {
@@ -29,9 +26,10 @@ namespace ProphetLamb.Tools.Core
         /// <param name="throwException">if <see cref="true"/> then throws exception if the <paramref name="cultureName"/> is invalid.</param>
         /// <returns><see cref="true"/> if the <paramref name="cultureName"/> is a valid culture name; otherwise, <see cref="false"/>.</returns>
         /// <exception cref="ArgumentException"></exception>
-        public static bool VerifyCultureName(string cultureName, bool throwException = false)
+        public static unsafe bool VerifyCultureName(in string cultureName, bool throwException = false)
         {
-            for (int i = 0; i < cultureName.Length; i++)
+            int end = cultureName.Length;
+            for (int i = 0; i != end; i++)
             {
                 char c = cultureName[i];
                 if (!Char.IsLetterOrDigit(c) && c != '-' && c != '_')

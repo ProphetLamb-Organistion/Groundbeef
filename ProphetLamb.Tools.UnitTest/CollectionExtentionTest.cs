@@ -35,6 +35,8 @@ namespace ProphetLamb.Tools.UnitTest
             Assert.AreEqual(6, coll2.IndexOf(x => x == probe));
             Assert.AreEqual(13, coll2.IndexOfLast(x => x == probe));
             Assert.AreEqual(2, coll2.IndexOfAll(x => x == probe).Count());
+
+            Assert.Pass();
         }
 
         [Test]
@@ -49,6 +51,8 @@ namespace ProphetLamb.Tools.UnitTest
             Assert.AreEqual(probe, coll2.Find(x => x == probe));
             Assert.AreEqual(probe, coll2.FindLast(x => x == probe));
             Assert.AreEqual(2, coll2.FindAll(x => x == probe).Count());
+
+            Assert.Pass();
         }
     }
 }

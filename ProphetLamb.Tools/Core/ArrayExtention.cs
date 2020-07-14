@@ -17,7 +17,7 @@ namespace ProphetLamb.Tools.Core
         /// The length of both arrays must be equal.
         /// </summary>
         /// <param name="array">The one-dimensional <see cref="Array"/> that contains the elements to be sorted.</param>
-        /// <param name="keys">The one-dimensional <see cref="int[]"/> that contains indicies.</param>
+        /// <param name="keys">The one-dimensional <see cref="Int32[]"/> that contains indicies.</param>
         /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static T[] SortByKeys<T>(this T[] array, in int[] keys)
@@ -39,7 +39,7 @@ namespace ProphetLamb.Tools.Core
         /// The length of both arrays must be equal.
         /// </summary>
         /// <param name="span">The <see cref="ReadOnlySpan{T}"/> that contains the elements to be sorted.</param>
-        /// <param name="keys">The one-dimensional <see cref="int[]"/> that contains indicies.</param>
+        /// <param name="keys">The one-dimensional <see cref="Int32[]"/> that contains indicies.</param>
         /// <exception cref="ArgumentException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static T[] SortByKeys<T>(this ReadOnlySpan<T> span, in int[] keys)
@@ -59,7 +59,7 @@ namespace ProphetLamb.Tools.Core
         /// Searches the elements in the <see cref="Array"/> for the specified element and returns the first occurence.
         /// </summary>
         /// <param name="array">The one-dimensional array containing the elements.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The first occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -74,7 +74,7 @@ namespace ProphetLamb.Tools.Core
         /// </summary>
         /// <param name="array">The one-dimensional array containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The first occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -93,7 +93,7 @@ namespace ProphetLamb.Tools.Core
         /// <param name="array">The one-dimensional array containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
         /// <param name="count">The length of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The first occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -260,7 +260,7 @@ namespace ProphetLamb.Tools.Core
         /// Searches the elements in the <see cref="Array"/> for the specified element and returns the last occurence.
         /// </summary>
         /// <param name="array">The one-dimensional array containing the elements.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The last occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -275,7 +275,7 @@ namespace ProphetLamb.Tools.Core
         /// </summary>
         /// <param name="array">The one-dimensional array containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The last occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -294,7 +294,7 @@ namespace ProphetLamb.Tools.Core
         /// <param name="array">The one-dimensional array containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
         /// <param name="count">The length of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The last occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -461,7 +461,7 @@ namespace ProphetLamb.Tools.Core
         /// Searches the elements in the <see cref="Array"/> for the specified element and enumerates all occurences.
         /// </summary>
         /// <param name="array">The one-dimensional array containing the elements.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>All occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -476,7 +476,7 @@ namespace ProphetLamb.Tools.Core
         /// </summary>
         /// <param name="array">The one-dimensional array containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>All occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -495,7 +495,7 @@ namespace ProphetLamb.Tools.Core
         /// <param name="array">The one-dimensional array containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
         /// <param name="count">The length of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>All occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -592,7 +592,7 @@ namespace ProphetLamb.Tools.Core
         /// Searches the elements in the <see cref="Array"/> for the specified element and returns the zero-based index of the first occurence.
         /// </summary>
         /// <param name="array">The one-dimensional array containing the elements.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The zero-based index of the first occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -607,7 +607,7 @@ namespace ProphetLamb.Tools.Core
         /// </summary>
         /// <param name="array">The one-dimensional array containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The zero-based index of the first occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -626,7 +626,7 @@ namespace ProphetLamb.Tools.Core
         /// <param name="array">The one-dimensional array containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
         /// <param name="count">The length of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The zero-based index of the first occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -932,7 +932,7 @@ namespace ProphetLamb.Tools.Core
         /// Searches the elements in the <see cref="Array"/> for the specified element and returns the zero-based index of the last occurence.
         /// </summary>
         /// <param name="array">The one-dimensional array containing the elements.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The zero-based index of the last occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -947,7 +947,7 @@ namespace ProphetLamb.Tools.Core
         /// </summary>
         /// <param name="array">The one-dimensional array containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The zero-based index of the last occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -966,7 +966,7 @@ namespace ProphetLamb.Tools.Core
         /// <param name="array">The one-dimensional array containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
         /// <param name="count">The length of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The zero-based index of the last occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -1273,7 +1273,7 @@ namespace ProphetLamb.Tools.Core
         /// Searches the elements in the <see cref="Array"/> for the specified element and enumerates the zero-based index of all occurences.
         /// </summary>
         /// <param name="array">The one-dimensional array containing the elements.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The zero-based index of all occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -1288,7 +1288,7 @@ namespace ProphetLamb.Tools.Core
         /// </summary>
         /// <param name="array">The one-dimensional array containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The zero-based index of all occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -1307,7 +1307,7 @@ namespace ProphetLamb.Tools.Core
         /// <param name="array">The one-dimensional array containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
         /// <param name="count">The length of the range to search.</param>
-        /// <param name="match">The <see cref="Predicate{object}"/> use to locate the object.</param>
+        /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The zero-based index of all occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>

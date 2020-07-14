@@ -24,7 +24,7 @@ namespace ProphetLamb.Tools.Core
                     var prop = DesignerProperties.IsInDesignModeProperty;
                     _isInDesignMode = (bool)DependencyPropertyDescriptor.FromProperty(prop, typeof(FrameworkElement)).Metadata.DefaultValue;
                     if (!_isInDesignMode.Value && System.Diagnostics.Process.GetCurrentProcess().ProcessName.StartsWith(@"devenv"))
-                            _isInDesignMode = true;
+                        _isInDesignMode = true;
 #endif
                 }
                 return _isInDesignMode.Value;

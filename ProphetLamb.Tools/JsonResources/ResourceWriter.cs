@@ -1,15 +1,15 @@
-using System.IO;
-using System.Globalization;
 using Newtonsoft.Json;
-using System;
+
 using ProphetLamb.Tools.Core;
+
+using System.Globalization;
+using System.IO;
 
 namespace ProphetLamb.Tools.JsonResources
 {
     [System.Runtime.InteropServices.ComVisible(true)]
     public class ResourceWriter : System.Resources.IResourceWriter
     {
-        private readonly ResourceManager resourceManager;
         private readonly CultureInfo culture;
         private readonly string resourceFileName;
         private readonly ResourceSet resourceSet;
@@ -17,8 +17,7 @@ namespace ProphetLamb.Tools.JsonResources
 
         public ResourceWriter(in ResourceManager resourceManager, in CultureInfo resourceCulture)
         {
-            culture = resourceCulture??CultureInfo.InvariantCulture;
-            this.resourceManager = resourceManager;
+            culture = resourceCulture ?? CultureInfo.InvariantCulture;
             // Locate the associated resource file.
             resourceFileName = resourceManager.GetResourceFileName(culture);
             // Attempt to load resource from resource manage, then from file
@@ -28,7 +27,7 @@ namespace ProphetLamb.Tools.JsonResources
             {
                 // Attempt to read existing resource set.
                 using var reader = new ResourceReader(resourceManager, culture);
-                resourceSet = new ResourceSet(reader.ReadToEnd());
+                resourceSet = ResourceSet.FromDictionary(reader.ReadToEnd());
             }
             else
             {
@@ -38,8 +37,6 @@ namespace ProphetLamb.Tools.JsonResources
             // Add resource set to manager
             if (!hasResource)
                 resourceManager.AddResourceSet(culture, resourceSet);
-            // Open file
-            writer = new StreamWriter(resourceFileName, append: false);
         }
 
         public void AddResource(string name, byte[] value)
@@ -65,9 +62,18 @@ namespace ProphetLamb.Tools.JsonResources
 
         public void Generate()
         {
+            // Dispose existing stream; avoid collission from multiple writers flushing.
+            if (writer != null)
+            {
+                writer.Dispose();
+                writer = null;
+            }
+            // Open file
+            writer = new StreamWriter(resourceFileName, append: false);
+            // Serialize to stream
             JsonSerializer serializer = JsonSerializer.CreateDefault();
             serializer.Culture = CultureInfo.InvariantCulture;
-            serializer.Serialize(writer, resourceSet.ResourceTable, ResourceSet.SerializedType);
+            serializer.Serialize(writer, resourceSet.ResourceTable, typeof(System.Collections.Generic.IDictionary<string, object>));
         }
 
         #region IDisposable support
@@ -77,7 +83,10 @@ namespace ProphetLamb.Tools.JsonResources
             if (!disposedValue)
             {
                 if (disposing)
+                {
                     Close();
+                    writer.Dispose();
+                }
                 disposedValue = true;
             }
         }
