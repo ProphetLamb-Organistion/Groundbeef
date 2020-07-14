@@ -15,7 +15,9 @@ namespace ProphetLamb.Tools.JsonResources
         internal ResourceSet() { }
         internal ResourceSet(IEnumerable<KeyValuePair<string, object>> dictionary)
         {
-            foreach((string key, object value) in dictionary)
+            if (dictionary is null)
+                throw new ArgumentNullException(nameof(dictionary));
+            foreach ((string key, object value) in dictionary)
                 Add(key, value);
         }
 

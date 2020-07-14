@@ -1,4 +1,4 @@
-﻿using System.Windows;
+﻿using System;
 
 namespace ProphetLamb.Tools.Events
 {
@@ -6,7 +6,7 @@ namespace ProphetLamb.Tools.Events
     public delegate void ValueChangedEventHandler<TValue>(object sender, ValueChangedEventArgs<TValue> e);
 
     [System.Runtime.InteropServices.ComVisible(true)]
-    public class ValueChangedEventArgs<TValue> : RoutedEventArgs
+    public class ValueChangedEventArgs<TValue> : EventArgs
     {
         public ValueChangedEventArgs(TValue oldValue, TValue newValue)
         {

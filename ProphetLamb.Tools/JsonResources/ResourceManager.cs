@@ -38,7 +38,7 @@ namespace ProphetLamb.Tools.JsonResources
             // If the assemblyPath is a manifest-file
             if (!Directory.Exists(ResourceRootPath))
                 ResourceRootPath = new FileInfo(ResourceRootPath).DirectoryName;
-            baseFilePath = GetBaseFileName(ResourceRootPath, baseName);
+            baseFilePath = GetBaseFileName(ResourceRootPath, baseName, false);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace ProphetLamb.Tools.JsonResources
         {
             BaseName = baseName ?? throw new ArgumentNullException(nameof(baseName));
             ResourceRootPath = resourcePath ?? throw new ArgumentNullException(nameof(resourcePath));
-            baseFilePath = GetBaseFileName(ResourceRootPath, baseName);
+            baseFilePath = GetBaseFileName(ResourceRootPath, baseName, false);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace ProphetLamb.Tools.JsonResources
         {
             BaseName = baseName ?? throw new ArgumentNullException(nameof(baseName));
             ResourceRootPath = resourcePath ?? throw new ArgumentNullException(nameof(resourcePath));
-            baseFilePath = GetBaseFileName(ResourceRootPath, baseName);
+            baseFilePath = GetBaseFileName(ResourceRootPath, baseName, false);
             _resourceCulture = defaultCulture??CultureInfo.InvariantCulture;
         }
         /// <summary>
@@ -235,10 +235,10 @@ namespace ProphetLamb.Tools.JsonResources
                 ChangeCulture(_resourceCulture, _resourceCulture = culture);
         }
 
-        internal static string GetBaseFileName(in string rootPath, in string baseName)
+        internal static string GetBaseFileName(in string rootPath, in string baseName, bool fileNotFoundException = true)
         {
             string baseFilePath = Path.Combine(rootPath, baseName);
-            if (!File.Exists(baseFilePath + ResourceFileExtention))
+            if (fileNotFoundException && !File.Exists(baseFilePath + ResourceFileExtention))
                 throw new FileNotFoundException();
             return baseFilePath;
         }

@@ -22,11 +22,19 @@ namespace ProphetLamb.Tools.UnitTest
         }
 
         [Test]
-        public void Tests()
+        public void ArrayTest()
         {
-            char[] array = (char[])GenericCollectionConversion.ToGenericArray(enumerable, out _);
+            var array = (char[])GenericCollectionConversion.ToGenericArray(enumerable, out _);
             Assert.NotNull(array);
             Assert.AreEqual(LoremIpsu.Length, array.Length);
+        }
+
+        [Test]
+        public void ListTest()
+        {
+            var array = (List<char>)GenericCollectionConversion.ToGenericList(enumerable, out _);
+            Assert.NotNull(array);
+            Assert.AreEqual(LoremIpsu.Length, array.Count);
         }
     }
 }

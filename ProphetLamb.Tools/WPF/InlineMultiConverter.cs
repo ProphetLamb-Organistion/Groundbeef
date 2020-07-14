@@ -6,7 +6,6 @@ namespace ProphetLamb.Tools.WPF
 {
     public class InlineMultiConverter : IMultiValueConverter
     {
-
         public delegate object ConvertDelegate(object[] values, Type targetType, object parameter, CultureInfo culture);
         public delegate object[] ConvertBackDelegate(object value, Type[] targetTypes, object parameter, CultureInfo culture);
 

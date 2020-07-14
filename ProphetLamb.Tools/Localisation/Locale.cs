@@ -3,7 +3,7 @@
 namespace ProphetLamb.Tools.Localisation
 {
     [System.Runtime.InteropServices.ComVisible(true)]
-    public class Locale : ICloneable
+    public sealed class Locale : ICloneable
     {
         /// <summary>
         /// Name of the locale

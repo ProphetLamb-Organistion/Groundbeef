@@ -10,27 +10,29 @@ namespace ProphetLamb.Tools
     public static class TypeHelper
     {
         private static readonly Type iEnumerableType = typeof(IEnumerable<>);
-        private static readonly string iEnumerableName = nameof(IEnumerable<object>);
-
 
         /// <summary>
         /// Casts the provided object to a specified type.
         /// </summary>
-        /// <param name="input">The source object.</param>
+        /// <param name="value">The source object.</param>
         /// <typeparam name="T">The cast type.</typeparam>
-        public static T CastObject<T>(in object input)
+        public static T CastObject<T>(in object value)
         {
-            return (T)input;
+            if (value is null)
+                throw new ArgumentNullException(nameof(value));
+            return (T)value;
         }
 
         /// <summary>
         /// Converts the provided object to a specified type. Using the IConvetible interface.
         /// </summary>
-        /// <param name="input">The source object.</param>
+        /// <param name="value">The source object.</param>
         /// <typeparam name="T">The conversion type.</typeparam>
-        public static T ConvertObject<T>(in object input)
+        public static T ConvertObject<T>(in object value)
         {
-            return (T)Convert.ChangeType(input, typeof(T));
+            if (value is null)
+                throw new ArgumentNullException(nameof(value));
+            return (T)Convert.ChangeType(value, typeof(T));
         }
 
         /// <summary>
@@ -40,10 +42,12 @@ namespace ProphetLamb.Tools
         /// <returns><see cref="true"/> if the type implements the IEnumerable<> interface; otherwise, <see cref="false"/>.</returns>
         public static bool IsGenericIEnumerable(in Type type)
         {
+            if (type is null)
+                throw new ArgumentNullException(nameof(type));
             return type != typeof(string) && type.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == iEnumerableType);
         }
 
-        private static readonly ConcurrentDictionary<Guid, Type[]> genericArgumentsLookupCache = new ConcurrentDictionary<Guid, Type[]>();
+        private static readonly ConcurrentDictionary<Guid, Type> genericArgumentLookupCache = new ConcurrentDictionary<Guid, Type>();
         /// <summary>
         /// Returns the generic type argument of any enumerable type.
         /// </summary>
@@ -51,22 +55,17 @@ namespace ProphetLamb.Tools
         /// <returns>The generic type argument of any enumerable type.</returns>
         public static Type GetEnumerableBaseType(in Type type)
         {
-            // Prefer to return the base type of the IEnumerable<> interface.
-            Type enumerableInterface =type.GetInterfaces().Find(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>));
-            if (enumerableInterface != null)
-                return GetEnumerableBaseType(enumerableInterface);
+            if (type is null)
+                throw new ArgumentNullException(nameof(type));
             // Grab the generic arguments.
-            if (!genericArgumentsLookupCache.TryGetValue(type.GUID, out Type[] genericArguments))
+            if (!genericArgumentLookupCache.TryGetValue(type.GUID, out Type genericArgument))
             {
-                genericArguments = type.GetGenericArguments();
-                genericArgumentsLookupCache.Add(type.GUID, genericArguments);
+                genericArgument = type.GetGenericArguments()?[0];
+                if (genericArgument is null)
+                    throw new ArgumentException("The type does not have at least one generic type argument.", nameof(type));
+                genericArgumentLookupCache.Add(type.GUID, genericArgument);
             }
-            if (genericArguments.Length == 0)
-                throw new ArgumentException("The type does not have exactly one generic type argument.", nameof(type));
-            var elementType = genericArguments[0];
-            return elementType.IsGenericType && elementType.GetGenericTypeDefinition() == typeof(Nullable<>)
-                ? elementType.GetGenericArguments()[0]
-                : elementType;
+            return genericArgument;
         }
     }
 }

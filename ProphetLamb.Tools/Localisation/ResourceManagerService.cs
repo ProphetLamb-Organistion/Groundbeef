@@ -10,7 +10,7 @@ namespace ProphetLamb.Tools.Localisation
     [System.Runtime.InteropServices.ComVisible(true)]
     public static class ResourceManagerService
     {
-        private static Dictionary<string, System.Resources.ResourceManager> _managers;
+        private static readonly Dictionary<string, System.Resources.ResourceManager> _managers;
 
         public static event ValueChangedEventHandler<Locale> LocaleChanged;
 

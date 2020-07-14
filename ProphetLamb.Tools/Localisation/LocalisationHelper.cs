@@ -34,14 +34,11 @@ namespace ProphetLamb.Tools.Localisation
         }
 
         /// <summary>
-        /// Gets a resource string from the ResourceManager
-        /// 
-        /// You can bind to this property using the .[KEY] syntax e.g.:
-        /// 
+        /// Gets a resource string from the ResourceManager 
+        /// You can bind to this property using the .[KEY] syntax e.g.: 
         /// {Binding Source={StaticResource localisation}, Path=.[MainScreenResources.IntroTextLine1]}
         /// </summary>
         /// <param name="key">Key to retrieve in the format [ManagerName].[ResourceKey]</param>
-        /// <returns></returns>
         public string this[string key]
         {
             get
