@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProphetLamb.Tools", "ProphetLamb.Tools\ProphetLamb.Tools.csproj", "{14CC8F16-CAD0-4E12-B7F6-4210AE865387}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProphetLamb.Tools", "ProphetLamb.Tools\ProphetLamb.Tools.csproj", "{14CC8F16-CAD0-4E12-B7F6-4210AE865387}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProphetLamb.Tools.UnitTest", "ProphetLamb.Tools.UnitTest\ProphetLamb.Tools.UnitTest.csproj", "{4F18624C-A9CA-4885-9AF9-6274ABE637A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{14CC8F16-CAD0-4E12-B7F6-4210AE865387}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14CC8F16-CAD0-4E12-B7F6-4210AE865387}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14CC8F16-CAD0-4E12-B7F6-4210AE865387}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F18624C-A9CA-4885-9AF9-6274ABE637A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F18624C-A9CA-4885-9AF9-6274ABE637A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F18624C-A9CA-4885-9AF9-6274ABE637A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F18624C-A9CA-4885-9AF9-6274ABE637A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
