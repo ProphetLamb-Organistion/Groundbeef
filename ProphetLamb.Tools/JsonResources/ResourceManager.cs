@@ -55,9 +55,14 @@ namespace ProphetLamb.Tools.JsonResources
         }
 
         /// <summary>
+        /// Gets or sets if key should be treated as case insensive by default or not.
+        /// </summary>
+        public static bool CaseInsensitiveDefault { get; set; } = true;
+
+        /// <summary>
         /// Returns the string value associated with the <paramref cref="key"/> with the culture <see cref="ResourceManager.Culture"/>.
         /// </summary>
-        /// <param name="key">The case sensitive key.</param>
+        /// <param name="key">The key.</param>
         public string this[in string key] => GetString(key);
 
         /// <summary>
@@ -84,14 +89,63 @@ namespace ProphetLamb.Tools.JsonResources
         /// </summary>
         internal string ResourceRootPath { get; }
 
+#nullable enable
+        /// <summary>
+        /// Returns the string value associated with the <paramref cref="key"/> with the culture <see cref="ResourceManager.Culture"/>. 
+        /// Replaces the format item in a value string with the string representation of a corresponding object in a specified array.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="args"> An object array that contains zero or more objects to format.</param>
+        public string GetStringFormat(in string key, params object?[] args)
+        {
+            return String.Format(GetString(key), args);
+        }
+
+        /// <summary>
+        /// Returns the string value associated with the <paramref cref="key"/> with the culture <see cref="ResourceManager.Culture"/>. 
+        /// Replaces one or more format items in a string with the string representation of a specified object.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="arg0">The frist object to format.</param>
+        public string GetStringFormat(in string key, in object? arg0)
+        {
+            return String.Format(GetString(key), arg0);
+        }
+
+        /// <summary>
+        /// Returns the string value formatted with the format arguments associated with the <paramref cref="key"/> with the culture <see cref="ResourceManager.Culture"/>.
+        /// Replaces one or more format items in a string with the string representation of a specified object.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="arg0">The frist object to format.</param>
+        /// <param name="arg1">The second object to format.</param>
+        public string GetStringFormat(in string key, in object? arg0, in object? arg1)
+        {
+            return String.Format(GetString(key), arg0, arg1);
+        }
+
+        /// <summary>
+        /// Returns the string value formatted with the format arguments associated with the <paramref cref="key"/> with the culture <see cref="ResourceManager.Culture"/>.
+        /// Replaces one or more format items in a string with the string representation of a specified object.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="arg0">The frist object to format.</param>
+        /// <param name="arg1">The second object to format.</param>
+        /// <param name="arg2">The third object to format.</param>
+        public string GetStringFormat(in string key, in object? arg0, in object? arg1, in object? arg2)
+        {
+            return String.Format(GetString(key), arg0, arg1, arg2);
+        }
+#nullable disable
+
         /// <summary>
         /// Returns the string value associated with the <paramref cref="key"/> with the culture <see cref="ResourceManager.Culture"/>.
         /// </summary>
         /// <param name="key">The key.</param>
-        /// <param name="caseInsensitive">Whether the key is treated case insensitive.</param>
-        public string GetString(in string key, bool caseInsensitive = false)
+        /// <param name="ignoreCase">Whether the key is treated case insensitive.</param>
+        public string GetString(in string key, bool? ignoreCase = null)
         {
-            return GetString(key, _resourceCulture, caseInsensitive);
+            return GetString(key, _resourceCulture, ignoreCase);
         }
 
         /// <summary>
@@ -99,21 +153,21 @@ namespace ProphetLamb.Tools.JsonResources
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="culture">The culture of the resource value</param>
-        /// <param name="caseInsensitive">Whether the key is treated case insensitive.</param>
-        public string GetString(in string key, in CultureInfo culture, bool caseInsensitive = false)
+        /// <param name="ignoreCase">Whether the key is treated case insensitive.</param>
+        public string GetString(in string key, in CultureInfo culture, bool? ignoreCase = null)
         {
             VerifyGet(key, culture);
-            return _loadedResourceSet.GetString(key, caseInsensitive);
+            return _loadedResourceSet.GetString(key, ignoreCase??CaseInsensitiveDefault);
         }
 
         /// <summary>
         /// Returns the object value associated with the <paramref cref="key"/> with the culture <see cref="ResourceManager.Culture"/>.
         /// </summary>
         /// <param name="key">The key.</param>
-        /// <param name="caseInsensitive">Whether the key is treated case insensitive.</param>
-        public object GetObject(in string key, bool caseInsensitive = false)
+        /// <param name="ignoreCase">Whether the key is treated case insensitive.</param>
+        public object GetObject(in string key, bool? ignoreCase = null)
         {
-            return GetObject(key, _resourceCulture, caseInsensitive);
+            return GetObject(key, _resourceCulture, ignoreCase);
         }
 
         /// <summary>
@@ -121,11 +175,11 @@ namespace ProphetLamb.Tools.JsonResources
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="culture">The culture of the resource value</param>
-        /// <param name="caseInsensitive">Whether the key is treated case insensitive.</param>
-        public object GetObject(in string key, in CultureInfo culture, bool caseInsensitive = false)
+        /// <param name="ignoreCase">Whether the key is treated case insensitive.</param>
+        public object GetObject(in string key, in CultureInfo culture, bool? ignoreCase = null)
         {
             VerifyGet(key, culture);
-            return _loadedResourceSet.GetObject(key, caseInsensitive);
+            return _loadedResourceSet.GetObject(key, ignoreCase??CaseInsensitiveDefault);
         }
 
         internal void AddResourceSet(in CultureInfo resourceCulture, in ResourceSet resourceSet, bool overwriteExisting = false)

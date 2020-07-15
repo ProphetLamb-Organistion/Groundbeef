@@ -1,8 +1,6 @@
 using Newtonsoft.Json;
 
-using ProphetLamb.Tools.Core;
 using ProphetLamb.Tools.IO;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;

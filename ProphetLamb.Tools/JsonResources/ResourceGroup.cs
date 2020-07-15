@@ -1,17 +1,11 @@
-﻿using System.Threading;
-using System.Collections.Specialized;
-using System.Security.AccessControl;
-using System.Globalization;
+﻿using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using ProphetLamb.Tools.Collections.Concurrent;
 using System;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Linq;
 
 namespace ProphetLamb.Tools.JsonResources
@@ -19,7 +13,7 @@ namespace ProphetLamb.Tools.JsonResources
     [JsonConverter(typeof(ResourceGroupConverter))]
     internal class ResourceGroup
     {
-        public ResourceGroup(Type valuesType, IList<string> keys, IList values)
+        public ResourceGroup(in Type valuesType, in IList<string> keys, in IList values)
         {
             ValuesType = valuesType;
             Keys = keys;
