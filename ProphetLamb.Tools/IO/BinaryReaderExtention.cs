@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.CompilerServices;
 
-namespace ProphetLamb.Tools.Core
+namespace ProphetLamb.Tools.IO
 {
     [System.Runtime.InteropServices.ComVisible(true)]
     public static class BinaryReaderExtention

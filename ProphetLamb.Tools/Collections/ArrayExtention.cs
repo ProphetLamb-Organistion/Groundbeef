@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace ProphetLamb.Tools.Core
+namespace ProphetLamb.Tools.Collections
 {
     /// <summary>
     /// Collection of extention functions for arrays, and generic arrays: 

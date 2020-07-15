@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using System.Globalization;
 using System.IO;
 using System.Collections;
@@ -29,11 +30,11 @@ namespace ProphetLamb.Tools.UnitTest
                 Directory.Delete(resDir, true);
             Directory.CreateDirectory(resDir);
 
-            foo = new Foo("Schneider", 0.3146d, new Foo.Bar { Cheeta = "Morning".ToList() });
+            foo = new Foo("Schneider", 0.3146d);
         }
 
         [Test]
-        public void AddResourcesTest()
+        public void  FunctionalityTest()
         {
             resourceManager = new ResourceManager("CommonResource", resDir);
             using (var writer = new ResourceWriter(resourceManager, german))
@@ -61,6 +62,54 @@ namespace ProphetLamb.Tools.UnitTest
             Assert.AreEqual("Hello World!", resourceManager.GetString("first", english));
 
             Assert.Pass();
+        }
+
+        [Test]
+        public void PerformanceTest()
+        {
+            resourceManager = new ResourceManager("PerfResource", resDir);
+            using var rwGerman = new ResourceWriter(resourceManager, german);
+            using var rwEnglish = new ResourceWriter(resourceManager, english);
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+            for (int i = 0; i < 2048; i++)
+            {
+                rwEnglish.AddResource("ResNr_" + i, RandomString(4196));
+            }
+            rwEnglish.Close();
+            for (int i = 0; i < 2048; i++)
+            {
+                rwGerman.AddResource("ResNr_" + i, RandomString(4196));
+            }
+            rwGerman.Close();
+            sw.Stop();
+            Console.WriteLine("Write: " + sw.Elapsed);
+            resourceManager.Dispose();
+            resourceManager = new ResourceManager("PerfResource", resDir);
+            sw.Reset();
+            using var rrGerman = new ResourceReader(resourceManager, german);
+            using var rrEnglish = new ResourceReader(resourceManager, english);
+            rrGerman.ReadToEnd();
+            rrGerman.Close();
+            rrEnglish.ReadToEnd();
+            rrEnglish.Close();
+            sw.Stop();
+            Console.WriteLine("Read: " + sw.Elapsed);
+            Assert.Pass();
+        }
+
+        private unsafe string RandomString(int length)
+        {
+            Random rng = new Random();
+            string str = StringHelper.FastAllocateString(length);
+            fixed (char* outStr = str)
+            {
+                for (int i = 0; i != length; i++)
+                {
+                    outStr[i] = (char)rng.Next(65, 89); // Uppercase ASCII letters
+                }
+            }
+            return str;
         }
     }
 }

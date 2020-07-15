@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 
-namespace ProphetLamb.Tools.Core
+namespace ProphetLamb.Tools.Collections
 {
     [System.Runtime.InteropServices.ComVisible(true)]
     public static class CollectionExtention

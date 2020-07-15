@@ -1,9 +1,12 @@
 using Newtonsoft.Json;
 
 using ProphetLamb.Tools.Core;
-
+using ProphetLamb.Tools.IO;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ProphetLamb.Tools.JsonResources
 {
@@ -68,12 +71,16 @@ namespace ProphetLamb.Tools.JsonResources
                 writer.Dispose();
                 writer = null;
             }
+            // Generate ResourceGroups form resoruceSet
+            Task<ResourceGroup[]> resourceGroups = Task.Run(() => resourceSet.GroupBy(kvp => kvp.Value.GetType())
+                .Select(grouping => new ResourceGroup(grouping.Key, grouping.Select(kvp => kvp.Key).ToList(), grouping.Select(kvp => kvp.Value).ToList())).ToArray());
             // Open file
-            writer = new StreamWriter(resourceFileName, append: false);
-            // Serialize to stream
-            JsonSerializer serializer = JsonSerializer.CreateDefault();
-            serializer.Culture = CultureInfo.InvariantCulture;
-            serializer.Serialize(writer, resourceSet.ResourceTable, typeof(System.Collections.Generic.IDictionary<string, object>));
+            using var jsonWriter = new JsonTextWriter(writer = new StreamWriter(resourceFileName, append: false));
+            // Create a serializer with the ResourceGroupConverter specific settings for the current culture.
+            JsonSerializer serializer = JsonSerializer.Create(ResourceGroupConverter.SettingsFactory(culture));
+            // Serialize the resourceGroups to the stream.
+            resourceGroups.Wait();
+            serializer.Serialize(jsonWriter, resourceGroups.Result);
         }
 
         #region IDisposable support

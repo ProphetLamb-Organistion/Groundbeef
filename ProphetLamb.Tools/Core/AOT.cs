@@ -9,18 +9,19 @@ namespace ProphetLamb.Tools.Core
     {
         private const BindingFlags methodBindings = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
 
-        public static void PreloadAssembly(Assembly assembly)
+        public static Thread PreloadAssembly(Assembly assembly)
         {
-            new Thread(() =>
+            var thread = new Thread(() =>
             {
                 Parallel.ForEach(assembly.GetTypes(), (Type type) =>
                 {
                     foreach (MethodInfo method in type.GetMethods(methodBindings))
                         PreloadMethod(method);
                 });
-            })
-            { Priority = ThreadPriority.Lowest }
-            .Start();
+            });
+            thread.Priority = ThreadPriority.Lowest;
+            thread.Start();
+            return thread;
         }
 
         public static bool PreloadMethod(MethodInfo method)

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
+using ProphetLamb.Tools.Collections.Concurrent;
 
 namespace ProphetLamb.Tools.JsonResources
 {
@@ -11,7 +11,6 @@ namespace ProphetLamb.Tools.JsonResources
     {
         private ConcurrentDictionary<string, object> resourceTable = new ConcurrentDictionary<string, object>(),
                                                      caseInsenstiveTable = new ConcurrentDictionary<string, object>();
-
         /// <summary>
         /// Creates a new instance of <see cref="ResourceSet"/> from a <paramref name="dictionary"/>.
         /// </summary>
@@ -89,6 +88,16 @@ namespace ProphetLamb.Tools.JsonResources
             return value;
         }
 
+        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+        {
+            return resourceTable.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return resourceTable.GetEnumerator();
+        }
+
         #region  IDisposable members
         private bool disposedValue;
         protected virtual void Dispose(bool disposing)
@@ -104,16 +113,6 @@ namespace ProphetLamb.Tools.JsonResources
         public void Dispose()
         {
             Dispose(true);
-        }
-
-        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
-        {
-            return resourceTable.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return resourceTable.GetEnumerator();
         }
         #endregion
     }

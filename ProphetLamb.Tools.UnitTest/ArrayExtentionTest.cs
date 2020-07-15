@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 using ProphetLamb.Tools.Core;
 using System.Collections.Generic;
+using ProphetLamb.Tools.Collections;
 
 namespace ProphetLamb.Tools.UnitTest
 {

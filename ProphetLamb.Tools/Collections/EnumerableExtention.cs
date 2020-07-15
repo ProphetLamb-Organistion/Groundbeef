@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 
-namespace ProphetLamb.Tools.Core
+namespace ProphetLamb.Tools.Collections
 {
+    [System.Runtime.InteropServices.ComVisible(true)]
     public static class EnumerableExtention
     {
         /// <summary>

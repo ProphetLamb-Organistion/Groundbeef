@@ -1,12 +1,12 @@
+using System.Threading.Tasks;
+using System.Linq;
 using Newtonsoft.Json;
-
+using ProphetLamb.Tools.Collections;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace ProphetLamb.Tools.JsonResources
 {
@@ -48,19 +48,23 @@ namespace ProphetLamb.Tools.JsonResources
         /// <summary>
         /// Reads all data from the underlying stream. Required to enumerate.
         /// </summary>
-        /// <returns></returns>
         public IEnumerable<KeyValuePair<string, object>> ReadToEnd()
         {
-            JsonSerializer serializer = JsonSerializer.CreateDefault();
-            resourceSetDictionary = serializer.Deserialize(reader, typeof(IDictionary<string, object>)) as IDictionary<string, object>;
+            // Deserialize the ResourceGroups
+            JsonSerializer serializer = JsonSerializer.Create(ResourceGroupConverter.SettingsFactory(culture));
+            var resourceGroups = serializer.Deserialize(reader, typeof(ResourceGroup[])) as ResourceGroup[];
+            resourceSetDictionary = resourceGroups.AsParallel().SelectMany(x => x.ToDictionary());
             return resourceSetDictionary;
         }
 
         public void Close()
         {
             reader.Close();
-            // Add resource set to ResourceManager
-            resourceManager.AddResourceSet(culture, ResourceSet.FromDictionary(resourceSetDictionary), true);
+            if (resourceSetDictionary != null)
+            {
+                // Add resource set to ResourceManager
+                resourceManager.AddResourceSet(culture, ResourceSet.FromDictionary(resourceSetDictionary), true);
+            }
         }
 
         IEnumerator<KeyValuePair<string, object>> IEnumerable<KeyValuePair<string, object>>.GetEnumerator()
