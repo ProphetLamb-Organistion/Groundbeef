@@ -1649,5 +1649,16 @@ namespace ProphetLamb.Tools.Collections
         {
             return ((h1 << 5) + h1) ^ h2;
         }
+
+        public static char[] ToChars(this byte[] bytes)
+        {
+            int length = bytes.Length;
+            var chars = new char[length];
+            for (int i = 0; i < length; i++)
+            {
+                chars[i] = (char)bytes[i];
+            }
+            return chars;
+        }
     }
 }
