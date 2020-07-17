@@ -103,7 +103,7 @@ Encodes and decodes base85 strings to bytes
 * ReadAllBytes: Reads the binary reader to the end.
 
 <strong>FileHelper</strong>
-* FileStream Create: Creates a file ad a specified directory with rwx access without locking the file.
+* FileStream Create: Creates a file at a specified directory with rwx access without locking the file.
 ### Json Resources
 Simmilar API to System.Resources, but json backed.
 
