@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 using ProphetLamb.Tools.Collections;
+using System.Linq;
 
 namespace ProphetLamb.Tools.Converters
 {
@@ -89,7 +90,7 @@ namespace ProphetLamb.Tools.Converters
              0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, // 0xD0..0xDF
              0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, // 0xE0..0xEF
              0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, // 0xF0..0xFF
-        }.ToChars();
+        }.Cast<char>().ToArray();
 
         // Divisor and multiplier weights for encoding and decoding respectively, for consecutive bytes.
         private const long num0 = 0x31C84B1, num1 = 0x95EED, num2 = 0x1C39, num3 = 0x55;
