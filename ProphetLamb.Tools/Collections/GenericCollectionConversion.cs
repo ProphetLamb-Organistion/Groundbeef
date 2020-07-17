@@ -23,7 +23,7 @@ namespace ProphetLamb.Tools.Collections
         /// <returns>A <see cref="List{TSource}"/> with the data of <paramref name="enumerable"/>.</returns>
         public static object ToGenericList(in object enumerable, out Type sourceType)
         {
-            sourceType = TypeHelper.GetEnumerableBaseType(enumerable.GetType());
+            sourceType = TypeHelper.GetEnumerableElementType(enumerable.GetType());
             return MakeToListMethod(sourceType).Invoke(null, new[] { enumerable });
         }
 
@@ -35,7 +35,7 @@ namespace ProphetLamb.Tools.Collections
         /// <returns>A <see cref="List{TSource}"/> with the data of <paramref name="enumerable"/>.</returns>
         public static object ToGenericArray(in object enumerable, out Type sourceType)
         {
-            sourceType = TypeHelper.GetEnumerableBaseType(enumerable.GetType());
+            sourceType = TypeHelper.GetEnumerableElementType(enumerable.GetType());
             return MakeToArrayMethod(sourceType).Invoke(null, new[] { enumerable });
         }
 

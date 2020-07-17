@@ -19,11 +19,11 @@ namespace ProphetLamb.Tools.JsonResources
         private IEnumerable<KeyValuePair<string, object>> resourceSetDictionary;
 
         /// <summary>
-        /// Initializes a new intance of <see cref="ResourceReader"/>. To initially read the resource file specify readToEnd.
+        /// Initializes a new intance of <see cref="ResourceReader"/>.
         /// </summary>
         /// <param name="resourceManager">The resource manager the resource file belongs to.</param>
         /// <param name="resourceCulture">The culture of the resource file.</param>
-        public ResourceReader(in ResourceManager resourceManager, in CultureInfo resourceCulture) : this(resourceManager, resourceCulture, false) { }
+        public ResourceReader(in ResourceManager resourceManager, in CultureInfo resourceCulture) : this(resourceManager, resourceCulture, true) { }
 
         /// <summary>
         /// Initializes a new intance of <see cref="ResourceReader"/>.

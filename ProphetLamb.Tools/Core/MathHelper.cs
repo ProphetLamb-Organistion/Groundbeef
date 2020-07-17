@@ -16,7 +16,7 @@ namespace ProphetLamb.Tools
         }
 
         /// <summary>
-        /// Returns a modulus n as a positive 32bit integer value. 
+        /// Returns a modulus n as a positive 64bit floating point value. 
         /// a elo [min,max] -> [0,n)
         /// </summary>
         public static double NonNegativeModulus(this double a, double n)

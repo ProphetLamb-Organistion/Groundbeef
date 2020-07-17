@@ -54,7 +54,7 @@ namespace ProphetLamb.Tools
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns>The generic type argument of any enumerable type.</returns>
-        public static Type GetEnumerableBaseType(in Type type)
+        public static Type GetEnumerableElementType(in Type type)
         {
             if (type is null)
                 throw new ArgumentNullException(nameof(type));

@@ -1,36 +1,39 @@
 using System;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using ProphetLamb.Tools.Collections.Concurrent;
 
 namespace ProphetLamb.Tools.JsonResources
 {
     internal class ResourceSet : IDisposable, IEnumerable<KeyValuePair<string, object>>
     {
-        private ConcurrentDictionary<string, object> resourceTable = new ConcurrentDictionary<string, object>(),
-                                                     caseInsenstiveTable = new ConcurrentDictionary<string, object>();
+        private Dictionary<string, object> resourceTable = new Dictionary<string, object>(),
+                                           caseInsenstiveTable = new Dictionary<string, object>();
+
+        public ResourceSet() {}
+
         /// <summary>
-        /// Creates a new instance of <see cref="ResourceSet"/> from a <paramref name="dictionary"/>.
+        /// Initializes a new instance of <see cref="ResourceSet"/>.
         /// </summary>
-        /// <param name="dictionary">The data source dictionary for the new <see cref="ResourceSet"/>.</param>
-        /// <returns>A new instance of <see cref="ResourceSet"/> from a <paramref name="dictionary"/>.</returns>
-        public static ResourceSet FromDictionary(in IEnumerable<KeyValuePair<string, object>> dictionary)
+        /// <param name="reader">The resource reader to read the resource from.</param>
+        public ResourceSet(System.Resources.IResourceReader reader)
         {
-            var resourceSet = new ResourceSet();
-            if (dictionary is null)
-                throw new ArgumentNullException(nameof(dictionary));
-            foreach ((string key, object value) in dictionary)
-                resourceSet.Add(key, value);
-            return resourceSet;
+            if (reader is null)
+                throw new ArgumentNullException(nameof(reader));
+            IDictionaryEnumerator en = reader.GetEnumerator();
+            while (en.MoveNext())
+            {
+                if (en.Key is string key)
+                    Add(key, en.Value);
+                else
+                    throw new InvalidCastException("One or more keys in the dictonary are null or not a string.");
+            }
         }
 
         /// <summary>
         /// Determins wherther to throw a ArgumentException if the specified key was not found or the <see cref="ResourceSet"/> is currently unloaded.
         /// </summary>
         /// <value>If <see cref="true"/> throws a ArguemntException; otherwise, returns <see cref="null"/>.</value>
-        public static bool ThrowExceptionOnResourceMiss { get; set; } = true;
+        public bool ThrowExceptionOnResourceMiss { get; set; } = true;
 
         /// <summary>
         /// Returns the string associated with the <paramref cref="key"/>.
@@ -67,12 +70,10 @@ namespace ProphetLamb.Tools.JsonResources
             caseInsenstiveTable.Add(key.ToUpperInvariant(), value);
         }
 
-        internal IEnumerable<KeyValuePair<string, object>> ResourceTable { get => resourceTable.AsEnumerable(); }
-
         private object InternalGetObject(in string key, bool ignoreCase)
         {
             string iKey;
-            ConcurrentDictionary<string, object> resources;
+            Dictionary<string, object> resources;
             if (ignoreCase)
             {
                 resources = caseInsenstiveTable;
