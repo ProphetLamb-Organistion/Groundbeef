@@ -73,6 +73,7 @@ Extention method to Task arrays and lists adding Task.WaitAll, Task.WaitAny, Tas
 
 <strong>Enumerable</strong> (non generic)
 * Count: Returns the number of elements in a sequence.
+
 <strong>GenericCollectionConversion</strong>
 * object ToGenericList(object, type): Converts the generic IEnumerable to a generic List of the same element type.
 * object ToGenericArray(object, type): Converts the generic IEnumerable to a generic Array of the same element type.
@@ -89,11 +90,13 @@ The purpose here is to streamline the code produced for Dictionarys with Concurr
 * Remove(key): Removes the value with the specified key from the ConcurrentDictionary.
 * AddRange: Adds a range of keyvalue-pairs to the dictionary.
 ### Converters
+
 <strong>Base85</strong>
 Encodes and decodes base85 strings to bytes
 ### Events 
 * ValueChangedEvent: Generic event for a changed property value, more lightweight then WPFs, DependencyPropertyChanged.
 ### IO
+
 <strong>Binary reader</strong>
 * ReadAllBytes: Reads the binary reader to the end.
 
@@ -101,6 +104,7 @@ Encodes and decodes base85 strings to bytes
 * FileStream Create: Creates a file ad a specified directory with rwx access without locking the file.
 ### Json Resources
 Simmilar API to System.Resources, but json backed.
+
 <strong>ReourceManager</strong>
 Manages locale ResourceSets
 
@@ -118,6 +122,7 @@ Helper class for binding to resource strings.
 <strong>ResourceManagerService</strong>
 Static class multiple ResourceManager can be registered to in order to access thier data.
 ### WPF
+
 <strong>Colors</strong>
 For System.Media & System.Drawing colors.
 * GetLightness: Returns the lightness of a color using the W3C alogrithm.
