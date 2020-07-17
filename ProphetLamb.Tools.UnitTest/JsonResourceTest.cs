@@ -84,9 +84,9 @@ namespace ProphetLamb.Tools.UnitTest
             sw.Reset();
             using var rrGerman = new ResourceReader(resourceManager, german);
             using var rrEnglish = new ResourceReader(resourceManager, english);
-            rrGerman.ReadToEnd();
+            var germanSet = new ResourceSet(rrGerman);
+            var englishSet = new ResourceSet(rrEnglish);
             rrGerman.Close();
-            rrEnglish.ReadToEnd();
             rrEnglish.Close();
             sw.Stop();
             Console.WriteLine("Read: " + sw.Elapsed);
