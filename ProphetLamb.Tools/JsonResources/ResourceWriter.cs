@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 
 using ProphetLamb.Tools.IO;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -63,22 +64,28 @@ namespace ProphetLamb.Tools.JsonResources
 
         public void Generate()
         {
+            if (resourceSet is null)
+                return;
             // Dispose existing stream; avoid collission from multiple writers flushing.
             if (writer != null)
             {
                 writer.Dispose();
                 writer = null;
             }
-            // Generate ResourceGroups form resoruceSet
-            Task<ResourceGroup[]> resourceGroups = Task.Run(() => resourceSet.GroupBy(kvp => kvp.Value.GetType())
-                .Select(grouping => new ResourceGroup(grouping.Key, grouping.Select(kvp => kvp.Key).ToList(), grouping.Select(kvp => kvp.Value).ToList())).ToArray());
-            // Open file
-            using var jsonWriter = new JsonTextWriter(writer = new StreamWriter(resourceFileName, append: false));
-            // Create a serializer with the ResourceGroupConverter specific settings for the current culture.
-            JsonSerializer serializer = JsonSerializer.Create(ResourceGroupConverter.SettingsFactory(culture));
-            // Serialize the resourceGroups to the stream.
-            resourceGroups.Wait();
-            serializer.Serialize(jsonWriter, resourceGroups.Result);
+            lock(resourceSet)
+            {
+                writer = new StreamWriter(resourceFileName, append: false);
+                // Generate ResourceGroups form resoruceSet
+                ResourceGroup[] resourceGroups = resourceSet.GroupBy(kvp => kvp.Value.GetType())
+                    .Select(grouping => new ResourceGroup(grouping.Key, grouping.Select(kvp => kvp.Key).ToList(), grouping.Select(kvp => kvp.Value).ToList())).ToArray();
+                // Open file
+                using var jsonWriter = new JsonTextWriter(writer);
+                // Create a serializer with the ResourceGroupConverter specific settings for the current culture.
+                JsonSerializer serializer = JsonSerializer.Create(ResourceGroupConverter.SettingsFactory(culture));
+                // Serialize the resourceGroups to the stream.
+                //resourceGroups.Wait();
+                serializer.Serialize(jsonWriter, resourceGroups);
+            }
         }
 
         #region IDisposable support

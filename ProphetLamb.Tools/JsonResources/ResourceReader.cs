@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Linq;
 using Newtonsoft.Json;
@@ -14,7 +15,6 @@ namespace ProphetLamb.Tools.JsonResources
     public class ResourceReader : System.Resources.IResourceReader, IEnumerable<KeyValuePair<string, object>>
     {
         private readonly StreamReader reader;
-        private readonly ResourceManager resourceManager;
         private readonly CultureInfo culture;
         private IEnumerable<KeyValuePair<string, object>> resourceSetDictionary;
 
@@ -35,7 +35,6 @@ namespace ProphetLamb.Tools.JsonResources
         {
             if (resourceManager is null)
                 throw new ArgumentNullException(nameof(resourceManager));
-            this.resourceManager = resourceManager;
             culture = resourceCulture ?? CultureInfo.InvariantCulture;
             string fileName = resourceManager.GetResourceFileName(culture);
             if (!File.Exists(fileName))
@@ -50,10 +49,17 @@ namespace ProphetLamb.Tools.JsonResources
         /// </summary>
         public IEnumerable<KeyValuePair<string, object>> ReadToEnd()
         {
-            // Deserialize the ResourceGroups
-            JsonSerializer serializer = JsonSerializer.Create(ResourceGroupConverter.SettingsFactory(culture));
-            var resourceGroups = serializer.Deserialize(reader, typeof(ResourceGroup[])) as ResourceGroup[];
-            resourceSetDictionary = resourceGroups.AsParallel().SelectMany(x => x.ToDictionary());
+            Debug.Assert(reader != null, "reader != null");
+            if (!reader.EndOfStream)
+            {
+                // Deserialize the ResourceGroups
+                JsonSerializer serializer = JsonSerializer.Create(ResourceGroupConverter.SettingsFactory(culture));
+                var resourceGroups = serializer.Deserialize(reader, typeof(ResourceGroup[])) as ResourceGroup[];
+                if (resourceGroups != null)
+                    resourceSetDictionary = resourceGroups.AsParallel().SelectMany(x => x.ToDictionary());
+            }
+            if (resourceSetDictionary is null)
+                resourceSetDictionary = new Dictionary<string, object>();
             return resourceSetDictionary;
         }
 
@@ -83,7 +89,6 @@ namespace ProphetLamb.Tools.JsonResources
             return resourceSetDictionary.GetEnumerator();
         }
 
-        #region IDisposable members
         private bool disposedValue;
         protected virtual void Dispose(bool disposing)
         {
@@ -100,6 +105,5 @@ namespace ProphetLamb.Tools.JsonResources
         {
             Dispose(true);
         }
-        #endregion
     }
 }

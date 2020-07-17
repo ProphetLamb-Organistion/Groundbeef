@@ -250,8 +250,9 @@ namespace ProphetLamb.Tools.JsonResources
                 // Attempt to grab new resource set from resSets
                 if (!resourceSetTable.TryGetValue(newCulture.Name, out _loadedResourceSet))
                 {
+                    using var reader = new ResourceReader(this, newCulture);
                     // Create new ResourceSet from file
-                    _loadedResourceSet = ResourceSet.FromDictionary(new ResourceReader(this, newCulture));
+                    _loadedResourceSet = new ResourceSet(reader);
                     resourceSetTable.Add(newCulture.Name, _loadedResourceSet);
                 }
             }

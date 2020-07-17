@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace ProphetLamb.Tools.JsonResources
 {
-    internal class ResourceSet : IDisposable, IEnumerable<KeyValuePair<string, object>>
+    public class ResourceSet : IDisposable, IEnumerable<KeyValuePair<string, object>>
     {
-        private Dictionary<string, object> resourceTable = new Dictionary<string, object>(),
-                                           caseInsenstiveTable = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> resourceTable = new Dictionary<string, object>(),
+                                                    caseInsenstiveTable = new Dictionary<string, object>();
 
         public ResourceSet() {}
 
@@ -106,8 +106,6 @@ namespace ProphetLamb.Tools.JsonResources
             if (!disposedValue)
             {
                 disposedValue = true;
-                resourceTable = null;
-                caseInsenstiveTable = null;
             }
         }
 
