@@ -16,6 +16,7 @@ namespace ProphetLamb.Tools.UnitTest
         string[] array1;
         Array array2;
         int[] keys;
+        const string probe = "et.";
 
         [SetUp]
         public void Setup()
@@ -26,43 +27,55 @@ namespace ProphetLamb.Tools.UnitTest
             keys = new int[array1.Length];
             for (int i = 0; i < array1.Length; i++)
                 keys[i] = i;
-            var rnd = new Random();
-            keys = keys.OrderBy(x => rnd.Next()).ToArray();
+            var rng = new Random();
+            keys = keys.OrderBy(rng.Next).ToArray();
         }
 
         [Test]
         public void SortByKeysTest()
         {
             string[] sorted = array1.SortByKeys(keys);
+
             Assert.Pass();
         }
 
         [Test]
-        public void IndexOfTest()
+        public void TestArrayIndexOf()
         {
-            const string probe = "et.";
-            // Generic Array
-            Assert.AreEqual(6, CollectionExtention.IndexOf(array1, x => x == probe));
-            Assert.AreEqual(13, array1.IndexOfLast(x => x == probe));
-            Assert.AreEqual(2, array1.IndexOfAll(x => x == probe).Count());
-            // Array
-            Assert.AreEqual(6, CollectionExtention.IndexOf(array2, x => x is string str && str == probe));
-            Assert.AreEqual(13, array2.IndexOfLast(x => x is string str && str == probe));
-            Assert.AreEqual(2, array2.IndexOfAll(x => x is string str && str == probe).Count());
-            // span
-            ReadOnlySpan<string> span = array1.AsSpan();
-            Assert.AreEqual(6, (object)span.IndexOf(x => x == probe));
-            Assert.AreEqual(13, span.IndexOfLast(x => x == probe));
+            Assert.AreEqual(6, array2.IndexOf(0, array2.Length, x => x is string str && str == probe));
+            Assert.AreEqual(13, array2.IndexOfLast(0, array2.Length, x => x is string str && str == probe));
+            Assert.AreEqual(2, array2.IndexOfAll(0, array2.Length, x => x is string str && str == probe).Count());
+            // Parallel
+            Assert.AreNotEqual(-1, array2.ParallelIndexOfAny(0, array2.Length, x => x is string str && str == probe));
+            Assert.AreEqual(2, array2.ParallelIndexOfAll(0, array2.Length, x => x is string str && str == probe).Length);
+            
+            Assert.Pass();
         }
 
-        [Test]
-        public void FindTest()
-        {
-            const string probe = "et.";
-            Assert.AreEqual(probe, array1.FindFirst(x => x == probe));
-            Assert.AreEqual(probe, array1.FindLast(x => x == probe));
-            Assert.AreEqual(2, array1.FindAll(x => x == probe).Count());
-        }
+        // [Test]
+        // public void IndexOfTest()
+        // {
+        //     // Generic Array
+        //     Assert.AreEqual(6, array1.IndexOf(x => x == probe));
+        //     Assert.AreEqual(13, array1.IndexOfLast(x => x == probe));
+        //     Assert.AreEqual(2, array1.IndexOfAll(x => x == probe).Count());
+        //     // Array
+        //     Assert.AreEqual(6, array2.IndexOf(x => x is string str && str == probe));
+        //     Assert.AreEqual(13, array2.IndexOfLast(x => x is string str && str == probe));
+        //     Assert.AreEqual(2, array2.IndexOfAll(x => x is string str && str == probe).Count());
+        //     // span
+        //     ReadOnlySpan<string> span = array1.AsSpan();
+        //     Assert.AreEqual(6, (object)span.IndexOf(x => x == probe));
+        //     Assert.AreEqual(13, span.IndexOfLast(x => x == probe));
+        // }
+
+        // [Test]
+        // public void FindTest()
+        // {
+        //     Assert.AreEqual(probe, array1.FindFirst(x => x == probe));
+        //     Assert.AreEqual(probe, array1.FindLast(x => x == probe));
+        //     Assert.AreEqual(2, array1.FindAll(x => x == probe).Count());
+        // }
 
         [Test]
         public void HashCodeTest()
@@ -74,6 +87,8 @@ namespace ProphetLamb.Tools.UnitTest
                 hash3 = array3.GetHashCode(true);
             Assert.AreEqual(hash1, hash2);
             Assert.AreEqual(hash1, hash3);
+
+            Assert.Pass();
         }
     }
 }
