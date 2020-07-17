@@ -28,7 +28,7 @@ namespace ProphetLamb.Tools.JsonResources
             {
                 // Attempt to read existing resource set.
                 using var reader = new ResourceReader(resourceManager, culture);
-                resourceSet = ResourceSet.FromDictionary(reader.ReadToEnd());
+                resourceSet = new ResourceSet(reader);
             }
             else
             {

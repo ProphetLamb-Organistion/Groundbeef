@@ -30,7 +30,7 @@ namespace ProphetLamb.Tools.JsonResources
         }
 
         /// <summary>
-        /// Determins wherther to throw a ArgumentException if the specified key was not found or the <see cref="ResourceSet"/> is currently unloaded.
+        /// Determins wherther to throw a ArgumentException if the specified key was not found or the <see cref="ResourceSet"/>.
         /// </summary>
         /// <value>If <see cref="true"/> throws a ArguemntException; otherwise, returns <see cref="null"/>.</value>
         public bool ThrowExceptionOnResourceMiss { get; set; } = true;
@@ -72,19 +72,19 @@ namespace ProphetLamb.Tools.JsonResources
 
         private object InternalGetObject(in string key, bool ignoreCase)
         {
-            string iKey;
+            string l_key;
             Dictionary<string, object> resources;
             if (ignoreCase)
             {
                 resources = caseInsenstiveTable;
-                iKey = key.ToUpperInvariant();
+                l_key = key.ToUpperInvariant();
             }
             else
             {
                 resources = resourceTable;
-                iKey = key;
+                l_key = key;
             }
-            if (!resources.TryGetValue(iKey, out object value) && ThrowExceptionOnResourceMiss)
+            if (!resources.TryGetValue(l_key, out object value) && ThrowExceptionOnResourceMiss)
                 throw new ArgumentException("The key is not present in the dictionary or the ResourceSet is not loaded.");
             return value;
         }

@@ -60,11 +60,6 @@ namespace ProphetLamb.Tools.JsonResources
         public void Close()
         {
             reader.Close();
-            if (resourceSetDictionary != null)
-            {
-                // Add resource set to ResourceManager
-                resourceManager.AddResourceSet(culture, ResourceSet.FromDictionary(resourceSetDictionary), true);
-            }
         }
 
         IEnumerator<KeyValuePair<string, object>> IEnumerable<KeyValuePair<string, object>>.GetEnumerator()
