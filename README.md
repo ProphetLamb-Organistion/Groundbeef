@@ -83,12 +83,14 @@ A bi-directionally accessible dictionary implementation.
 * Indexer: A wrapper class of Dictionary tailored for the needs of Map.
 
 #### Concurrent
+
 <string>Concurrent dictionary</strong>
 The purpose here is to streamline the code produced for Dictionarys with ConcurrentDictionaries
 * Add(key, value)(keyvalue-pair): Adds the specified key and value to the concurrent dictionary. If the key already exists overwrites the exisiting value.
   Calls AddOrUpdate.
 * Remove(key): Removes the value with the specified key from the ConcurrentDictionary.
 * AddRange: Adds a range of keyvalue-pairs to the dictionary.
+
 ### Converters
 
 <strong>Base85</strong>
