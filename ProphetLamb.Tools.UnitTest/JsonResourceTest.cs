@@ -69,12 +69,12 @@ namespace ProphetLamb.Tools.UnitTest
             sw.Start();
             for (int i = 0; i < 2048; i++)
             {
-                rwEnglish.AddResource("ResNr_" + i, RandomString(4196));
+                rwEnglish.AddResource("ResNr_" + i, StringHelper.RandomString(4196));
             }
             rwEnglish.Close();
             for (int i = 0; i < 2048; i++)
             {
-                rwGerman.AddResource("ResNr_" + i, RandomString(4196));
+                rwGerman.AddResource("ResNr_" + i, StringHelper.RandomString(4196));
             }
             rwGerman.Close();
             sw.Stop();
@@ -90,21 +90,17 @@ namespace ProphetLamb.Tools.UnitTest
             rrEnglish.Close();
             sw.Stop();
             Console.WriteLine("Read: " + sw.Elapsed);
-            Assert.Pass();
-        }
-
-        private unsafe string RandomString(int length)
-        {
-            Random rng = new Random();
-            string str = StringHelper.FastAllocateString(length);
-            fixed (char* outStr = str)
+            foreach ((string key, object value) in germanSet)
             {
-                for (int i = 0; i != length; i++)
-                {
-                    outStr[i] = (char)rng.Next(65, 89); // Uppercase ASCII letters
-                }
+                if (!(value is string str && str.Length == 4196))
+                    Assert.Fail();
             }
-            return str;
+            foreach ((string key, object value) in englishSet)
+            {
+                if (!(value is string str && str.Length == 4196))
+                    Assert.Fail();
+            }
+            Assert.Pass();
         }
     }
 }

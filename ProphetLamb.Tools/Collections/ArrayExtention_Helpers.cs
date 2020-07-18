@@ -1,10 +1,10 @@
 ﻿#nullable enable
 
-using System.Threading;
-using System.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ProphetLamb.Tools.Collections
 {
@@ -50,13 +50,13 @@ namespace ProphetLamb.Tools.Collections
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static ParallelOptions DefaultOptions()
         {
-            return new ParallelOptions {MaxDegreeOfParallelism = Environment.ProcessorCount * 2 };
+            return new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount * 2 };
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static ParallelOptions DefaultOptions(in CancellationTokenSource src)
         {
-            return new ParallelOptions {MaxDegreeOfParallelism = Environment.ProcessorCount * 2, CancellationToken = src.Token};
+            return new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount * 2, CancellationToken = src.Token };
         }
     }
 }

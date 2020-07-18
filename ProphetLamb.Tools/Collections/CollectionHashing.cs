@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 namespace ProphetLamb.Tools.Collections
 {
     [System.Runtime.InteropServices.ComVisible(true)]
-    public static  class CollectionHashing
+    public static class CollectionHashing
     {
         /// <summary>
         /// Serves as the default hash function. If <paramref name="fromValues"/> is <see cref="true"/> returns the combined hashcode of all elements widthin the <see cref="Array"/>; otherwise returns the default hashcode.

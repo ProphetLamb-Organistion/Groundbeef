@@ -1,12 +1,13 @@
-﻿using System.Globalization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
 
 namespace ProphetLamb.Tools.JsonResources
 {
@@ -93,7 +94,7 @@ namespace ProphetLamb.Tools.JsonResources
             {
                 MissingMemberHandling = MissingMemberHandling.Ignore,
                 DateParseHandling = DateParseHandling.None,
-                Culture = serializerCulture??CultureInfo.InvariantCulture,
+                Culture = serializerCulture ?? CultureInfo.InvariantCulture,
                 TypeNameHandling = TypeNameHandling.Arrays,
                 Converters = { new ResourceGroupConverter() },
             };
@@ -124,10 +125,10 @@ namespace ProphetLamb.Tools.JsonResources
             {
                 ctor = typeof(List<>)
                     .MakeGenericType(elementType)
-                    .GetConstructor(new Type[]{typeof(int)});
+                    .GetConstructor(new Type[] { typeof(int) });
                 listConstructorTable.Add(guid, ctor);
             }
-            return ctor.Invoke(new object[]{capacity}) as IList;
+            return ctor.Invoke(new object[] { capacity }) as IList;
         }
     }
 }

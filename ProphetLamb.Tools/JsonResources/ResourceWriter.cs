@@ -1,11 +1,10 @@
 using Newtonsoft.Json;
 
 using ProphetLamb.Tools.IO;
-using System.Diagnostics;
+
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProphetLamb.Tools.JsonResources
 {
@@ -72,7 +71,7 @@ namespace ProphetLamb.Tools.JsonResources
                 writer.Dispose();
                 writer = null;
             }
-            lock(resourceSet)
+            lock (resourceSet)
             {
                 writer = new StreamWriter(resourceFileName, append: false);
                 // Generate ResourceGroups form resoruceSet

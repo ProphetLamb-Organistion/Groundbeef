@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices;
-using System.Text;
 using System;
 using NUnit.Framework;
 using ProphetLamb.Tools.Converters;
@@ -18,11 +16,11 @@ namespace ProphetLamb.Tools.UnitTest
         [Test]
         public unsafe void TestBase85()
         {
-            // Encode Hello World
-            string test = "Hello World!";
+            // Encode
+            string test = StringHelper.RandomString(10000000);
             Span<byte> bytes = Base85.Encode(test, 0, test.Length);
             Console.WriteLine(String.Join(',',bytes.ToArray()));
-            // Decode Hello World
+            // Decod
             string decoded = Base85.Decode(bytes, 0, bytes.Length).ToString();
             Console.WriteLine(decoded);
             Assert.AreEqual(test, decoded);

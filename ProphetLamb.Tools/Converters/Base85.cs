@@ -1,11 +1,7 @@
-using System.Runtime.Intrinsics.X86;
-using System.Runtime.Intrinsics;
 using System;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
-
-using ProphetLamb.Tools.Collections;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace ProphetLamb.Tools.Converters
 {
@@ -16,7 +12,7 @@ namespace ProphetLamb.Tools.Converters
     public static class Base85
     {
         #region Encoder
-        private static readonly char[] encoder = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-:+=^!/*?&<>()[]{}@%$#".ToCharArray();
+        private static readonly byte[] encoder = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-:+=^!/*?&<>()[]{}@%$#".ToCharArray().Select(Convert.ToByte).ToArray();
 
         public static Span<byte> Encode(ReadOnlySpan<char> chars, int offset, int count)
         {
@@ -48,26 +44,26 @@ namespace ProphetLamb.Tools.Converters
 
         private static unsafe void EncodeSpan(ReadOnlySpan<char> chars, Span<byte> base85)
         {
-            Debug.Assert(chars.Length*5 >= base85.Length*4);
+            Debug.Assert(chars.Length * 5 >= base85.Length * 4);
             int charsLength = chars.Length,
                 base85Length = base85.Length;
 #pragma warning disable RCS1001
-            fixed(byte *outPtr = &MemoryMarshal.GetReference(base85))
-            fixed(char *base85Ptr = &MemoryMarshal.GetReference(chars))
-            unchecked
+            fixed (byte* outPtr = &MemoryMarshal.GetReference(base85))
+            fixed (char* base85Ptr = &MemoryMarshal.GetReference(chars))
+                unchecked
 #pragma warning restore RCS1001
-            {
-                char *inPtr = base85Ptr;
-                for (int i = 0; i < base85Length; inPtr += 4)
                 {
-                    long value = (inPtr[0] << 24) | (inPtr[1] << 16) | (inPtr[2] << 8) | inPtr[3];
-                    outPtr[i++] = (byte)encoder[(value / num0) % 0x55];
-                    outPtr[i++] = (byte)encoder[(value / num1) % 0x55];
-                    outPtr[i++] = (byte)encoder[(value / num2) % 0x55];
-                    outPtr[i++] = (byte)encoder[(value / num3) % 0x55];
-                    outPtr[i++] = (byte)encoder[value % 0x55];
+                    char* inPtr = base85Ptr;
+                    for (int i = 0; i < base85Length; inPtr += 4)
+                    {
+                        long value = (inPtr[0] << 24) | (inPtr[1] << 16) | (inPtr[2] << 8) | inPtr[3];
+                        outPtr[i++] = encoder[(value / num0) % 0x55];
+                        outPtr[i++] = encoder[(value / num1) % 0x55];
+                        outPtr[i++] = encoder[(value / num2) % 0x55];
+                        outPtr[i++] = encoder[(value / num3) % 0x55];
+                        outPtr[i++] = encoder[value % 0x55];
+                    }
                 }
-            }
         }
         #endregion
 
@@ -90,7 +86,7 @@ namespace ProphetLamb.Tools.Converters
              0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, // 0xD0..0xDF
              0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, // 0xE0..0xEF
              0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, // 0xF0..0xFF
-        }.Cast<char>().ToArray();
+        }.Select(Convert.ToChar).ToArray();
 
         // Divisor and multiplier weights for encoding and decoding respectively, for consecutive bytes.
         private const long num0 = 0x31C84B1, num1 = 0x95EED, num2 = 0x1C39, num3 = 0x55;
@@ -125,28 +121,28 @@ namespace ProphetLamb.Tools.Converters
 
         private static unsafe void DecodeSpan(ReadOnlySpan<byte> base85, Span<char> chars)
         {
-            Debug.Assert(chars.Length*5 >= base85.Length*4);
+            Debug.Assert(chars.Length * 5 >= base85.Length * 4);
             int length = chars.Length;
 #pragma warning disable RCS1001
-            fixed(byte *charsPtr = &MemoryMarshal.GetReference(base85))
-            fixed(char *outPtr = &MemoryMarshal.GetReference(chars))
-            unchecked
+            fixed (byte* charsPtr = &MemoryMarshal.GetReference(base85))
+            fixed (char* outPtr = &MemoryMarshal.GetReference(chars))
+                unchecked
 #pragma warning restore RCS1001
-            {
-                byte *inPtr = charsPtr;
-                for(int i = 0; i < length; inPtr+=5)
                 {
-                    long value = decoder[inPtr[0]] * num0
-                               + decoder[inPtr[1]] * num1
-                               + decoder[inPtr[2]] * num2
-                               + decoder[inPtr[3]] * num3
-                               + decoder[inPtr[4]];
-                    outPtr[i++] = (char)((value >> 24) & 0xFF);
-                    outPtr[i++] = (char)((value >> 16) & 0xFF);
-                    outPtr[i++] = (char)((value >> 8) & 0xFF);
-                    outPtr[i++] = (char)((value >> 0) & 0xFF);
+                    byte* inPtr = charsPtr;
+                    for (int i = 0; i < length; inPtr += 5)
+                    {
+                        long value = decoder[inPtr[0]] * num0
+                                   + decoder[inPtr[1]] * num1
+                                   + decoder[inPtr[2]] * num2
+                                   + decoder[inPtr[3]] * num3
+                                   + decoder[inPtr[4]];
+                        outPtr[i++] = (char)((value >> 24) & 0xFF);
+                        outPtr[i++] = (char)((value >> 16) & 0xFF);
+                        outPtr[i++] = (char)((value >> 8) & 0xFF);
+                        outPtr[i++] = (char)((value >> 0) & 0xFF);
+                    }
                 }
-            }
         }
         #endregion
     }
