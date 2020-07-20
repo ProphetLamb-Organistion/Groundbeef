@@ -9,7 +9,7 @@ namespace ProphetLamb.Tools.JsonResources
         private readonly Dictionary<string, object> resourceTable = new Dictionary<string, object>(),
                                                     caseInsenstiveTable = new Dictionary<string, object>();
 
-        public ResourceSet() {}
+        public ResourceSet() { }
 
         /// <summary>
         /// Initializes a new instance of <see cref="ResourceSet"/>.

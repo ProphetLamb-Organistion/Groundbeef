@@ -52,30 +52,30 @@ namespace ProphetLamb.Tools.UnitTest
             Assert.Pass();
         }
 
-        // [Test]
-        // public void IndexOfTest()
-        // {
-        //     // Generic Array
-        //     Assert.AreEqual(6, array1.IndexOf(x => x == probe));
-        //     Assert.AreEqual(13, array1.IndexOfLast(x => x == probe));
-        //     Assert.AreEqual(2, array1.IndexOfAll(x => x == probe).Count());
-        //     // Array
-        //     Assert.AreEqual(6, array2.IndexOf(x => x is string str && str == probe));
-        //     Assert.AreEqual(13, array2.IndexOfLast(x => x is string str && str == probe));
-        //     Assert.AreEqual(2, array2.IndexOfAll(x => x is string str && str == probe).Count());
-        //     // span
-        //     ReadOnlySpan<string> span = array1.AsSpan();
-        //     Assert.AreEqual(6, (object)span.IndexOf(x => x == probe));
-        //     Assert.AreEqual(13, span.IndexOfLast(x => x == probe));
-        // }
+        [Test]
+        public void IndexOfTest()
+        {
+            // Generic Array
+            Assert.AreEqual(6, array1.IndexOf(x => x == probe));
+            Assert.AreEqual(13, array1.IndexOfLast(x => x == probe));
+            Assert.AreEqual(2, array1.IndexOfAll(x => x == probe).Count());
+            // Array
+            Assert.AreEqual(6, array2.IndexOf(x => x is string str && str == probe));
+            Assert.AreEqual(13, array2.IndexOfLast(x => x is string str && str == probe));
+            Assert.AreEqual(2, array2.IndexOfAll(x => x is string str && str == probe).Count());
+            // span
+            ReadOnlySpan<string> span = array1.AsSpan();
+            Assert.AreEqual(6, span.IndexOf(x => x == probe));
+            Assert.AreEqual(13, span.IndexOfLast(x => x == probe));
+        }
 
-        // [Test]
-        // public void FindTest()
-        // {
-        //     Assert.AreEqual(probe, array1.FindFirst(x => x == probe));
-        //     Assert.AreEqual(probe, array1.FindLast(x => x == probe));
-        //     Assert.AreEqual(2, array1.FindAll(x => x == probe).Count());
-        // }
+        [Test]
+        public void FindTest()
+        {
+            Assert.AreEqual(probe, array1.Find(x => x == probe));
+            Assert.AreEqual(probe, array1.FindLast(x => x == probe));
+            Assert.AreEqual(2, array1.FindAll(x => x == probe).Count());
+        }
 
         [Test]
         public void HashCodeTest()

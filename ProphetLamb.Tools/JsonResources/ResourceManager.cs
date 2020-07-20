@@ -157,7 +157,7 @@ namespace ProphetLamb.Tools.JsonResources
         public string GetString(in string key, in CultureInfo culture, bool? ignoreCase = null)
         {
             VerifyGet(key, culture);
-            return _loadedResourceSet.GetString(key, ignoreCase??CaseInsensitiveDefault);
+            return _loadedResourceSet.GetString(key, ignoreCase ?? CaseInsensitiveDefault);
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace ProphetLamb.Tools.JsonResources
         public object GetObject(in string key, in CultureInfo culture, bool? ignoreCase = null)
         {
             VerifyGet(key, culture);
-            return _loadedResourceSet.GetObject(key, ignoreCase??CaseInsensitiveDefault);
+            return _loadedResourceSet.GetObject(key, ignoreCase ?? CaseInsensitiveDefault);
         }
 
         internal void AddResourceSet(in CultureInfo resourceCulture, in ResourceSet resourceSet, bool overwriteExisting = false)
@@ -313,7 +313,7 @@ namespace ProphetLamb.Tools.JsonResources
                     }
                     foreach (ResourceSet resSet in resourceSetTable.Values)
                     {
-                        lock(resSet)
+                        lock (resSet)
                             resSet.Dispose();
                     }
                 }
