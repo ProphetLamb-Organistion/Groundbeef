@@ -7,7 +7,6 @@ namespace ProphetLamb.Tools.IO
     [System.Runtime.InteropServices.ComVisible(true)]
     public static class BinaryReaderExtention
     {
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static byte[] ReadAllBytes(this BinaryReader reader)
         {
             if (reader is null)

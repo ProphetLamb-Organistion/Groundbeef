@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 
-namespace ProphetLamb.Tools.Core
+namespace ProphetLamb.Tools.Localisation
 {
     [System.Runtime.InteropServices.ComVisible(true)]
     public static class DesignHelper

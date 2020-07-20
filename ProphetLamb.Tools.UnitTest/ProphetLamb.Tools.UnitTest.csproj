@@ -17,7 +17,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProphetLamb.Tools\ProphetLamb.Tools.csproj" />
+    <ProjectReference Include="..\ProphetLamb.Tools\Converters\ProphetLamb.Tools.Converters.csproj" />
+    <ProjectReference Include="..\ProphetLamb.Tools\Collections\ProphetLamb.Tools.Collections.csproj" />
+    <ProjectReference Include="..\ProphetLamb.Tools\Core\ProphetLamb.Tools.Core.csproj" />
+    <ProjectReference Include="..\ProphetLamb.Tools\Events\ProphetLamb.Tools.Events.csproj" />
+    <ProjectReference Include="..\ProphetLamb.Tools\IO\ProphetLamb.Tools.IO.csproj" />
+    <ProjectReference Include="..\ProphetLamb.Tools\JsonResources\ProphetLamb.Tools.JsonResources.csproj" />
+    <ProjectReference Include="..\ProphetLamb.Tools\Localisation\ProphetLamb.Tools.Localisation.csproj" />
+    <ProjectReference Include="..\ProphetLamb.Tools\WPF\ProphetLamb.Tools.WPF.csproj" />
   </ItemGroup>
 
 </Project>

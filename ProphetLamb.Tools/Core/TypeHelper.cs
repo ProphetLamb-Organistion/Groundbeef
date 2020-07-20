@@ -1,7 +1,4 @@
-﻿
-using ProphetLamb.Tools.Collections.Concurrent;
-
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +46,7 @@ namespace ProphetLamb.Tools
             return type != typeof(string) && type.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == iEnumerableType);
         }
 
-        private static readonly ConcurrentDictionary<Guid, Type> genericArgumentLookupCache = new ConcurrentDictionary<Guid, Type>();
+        private static readonly Dictionary<Guid, Type> genericArgumentLookupCache = new Dictionary<Guid, Type>();
         /// <summary>
         /// Returns the generic type argument of any enumerable type.
         /// </summary>
@@ -65,7 +62,10 @@ namespace ProphetLamb.Tools
                 genericArgument = type.GetGenericArguments()?[0];
                 if (genericArgument is null)
                     throw new ArgumentException(ExceptionResource.TYPE_NOTGENERIC, nameof(type));
-                genericArgumentLookupCache.Add(type.GUID, genericArgument);
+                lock(genericArgumentLookupCache)
+                {
+                    genericArgumentLookupCache.Add(type.GUID, genericArgument);
+                }
             }
             return genericArgument;
         }
