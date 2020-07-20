@@ -6,15 +6,37 @@ using System.Runtime.InteropServices;
 namespace ProphetLamb.Tools.Converters
 {
     /// <summary>
-    /// Z85 Encoding for UTF8 strings
+    /// Z85 encoder for bytes
     /// </summary>
     [ComVisible(true)]
     public static class Base85
     {
-        #region Encoder
-        private static readonly byte[] encoder = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-:+=^!/*?&<>()[]{}@%$#".ToCharArray().Select(Convert.ToByte).ToArray();
 
-        public static Span<byte> Encode(ReadOnlySpan<char> chars, int offset, int count)
+        // Divisor and multiplier weights for consecutive bytes for both encoding and decoding.
+        private const uint num0 = 0x31C84B1, num1 = 0x95EED, num2 = 0x1C39, num3 = 0x55;
+
+        #region Decode
+        /// <summary>
+        /// Converts a base85 encoded <see cref="ReadOnlySpan<char>"/> to the byte represenatation.
+        /// </summary>
+        /// <param name="chars">The base85 encoded <see cref="ReadOnlySpan<char>"/> to decode.</param>
+        /// <returns>The byte representation of the base85 encoded  <see cref="ReadOnlySpan<char>"/>.</returns>
+        public static Span<byte> Decode(ReadOnlySpan<char> chars) => Decode(chars, 0, chars.Length);
+        /// <summary>
+        /// Converts a portion of a base85 encoded <see cref="ReadOnlySpan<char>"/> to the byte represenatation.
+        /// </summary>
+        /// <param name="chars">The base85 encoded <see cref="ReadOnlySpan<char>"/> to decode.</param>
+        /// <param name="offset">The zero-based starting index of the section to decode.</param>
+        /// <returns>The byte representation of a protion of the base85 encoded  <see cref="ReadOnlySpan<char>"/>.</returns>
+        public static Span<byte> Decode(ReadOnlySpan<char> chars, int offset) => Decode(chars, offset, chars.Length - offset);
+        /// <summary>
+        /// Converts a portion of a base85 encoded <see cref="ReadOnlySpan<char>"/> to the byte represenatation.
+        /// </summary>
+        /// <param name="chars">The base85 encoded <see cref="ReadOnlySpan<char>"/> to decode.</param>
+        /// <param name="offset">The zero-based starting index of the section to decode.</param>
+        /// <param name="count">The number of chars in the section.</param>
+        /// <returns>The byte representation of a protion of the base85 encoded  <see cref="ReadOnlySpan<char>"/>.</returns>
+        public static Span<byte> Decode(ReadOnlySpan<char> chars, int offset, int count)
         {
             if (offset < 0)
                 throw new ArgumentOutOfRangeException(nameof(offset), ExceptionResource.INTEGER_POSITIVEZERO);
@@ -30,19 +52,21 @@ namespace ProphetLamb.Tools.Converters
                 base85Length = count * 5 / 4,
                 base85ChunksLength = charsChunksLength * 5 / 4,
                 base85AllocLength = base85ChunksLength + (charsRemainder == 0 ? 0 : 5);
-            Span<byte> base85 = new byte[base85AllocLength];
-            EncodeSpan(chars, base85);
+            Span<byte> bytes = new byte[base85AllocLength];
+            DecodeSpan(chars, bytes);
             if (charsRemainder == 0)
-                return base85;
+                return bytes;
             // Allocate one remainder chunk
             Span<char> leftoverChars = stackalloc char[4];
             for (int i = 0; i < charsRemainder; i++)
                 leftoverChars[i] = chars[offset + charsChunksLength + i];
-            EncodeSpan(leftoverChars, base85.Slice(base85ChunksLength));
-            return base85.Slice(0, base85Length);
+            DecodeSpan(leftoverChars, bytes.Slice(base85ChunksLength));
+            return bytes.Slice(0, base85Length);
         }
 
-        private static unsafe void EncodeSpan(ReadOnlySpan<char> chars, Span<byte> base85)
+        private static readonly byte[] decoder = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-:+=^!/*?&<>()[]{}@%$#".ToCharArray().Select(Convert.ToByte).ToArray();
+
+        private static unsafe void DecodeSpan(ReadOnlySpan<char> chars, Span<byte> base85)
         {
             Debug.Assert(chars.Length * 5 >= base85.Length * 4);
             int charsLength = chars.Length,
@@ -56,19 +80,67 @@ namespace ProphetLamb.Tools.Converters
                     char* inPtr = base85Ptr;
                     for (int i = 0; i < base85Length; inPtr += 4)
                     {
-                        long value = (inPtr[0] << 24) | (inPtr[1] << 16) | (inPtr[2] << 8) | inPtr[3];
-                        outPtr[i++] = encoder[(value / num0) % 0x55];
-                        outPtr[i++] = encoder[(value / num1) % 0x55];
-                        outPtr[i++] = encoder[(value / num2) % 0x55];
-                        outPtr[i++] = encoder[(value / num3) % 0x55];
-                        outPtr[i++] = encoder[value % 0x55];
+                        uint value = ((uint)inPtr[0] << 24) | ((uint)inPtr[1] << 16) | ((uint)inPtr[2] << 8) | (uint)inPtr[3];
+                        outPtr[i++] = decoder[(value / num0) % 0x55];
+                        outPtr[i++] = decoder[(value / num1) % 0x55];
+                        outPtr[i++] = decoder[(value / num2) % 0x55];
+                        outPtr[i++] = decoder[(value / num3) % 0x55];
+                        outPtr[i++] = decoder[value % 0x55];
                     }
                 }
         }
         #endregion
 
-        #region Decoder
-        private static readonly char[] decoder = new byte[]
+        #region Encoder
+        /// <summary>
+        /// Converts a <see cref="Span<byte>"/> to the base85 encoded representation.
+        /// </summary>
+        /// <param name="bytes">The <see cref="Span<byte>"/> to encode.</param>
+        /// <returns>The base85 encoded representation of the <see cref="ReadOnlySpan<byte>"/>.</returns>
+        public static Span<char> Encode(ReadOnlySpan<byte> bytes) => Encode(bytes, 0, bytes.Length);
+        /// <summary>
+        /// Converts a portion of a <see cref="Span<byte>"/> to the base85 encoded representation.
+        /// </summary>
+        /// <param name="bytes">The <see cref="Span<byte>"/> to encode.</param>
+        /// <param name="offset">The zero-based starting index of the section to encode.</param>
+        /// <returns>The base85 encoded representation of a portion of the <see cref="ReadOnlySpan<byte>"/>.</returns>
+        public static Span<char> Encode(ReadOnlySpan<byte> bytes, int offset) => Encode(bytes, offset, bytes.Length - offset);
+        /// <summary>
+        /// Converts a portion of a <see cref="Span<byte>"/> to the base85 encoded representation.
+        /// </summary>
+        /// <param name="bytes">The <see cref="Span<byte>"/> to encode.</param>
+        /// <param name="offset">The zero-based starting index of the section to encode.</param>
+        /// <param name="count">The number of bytes in the section.</param>
+        /// <returns>The base85 encoded representation of a portion of the <see cref="ReadOnlySpan<byte>"/>.</returns>
+        public static Span<char> Encode(ReadOnlySpan<byte> bytes, int offset, int count)
+        {
+            if (offset < 0)
+                throw new ArgumentOutOfRangeException(nameof(offset), ExceptionResource.INTEGER_POSITIVEZERO);
+            if (count < 0)
+                throw new ArgumentOutOfRangeException(nameof(count), ExceptionResource.INTEGER_POSITIVEZERO);
+            int base85Length = bytes.Length;
+            if (base85Length < offset + count)
+                throw new IndexOutOfRangeException();
+            if (base85Length == 0)
+                return Array.Empty<char>(); // Nothing to do here
+            int base85Remainder = count % 5, // Bytes remaining after all chunks were consumed
+                base85ChunksLength = count - base85Remainder, // Length of all complete input chunks
+                charsLength = count * 4 / 5, // Length of the result
+                charsChunksLength = base85ChunksLength * 4 / 5, // Length of all complete output chunks
+                charsAllocLength = charsChunksLength + (base85Remainder == 0 ? 0 : 4); // Allocate extra length for the remainder
+            Span<char> chars = new char[charsAllocLength];
+            EncodeSpan(bytes.Slice(offset), chars);
+            if (base85Remainder == 0)
+                return chars;
+            // Allocate one remainder chunk
+            Span<byte> leftoverBytes = stackalloc byte[5];
+            for (int i = 0; i < base85Remainder; i++)
+                leftoverBytes[i] = bytes[offset + base85ChunksLength + i];
+            EncodeSpan(leftoverBytes, chars.Slice(charsChunksLength));
+            return chars.Slice(0, charsLength); // Remove null-byte remainder bytes
+        }
+
+        private static readonly char[] encoder = new byte[]
         {
              0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, // 0x00..0x0F ASCII
              0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, // 0x10..0x1F
@@ -88,38 +160,7 @@ namespace ProphetLamb.Tools.Converters
              0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, // 0xF0..0xFF
         }.Select(Convert.ToChar).ToArray();
 
-        // Divisor and multiplier weights for encoding and decoding respectively, for consecutive bytes.
-        private const long num0 = 0x31C84B1, num1 = 0x95EED, num2 = 0x1C39, num3 = 0x55;
-
-        public static Span<char> Decode(ReadOnlySpan<byte> base85, int offset, int count)
-        {
-            if (offset < 0)
-                throw new ArgumentOutOfRangeException(nameof(offset), ExceptionResource.INTEGER_POSITIVEZERO);
-            if (count < 0)
-                throw new ArgumentOutOfRangeException(nameof(count), ExceptionResource.INTEGER_POSITIVEZERO);
-            int base85Length = base85.Length;
-            if (base85Length < offset + count)
-                throw new IndexOutOfRangeException();
-            if (base85Length == 0)
-                return Array.Empty<char>(); // Nothing to do here
-            int base85Remainder = count % 5, // Bytes remaining after all chunks were consumed
-                base85ChunksLength = count - base85Remainder, // Length of all complete input chunks
-                charsLength = count * 4 / 5, // Length of the result
-                charsChunksLength = base85ChunksLength * 4 / 5, // Length of all complete output chunks
-                charsAllocLength = charsChunksLength + (base85Remainder == 0 ? 0 : 4); // Allocate extra length for the remainder
-            Span<char> chars = new char[charsAllocLength];
-            DecodeSpan(base85.Slice(offset), chars);
-            if (base85Remainder == 0)
-                return chars;
-            // Allocate one remainder chunk
-            Span<byte> leftoverBytes = stackalloc byte[5];
-            for (int i = 0; i < base85Remainder; i++)
-                leftoverBytes[i] = base85[offset + base85ChunksLength + i];
-            DecodeSpan(leftoverBytes, chars.Slice(charsChunksLength));
-            return chars.Slice(0, charsLength); // Remove null-byte remainder bytes
-        }
-
-        private static unsafe void DecodeSpan(ReadOnlySpan<byte> base85, Span<char> chars)
+        private static unsafe void EncodeSpan(ReadOnlySpan<byte> base85, Span<char> chars)
         {
             Debug.Assert(chars.Length * 5 >= base85.Length * 4);
             int length = chars.Length;
@@ -132,11 +173,11 @@ namespace ProphetLamb.Tools.Converters
                     byte* inPtr = charsPtr;
                     for (int i = 0; i < length; inPtr += 5)
                     {
-                        long value = decoder[inPtr[0]] * num0
-                                   + decoder[inPtr[1]] * num1
-                                   + decoder[inPtr[2]] * num2
-                                   + decoder[inPtr[3]] * num3
-                                   + decoder[inPtr[4]];
+                        uint value = encoder[inPtr[0]] * num0
+                                   + encoder[inPtr[1]] * num1
+                                   + encoder[inPtr[2]] * num2
+                                   + encoder[inPtr[3]] * num3
+                                   + encoder[inPtr[4]];
                         outPtr[i++] = (char)((value >> 24) & 0xFF);
                         outPtr[i++] = (char)((value >> 16) & 0xFF);
                         outPtr[i++] = (char)((value >> 8) & 0xFF);
