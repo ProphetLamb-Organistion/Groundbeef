@@ -25,7 +25,7 @@ namespace ProphetLamb.Tools.Collections
             if (dictionary is null)
                 throw new ArgumentNullException(nameof(dictionary));
             if (dictionary is System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>)
-                throw new NotSupportedException("The dictionary can not be a ConcurrentDictionary.");
+                throw new NotSupportedException(ExceptionResource.DICTIONARY_CONCURRENT_NOTSUPPORTED);
             if (keyValuePairs is null)
                 throw new ArgumentNullException(nameof(keyValuePairs));
             foreach (KeyValuePair<TKey, TValue> kvpair in keyValuePairs)
@@ -44,7 +44,7 @@ namespace ProphetLamb.Tools.Collections
         public static void Add<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, in KeyValuePair<TKey, TValue> keyValuePair) where TKey : notnull
         {
             if (dictionary is System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>)
-                throw new NotSupportedException("The dictionary can not be a ConcurrentDictionary.");
+                throw new NotSupportedException(ExceptionResource.DICTIONARY_CONCURRENT_NOTSUPPORTED);
             dictionary.Add(keyValuePair.Key, keyValuePair.Value);
         }
 

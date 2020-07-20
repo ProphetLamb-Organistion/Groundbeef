@@ -51,7 +51,7 @@ namespace ProphetLamb.Tools.JsonResources
             // Read type
             string typeName = obj["type"].ToObject<string>();
             if (String.IsNullOrWhiteSpace(typeName))
-                throw new JsonSerializationException("The property tag type string cannot be null or whitespace.");
+                throw new JsonSerializationException(ExceptionResource.STRING_NULLWHITESPACE);
             if (!elementTypeTable.TryGetValue(typeName, out Type resourcesType))
             {
                 resourcesType = Type.GetType(typeName);
@@ -60,16 +60,16 @@ namespace ProphetLamb.Tools.JsonResources
             // Read keys
             IList<string> keys = obj["keys"].ToObject<IList<string>>();
             if (keys is null)
-                throw new JsonSerializationException("The property tag keys List<string> cannot be null.");
+                throw new JsonSerializationException(ExceptionResource.VALUE_NOTNULL);
             // Read values
             JToken[] jValues = obj["values"].ToArray();
             IList values = MakeGenericList(resourcesType, jValues.Length);
             for (int i = 0; i < jValues.Length; i++)
                 values.Add(JTokenToObject(jValues[i], resourcesType));
             if (values is null)
-                throw new JsonSerializationException("The property tag values List<string> cannot be null.");
+                throw new JsonSerializationException(ExceptionResource.VALUE_NOTNULL);
             if (keys.Count != values.Count)
-                throw new JsonSerializationException("The number of elements in keys does not equal the number of elements in values.");
+                throw new JsonSerializationException(ExceptionResource.COLLECTION_LENGTH_INVALID);
             return new ResourceGroup(resourcesType, keys, values);
         }
 

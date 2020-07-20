@@ -47,9 +47,9 @@ namespace ProphetLamb.Tools.Localisation
                     throw new ArgumentNullException(nameof(key));
                 bool isValidKey = ValidKey(key);
                 if (!isValidKey && String.IsNullOrEmpty(DefaultManager))
-                    throw new ArgumentException("Key cannot be empty, and must be in the valid [ManagerName].[ResourceKey] format. Key = \"" + key + "\"");
+                    throw new ArgumentException(ExceptionResource.STRING_NULLEMPTY, nameof(key));
                 if (DesignHelper.IsInDesignModeStatic)
-                    return key; //throw new Exception("Design mode is not supported.");
+                    return key;
                 if (isValidKey)
                     return ResourceManagerService.GetResourceString(GetManagerKey(key), GetResourceKey(key));
                 else

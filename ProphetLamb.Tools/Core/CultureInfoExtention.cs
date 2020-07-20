@@ -35,7 +35,7 @@ namespace ProphetLamb.Tools.Core
                 if (!Char.IsLetterOrDigit(c) && c != '-' && c != '_')
                 {
                     if (throwException)
-                        throw new ArgumentException("Invalid culture name.", cultureName);
+                        throw new ArgumentException(ExceptionResource.CULTURE_INVALID, cultureName);
                     return false;
                 }
             }

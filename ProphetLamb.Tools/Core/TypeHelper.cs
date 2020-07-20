@@ -63,7 +63,7 @@ namespace ProphetLamb.Tools
             {
                 genericArgument = type.GetGenericArguments()?[0];
                 if (genericArgument is null)
-                    throw new ArgumentException("The type does not have at least one generic type argument.", nameof(type));
+                    throw new ArgumentException(ExceptionResource.TYPE_NOTGENERIC, nameof(type));
                 genericArgumentLookupCache.Add(type.GUID, genericArgument);
             }
             return genericArgument;

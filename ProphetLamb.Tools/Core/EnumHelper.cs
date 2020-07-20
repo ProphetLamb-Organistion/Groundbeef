@@ -26,7 +26,7 @@ namespace ProphetLamb.Tools
         public static T Parse(in string value)
         {
             if (String.IsNullOrEmpty(value))
-                throw new ArgumentException("Value cannot be null or empty.", nameof(value));
+                throw new ArgumentException(ExceptionResource.STRING_NULLEMPTY, nameof(value));
             return (T)Enum.Parse(typeof(T), value, true);
         }
 
@@ -49,7 +49,7 @@ namespace ProphetLamb.Tools
             if (resourceManagerProvider is null)
                 throw new ArgumentNullException(nameof(resourceManagerProvider));
             if (String.IsNullOrEmpty(resourceKey))
-                throw new ArgumentException("Value cannot be null or empty.", nameof(resourceKey));
+                throw new ArgumentException(ExceptionResource.STRING_NULLEMPTY, nameof(resourceKey));
             foreach (PropertyInfo staticProperty in resourceManagerProvider.GetProperties(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public))
             {
                 if (staticProperty.PropertyType == typeof(System.Resources.ResourceManager))

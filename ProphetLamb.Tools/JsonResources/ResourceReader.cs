@@ -38,7 +38,7 @@ namespace ProphetLamb.Tools.JsonResources
             culture = resourceCulture ?? CultureInfo.InvariantCulture;
             string fileName = resourceManager.GetResourceFileName(culture);
             if (!File.Exists(fileName))
-                throw new FileNotFoundException("The resource .json-file does not exist on the device", fileName);
+                throw new FileNotFoundException(ExceptionResource.FILE_NOTONDEVICE, fileName);
             reader = new StreamReader(fileName);
             if (readToEnd)
                 ReadToEnd();
@@ -71,21 +71,21 @@ namespace ProphetLamb.Tools.JsonResources
         IEnumerator<KeyValuePair<string, object>> IEnumerable<KeyValuePair<string, object>>.GetEnumerator()
         {
             if (resourceSetDictionary is null)
-                throw new InvalidOperationException("Call ReadToEnd before enumerating.");
+                throw new InvalidOperationException();
             return resourceSetDictionary.GetEnumerator();
         }
 
         public IDictionaryEnumerator GetEnumerator()
         {
             if (resourceSetDictionary is null)
-                throw new InvalidOperationException("Call ReadToEnd before enumerating.");
+                throw new InvalidOperationException(ExceptionResource.RESOURCEREADER_REQUIRE_READTOEND);
             return resourceSetDictionary.GetDictionaryEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             if (resourceSetDictionary is null)
-                throw new InvalidOperationException("Call ReadToEnd before enumerating.");
+                throw new InvalidOperationException(ExceptionResource.RESOURCEREADER_REQUIRE_READTOEND);
             return resourceSetDictionary.GetEnumerator();
         }
 

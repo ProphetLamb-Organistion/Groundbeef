@@ -97,6 +97,24 @@ namespace ProphetLamb.Tools {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The value cannot be null or whitespace..
+        /// </summary>
+        internal static string STRING_NULLWHITESPACE {
+            get {
+                return ResourceManager.GetString("STRING_NULLWHITESPACE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value cannot be null or empty..
+        /// </summary>
+        internal static string STRING_NULLEMPTY {
+            get {
+                return ResourceManager.GetString("STRING_NULLEMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The list must contain at least one element..
         /// </summary>
         internal static string LIST_NOTEMPTY {
@@ -120,6 +138,78 @@ namespace ProphetLamb.Tools {
         internal static string VALUE_NOTNULL {
             get {
                 return ResourceManager.GetString("VALUE_NOTNULL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The dictionary can not be a ConcurrentDictionary..
+        /// </summary>
+        internal static string DICTIONARY_CONCURRENT_NOTSUPPORTED {
+            get {
+                return ResourceManager.GetString("DICTIONARY_CONCURRENT_NOTSUPPORTED", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid culture name..
+        /// </summary>
+        internal static string CULTURE_INVALID {
+            get {
+                return ResourceManager.GetString("CULTURE_INVALID", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The type does not have at least one generic type argument..
+        /// </summary>
+        internal static string TYPE_NOTGENERIC {
+            get {
+                return ResourceManager.GetString("TYPE_NOTGENERIC", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The number of elements in the collection do not match the expected value..
+        /// </summary>
+        internal static string COLLECTION_LENGTH_INVALID {
+            get {
+                return ResourceManager.GetString("COLLECTION_LENGTH_INVALID", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The file specified does not exisit on the device..
+        /// </summary>
+        internal static string FILE_NOTONDEVICE {
+            get {
+                return ResourceManager.GetString("FILE_NOTONDEVICE", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to A resource set with the same culture already exisits..
+        /// </summary>
+        internal static string RESOURCESET_CULTURE_EXISTS {
+            get {
+                return ResourceManager.GetString("RESOURCESET_CULTURE_EXISTS", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Call ReadToEnd before calling this method..
+        /// </summary>
+        internal static string RESOURCEREADER_REQUIRE_READTOEND {
+            get {
+                return ResourceManager.GetString("RESOURCEREADER_REQUIRE_READTOEND", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The key is not present in the dictionary..
+        /// </summary>
+        internal static string RESOURCESET_RESOURCEMISS {
+            get {
+                return ResourceManager.GetString("RESOURCESET_RESOURCEMISS", resourceCulture);
             }
         }
     }

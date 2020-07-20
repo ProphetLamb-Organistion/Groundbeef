@@ -25,7 +25,7 @@ namespace ProphetLamb.Tools.JsonResources
                 if (en.Key is string key)
                     Add(key, en.Value);
                 else
-                    throw new InvalidCastException("One or more keys in the dictonary are null or not a string.");
+                    throw new InvalidCastException(ExceptionResource.STRING_NULLEMPTY);
             }
         }
 
@@ -42,7 +42,7 @@ namespace ProphetLamb.Tools.JsonResources
         /// <param name="ignoreCase">Whether the key is treated case insensitive.</param>
         public string GetString(in string key, bool ignoreCase = false)
         {
-            return InternalGetObject(key, ignoreCase) is string str ? str : throw new InvalidCastException("The object at the key is no string.");
+            return InternalGetObject(key, ignoreCase) is string str ? str : throw new InvalidCastException(ExceptionResource.STRING_NULLEMPTY);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace ProphetLamb.Tools.JsonResources
         public void Add(in string key, in object value)
         {
             if (String.IsNullOrWhiteSpace(key))
-                throw new ArgumentException($"'{nameof(key)}' cannot be null or whitespace", nameof(key));
+                throw new ArgumentException(ExceptionResource.STRING_NULLWHITESPACE, nameof(key));
             if (value is null)
                 throw new ArgumentNullException(nameof(value));
             resourceTable.Add(key, value);
@@ -85,7 +85,7 @@ namespace ProphetLamb.Tools.JsonResources
                 l_key = key;
             }
             if (!resources.TryGetValue(l_key, out object value) && ThrowExceptionOnResourceMiss)
-                throw new ArgumentException("The key is not present in the dictionary or the ResourceSet is not loaded.");
+                throw new ArgumentException(ExceptionResource.RESOURCESET_RESOURCEMISS);
             return value;
         }
 

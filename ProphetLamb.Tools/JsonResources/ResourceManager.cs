@@ -192,13 +192,13 @@ namespace ProphetLamb.Tools.JsonResources
             string cultureName = resourceCulture.Name,
                    fileName = GetResourceFileName(baseFilePath, resourceCulture);
             if (resourceSetTable.ContainsKey(cultureName))
-                throw new ArgumentException("A resource set with the same culture already exisits");
+                throw new ArgumentException(ExceptionResource.RESOURCESET_CULTURE_EXISTS);
             if (!File.Exists(fileName))
-                throw new FileNotFoundException("The resource set .json-file does not exist in the device.", fileName);
+                throw new FileNotFoundException(ExceptionResource.FILE_NOTONDEVICE, fileName);
             if (overwriteExisting && resourceSetTable.TryGetValue(cultureName, out ResourceSet _dispose))
             {
                 resourceSetTable.Remove(cultureName);
-                _dispose.Dispose();                
+                _dispose.Dispose();
             }
             resourceSetTable.Add(cultureName, resourceSet);
         }

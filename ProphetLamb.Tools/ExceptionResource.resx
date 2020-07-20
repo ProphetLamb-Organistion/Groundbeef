@@ -129,6 +129,12 @@
   <data name="INTEGER_POSITIVEZERO" xml:space="preserve">
     <value>The value must be a nonnegative integer.</value>
   </data>
+  <data name="STRING_NULLEMPTY" xml:space="preserve">
+    <value>The value cannot be null or empty.</value>
+  </data>
+  <data name="STRING_NULLWHITESPACE" xml:space="preserve">
+    <value>The value cannot be null or whitespace.</value>
+  </data>
   <data name="LIST_NOTEMPTY" xml:space="preserve">
     <value>The list must contain at least one element.</value>
   </data>
@@ -137,5 +143,29 @@
   </data>
   <data name="VALUE_NOTNULL" xml:space="preserve">
     <value>The value cannot be null.</value>
+  </data>
+  <data name="DICTIONARY_CONCURRENT_NOTSUPPORTED">
+    <value>The dictionary can not be a ConcurrentDictionary.</value>
+  </data>
+  <data name="CULTURE_INVALID">
+    <value>Invalid culture name.</value>
+  </data>
+  <data name="TYPE_NOTGENERIC">
+    <value>The type does not have at least one generic type argument.</value>
+  </data>
+  <data name="COLLECTION_LENGTH_INVALID">
+    <value>The number of elements in the collection do not match the expected value.</value>
+  </data>
+  <data name="FILE_NOTONDEVICE">
+    <value>The file specified does not exisit on the device.</value>
+  </data>
+  <data name="RESOURCESET_CULTURE_EXISTS">
+    <value>A resource set with the same culture already exisits.</value>
+  </data>
+  <data name="RESOURCEREADER_REQUIRE_READTOEND">
+    <value>Call ReadToEnd before calling this method.</value>
+  </data>
+  <data name="RESOURCESET_RESOURCEMISS">
+    <value>The key is not present in the dictionary.</value>
   </data>
 </root>
