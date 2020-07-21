@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -22,19 +23,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)" />
+    <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SharedResources\ProphetLamb.Tools.SharedResources.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\SharedResources\ProphetLamb.Tools.SharedResources.csproj" />
-    <ProjectReference Include="..\IO\ProphetLamb.Tools.IO.csproj" />
-    <ProjectReference Include="..\Core\ProphetLamb.Tools.Core.csproj" />
-    <ProjectReference Include="..\Events\ProphetLamb.Tools.Events.csproj" />
-    <ProjectReference Include="..\Collections\ProphetLamb.Tools.Collections.csproj" />
+    <ProjectReference Include="..\..\SharedResources\ProphetLamb.Tools.SharedResources.csproj" />
+    <ProjectReference Include="..\..\IO\ProphetLamb.Tools.IO.csproj" />
+    <ProjectReference Include="..\..\Core\ProphetLamb.Tools.Core.csproj" />
+    <ProjectReference Include="..\..\Events\ProphetLamb.Tools.Events.csproj" />
+    <ProjectReference Include="..\..\Collections\ProphetLamb.Tools.Collections.csproj" />
+    <ProjectReference Include="..\..\Reflection\ProphetLamb.Tools.Reflection.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 
-namespace ProphetLamb.Tools.JsonResources
+namespace ProphetLamb.Tools.Json.Resources
 {
     [System.Runtime.InteropServices.ComVisible(true)]
     public class ResourceWriter : System.Resources.IResourceWriter

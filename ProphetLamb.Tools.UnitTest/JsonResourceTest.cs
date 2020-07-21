@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 
-using ProphetLamb.Tools.JsonResources;
+using ProphetLamb.Tools.Json.Resources;
 using System;
 
 namespace ProphetLamb.Tools.UnitTest

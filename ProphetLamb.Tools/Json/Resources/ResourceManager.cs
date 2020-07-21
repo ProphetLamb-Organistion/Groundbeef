@@ -9,7 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace ProphetLamb.Tools.JsonResources
+namespace ProphetLamb.Tools.Json.Resources
 {
     [System.Runtime.InteropServices.ComVisible(true)]
     public class ResourceManager : IDisposable

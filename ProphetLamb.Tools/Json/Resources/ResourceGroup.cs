@@ -9,7 +9,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
-namespace ProphetLamb.Tools.JsonResources
+namespace ProphetLamb.Tools.Json.Resources
 {
     [JsonConverter(typeof(ResourceGroupConverter))]
     internal class ResourceGroup

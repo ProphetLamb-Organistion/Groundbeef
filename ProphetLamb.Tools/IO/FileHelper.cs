@@ -46,5 +46,24 @@ namespace ProphetLamb.Tools.IO
                 Directory.CreateDirectory(dirPath);
             return new FileStream(fileName, create ? FileMode.OpenOrCreate : FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite); // in order for the fileshare to work rwx we need to specify wrx access.
         }
+
+        /// <summary>
+        /// Returns whether the file at the path specified is a directory or not.
+        /// </summary>
+        /// <param name="filePath">The path leading to the file incuding the name and extention.</param>
+        /// <returns><see cref="true"/> if the file is a directory; otherwise, <see cref="false"/>.</returns>
+        public static bool IsDirectory(string filePath)
+        {
+            return IsDirectory(new FileInfo(filePath));
+        }
+        /// <summary>
+        /// Returns whether the <see cref="FileInfo"/> is a directory or not.
+        /// </summary>
+        /// <param name="fileInfo">The <see cref="FileInfo"/>.</param>
+        /// <returns><see cref="true"/> if the file is a directory; otherwise, <see cref="false"/>.</returns>
+        public static bool IsDirectory(this FileInfo fileInfo)
+        {
+            return (fileInfo.Attributes & FileAttributes.Directory) == FileAttributes.Directory;
+        }
     }
 }

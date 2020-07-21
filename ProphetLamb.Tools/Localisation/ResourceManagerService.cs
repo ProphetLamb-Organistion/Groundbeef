@@ -30,13 +30,11 @@ namespace ProphetLamb.Tools.Localisation
         }
 
         /// <summary>
-        /// Retreives a string resource with the given key from the given
-        /// resource manager. 
+        /// Retreives a string resource with the given key from the given /// resource manager. 
         /// Will load the string relevant to the current culture.
         /// </summary>
         /// <param name="managerName">Name of the ResourceManager</param>
         /// <param name="resourceKey">Resource to lookup</param>
-        /// <returns></returns>
         public static string GetResourceString(in string managerName, in string resourceKey)
         {
             string resource = String.Empty;

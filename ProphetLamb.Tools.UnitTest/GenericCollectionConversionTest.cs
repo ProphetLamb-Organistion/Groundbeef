@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using NUnit.Framework;
 using ProphetLamb.Tools.Collections;
 using ProphetLamb.Tools.Core;
+using ProphetLamb.Tools.Reflection;
 
 namespace ProphetLamb.Tools.UnitTest
 {
@@ -24,7 +26,7 @@ namespace ProphetLamb.Tools.UnitTest
         [Test]
         public void ArrayTest()
         {
-            var array = (char[])GenericCollectionConversion.ToGenericArray(enumerable, out _);
+            var array = (char[])CollectionsConvert.ToGenericArray(enumerable, out _);
             Assert.NotNull(array);
             Assert.AreEqual(LoremIpsu.Length, array.Length);
 
@@ -34,7 +36,7 @@ namespace ProphetLamb.Tools.UnitTest
         [Test]
         public void ListTest()
         {
-            var array = (List<char>)GenericCollectionConversion.ToGenericList(enumerable, out _);
+            var array = (List<char>)CollectionsConvert.ToGenericList(enumerable, out _);
             Assert.NotNull(array);
             Assert.AreEqual(LoremIpsu.Length, array.Count);
 

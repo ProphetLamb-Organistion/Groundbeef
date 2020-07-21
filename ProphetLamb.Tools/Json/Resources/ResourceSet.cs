@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace ProphetLamb.Tools.JsonResources
+namespace ProphetLamb.Tools.Json.Resources
 {
     public class ResourceSet : IDisposable, IEnumerable<KeyValuePair<string, object>>
     {

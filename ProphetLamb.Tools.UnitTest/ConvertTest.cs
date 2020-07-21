@@ -1,3 +1,4 @@
+using System.Text;
 using System;
 using NUnit.Framework;
 using ProphetLamb.Tools.Converters;
@@ -18,11 +19,11 @@ namespace ProphetLamb.Tools.UnitTest
         {
             // Encode
             string test = StringHelper.RandomString(10000000);
-            Span<byte> bytes = Base85.Encode(test, 0, test.Length);
-            Console.WriteLine(String.Join(',',bytes.ToArray()));
-            // Decod
-            string decoded = Base85.Decode(bytes, 0, bytes.Length).ToString();
-            Console.WriteLine(decoded);
+            ReadOnlySpan<char> encoded = Base85.Encode(Encoding.UTF8.GetBytes(test), 0, test.Length);
+            //Console.WriteLine(encoded.ToString());
+            // Decode
+            byte[] decoded = Base85.Decode(encoded, 0, encoded.Length).ToArray();
+            //Console.WriteLine(Encoding.UTF8.GetString(decoded));
             Assert.AreEqual(test, decoded);
 
             Assert.Pass();
