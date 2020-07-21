@@ -4,28 +4,8 @@ using System.Text;
 
 namespace ProphetLamb.Tools.Json.Settings
 {
-    public static class SettingsProviderDesignGenerator
+    public class SettingsProviderDesignGenerator
     {
-        public static void GenerateDesigner<T_POGO>(ISettingsProvider<T_POGO>? provider, System.IO.TextWriter? writer)
-        {
-            if (provider is null)
-                throw new ArgumentNullException(nameof(provider));
-            if (writer is null)
-                throw new ArgumentNullException(nameof(writer));
-            Type pogoType = typeof(T_POGO);
-            var helper = new SettingsProviderDesignGeneratorHelper(pogoType, provider.FileName, false);
-            var sb = new StringBuilder();
-            helper.GenerateHeading(sb);
-            foreach(var node in pogoType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-            {
-                if (node.PropertyType.IsValueType)
-                    helper.GenerateValueTypeNode(sb, node);
-                else
-                    helper.GenerateNode(sb, node);
-            }
-            helper.GenerateFooter(sb);
-            writer.Write(sb);
-        }
     }
 
     internal class SettingsProviderDesignGeneratorHelper
@@ -41,7 +21,26 @@ namespace ProphetLamb.Tools.Json.Settings
         private int _indentation;
         private string _indent = String.Empty;
 
-        public SettingsProviderDesignGeneratorHelper(Type? pogoType, string? fileName, bool publicAccessibility)
+        public static void GenerateDesignerSource<T_POGO>(ISettingsProvider<T_POGO>? provider, StringBuilder? syntaxBuilder)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+            if (syntaxBuilder is null)
+                throw new ArgumentNullException(nameof(syntaxBuilder));
+            Type pogoType = typeof(T_POGO);
+            var helper = new SettingsProviderDesignGeneratorHelper(pogoType, provider.FileName, false);
+            helper.GenerateHeading(syntaxBuilder);
+            foreach(var node in pogoType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if (node.PropertyType.IsValueType)
+                    helper.GenerateValueTypeNode(syntaxBuilder, node);
+                else
+                    helper.GenerateNode(syntaxBuilder, node);
+            }
+            helper.GenerateFooter(syntaxBuilder);
+        }
+
+        private SettingsProviderDesignGeneratorHelper(Type? pogoType, string? fileName, bool publicAccessibility)
         {
             if (pogoType is null)
                 throw new ArgumentNullException(nameof(pogoType));
@@ -63,7 +62,7 @@ namespace ProphetLamb.Tools.Json.Settings
             }
         }
 
-        public void GenerateHeading(StringBuilder syntaxBuilder)
+        private void GenerateHeading(StringBuilder syntaxBuilder)
         {
             // using System;
             //
@@ -100,7 +99,7 @@ namespace ProphetLamb.Tools.Json.Settings
                 .Append(_indent).Append('}').Append(_newLine);
         }
 
-        public void GenerateFooter(StringBuilder syntaxBuilder)
+        private void GenerateFooter(StringBuilder syntaxBuilder)
         {
             Indentation--;
                 // }
@@ -112,7 +111,7 @@ namespace ProphetLamb.Tools.Json.Settings
                 .Append(_indent).Append('}').Append(_newLine);
         }
 
-        public void GenerateValueTypeNode(StringBuilder syntaxBuilder, PropertyInfo nodePropertyInfo)
+        private void GenerateValueTypeNode(StringBuilder syntaxBuilder, PropertyInfo nodePropertyInfo)
         {
             Type type = nodePropertyInfo.PropertyType;
             string typeName = type.FullName ?? throw new InvalidOperationException("the fullname of the type is undefinded."),
@@ -139,7 +138,7 @@ namespace ProphetLamb.Tools.Json.Settings
                 .Append(_indent).Append('}').Append(_newLine);
         }
 
-        public void GenerateNode(StringBuilder syntaxBuilder, PropertyInfo nodePropertyInfo)
+        private void GenerateNode(StringBuilder syntaxBuilder, PropertyInfo nodePropertyInfo)
         {
             Type type = nodePropertyInfo.PropertyType;
             string typeName = type.FullName ?? throw new InvalidOperationException("the fullname of the type is undefinded."),
