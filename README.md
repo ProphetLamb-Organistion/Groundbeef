@@ -127,7 +127,7 @@ Static class multiple ResourceManager can be registered to in order to access th
 
 <strong>Colors</strong>
 For System.Media & System.Drawing colors.
-* GetLightness: Returns the lightness of a color using the W3C alogrithm.
+* GetLightness: Returns the lightness of a color using the HVP alogrithm.
 * ToDrawingColor: Converts the System.Media.Color to a System.Drawing.Color.
 * ToMediaColor: Converts System.Drawing.Color to a System.Media.Color.
 
