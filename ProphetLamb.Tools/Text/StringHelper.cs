@@ -12,6 +12,11 @@ namespace ProphetLamb.Tools.Text
         private static readonly char[] defaultAlphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /// <summary>
+        /// Calls the internal FastAllocateString method.
+        /// </summary>
+        /// <param name="length"></param>
+        /// <returns></returns>
         public static string? FastAllocateString(int length) => methodFastAllocateString.Invoke(null, new object[] { length }) as string;
 
         /// <summary>

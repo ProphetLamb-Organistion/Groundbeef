@@ -37,7 +37,7 @@ namespace ProphetLamb.Tools.Text
         /// </summary>
         /// <param name="text">The source <see cref="string"/> to parse.</param>
         /// <param name="mode">The <see cref="CharEqualityComparisions"/> determining how two chars are compared</param>
-        public Tokenizer(in string text, CharEqualityComparisions mode)
+        public Tokenizer(in string text, in CharEqualityComparisions mode)
         {
             _sourceText = text;
             _comparer = mode switch
@@ -53,7 +53,7 @@ namespace ProphetLamb.Tools.Text
         /// </summary>
         /// <param name="text">The source <see cref="string"/> to parse.</param>
         /// <param name="comparer">The <see cref="IEqualityComparer{char}"/> used to determine if two chars are equal.</param>
-        public Tokenizer(in string text, IEqualityComparer<char> comparer)
+        public Tokenizer(in string text, in IEqualityComparer<char> comparer)
         {
             _sourceText = text;
             _comparer = comparer;

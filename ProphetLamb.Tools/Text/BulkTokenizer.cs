@@ -4,7 +4,7 @@ namespace ProphetLamb.Tools.Text
 {
 
     /// <summary>
-    /// Splits a string by tokens and enumerates the elements inbetween tokens.
+    /// Splits a string by tokens and returns the elements inbetween tokens.
     /// </summary>
     [System.Runtime.InteropServices.ComVisible(true)]
     public class BulkTokenizer

@@ -1,5 +1,7 @@
+using System.Security.AccessControl;
 using System;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace ProphetLamb.Tools.IO
 {
@@ -52,7 +54,7 @@ namespace ProphetLamb.Tools.IO
         /// </summary>
         /// <param name="filePath">The path leading to the file incuding the name and extention.</param>
         /// <returns><see cref="true"/> if the file is a directory; otherwise, <see cref="false"/>.</returns>
-        public static bool IsDirectory(string? filePath)
+        public static bool IsDirectory(string filePath)
         {
             return IsDirectory(new FileInfo(filePath));
         }
@@ -64,6 +66,36 @@ namespace ProphetLamb.Tools.IO
         public static bool IsDirectory(this FileInfo fileInfo)
         {
             return (fileInfo.Attributes & FileAttributes.Directory) == FileAttributes.Directory;
+        }
+
+        /// <summary>
+        /// Returns the SHA1 hash of a file.
+        /// </summary>
+        /// <param name="fileName">The <see cref="string"/> defining the path the file, its name and extention.</param>
+        /// <returns>The SHA1 hash of the file.</returns>
+        public static byte[] GetFileSHA1Hash(string fileName) => GetFileHash(fileName, SHA1.Create());
+
+        /// <summary>
+        /// Returns the hash of a file, using the <see cref="HashAlorithm"/> specified.
+        /// </summary>
+        /// <param name="fileName">The <see cref="string"/> defining the path the file, its name and extention.</param>
+        /// <param name="hashAlgorithm">The new instance of the <see cref="HashAlorithm"/> used.</param>
+        /// <returns>The hash of the file.</returns>
+        public static byte[] GetFileHash(string fileName, HashAlgorithm hashAlgorithm)
+        {
+            if (!File.Exists(fileName))
+                throw new FileNotFoundException(ExceptionResource.FILE_NOTONDEVICE, fileName);
+            using var br = new BinaryReader(FileHelper.Open(fileName));
+            int bufferSize = 4096; // sizeof one page
+            byte[] readBuffer = br.ReadBytes(bufferSize);
+            while (readBuffer.Length == bufferSize) // While reading complete blocks
+            {
+                // Combine the hash code
+                hashAlgorithm.TransformBlock(readBuffer, 0, bufferSize, readBuffer, 0);
+            }
+            // Finialize
+            hashAlgorithm.TransformFinalBlock(readBuffer, 0, readBuffer.Length);
+            return hashAlgorithm.Hash;
         }
     }
 }
