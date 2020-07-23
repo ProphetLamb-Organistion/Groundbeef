@@ -1,10 +1,9 @@
-﻿#nullable enable
-
-using System;
+﻿using System;
 using System.Collections;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+
+#nullable enable
 
 namespace ProphetLamb.Tools.Collections
 {
@@ -12,10 +11,8 @@ namespace ProphetLamb.Tools.Collections
     /// Collection of extention functions for arrays, and generic arrays: 
     /// SortByKeys(keys), FindFirst(predicate), FindLast(predicate), FindAll(predicate), IndexOf(element|predicate), IndexOfLast(element|predicate), IndexOfAll(element|predicate), GetHashCode(fromValues)
     /// </summary>
-    [System.Runtime.InteropServices.ComVisible(true)]
     public static partial class ArrayExtention
     {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void ValidateAngGetEndIndex(in Array? array, int index, int count, in object? condition, out int endIndex)
         {
             if (array is null)
@@ -31,7 +28,6 @@ namespace ProphetLamb.Tools.Collections
                 throw new IndexOutOfRangeException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void ValidateAngGetEndIndex(IList? collection, int index, int count, in object? condition, out int endIndex)
         {
             if (collection is null)
@@ -47,13 +43,11 @@ namespace ProphetLamb.Tools.Collections
                 throw new IndexOutOfRangeException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static ParallelOptions DefaultOptions()
         {
             return new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount * 2 };
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static ParallelOptions DefaultOptions(in CancellationTokenSource src)
         {
             return new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount * 2, CancellationToken = src.Token };

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Runtime.CompilerServices;
 
 namespace ProphetLamb.Tools.Collections
 {
@@ -15,7 +14,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="NullReferenceException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static int GetHashCode(this Array array, bool fromValues)
         {
             if (array is null)
@@ -41,7 +39,6 @@ namespace ProphetLamb.Tools.Collections
         /// <param name="fromValues">Indicates that the hashcode should be derived from the elements of the array instead.</param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="NullReferenceException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static int GetHashCode<T>(this ReadOnlySpan<T> span, bool fromValues)
         {
             int length = span.Length;
@@ -66,7 +63,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="NullReferenceException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static int GetHashCode(this IList list, bool fromValues)
         {
             if (list is null)
@@ -93,7 +89,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="NullReferenceException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static int GetHashCode(this IEnumerable enumerable, bool fromValues)
         {
             if (enumerable is null)
@@ -113,7 +108,6 @@ namespace ProphetLamb.Tools.Collections
             return c;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveOptimization | MethodImplOptions.AggressiveInlining)]
         internal static int CombineHashCodes(int h1, int h2)
         {
             return ((h1 << 5) + h1) ^ h2;

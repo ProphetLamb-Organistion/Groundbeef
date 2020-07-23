@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace ProphetLamb.Tools.Collections
 {
@@ -19,7 +18,6 @@ namespace ProphetLamb.Tools.Collections
         /// <param name="keyValuePairs">The collection of <see cref="KeyValuePairs"/> to add.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="OverflowException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AddRange<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, in IEnumerable<KeyValuePair<TKey, TValue>> keyValuePairs) where TKey : notnull
         {
             if (dictionary is null)
@@ -40,7 +38,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="OverflowException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Add<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, in KeyValuePair<TKey, TValue> keyValuePair) where TKey : notnull
         {
             if (dictionary is System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>)
@@ -55,7 +52,6 @@ namespace ProphetLamb.Tools.Collections
         /// <param name="keys">The collection of <typeparamref name="TKey"/>s.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<KeyValuePair<TKey, TValue>> GetMany<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, IEnumerable<TKey> keys) where TKey : notnull
         {
             if (dictionary is null)
@@ -71,7 +67,6 @@ namespace ProphetLamb.Tools.Collections
         /// </summary>
         /// <param name="enumerable">The enumerable.</param>
         /// <returns>An enumerator that iterates through the collection.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DictionaryEnumerator<TKey, TValue> GetDictionaryEnumerator<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> enumerable)
         {
             return new DictionaryEnumerator<TKey, TValue>(enumerable);
@@ -110,13 +105,11 @@ namespace ProphetLamb.Tools.Collections
             enumerator = dictionary.GetEnumerator();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Reset()
         {
             enumerator.Reset();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
             return enumerator.MoveNext();

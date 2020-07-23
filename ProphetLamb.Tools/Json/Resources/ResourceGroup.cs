@@ -31,7 +31,7 @@ namespace ProphetLamb.Tools.Json.Resources
         [JsonProperty("values")]
         public IList Values { get; set; }
 
-        public IEnumerable<KeyValuePair<string, object?>> ToDictionary()
+        public IEnumerable<KeyValuePair<string, object>> ToDictionary()
         {
             int length = Keys.Count;
             for (int i = 0; i < length; i++)

@@ -1,10 +1,10 @@
 # ProphetLamb.Tools
 
-Collection of personal tools and utility functionality written in C#
+Collection of personal tools and utility functionality written in C# using .NET Standard 2.1, .NET Core 3.1, WPF, and Nullable context.
 
 ## Table of contents
 
-### Core
+### Core (.NET Standard)
 
 **AOT**
 Functionallity to preload an assembly or a specific method.
@@ -33,7 +33,7 @@ Simpler implementation of a range structure then System.Range
 
 **MathHelper**
 
-NonNegativemodulus: Returns a modulus n as a positive
+NonNegativemodulus: Returns 'a' modulus 'n' as a non negative value.
 
 **TaskHelper**
 
@@ -47,7 +47,7 @@ NonNegativemodulus: Returns a modulus n as a positive
 * T CastObject<T>: Casts the object to the desired type.
 * T ConvertObject<T>: Converts the object the desired type using Convert.ChangeType.
 
-### Collections
+### Collections (.NET Standard)
 
 #### Generic
 
@@ -100,17 +100,17 @@ The purpose here is to streamline the code produced for Dictionarys with Concurr
 * Remove(key): Removes the value with the specified key from the ConcurrentDictionary.
 * AddRange: Adds a range of keyvalue-pairs to the dictionary.
 
-### Converters
+### Converters (.NET Standard)
 
 **Base85**
 Encodes and decodes base85 strings to bytes
 
-### Events
+### Events (.NET Standard)
 
 * ValueChangedEvent: Generic event for a changed property value.
 * PropertyChangedEvent: Generic event based on ValueChangedEvent with a property name.
 
-### IO
+### IO (.NET Standard)
 
 **Binary reader**
 
@@ -122,7 +122,7 @@ Encodes and decodes base85 strings to bytes
 * Open: Opens or creates a file allowing other programs read and write access to the file.
 * GetFileHash: Returns the hash of a file, using the HashAlorithm specified.
 
-### Json Resources
+### Json Resources (.NET Standard)
 
 Simmilar API to System.Resources, but json backed.
 
@@ -135,7 +135,7 @@ Writes a ResourceSet to a location derived from the associated ResourceManager.
 **ResourceReader**
 Reads a Culture from the device to the ResourceManager.
 
-### Json Settings
+### Json Settings (.NET Standard)
 
 **SettingsProvider**
 Syncronizes a JSON settings file with a SettingsStorage POCO. Allows reading and writing.
@@ -154,7 +154,7 @@ public interface ISettingsProvider
 **SettingsManagerService**
 Static class multiple SettingsProviders can be registered to in order to access thier data.
 
-### Localisation
+### Localisation (.NET Core WPF)
 
 WPF localisation helpers ported from some blog post I found, extened it somewhat.
 
@@ -168,7 +168,7 @@ Static class multiple ResourceManager can be registered to in order to access th
 
 IsInDesignModeStatic: Gets a value indicating whether the control is in design mode (running in Blend or Visual Studio
 
-### Reflection
+### Reflection (.NET Standard)
 
 **CollectionsConvert**
 Static class that can convert IEnumerable<T> to List<T> and T[] based on a type variable using reflection.
@@ -181,7 +181,7 @@ Static class that can convert IEnumerable<T> to List<T> and T[] based on a type 
 * GetDefaultEqualityComparer: Returns the default <see cref="IEqualityComparer"/> for the type specified.
   Same as IEqualityComparer<T>.Default but with a type variable using reflection.
 
-### Text
+### Text (.NET Standard)
 
 **BulkTokenizer**
 Splits a string by tokens and returns the elements inbetween tokens.
@@ -203,7 +203,7 @@ public interface ITokenizer
 * FastAllocateString: Calls the internal FastAllocateString method using reflection.
 * RandomString: Returns a new randomly generated string using the provided Random with the specified length containing characters in alphabet.
 
-### WPF
+### WPF (.NET Core WPF)
 
 **Colors**
 For System.Media & System.Drawing colors.

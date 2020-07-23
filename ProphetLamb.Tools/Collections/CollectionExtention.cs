@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
 
 namespace ProphetLamb.Tools.Collections
 {
@@ -16,7 +15,6 @@ namespace ProphetLamb.Tools.Collections
         /// <param name="target">The target <see cref="ICollection{T}"/>.</param>
         /// <param name="source">The source <see cref="IEnumerable{T}"/></param>
         /// <exception cref="ArgumentNullException">If the <paramref name="source"/> or <paramref name="target"/> is null.</exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AddRange<T>(this ICollection<T> target, IEnumerable<T> source)
         {
             if (target is null) throw new ArgumentNullException(nameof(target));
@@ -33,7 +31,6 @@ namespace ProphetLamb.Tools.Collections
         /// <param name="target">The target <see cref="ICollection{TTarget}"/>.</param>
         /// <param name="source">The source <see cref="IEnumerable{TSource}"/></param>
         /// <exception cref="ArgumentNullException">If the <paramref name="source"/>, <paramref name="target"/> or <paramref name="selector"/> is null.</exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AddRange<TTarget, TSource>(this ICollection<TTarget> target, IEnumerable<TSource> source, Func<TSource, TTarget> selector)
         {
             if (target is null) throw new ArgumentNullException(nameof(target));
@@ -105,7 +102,6 @@ namespace ProphetLamb.Tools.Collections
         /// <returns>The zero-based index of the first occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int IndexOf<T>(this Collection<T> collection, Predicate<T> match)
         {
             return IndexOf(collection, 0, match);
@@ -122,7 +118,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int IndexOf<T>(this Collection<T> collection, int startIndex, Predicate<T> match)
         {
             if (collection is null)
@@ -142,7 +137,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static int IndexOf<T>(this Collection<T> collection, int startIndex, int count, Predicate<T> match)
         {
             if (collection is null)
@@ -170,7 +164,6 @@ namespace ProphetLamb.Tools.Collections
         /// <returns>The zero-based index of the first occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int IndexOf(this ICollection collection, Predicate<object> match)
         {
             return IndexOf(collection, 0, match);
@@ -187,7 +180,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int IndexOf(this ICollection collection, int startIndex, Predicate<object> match)
         {
             if (collection is null)
@@ -207,7 +199,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static int IndexOf(this ICollection collection, int startIndex, int count, Predicate<object> match)
         {
             if (collection is null)
@@ -238,7 +229,6 @@ namespace ProphetLamb.Tools.Collections
         /// <returns>The zero-based index of the last occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int IndexOfLast<T>(this Collection<T> collection, Predicate<T> match)
         {
             return IndexOfLast(collection, 0, match);
@@ -254,7 +244,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int IndexOfLast<T>(this Collection<T> collection, int startIndex, Predicate<T> match)
         {
             return IndexOfLast(collection, startIndex, collection.Count - startIndex, match);
@@ -272,7 +261,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static int IndexOfLast<T>(this Collection<T> collection, int startIndex, int count, Predicate<T> match)
         {
             if (collection is null)
@@ -299,7 +287,6 @@ namespace ProphetLamb.Tools.Collections
         /// <returns>The zero-based index of the last occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int IndexOfLast(this ICollection collection, Predicate<object> match)
         {
             return IndexOfLast(collection, 0, match);
@@ -315,7 +302,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int IndexOfLast(this ICollection collection, int startIndex, Predicate<object> match)
         {
             return IndexOfLast(collection, startIndex, collection.Count - startIndex, match);
@@ -333,7 +319,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static int IndexOfLast(this ICollection collection, int startIndex, int count, Predicate<object> match)
         {
             if (collection is null)
@@ -365,7 +350,6 @@ namespace ProphetLamb.Tools.Collections
         /// <returns>The zero-based index of all occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<int> IndexOfAll<T>(this Collection<T> collection, in Predicate<T> match)
         {
             return IndexOfAll(collection, 0, match);
@@ -381,7 +365,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<int> IndexOfAll<T>(this Collection<T> collection, int startIndex, in Predicate<T> match)
         {
             if (collection is null)
@@ -401,7 +384,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static IEnumerable<int> IndexOfAll<T>(this Collection<T> collection, int startIndex, int count, Predicate<T> match)
         {
             int length = collection.Count;
@@ -430,7 +412,6 @@ namespace ProphetLamb.Tools.Collections
         /// <returns>The zero-based index of all occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<int> IndexOfAll(this ICollection collection, in Predicate<object> match)
         {
             return IndexOfAll(collection, 0, match);
@@ -446,7 +427,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<int> IndexOfAll(this ICollection collection, int startIndex, in Predicate<object> match)
         {
             if (collection is null)
@@ -466,7 +446,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static IEnumerable<int> IndexOfAll(this ICollection collection, int startIndex, int count, Predicate<object> match)
         {
             int length = collection.Count;
@@ -499,7 +478,6 @@ namespace ProphetLamb.Tools.Collections
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T Find<T>(this Collection<T> collection, Predicate<T> match)
         {
             return Find(collection, 0, match);
@@ -515,7 +493,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T Find<T>(this Collection<T> collection, int startIndex, Predicate<T> match)
         {
             if (collection is null)
@@ -535,7 +512,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static T Find<T>(this Collection<T> collection, int startIndex, int count, Predicate<T> match)
         {
             if (collection is null)
@@ -563,7 +539,6 @@ namespace ProphetLamb.Tools.Collections
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T FindLast<T>(this Collection<T> collection, Predicate<T> match)
         {
             return FindLast(collection, 0, match);
@@ -579,7 +554,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T FindLast<T>(this Collection<T> collection, int startIndex, Predicate<T> match)
         {
             if (collection is null)
@@ -599,7 +573,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static T FindLast<T>(this Collection<T> collection, int startIndex, int count, Predicate<T> match)
         {
             if (collection is null)
@@ -627,7 +600,6 @@ namespace ProphetLamb.Tools.Collections
         /// <returns>All occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<T> FindAll<T>(this Collection<T> collection, Predicate<T> match)
         {
             return FindAll(collection, 0, match);
@@ -643,7 +615,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<T> FindAll<T>(this Collection<T> collection, int startIndex, Predicate<T> match)
         {
             if (collection is null)
@@ -663,7 +634,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static IEnumerable<T> FindAll<T>(this Collection<T> collection, int startIndex, int count, Predicate<T> match)
         {
             if (collection is null)
@@ -690,7 +660,6 @@ namespace ProphetLamb.Tools.Collections
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static object Find(this ICollection collection, Predicate<object> match)
         {
             return Find(collection, 0, match);
@@ -706,7 +675,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static object Find(this ICollection collection, int startIndex, Predicate<object> match)
         {
             if (collection is null)
@@ -726,7 +694,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static object Find(this ICollection collection, int startIndex, int count, Predicate<object> match)
         {
             if (collection is null)
@@ -759,7 +726,6 @@ namespace ProphetLamb.Tools.Collections
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static object FindLast(this ICollection collection, Predicate<object> match)
         {
             return FindLast(collection, 0, match);
@@ -775,7 +741,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static object FindLast(this ICollection collection, int startIndex, Predicate<object> match)
         {
             if (collection is null)
@@ -795,7 +760,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static object FindLast(this ICollection collection, int startIndex, int count, Predicate<object> match)
         {
             if (collection is null)
@@ -829,7 +793,6 @@ namespace ProphetLamb.Tools.Collections
         /// <returns>All occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable FindAll(this ICollection collection, Predicate<object> match)
         {
             return FindAll(collection, 0, match);
@@ -845,7 +808,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable FindAll(this ICollection collection, int startIndex, Predicate<object> match)
         {
             if (collection is null)
@@ -865,7 +827,6 @@ namespace ProphetLamb.Tools.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         public static IEnumerable FindAll(this ICollection collection, int startIndex, int count, Predicate<object> match)
         {
             if (collection is null)
@@ -894,7 +855,6 @@ namespace ProphetLamb.Tools.Collections
         /// </summary>
         /// <typeparam name="T">Type of collection elements.</typeparam>
         /// <param name="collection">The collection to sort.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Sort<T>(this Collection<T> collection) where T : IComparable<T>
         {
             Sort(collection, 0);
@@ -906,7 +866,6 @@ namespace ProphetLamb.Tools.Collections
         /// <typeparam name="T">Type of collection elements.</typeparam>
         /// <param name="collection">The collection to sort.</param>
         /// <param name="startIndex">The zero-based starting index of the range to sort.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Sort<T>(this Collection<T> collection, int startIndex) where T : IComparable<T>
         {
             if (collection == null)
@@ -921,7 +880,6 @@ namespace ProphetLamb.Tools.Collections
         /// <param name="collection">The collection to sort.</param>
         /// <param name="startIndex">The zero-based starting index of the range to sort.</param>
         /// <param name="count">The length of the range to sort.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Sort<T>(this Collection<T> collection, int startIndex, int count) where T : IComparable<T>
         {
             if (collection == null)
@@ -935,7 +893,6 @@ namespace ProphetLamb.Tools.Collections
         /// <typeparam name="T">Type of collection elements.</typeparam>
         /// <param name="collection">The collection to sort.</param>
         /// <param name="comparison">The <see cref="Comparison{T}"/> to use when comparing elements.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Sort<T>(this Collection<T> collection, Comparison<T> comparison)
         {
             Sort(collection, 0, comparison);
@@ -948,7 +905,6 @@ namespace ProphetLamb.Tools.Collections
         /// <param name="collection">The collection to sort.</param>
         /// <param name="startIndex">The zero-based starting index of the range to sort.</param>
         /// <param name="comparison">The <see cref="Comparison{T}"/> to use when comparing elements.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Sort<T>(this Collection<T> collection, int startIndex, Comparison<T> comparison)
         {
             if (collection == null)
@@ -964,7 +920,6 @@ namespace ProphetLamb.Tools.Collections
         /// <param name="startIndex">The zero-based starting index of the range to sort.</param>
         /// <param name="count">The length of the range to sort.</param>
         /// <param name="comparison">The <see cref="Comparison{T}"/> to use when comparing elements.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Sort<T>(this Collection<T> collection, int startIndex, int count, Comparison<T> comparison)
         {
             if (collection == null)
@@ -980,7 +935,6 @@ namespace ProphetLamb.Tools.Collections
         /// <typeparam name="T">Type of collection elements.</typeparam>
         /// <param name="collection">The collection to sort.</param>
         /// <param name="comparer">The <see cref="IComparer{T}"/> used when comparing collection elements, or null to use the default comparer <see cref="Comparer{T}.Default"/>.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Sort<T>(this Collection<T> collection, IComparer<T> comparer)
         {
             Sort(collection, 0, comparer);
@@ -993,7 +947,6 @@ namespace ProphetLamb.Tools.Collections
         /// <param name="collection">The collection to sort.</param>
         /// <param name="startIndex">The zero-based starting index of the range to sort.</param>
         /// <param name="comparer">The <see cref="IComparer{T}"/> used when comparing collection elements, or null to use the default comparer <see cref="Comparer{T}.Default"/>.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Sort<T>(this Collection<T> collection, int startIndex, IComparer<T> comparer)
         {
             if (collection == null)
@@ -1009,7 +962,6 @@ namespace ProphetLamb.Tools.Collections
         /// <param name="startIndex">The zero-based starting index of the range to sort.</param>
         /// <param name="count">The length of the range to sort.</param>
         /// <param name="comparer">The <see cref="IComparer{T}"/> used when comparing collection elements, or null to use the default comparer <see cref="Comparer{T}.Default"/>.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Sort<T>(this Collection<T> collection, int startIndex, int count, IComparer<T> comparer)
         {
             if (collection == null)
@@ -1043,7 +995,6 @@ namespace ProphetLamb.Tools.Collections
             IntroSort(keys, left, length + left - 1, 2 * FloorLog2(keys.Count), comparer);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         private static void IntroSort<T>(Collection<T> keys, int lo, int hi, int depthLimit, IComparer<T> comparer)
         {
             while (hi > lo)
@@ -1083,7 +1034,6 @@ namespace ProphetLamb.Tools.Collections
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         private static void SwapIfGreater<T>(Collection<T> keys, IComparer<T> comparer, int a, int b)
         {
             if (a != b)
@@ -1097,7 +1047,6 @@ namespace ProphetLamb.Tools.Collections
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         private static void InsertionSort<T>(Collection<T> keys, int lo, int hi, IComparer<T> comparer)
         {
             int i, j;
@@ -1115,7 +1064,6 @@ namespace ProphetLamb.Tools.Collections
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         private static void Heapsort<T>(Collection<T> keys, int lo, int hi, IComparer<T> comparer)
         {
             int n = hi - lo + 1;
@@ -1130,7 +1078,6 @@ namespace ProphetLamb.Tools.Collections
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         private static int PickPivotAndPartition<T>(Collection<T> keys, int lo, int hi, IComparer<T> comparer)
         {
             // Compute median-of-three.  But also partition them, since we've done the comparison.
@@ -1161,7 +1108,6 @@ namespace ProphetLamb.Tools.Collections
             return left;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveOptimization)]
         private static void DownHeap<T>(Collection<T> keys, int i, int n, int lo, IComparer<T> comparer)
         {
             T d = keys[lo + i - 1];
@@ -1181,7 +1127,6 @@ namespace ProphetLamb.Tools.Collections
             keys[lo + i - 1] = d;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void Swap<T>(Collection<T> a, int i, int j)
         {
             if (i != j)
@@ -1192,7 +1137,6 @@ namespace ProphetLamb.Tools.Collections
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static int FloorLog2(int n)
         {
             int result = 0;

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 namespace ProphetLamb.Tools.Collections.Concurrent
 {
@@ -19,7 +18,6 @@ namespace ProphetLamb.Tools.Collections.Concurrent
         /// <param name="value">The value of the element to add. The value can be null for reference types.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="OverflowException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Add<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, in TKey key, TValue value) where TKey : notnull
         {
             dictionary.AddOrUpdate(key, value, (_, __) => value);
@@ -32,7 +30,6 @@ namespace ProphetLamb.Tools.Collections.Concurrent
         /// <param name="keyValuePair">The key value pair to add.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="OverflowException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Add<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, in KeyValuePair<TKey, TValue> keyValuePair) where TKey : notnull
         {
             TValue value = keyValuePair.Value;
@@ -46,7 +43,6 @@ namespace ProphetLamb.Tools.Collections.Concurrent
         /// <param name="key">The key of the element to remove.</param>
         /// <returns><see cref="true"/> if the element is successfully found and removed; otherwise, <see cref="false"/>. This method returns <see cref="false"/> if key is not found in the <see cref="ConcurrentDictionary{TKey, TValue}"/>.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Remove<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, in TKey key) where TKey : notnull
         {
             return dictionary.TryRemove(key, out _);
@@ -59,7 +55,6 @@ namespace ProphetLamb.Tools.Collections.Concurrent
         /// <param name="keyValuePairs">The collection of <see cref="KeyValuePairs"/> to add.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="OverflowException"></exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AddRange<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, in IEnumerable<KeyValuePair<TKey, TValue>> keyValuePairs) where TKey : notnull
         {
             foreach (var kvpair in keyValuePairs)
