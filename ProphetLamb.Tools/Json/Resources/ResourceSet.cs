@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace ProphetLamb.Tools.Json.Resources
 {
-    public class ResourceSet : IDisposable, IEnumerable<KeyValuePair<string, object>>
+    public class ResourceSet : IDisposable, IEnumerable<KeyValuePair<string, object?>>
     {
-        private readonly Dictionary<string, object> resourceTable = new Dictionary<string, object>(),
-                                                    caseInsenstiveTable = new Dictionary<string, object>();
+        private readonly Dictionary<string, object?> _resourceTable = new Dictionary<string, object?>(),
+                                                    _caseInsenstiveTable = new Dictionary<string, object?>();
 
         public ResourceSet() { }
 
@@ -17,8 +17,6 @@ namespace ProphetLamb.Tools.Json.Resources
         /// <param name="reader">The resource reader to read the resource from.</param>
         public ResourceSet(System.Resources.IResourceReader reader)
         {
-            if (reader is null)
-                throw new ArgumentNullException(nameof(reader));
             IDictionaryEnumerator en = reader.GetEnumerator();
             while (en.MoveNext())
             {
@@ -50,7 +48,7 @@ namespace ProphetLamb.Tools.Json.Resources
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="ignoreCase">Whether the key is treated case insensitive.</param>
-        public object GetObject(in string key, bool ignoreCase = false)
+        public object? GetObject(in string key, bool ignoreCase = false)
         {
             return InternalGetObject(key, ignoreCase);
         }
@@ -60,43 +58,41 @@ namespace ProphetLamb.Tools.Json.Resources
         /// </summary>
         /// <param name="key">The key of the element to add.</param>
         /// <param name="value">The value of the element to add. The value can not be null.</param>
-        public void Add(in string key, in object value)
+        public void Add(in string key, in object? value)
         {
             if (String.IsNullOrWhiteSpace(key))
                 throw new ArgumentException(ExceptionResource.STRING_NULLWHITESPACE, nameof(key));
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
-            resourceTable.Add(key, value);
-            caseInsenstiveTable.Add(key.ToUpperInvariant(), value);
+            _resourceTable.Add(key, value);
+            _caseInsenstiveTable.Add(key.ToUpperInvariant(), value);
         }
 
-        private object InternalGetObject(in string key, bool ignoreCase)
+        private object? InternalGetObject(in string key, bool ignoreCase)
         {
             string l_key;
-            Dictionary<string, object> resources;
+            Dictionary<string, object?> resources;
             if (ignoreCase)
             {
-                resources = caseInsenstiveTable;
+                resources = _caseInsenstiveTable;
                 l_key = key.ToUpperInvariant();
             }
             else
             {
-                resources = resourceTable;
+                resources = _resourceTable;
                 l_key = key;
             }
-            if (!resources.TryGetValue(l_key, out object value) && ThrowExceptionOnResourceMiss)
+            if (!resources.TryGetValue(l_key, out object? value) && ThrowExceptionOnResourceMiss)
                 throw new ArgumentException(ExceptionResource.RESOURCESET_RESOURCEMISS);
             return value;
         }
 
-        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, object?>> GetEnumerator()
         {
-            return resourceTable.GetEnumerator();
+            return _resourceTable.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return resourceTable.GetEnumerator();
+            return _resourceTable.GetEnumerator();
         }
 
         #region  IDisposable members

@@ -41,7 +41,7 @@ namespace ProphetLamb.Tools
         /// <returns>A new STAThread spawned <see cref="Task"/> for the provided <see cref="Action"/>.</returns>
         public static Task Run(Action func)
         {
-            var tcs = new TaskCompletionSource<object>();
+            var tcs = new TaskCompletionSource<object?>();
             var thread = new Thread(() =>
             {
                 try

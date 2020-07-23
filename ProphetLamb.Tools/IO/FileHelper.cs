@@ -52,7 +52,7 @@ namespace ProphetLamb.Tools.IO
         /// </summary>
         /// <param name="filePath">The path leading to the file incuding the name and extention.</param>
         /// <returns><see cref="true"/> if the file is a directory; otherwise, <see cref="false"/>.</returns>
-        public static bool IsDirectory(string filePath)
+        public static bool IsDirectory(string? filePath)
         {
             return IsDirectory(new FileInfo(filePath));
         }

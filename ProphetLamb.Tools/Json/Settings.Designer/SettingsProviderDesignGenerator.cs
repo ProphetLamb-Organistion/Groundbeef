@@ -1,13 +1,14 @@
+using System.ComponentModel;
+using System.Linq;
 using System;
 using System.Reflection;
 using System.Text;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Text;
+using Microsoft.CodeAnalysis.CSharp;
 
-namespace ProphetLamb.Tools.Json.Settings
+namespace ProphetLamb.Tools.Json.Settings.Designer
 {
-    public class SettingsProviderDesignGenerator
-    {
-    }
-
     internal class SettingsProviderDesignGeneratorHelper
     {
         private readonly string _newLine,
@@ -21,12 +22,8 @@ namespace ProphetLamb.Tools.Json.Settings
         private int _indentation;
         private string _indent = String.Empty;
 
-        public static void GenerateDesignerSource<T_POGO>(ISettingsProvider<T_POGO>? provider, StringBuilder? syntaxBuilder)
+        public static void GenerateDesignerSource<T_POGO>(ISettingsProvider<T_POGO> provider, StringBuilder syntaxBuilder)
         {
-            if (provider is null)
-                throw new ArgumentNullException(nameof(provider));
-            if (syntaxBuilder is null)
-                throw new ArgumentNullException(nameof(syntaxBuilder));
             Type pogoType = typeof(T_POGO);
             var helper = new SettingsProviderDesignGeneratorHelper(pogoType, provider.FileName, false);
             helper.GenerateHeading(syntaxBuilder);
@@ -40,16 +37,14 @@ namespace ProphetLamb.Tools.Json.Settings
             helper.GenerateFooter(syntaxBuilder);
         }
 
-        private SettingsProviderDesignGeneratorHelper(Type? pogoType, string? fileName, bool publicAccessibility)
+        private SettingsProviderDesignGeneratorHelper(Type pogoType, string fileName, bool publicAccessibility)
         {
-            if (pogoType is null)
-                throw new ArgumentNullException(nameof(pogoType));
             _newLine = Environment.NewLine;
             _namespace = pogoType.Namespace??throw new ArgumentException("Namespace cannot be null.", nameof(pogoType));
             _accessibility = publicAccessibility ? "public" : "internal";
             _className = "SettingsProvider_" + pogoType.Name + "_Designer";
             _pogoName = pogoType.Name;
-            _fileName = fileName??throw new ArgumentNullException("Filename cannot be null.", nameof(fileName));
+            _fileName = fileName;
         }
 
         private int Indentation

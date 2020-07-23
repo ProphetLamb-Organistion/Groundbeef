@@ -12,9 +12,9 @@ namespace ProphetLamb.Tools.Localisation
     [System.Runtime.InteropServices.ComVisible(true)]
     public class LocalisationHelper : INotifyPropertyChanged
     {
-        private string _defaultManager = null;
+        private string? _defaultManager;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected void RaisePropertyChanged([CallerMemberName] string propertyName = "")
         {
@@ -39,21 +39,19 @@ namespace ProphetLamb.Tools.Localisation
         /// {Binding Source={StaticResource localisation}, Path=.[MainScreenResources.IntroTextLine1]}
         /// </summary>
         /// <param name="key">Key to retrieve in the format [ManagerName].[ResourceKey]</param>
-        public string this[string key]
+        public string? this[string key]
         {
             get
             {
-                if (key is null)
-                    throw new ArgumentNullException(nameof(key));
                 bool isValidKey = ValidKey(key);
-                if (!isValidKey && String.IsNullOrEmpty(DefaultManager))
-                    throw new ArgumentException(ExceptionResource.STRING_NULLEMPTY, nameof(key));
                 if (DesignHelper.IsInDesignModeStatic)
                     return key;
                 if (isValidKey)
                     return ResourceManagerService.GetResourceString(GetManagerKey(key), GetResourceKey(key));
-                else
+                if (!(DefaultManager is null))
                     return ResourceManagerService.GetResourceString(DefaultManager, key);
+                else
+                    throw new ArgumentException("The key does not exisit.", nameof(key));
             }
         }
 
@@ -61,7 +59,7 @@ namespace ProphetLamb.Tools.Localisation
         /// Gets or sets a string representing the default ResourceManager. 
         /// When set a resource string can be obtained without specifing a ManagerName, in that case the value of DefaultManager is used as such.
         /// </summary>
-        public string DefaultManager
+        public string? DefaultManager
         {
             get => _defaultManager;
             set

@@ -9,8 +9,6 @@ namespace ProphetLamb.Tools.IO
     {
         public static byte[] ReadAllBytes(this BinaryReader reader)
         {
-            if (reader is null)
-                throw new ArgumentNullException(nameof(reader));
             const int bufferSize = 4096;
             using var ms = new MemoryStream();
             byte[] buffer = new byte[bufferSize];

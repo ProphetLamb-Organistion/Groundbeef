@@ -17,17 +17,21 @@ namespace ProphetLamb.Tools.Json.Settings
     public interface ISettingsProvider
     {
         event PropertyChangedEventHandler? SettingsChanged;
-        string? FileName { get; }
-        object? GetValue(string? propertyName);
-        void SetValue(string? propertyName, object? value);
+        string FileName { get; }
+        object? GetValue(string propertyName);
+        void SetValue(string propertyName, object? value);
     }
 
-    public interface ISettingsProvider<T_POGO> : ISettingsProvider { }
+    public interface ISettingsProvider<T_STORE> : ISettingsProvider { }
 
-    public class SettingsProvider<T_POGO> : ISettingsProvider<T_POGO>, IDisposable where T_POGO : class, new()
+    /// <summary>
+    /// Syncronizes a JSON settings file with a SettingsStorage object. Allows reading and writing.
+    /// </summary>
+    /// <typeparam name="T_STORE">The type of the settings storage instance, that has the "SettingsStorageAttribute".</typeparam>
+    public class SettingsProvider<T_STORE> : ISettingsProvider<T_STORE>, IDisposable where T_STORE : class, new()
     {
         /// <summary>
-        /// Notifies subscribers when a property in the POGO class was changed.
+        /// Notifies subscribers when a property in the storage class was changed.
         /// </summary>
         public event PropertyChangedEventHandler? SettingsChanged;
 
@@ -36,11 +40,11 @@ namespace ProphetLamb.Tools.Json.Settings
         private readonly FileStream _stream;
         private readonly Timer _readDelayTimer,
                                _serializeDelayTimer;
-        private readonly T_POGO _settings;
+        private readonly T_STORE _settings;
         private JsonSerializerSettings? _serializerSettings;
         private bool _lastWriteSelf;
 
-        private SettingsProvider(T_POGO? instance, string name, string directory, JsonSerializerSettings? serializerSettings)
+        private SettingsProvider(T_STORE? instance, string name, string directory, JsonSerializerSettings? serializerSettings)
         {
             string filePath = Path.Combine(directory, name);
 
@@ -67,8 +71,8 @@ namespace ProphetLamb.Tools.Json.Settings
 
             FileName = Path.Combine(directory, name);
 
-            // Create dictionary of all public, instance properties of the POGO.
-            _properties = new Dictionary<string, PropertyInfo>(typeof(T_POGO)
+            // Create dictionary of all public, instance properties of the storage.
+            _properties = new Dictionary<string, PropertyInfo>(typeof(T_STORE)
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Where(prop => prop.CanRead)
                 .Select(prop => KeyValuePair.Create(prop.Name, prop)));
@@ -97,7 +101,7 @@ namespace ProphetLamb.Tools.Json.Settings
         public string FileName { get; }
 
         /// <summary>
-        /// Gets or sets the <see cref="JsonSerializerSettings"/> used for de-/serialization of the POGO.
+        /// Gets or sets the <see cref="JsonSerializerSettings"/> used for de-/serialization of the storage.
         /// </summary>
         public JsonSerializerSettings? SerializerSettings
         {
@@ -113,7 +117,7 @@ namespace ProphetLamb.Tools.Json.Settings
         /// Gets the value of the property.
         /// </summary>
         /// <param name="propertyName">The case-sensitive name of the property.</param>
-        public T? GetValue<T>(string? propertyName) where T : struct
+        public T? GetValue<T>(string propertyName) where T : struct
         {
             return (T?)GetValue(propertyName);
         }
@@ -121,11 +125,9 @@ namespace ProphetLamb.Tools.Json.Settings
         /// Gets the value of the property.
         /// </summary>
         /// <param name="propertyName">The case-sensitive name of the property.</param>
-        public object? GetValue(string? propertyName)
+        public object? GetValue(string propertyName)
         {
-            if (!(propertyName is string name))
-                throw new ArgumentNullException(nameof(propertyName));
-            if (!_properties.TryGetValue(name, out PropertyInfo? prop))
+            if (!_properties.TryGetValue(propertyName, out PropertyInfo? prop))
                 throw new ArgumentException("No property with the name specified was found.", nameof(propertyName));
             return prop.GetValue(_settings);
         }
@@ -135,11 +137,9 @@ namespace ProphetLamb.Tools.Json.Settings
         /// </summary>
         /// <param name="propertyName">The case-sensitive name of the property.</param>
         /// <param name="value">The new value that will be assigned to the property.</param>
-        public void SetValue(string? propertyName, object? value)
+        public void SetValue(string propertyName, object? value)
         {
-            if (!(propertyName is string name))
-                throw new ArgumentNullException(nameof(propertyName));
-            if (!_properties.TryGetValue(name, out PropertyInfo? prop))
+            if (!_properties.TryGetValue(propertyName, out PropertyInfo? prop))
                 throw new ArgumentException("No property with the name specified was found.", nameof(propertyName));
             InternalSetValue(prop, value);
         }
@@ -165,7 +165,7 @@ namespace ProphetLamb.Tools.Json.Settings
 
         private void ReadSettings()
         {
-            T_POGO? newSettings;
+            T_STORE? newSettings;
             lock(_stream)
             {
                 Stream stream = _stream;
@@ -177,7 +177,7 @@ namespace ProphetLamb.Tools.Json.Settings
                 else
                     serializer = JsonSerializer.CreateDefault();
                 // Deserialize json or create default
-                newSettings = serializer.Deserialize(sr, typeof(T_POGO)) as T_POGO ?? DefaultSettings;
+                newSettings = serializer.Deserialize(sr, typeof(T_STORE)) as T_STORE ?? DefaultSettings;
             }
             Parallel.ForEach(_properties.Values, (PropertyInfo prop) => 
             {
@@ -209,47 +209,50 @@ namespace ProphetLamb.Tools.Json.Settings
                 else
                     serializer = JsonSerializer.CreateDefault();
                 // Serialize json
-                serializer.Serialize(sw, _settings, typeof(T_POGO));
+                serializer.Serialize(sw, _settings, typeof(T_STORE));
             }
         }
 
         #region Static members
         /// <summary>
-        /// Returns a new instance of <see cref="SettingsProvider{T_POGO}"/>, using the default <see cref="JsonSerializationSettings"/>.
+        /// Returns a new instance of <see cref="SettingsProvider{T_STORE}"/>, using the default <see cref="JsonSerializationSettings"/>.
         /// </summary>
         /// <param name="fileName">The relative or full path to the file including its name and file extention.</param>
-        /// <returns>A new instance of <see cref="SettingsProvider{T_POGO}"/>.</returns>
-        public static SettingsProvider<T_POGO> Create(string? fileName) => Create(null, fileName, null);
+        /// <returns>A new instance of <see cref="SettingsProvider{T_STORE}"/>.</returns>
+        public static SettingsProvider<T_STORE> Create(string fileName) => Create(null, fileName, null);
         /// <summary>
-        /// Returns a new instance of <see cref="SettingsProvider{T_POGO}"/>.
+        /// Returns a new instance of <see cref="SettingsProvider{T_STORE}"/>.
         /// </summary>
         /// <param name="fileName">The relative or full path to the file including its name and file extention.</param>
-        /// <param name="settings">The <see cref="JsonSerializerSettings"/> used when serializing and deserializing the POGO object.</param>
-        /// <returns>A new instance of <see cref="SettingsProvider{T_POGO}"/>.</returns>
-        public static SettingsProvider<T_POGO> Create(string? fileName, JsonSerializerSettings? settings) => Create(null, fileName, settings);
+        /// <param name="settings">The <see cref="JsonSerializerSettings"/> used when serializing and deserializing the storage object.</param>
+        /// <returns>A new instance of <see cref="SettingsProvider{T_STORE}"/>.</returns>
+        public static SettingsProvider<T_STORE> Create(string fileName, JsonSerializerSettings settings) => Create(null, fileName, settings);
         /// <summary>
-        /// Returns a new instance of <see cref="SettingsProvider{T_POGO}"/>.
+        /// Returns a new instance of <see cref="SettingsProvider{T_STORE}"/>.
         /// </summary>
         /// <param name="instance">The initial settings instance.</param>
         /// <param name="fileName">The relative or full path to the file including its name and file extention.</param>
-        /// <param name="settings">The <see cref="JsonSerializerSettings"/> used when serializing and deserializing the POGO object.</param>
-        /// <returns>A new instance of <see cref="SettingsProvider{T_POGO}"/>.</returns>
-        public static SettingsProvider<T_POGO> Create(T_POGO? instance, string? fileName, JsonSerializerSettings? settings)
+        /// <param name="settings">The <see cref="JsonSerializerSettings"/> used when serializing and deserializing the storage object.</param>
+        /// <returns>A new instance of <see cref="SettingsProvider{T_STORE}"/>.</returns>
+        public static SettingsProvider<T_STORE> Create(T_STORE? instance, string fileName, JsonSerializerSettings? settings)
         {
-            string l_fileName = fileName??throw new ArgumentNullException(nameof(fileName)),
-                   directory = Path.GetDirectoryName(l_fileName)??throw new ArgumentException("The path is not valid."),
-                   name = Path.GetFileName(l_fileName);
+            // Verify SettingsStorageAttribute
+            if (typeof(T_STORE).GetCustomAttribute<SettingsStorageAttribute>() is null)
+                throw new ArgumentException("The generic type doesnot have the required \"SettingsStorageAttribute\".", nameof(T_STORE));
+            // Ensure backing file
+            string directory = Path.GetDirectoryName(fileName)??throw new ArgumentException("The path is not valid."),
+                   name = Path.GetFileName(fileName);
             if (!Directory.Exists(directory))
                 Directory.CreateDirectory(directory);
-            if (!File.Exists(l_fileName))
-                FileHelper.Create(l_fileName).Dispose();
-            return new SettingsProvider<T_POGO>(instance, name, directory, settings);
+            if (!File.Exists(fileName))
+                FileHelper.Create(fileName).Dispose();
+            return new SettingsProvider<T_STORE>(instance, name, directory, settings);
         }
 
         /// <summary>
-        /// Gets the default instance of the settings POGO
+        /// Gets the default instance of the settings storage
         /// </summary>
-        public static T_POGO DefaultSettings { get; } = new T_POGO();
+        public static T_STORE DefaultSettings { get; } = new T_STORE();
 
         #endregion
 

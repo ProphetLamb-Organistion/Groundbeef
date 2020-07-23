@@ -1,4 +1,5 @@
 ﻿
+using System.Net.Http.Headers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,10 +14,7 @@ namespace ProphetLamb.Tools
     {
         public static IList<T> GetValues(Enum value)
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
             var enumValues = new List<T>();
-
             foreach (FieldInfo fi in value.GetType().GetFields(BindingFlags.Static | BindingFlags.Public))
             {
                 enumValues.Add((T)Enum.Parse(value.GetType(), fi.Name, false));
@@ -33,49 +31,45 @@ namespace ProphetLamb.Tools
 
         public static IList<string> GetNames(Enum value)
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
             return value.GetType().GetFields(BindingFlags.Static | BindingFlags.Public).Select(fi => fi.Name).ToList();
         }
 
-        public static IList<string> GetDisplayValues(Enum value)
+        public static IList<string?> GetDisplayValues(Enum value)
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
             return GetNames(value).Select(obj => GetDisplayValue(Parse(obj))).ToList();
         }
 
-        private static string LookupResource(Type resourceManagerProvider, string resourceKey, CultureInfo cultureInfo)
+        private static string? LookupResource(Type resourceManagerProvider, string resourceKey, CultureInfo cultureInfo)
         {
-            if (resourceManagerProvider is null)
-                throw new ArgumentNullException(nameof(resourceManagerProvider));
             if (String.IsNullOrEmpty(resourceKey))
                 throw new ArgumentException(ExceptionResource.STRING_NULLEMPTY, nameof(resourceKey));
             foreach (PropertyInfo staticProperty in resourceManagerProvider.GetProperties(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public))
             {
                 if (staticProperty.PropertyType == typeof(System.Resources.ResourceManager))
                 {
-                    System.Resources.ResourceManager resourceManager = (System.Resources.ResourceManager)staticProperty.GetValue(null, null);
-                    return resourceManager.GetString(resourceKey, cultureInfo);
+                    System.Resources.ResourceManager? resourceManager = staticProperty.GetValue(null, null) as System.Resources.ResourceManager;
+                    return resourceManager?.GetString(resourceKey, cultureInfo);
                 }
             }
 
             return resourceKey; // Fallback with the key name
         }
 
-        public static string GetDisplayValue(T value)
+        public static string? GetDisplayValue(T value)
         {
             return GetDisplayValue(value, CultureInfo.CurrentUICulture);
         }
 
-        public static string GetDisplayValue(T value, CultureInfo cultureInfo)
+        public static string? GetDisplayValue(T value, CultureInfo cultureInfo)
         {
-            var fieldInfo = value.GetType().GetField(value.ToString());
-            var descriptionAttributes = fieldInfo.GetCustomAttributes(
-                typeof(DisplayAttribute), false) as DisplayAttribute[];
+            string? name = value.ToString();
+            if (name is null) return null;
+            FieldInfo? fieldInfo = value.GetType().GetField(name);
+            if (fieldInfo is null) return null;
+            var descriptionAttributes = (DisplayAttribute[])fieldInfo.GetCustomAttributes(
+                typeof(DisplayAttribute), false);
             if (descriptionAttributes[0].ResourceType != null)
                 return LookupResource(descriptionAttributes[0].ResourceType, descriptionAttributes[0].Name, cultureInfo);
-            if (descriptionAttributes == null) return String.Empty;
             return (descriptionAttributes.Length > 0) ? descriptionAttributes[0].Name : value.ToString();
         }
     }

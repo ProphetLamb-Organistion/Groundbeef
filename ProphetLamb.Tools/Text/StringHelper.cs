@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace ProphetLamb.Tools
+namespace ProphetLamb.Tools.Text
 {
     [ComVisible(true)]
     public static class StringHelper
@@ -12,7 +12,7 @@ namespace ProphetLamb.Tools
         private static readonly char[] defaultAlphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string FastAllocateString(int length) => methodFastAllocateString.Invoke(null, new object[] { length }) as string;
+        public static string? FastAllocateString(int length) => methodFastAllocateString.Invoke(null, new object[] { length }) as string;
 
         /// <summary>
         /// Returns a new randomly generated string with the specified <paramref name="length"/> containing lower and uppercase alphanumeric characters 0-9a-zA-Z.
@@ -40,10 +40,8 @@ namespace ProphetLamb.Tools
             if (length < 0)
                 throw new ArgumentOutOfRangeException(nameof(length), ExceptionResource.INTEGER_POSITIVEZERO);
             if (alphabet.Length < 2)
-                throw new ArgumentException("The alphabet must contain at least two characters.");
-            if (random is null)
-                throw new ArgumentNullException(nameof(random));
-            string str = FastAllocateString(length);
+                throw new ArgumentException("The alphabet contains less then two characters.");
+            string str = FastAllocateString(length) ?? String.Empty;
             int alphabetEndIndex = alphabet.Length - 1;
             fixed (char* outStr = str)
             fixed (char* alphabetPtr = &MemoryMarshal.GetReference(alphabet))

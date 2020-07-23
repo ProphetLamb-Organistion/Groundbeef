@@ -15,8 +15,6 @@ namespace ProphetLamb.Tools
         /// <typeparam name="T">The cast type.</typeparam>
         public static T CastObject<T>(in object value)
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
             return (T)value;
         }
 
@@ -27,8 +25,6 @@ namespace ProphetLamb.Tools
         /// <typeparam name="T">The conversion type.</typeparam>
         public static T ConvertObject<T>(in object value)
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
             return (T)Convert.ChangeType(value, typeof(T));
         }
     }

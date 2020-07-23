@@ -8,7 +8,7 @@ namespace ProphetLamb.Tools.Localisation
         /// <summary>
         /// Name of the locale
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         ///  Is the locale right to left

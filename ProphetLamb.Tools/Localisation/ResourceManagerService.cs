@@ -12,12 +12,12 @@ namespace ProphetLamb.Tools.Localisation
     {
         private static readonly Dictionary<string, System.Resources.ResourceManager> _managers;
 
-        public static event ValueChangedEventHandler<Locale> LocaleChanged;
+        public static event ValueChangedEventHandler<Locale?>? LocaleChanged;
 
         /// <summary>
         /// Current application locale
         /// </summary>
-        public static Locale CurrentLocale { get; private set; }
+        public static Locale? CurrentLocale { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the ResourceManager class.
@@ -35,9 +35,9 @@ namespace ProphetLamb.Tools.Localisation
         /// </summary>
         /// <param name="managerName">Name of the ResourceManager</param>
         /// <param name="resourceKey">Resource to lookup</param>
-        public static string GetResourceString(in string managerName, in string resourceKey)
+        public static string? GetResourceString(in string managerName, in string resourceKey)
         {
-            string resource = String.Empty;
+            string? resource = null!;
             if (_managers.TryGetValue(managerName, out var manager))
                 resource = manager.GetString(resourceKey);
             return resource;
@@ -54,10 +54,10 @@ namespace ProphetLamb.Tools.Localisation
             Thread.CurrentThread.CurrentUICulture = newCultureInfo;
 
             Locale newLocale = new Locale() { Name = newLocaleName, RTL = newCultureInfo.TextInfo.IsRightToLeft };
-            Locale oldLocale = CurrentLocale?.Clone();
+            Locale? oldLocale = CurrentLocale?.Clone();
             CurrentLocale = newLocale;
 
-            LocaleChanged?.Invoke(null, new ValueChangedEventArgs<Locale>(oldLocale, newLocale));
+            LocaleChanged?.Invoke(null, new ValueChangedEventArgs<Locale?>(oldLocale, newLocale));
         }
 
         /// <summary>

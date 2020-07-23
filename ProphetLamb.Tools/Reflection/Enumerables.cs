@@ -16,8 +16,6 @@ namespace ProphetLamb.Tools.Reflection
         /// <returns><see cref="true"/> if the type implements the IEnumerable<> interface; otherwise, <see cref="false"/>.</returns>
         public static bool IsGenericIEnumerable(in Type type)
         {
-            if (type is null)
-                throw new ArgumentNullException(nameof(type));
             return type != typeof(string) && type.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == iEnumerableType);
         }
 
@@ -29,8 +27,6 @@ namespace ProphetLamb.Tools.Reflection
         /// <returns>The generic type argument of any enumerable type.</returns>
         public static Type GetEnumerableElementType(in Type type)
         {
-            if (type is null)
-                throw new ArgumentNullException(nameof(type));
             // Grab the generic arguments.
             if (genericArgumentDictionary.TryGetValue(type.GUID, out Type? genericArgument))
                 return genericArgument;

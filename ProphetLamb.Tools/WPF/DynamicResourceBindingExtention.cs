@@ -10,20 +10,22 @@ namespace ProphetLamb.Tools.WPF
     public class DynamicResourceBindingExtension : MarkupExtension
     {
         public DynamicResourceBindingExtension() { }
-        public DynamicResourceBindingExtension(object resourceKey)
-            => ResourceKey = resourceKey ?? throw new ArgumentNullException(nameof(resourceKey));
+        public DynamicResourceBindingExtension(object? resourceKey)
+        {
+            ResourceKey = resourceKey;
+        }
 
-        public object ResourceKey { get; set; }
-        public IValueConverter Converter { get; set; }
-        public object ConverterParameter { get; set; }
-        public CultureInfo ConverterCulture { get; set; }
-        public string StringFormat { get; set; }
-        public object TargetNullValue { get; set; }
+        public object? ResourceKey { get; set; }
+        public IValueConverter? Converter { get; set; }
+        public object? ConverterParameter { get; set; }
+        public CultureInfo? ConverterCulture { get; set; }
+        public string? StringFormat { get; set; }
+        public object? TargetNullValue { get; set; }
 
-        private BindingProxy bindingSource;
-        private BindingTrigger bindingTrigger;
+        private BindingProxy? bindingSource;
+        private BindingTrigger? bindingTrigger;
 
-        public override object ProvideValue(IServiceProvider serviceProvider)
+        public override object? ProvideValue(IServiceProvider serviceProvider)
         {
 
             // Get the binding source for all targets affected by this MarkupExtension
@@ -94,10 +96,10 @@ namespace ProphetLamb.Tools.WPF
 
         // This gets called on every change of the dynamic resource, for every object it's been applied to
         // either when applied directly, or via a style
-        private object WrapperConvert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        private object? WrapperConvert(object?[] values, Type? targetType, object? parameter, CultureInfo? culture)
         {
 
-            var dynamicResourceBindingResult = values[0]; // This is the result of the DynamicResourceBinding**
+            object? dynamicResourceBindingResult = values[0]; // This is the result of the DynamicResourceBinding**
             var bindingTargetObject = values[1]; // The ultimate target of the binding
                                                  // We can ignore the bogus third value (in 'values[2]') as that's the dummy result
                                                  // of the BindingTrigger's value which will always be 'null'
@@ -105,16 +107,17 @@ namespace ProphetLamb.Tools.WPF
             // ** Note: This value has not yet been passed through the converter, nor been coalesced
             // against TargetNullValue, or, if applicable, formatted, both of which we have to do here.
             if (Converter != null)
+            {
                 // We pass in the TargetType we're handed here as that's the real target. Child bindings
                 // would've normally been handed 'object' since their target is the MultiBinding.
-                dynamicResourceBindingResult = Converter.Convert(dynamicResourceBindingResult, targetType, ConverterParameter, ConverterCulture);
-
+                dynamicResourceBindingResult = Converter?.Convert(dynamicResourceBindingResult, targetType, ConverterParameter, ConverterCulture);
+            }
             // Check the results for null. If so, assign it to TargetNullValue
             // Otherwise, check if the target type is a string, and that there's a StringFormat
             // if so, format the string.
             // Note: You can't simply put those properties on the MultiBinding as it handles things differently
             // than a single binding (i.e. StringFormat is always applied, even when null.
-            if (dynamicResourceBindingResult == null)
+            if (dynamicResourceBindingResult is null)
                 dynamicResourceBindingResult = TargetNullValue;
             else if (targetType == typeof(string) && StringFormat != null)
                 dynamicResourceBindingResult = String.Format(CultureInfo.InvariantCulture, StringFormat, dynamicResourceBindingResult);
@@ -124,7 +127,6 @@ namespace ProphetLamb.Tools.WPF
             if (bindingTargetObject is FrameworkElement targetFrameworkElement
             && !targetFrameworkElement.Resources.Contains(bindingSource))
             {
-
                 // Add the resource to the target object's Resources collection
                 targetFrameworkElement.Resources[bindingSource] = bindingSource;
 
@@ -136,12 +138,7 @@ namespace ProphetLamb.Tools.WPF
                 // Note: since we're currently in the Convert method from the current operation,
                 // we must make the change via a 'Post' call or else we will get results returned
                 // out of order and the UI won't refresh properly.
-                SynchronizationContext.Current.Post((state) =>
-                {
-
-                    bindingTrigger.Refresh();
-
-                }, null);
+                SynchronizationContext.Current?.Post(_ => bindingTrigger?.Refresh(), null);
             }
 
             // Return the now-properly-resolved result of the child binding

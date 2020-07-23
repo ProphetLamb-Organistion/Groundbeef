@@ -13,11 +13,11 @@ using System.Linq;
 namespace ProphetLamb.Tools.Json.Resources
 {
     [System.Runtime.InteropServices.ComVisible(true)]
-    public class ResourceReader : System.Resources.IResourceReader, IEnumerable<KeyValuePair<string, object>>
+    public class ResourceReader : System.Resources.IResourceReader, IEnumerable<KeyValuePair<string, object?>>
     {
-        private readonly StreamReader reader;
-        private readonly CultureInfo culture;
-        private IEnumerable<KeyValuePair<string, object>> resourceSetDictionary;
+        private readonly StreamReader _reader;
+        private readonly CultureInfo _culture;
+        private IEnumerable<KeyValuePair<string, object?>>? resourceSetDictionary = null!;
 
         /// <summary>
         /// Initializes a new intance of <see cref="ResourceReader"/>.
@@ -34,13 +34,11 @@ namespace ProphetLamb.Tools.Json.Resources
         /// <param name="readToEnd">Whether to read the resource file to end or not.</param>
         public ResourceReader(in ResourceManager resourceManager, in CultureInfo resourceCulture, bool readToEnd)
         {
-            if (resourceManager is null)
-                throw new ArgumentNullException(nameof(resourceManager));
-            culture = resourceCulture ?? CultureInfo.InvariantCulture;
-            string fileName = resourceManager.GetResourceFileName(culture);
+            _culture = resourceCulture ?? CultureInfo.InvariantCulture;
+            string fileName = resourceManager.GetResourceFileName(_culture);
             if (!File.Exists(fileName))
                 throw new FileNotFoundException(ExceptionResource.FILE_NOTONDEVICE, fileName);
-            reader = new StreamReader(fileName);
+            _reader = new StreamReader(fileName);
             if (readToEnd)
                 ReadToEnd();
         }
@@ -48,28 +46,28 @@ namespace ProphetLamb.Tools.Json.Resources
         /// <summary>
         /// Reads all data from the underlying stream. Required to enumerate.
         /// </summary>
-        public IEnumerable<KeyValuePair<string, object>> ReadToEnd()
+        public IEnumerable<KeyValuePair<string, object?>> ReadToEnd()
         {
-            Debug.Assert(reader != null, "reader != null");
-            if (!reader.EndOfStream)
+            Debug.Assert(_reader != null, "reader != null");
+            if (!_reader.EndOfStream)
             {
                 // Deserialize the ResourceGroups
-                JsonSerializer serializer = JsonSerializer.Create(ResourceGroupConverter.SettingsFactory(culture));
-                var resourceGroups = serializer.Deserialize(reader, typeof(ResourceGroup[])) as ResourceGroup[];
+                JsonSerializer serializer = JsonSerializer.Create(ResourceGroupConverter.SettingsFactory(_culture));
+                var resourceGroups = serializer.Deserialize(_reader, typeof(ResourceGroup[])) as ResourceGroup[];
                 if (resourceGroups != null)
                     resourceSetDictionary = resourceGroups.AsParallel().SelectMany(x => x.ToDictionary());
             }
             if (resourceSetDictionary is null)
-                resourceSetDictionary = new Dictionary<string, object>();
+                resourceSetDictionary = new Dictionary<string, object?>();
             return resourceSetDictionary;
         }
 
         public void Close()
         {
-            reader.Close();
+            _reader.Close();
         }
 
-        IEnumerator<KeyValuePair<string, object>> IEnumerable<KeyValuePair<string, object>>.GetEnumerator()
+        IEnumerator<KeyValuePair<string, object?>> IEnumerable<KeyValuePair<string, object?>>.GetEnumerator()
         {
             if (resourceSetDictionary is null)
                 throw new InvalidOperationException();

@@ -1,86 +1,87 @@
-using Newtonsoft.Json;
-
-using ProphetLamb.Tools.IO;
-
+using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+
+using Newtonsoft.Json;
+using ProphetLamb.Tools.IO;
+
 
 namespace ProphetLamb.Tools.Json.Resources
 {
     [System.Runtime.InteropServices.ComVisible(true)]
     public class ResourceWriter : System.Resources.IResourceWriter
     {
-        private readonly CultureInfo culture;
-        private readonly string resourceFileName;
-        private readonly ResourceSet resourceSet;
-        private StreamWriter writer;
+        private readonly CultureInfo _culture;
+        private readonly string _resourceFileName;
+        private readonly ResourceSet _resourceSet;
+        private StreamWriter? _writer = null!;
 
         public ResourceWriter(in ResourceManager resourceManager, in CultureInfo resourceCulture)
         {
-            culture = resourceCulture ?? CultureInfo.InvariantCulture;
+            _culture = resourceCulture ?? CultureInfo.InvariantCulture;
             // Locate the associated resource file.
-            resourceFileName = resourceManager.GetResourceFileName(culture);
+            _resourceFileName = resourceManager.GetResourceFileName(_culture);
             // Attempt to load resource from resource manage, then from file
-            bool hasResource;
-            if (!(hasResource = resourceManager.TryGetResourceSet(culture, out resourceSet))
-             && File.Exists(resourceFileName))
+            if (resourceManager.TryGetResourceSet(_culture, out ResourceSet? resourceSet))
+            {
+                _resourceSet = resourceSet??throw new InvalidOperationException(); // Exception is unreachable, but keeps the compiler happy.
+            }
+            else if (File.Exists(_resourceFileName))
             {
                 // Attempt to read existing resource set.
-                using var reader = new ResourceReader(resourceManager, culture);
-                resourceSet = new ResourceSet(reader);
+                using var reader = new ResourceReader(resourceManager, _culture);
+                _resourceSet = new ResourceSet(reader);
+                resourceManager.AddResourceSet(_culture, _resourceSet);
             }
             else
             {
-                FileHelper.Create(resourceFileName).Dispose();
-                resourceSet = new ResourceSet();
+                // Add new resource set to manager
+                FileHelper.Create(_resourceFileName).Dispose();
+                _resourceSet = new ResourceSet();
+                resourceManager.AddResourceSet(_culture, _resourceSet);
             }
-            // Add resource set to manager
-            if (!hasResource)
-                resourceManager.AddResourceSet(culture, resourceSet);
         }
 
         public void AddResource(string name, byte[] value)
         {
-            resourceSet.Add(name, value);
+            _resourceSet.Add(name, value);
         }
 
         public void AddResource(string name, object value)
         {
-            resourceSet.Add(name, value);
+            _resourceSet.Add(name, value);
         }
 
         public void AddResource(string name, string value)
         {
-            resourceSet.Add(name, value);
+            _resourceSet.Add(name, value);
         }
 
         public void Close()
         {
             Generate();
-            writer.Close();
+            _writer?.Close();
         }
 
         public void Generate()
         {
-            if (resourceSet is null)
-                return;
             // Dispose existing stream; avoid collission from multiple writers flushing.
-            if (writer != null)
+            if (_writer != null)
             {
-                writer.Dispose();
-                writer = null;
+                _writer.Dispose();
+                _writer = null;
             }
-            lock (resourceSet)
+            lock (_resourceSet)
             {
-                writer = new StreamWriter(resourceFileName, append: false);
+                _writer = new StreamWriter(_resourceFileName, append: false);
                 // Generate ResourceGroups form resoruceSet
-                ResourceGroup[] resourceGroups = resourceSet.GroupBy(kvp => kvp.Value.GetType())
+                ResourceGroup[] resourceGroups = _resourceSet.GroupBy(kvp => kvp.Value?.GetType()??typeof(object))
                     .Select(grouping => new ResourceGroup(grouping.Key, grouping.Select(kvp => kvp.Key).ToList(), grouping.Select(kvp => kvp.Value).ToList())).ToArray();
                 // Open file
-                using var jsonWriter = new JsonTextWriter(writer);
+                using var jsonWriter = new JsonTextWriter(_writer);
                 // Create a serializer with the ResourceGroupConverter specific settings for the current culture.
-                JsonSerializer serializer = JsonSerializer.Create(ResourceGroupConverter.SettingsFactory(culture));
+                JsonSerializer serializer = JsonSerializer.Create(ResourceGroupConverter.SettingsFactory(_culture));
                 // Serialize the resourceGroups to the stream.
                 //resourceGroups.Wait();
                 serializer.Serialize(jsonWriter, resourceGroups);
@@ -96,7 +97,7 @@ namespace ProphetLamb.Tools.Json.Resources
                 if (disposing)
                 {
                     Close();
-                    writer.Dispose();
+                    _writer?.Dispose();
                 }
                 disposedValue = true;
             }

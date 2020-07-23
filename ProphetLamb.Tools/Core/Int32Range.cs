@@ -52,9 +52,9 @@ namespace ProphetLamb.Tools
         public bool Equals(in Int32Range other) => Start == other.Start && End == other.End;
         public override int GetHashCode() => System.HashCode.Combine(Start, End);
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            return Object.ReferenceEquals(obj, this);
+            return Object.ReferenceEquals(this, obj);
         }
 
         public static bool operator ==(in Int32Range left, in Int32Range right) => left.Equals(right);

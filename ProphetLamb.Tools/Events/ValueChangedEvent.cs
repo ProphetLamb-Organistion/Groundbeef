@@ -4,7 +4,7 @@ namespace ProphetLamb.Tools.Events
 {
     // Generic
     [System.Runtime.InteropServices.ComVisible(true)]
-    public delegate void ValueChangedEventHandler<TValue>(object sender, ValueChangedEventArgs<TValue> e);
+    public delegate void ValueChangedEventHandler<TValue>(object? sender, ValueChangedEventArgs<TValue> e);
 
     [System.Runtime.InteropServices.ComVisible(true)]
     public class ValueChangedEventArgs<TValue> : EventArgs
@@ -33,7 +33,7 @@ namespace ProphetLamb.Tools.Events
 
     // Typebased
     [System.Runtime.InteropServices.ComVisible(true)]
-    public delegate void ValueChangedEventHandler(object sender, ValueChangedEventArgs e);
+    public delegate void ValueChangedEventHandler(object? sender, ValueChangedEventArgs e);
 
     [System.Runtime.InteropServices.ComVisible(true)]
     public class ValueChangedEventArgs : EventArgs

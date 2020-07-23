@@ -2,7 +2,10 @@ using System;
 
 namespace ProphetLamb.Tools.Events
 {
-    public delegate void PropertyChangedEventHandler<T>(object sender, PropertyChangedEventArgs<T> e);
+    [System.Runtime.InteropServices.ComVisible(true)]
+    public delegate void PropertyChangedEventHandler<T>(object? sender, PropertyChangedEventArgs<T> e);
+
+    [System.Runtime.InteropServices.ComVisible(true)]
     public class PropertyChangedEventArgs<T> : ValueChangedEventArgs<T>
     {
         /// <summary>
@@ -22,7 +25,10 @@ namespace ProphetLamb.Tools.Events
         public string Name { get; protected set; }
     }
 
-    public delegate void PropertyChangedEventHandler(object sender, PropertyChangedEventArgs e);
+    [System.Runtime.InteropServices.ComVisible(true)]
+    public delegate void PropertyChangedEventHandler(object? sender, PropertyChangedEventArgs e);
+    
+    [System.Runtime.InteropServices.ComVisible(true)]
     public class PropertyChangedEventArgs : ValueChangedEventArgs
     {
         /// <summary>

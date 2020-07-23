@@ -5,17 +5,18 @@ namespace ProphetLamb.Tools.WPF
 {
     public class SimpleCommand : ICommand
     {
-        public SimpleCommand(Func<object, bool> canExecute = null, Action<object> execute = null)
+        public SimpleCommand() { }
+        public SimpleCommand(Func<object?, bool>? canExecute = null, Action<object?>? execute = null)
         {
             CanExecuteDelegate = canExecute;
             ExecuteDelegate = execute;
         }
 
-        public Func<object, bool> CanExecuteDelegate { get; set; }
+        public Func<object?, bool>? CanExecuteDelegate { get; set; }
 
-        public Action<object> ExecuteDelegate { get; set; }
+        public Action<object?>? ExecuteDelegate { get; set; }
 
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
             var canExecute = CanExecuteDelegate;
             return canExecute == null || canExecute(parameter);
@@ -27,7 +28,7 @@ namespace ProphetLamb.Tools.WPF
             remove => CommandManager.RequerySuggested -= value;
         }
 
-        public void Execute(object parameter)
+        public void Execute(object? parameter)
         {
             ExecuteDelegate?.Invoke(parameter);
         }

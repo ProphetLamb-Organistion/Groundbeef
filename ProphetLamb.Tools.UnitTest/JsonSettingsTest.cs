@@ -22,7 +22,7 @@ namespace ProphetLamb.Tools.UnitTest
         [Test]
         public void ProviderTest()
         {
-            using (var prv = SettingsProvider<Poco>.Create(settingsPath))
+            using (var prv = SettingsProvider<MyStorage>.Create(settingsPath))
             {
                 // Write
                 prv["HomeDir"] = "$home";
@@ -31,7 +31,7 @@ namespace ProphetLamb.Tools.UnitTest
                 // Write to readonly
                 Assert.Catch(typeof(InvalidOperationException), () => prv["Appname"] = "Badname");
             }
-            using (var prv = SettingsProvider<Poco>.Create(settingsPath))
+            using (var prv = SettingsProvider<MyStorage>.Create(settingsPath))
             {
                 // Read
                 Assert.AreEqual("$home", prv["HomeDir"]);
@@ -48,19 +48,20 @@ namespace ProphetLamb.Tools.UnitTest
         [Test]
         public void ManagerServiceTest()
         {
-            var prv = SettingsProvider<Poco>.Create(settingsPath);
+            var prv = SettingsProvider<MyStorage>.Create(settingsPath);
             prv["HomeDir"] = "$home";
             prv["WorkingMode"] = 69;
             prv["Backcolor"] = Color.Gainsboro;
             SettingsManagerService.RegisterProvider(prv);
-            Assert.AreEqual("$home", SettingsManagerService.GetValue<Poco>("HomeDir"));
-            Assert.AreEqual(69, SettingsManagerService.GetValue<Poco>("WorkingMode"));
-            Assert.AreEqual(Color.Gainsboro, SettingsManagerService.GetValue<Poco>("Backcolor"));
+            Assert.AreEqual("$home", SettingsManagerService.GetValue<MyStorage>("HomeDir"));
+            Assert.AreEqual(69, SettingsManagerService.GetValue<MyStorage>("WorkingMode"));
+            Assert.AreEqual(Color.Gainsboro, SettingsManagerService.GetValue<MyStorage>("Backcolor"));
 
             Assert.Pass();
         }
 
-        public class Poco
+        [SettingsStorage]
+        public class MyStorage
         {
             public string HomeDir { get; set; }
             public Color Backcolor { get; set; }
