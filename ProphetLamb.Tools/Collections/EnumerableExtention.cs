@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 
 namespace ProphetLamb.Tools.Collections
 {
@@ -11,15 +12,14 @@ namespace ProphetLamb.Tools.Collections
         /// </summary>
         /// <param name="enumerable">The enumerable</param>
         /// <returns>The number of elements in a sequence.</returns>
-        public static int Count(this IEnumerable enumerable)
+        public static int QuickCount(this IEnumerable enumerable)
         {
             if (enumerable is null)
                 throw new ArgumentNullException(nameof(enumerable));
-            var en = enumerable.GetEnumerator();
-            int count = 0;
-            while (en.MoveNext())
-                count++;
-            return count;
+            if (enumerable is IList list)
+                return list.Count;
+            else
+                return enumerable.Cast<object>().Count();
         }
     }
 }
