@@ -15,8 +15,27 @@ namespace Groundbeef.Json.Resources
         private readonly CultureInfo _culture;
         private readonly string _resourceFileName;
         private readonly ResourceSet _resourceSet;
-        private StreamWriter? _writer = null!;
+        private StreamWriter? _writer = null;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="ResourceWriter"/>.
+        /// </summary>
+        /// <param name="resourceSet">The instance of <see cref="ResourceSet"/> the <see cref="ResourceWriter"/> will write to.</param>
+        /// <param name="culture">The culture of the <paramref name="resourceSet"/>.</param>
+        /// <param name="fileName">The full or relative path to the <paramref name="resourceSet"/> including file-name and -extention.</param>
+        public ResourceWriter(in ResourceSet resourceSet, in CultureInfo culture, in string fileName)
+        {
+            _resourceSet = resourceSet;
+            _culture = culture;
+            _resourceFileName = fileName;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="ResourceWriter"/>.
+        /// Loading the <see cref="ResourceSet"/> by association to a <see cref="ResourceManager"/>.
+        /// </summary>
+        /// <param name="resourceManager">The <se cref="ResourceManager"/>, associated with the <see cref="ResourceSet"/>.</param>
+        /// <param name="resourceCulture">The culture of the <see cref="ResourceSet"/>.</param>
         public ResourceWriter(in ResourceManager resourceManager, in CultureInfo resourceCulture)
         {
             _culture = resourceCulture ?? CultureInfo.InvariantCulture;
@@ -43,16 +62,31 @@ namespace Groundbeef.Json.Resources
             }
         }
 
+        /// <summary>
+        /// Adds a new resource to the <see cref="ResourceSet"/>.
+        /// </summary>
+        /// <param name="name">The unique name key of the resource.</param>
+        /// <param name="value">The value of the resource.</param>
         public void AddResource(string name, byte[] value)
         {
             _resourceSet.Add(name, value);
         }
 
+        /// <summary>
+        /// Adds a new resource to the <see cref="ResourceSet"/>.
+        /// </summary>
+        /// <param name="name">The unique name key of the resource.</param>
+        /// <param name="value">The value of the resource.</param>
         public void AddResource(string name, object value)
         {
             _resourceSet.Add(name, value);
         }
 
+        /// <summary>
+        /// Adds a new resource to the <see cref="ResourceSet"/>.
+        /// </summary>
+        /// <param name="name">The unique name key of the resource.</param>
+        /// <param name="value">The value of the resource.</param>
         public void AddResource(string name, string value)
         {
             _resourceSet.Add(name, value);
@@ -70,7 +104,7 @@ namespace Groundbeef.Json.Resources
             if (_writer != null)
             {
                 _writer.Dispose();
-                _writer = null;
+                _writer = null!;
             }
             lock (_resourceSet)
             {

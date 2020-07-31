@@ -10,31 +10,60 @@ namespace Groundbeef
     [System.Runtime.InteropServices.ComVisible(true)]
     public static class EnumHelper<T> where T : struct, IConvertible
     {
-        public static IList<T> GetValues(Enum value)
+        private static readonly Type type;
+
+        static EnumHelper()
         {
-            var enumValues = new List<T>();
-            foreach (FieldInfo fi in value.GetType().GetFields(BindingFlags.Static | BindingFlags.Public))
-            {
-                enumValues.Add((T)Enum.Parse(value.GetType(), fi.Name, false));
-            }
+            type = typeof(T);
+            if (!type.IsEnum)
+                throw new NotSupportedException("Cannot be used with non enum Types");
+        }
+
+        public static T[] GetValues()
+        {
+            FieldInfo[] fields = type.GetFields(BindingFlags.Static | BindingFlags.Public);
+            var enumValues = new T[fields.Length];
+            for (int i = 0; i < fields.Length; i++)
+                enumValues[i] = Enum.Parse<T>(fields[i].Name, false);
             return enumValues;
         }
+
+        public static T[] GetValues(Enum value)
+        {
+            FieldInfo[] fields = value.GetType().GetFields(BindingFlags.Static | BindingFlags.Public);
+            var enumValues = new T[fields.Length];
+            for (int i = 0; i < fields.Length; i++)
+                enumValues[i] = Enum.Parse<T>(fields[i].Name, false);
+            return enumValues;
+        }
+
+        public static T Parse(in ReadOnlySpan<char> value) => Parse(value.ToString());
 
         public static T Parse(in string value)
         {
             if (String.IsNullOrEmpty(value))
                 throw new ArgumentException(ExceptionResource.STRING_NULLEMPTY, nameof(value));
-            return (T)Enum.Parse(typeof(T), value, true);
+            return Enum.Parse<T>(value, true);
         }
 
-        public static IList<string> GetNames(Enum value)
+        public static IEnumerable<string> GetNames()
         {
-            return value.GetType().GetFields(BindingFlags.Static | BindingFlags.Public).Select(fi => fi.Name).ToList();
+            return type.GetFields(BindingFlags.Static | BindingFlags.Public).Select(fi => fi.Name);
         }
 
-        public static IList<string?> GetDisplayValues(Enum value)
+        public static IEnumerable<string> GetNames(Enum value)
         {
-            return GetNames(value).Select(obj => GetDisplayValue(Parse(obj))).ToList();
+            return value.GetType().GetFields(BindingFlags.Static | BindingFlags.Public).Select(fi => fi.Name);
+        }
+
+        public static IEnumerable<string?> GetDisplayValues()
+        {
+            return GetNames().Select(obj => GetDisplayValue(Parse(obj)));
+        }
+
+        public static IEnumerable<string?> GetDisplayValues(Enum value)
+        {
+            return GetNames(value).Select(obj => GetDisplayValue(Parse(obj)));
         }
 
         private static string? LookupResource(Type resourceManagerProvider, string resourceKey, CultureInfo cultureInfo)
@@ -53,10 +82,7 @@ namespace Groundbeef
             return resourceKey; // Fallback with the key name
         }
 
-        public static string? GetDisplayValue(T value)
-        {
-            return GetDisplayValue(value, CultureInfo.CurrentUICulture);
-        }
+        public static string? GetDisplayValue(T value) => GetDisplayValue(value, CultureInfo.CurrentUICulture);
 
         public static string? GetDisplayValue(T value, CultureInfo cultureInfo)
         {

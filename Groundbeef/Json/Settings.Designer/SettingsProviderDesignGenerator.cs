@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace Groundbeef.Json.Settings.Designer
 {
-    internal class SettingsProviderDesignGeneratorHelper
+    internal sealed class SettingsProviderDesignGeneratorHelper
     {
         private readonly string _newLine,
                                 _namespace,
@@ -22,12 +22,12 @@ namespace Groundbeef.Json.Settings.Designer
         private int _indentation;
         private string _indent = String.Empty;
 
-        public static void GenerateDesignerSource<T_POGO>(ISettingsProvider<T_POGO> provider, StringBuilder syntaxBuilder)
+        public static void GenerateDesignerSource<T>(ISettingsProvider<T> provider, StringBuilder syntaxBuilder)
         {
-            Type pogoType = typeof(T_POGO);
-            var helper = new SettingsProviderDesignGeneratorHelper(pogoType, provider.FileName, false);
+            Type type = typeof(T);
+            var helper = new SettingsProviderDesignGeneratorHelper(type, provider.FileName, false);
             helper.GenerateHeading(syntaxBuilder);
-            foreach(var node in pogoType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            foreach(var node in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
                 if (node.PropertyType.IsValueType)
                     helper.GenerateValueTypeNode(syntaxBuilder, node);
@@ -97,7 +97,7 @@ namespace Groundbeef.Json.Settings.Designer
         private void GenerateFooter(StringBuilder syntaxBuilder)
         {
             Indentation--;
-                // }
+            //     }
             syntaxBuilder
                 .Append(_indent).Append('}').Append(_newLine);
             Indentation--;
@@ -150,7 +150,7 @@ namespace Groundbeef.Json.Settings.Designer
                 .Append(_indent).Append("get => ").Append(_settingsProviderName).Append(".GetValue(@\"").Append(name).Append("\");").Append(_newLine);
             if (nodePropertyInfo.CanWrite)
             {
-                //     set => settingsProvider.SetValue(@"[NAME]", value);
+                // set => settingsProvider.SetValue(@"[NAME]", value);
                 syntaxBuilder
                     .Append(_indent).Append("set => ").Append(_settingsProviderName).Append(".SetValue(@\"").Append(name).Append("\", value);").Append(_newLine);
             }

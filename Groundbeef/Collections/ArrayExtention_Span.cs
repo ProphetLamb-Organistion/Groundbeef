@@ -45,6 +45,7 @@ namespace Groundbeef.Collections
         /// <returns>The zero-based index of the first occurrence of item within the range of elements in the <see cref="ReadOnlySpan<T>"/> that starts at index, if found; otherwise, -1.</returns>
         /// <exception cref="ArgumentNullException">match is null<exception/>
         /// <exception cref="ArgumentOutOfRangeException">index < 0 || count < 0<exception/>
+        public static int IndexOf<T>(this ReadOnlySpan<T> array, int index, Predicate<T> match) => IndexOf(array, index, array.Length - index, match);
         /// <summary>
         /// Searches for the specified object and returns the zero-based index of the first occurrence within the range of elements in the <see cref="ReadOnlySpan{T}"/> that starts at the specified index and contains the specified number of elements.
         /// </summary>

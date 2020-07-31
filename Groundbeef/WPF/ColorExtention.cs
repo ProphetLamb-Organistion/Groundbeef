@@ -25,7 +25,7 @@ namespace Groundbeef.WPF
             return GetLightness(color.R, color.G, color.B);
         }
 
-        // HSP color model birghtness, explaination: http://alienryderflex.com/hsp.html
+        // HSP color model birghtness, reference: http://alienryderflex.com/hsp.html
         private static float GetLightness(float r, float g, float b)
         {
             return MathF.Sqrt(0.299f * MathF.Pow(r, 2) + 0.587f * MathF.Pow(g, 2) + 0.114f * MathF.Pow(b, 2));

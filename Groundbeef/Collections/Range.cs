@@ -1,3 +1,4 @@
+using System.Globalization;
 using System;
 using System.Diagnostics;
 
@@ -10,7 +11,6 @@ namespace Groundbeef.Collections
     {
         private readonly T _minimum, _maximum;
         private readonly bool _hasValue;
-
         /// <summary>
         /// Initializes a new instance of <see cref="Range{T}"/>.
         /// </summary>
@@ -93,10 +93,8 @@ namespace Groundbeef.Collections
         /// <returns><see cref="true"/> if the <paramref name="other"/> <see cref="Range{T}"/> intersects with this instance; otherwise, <see cref="false"/>.</returns>
         public bool Intersects(Range<T>? other)
         {
-            if (!(other is Range<T> range))
+            if (!(other is Range<T> range) || !_hasValue || !range._hasValue)
                 return false;
-            if (!HasValue || !other.HasValue)
-                throw new InvalidOperationException("Both Ranges must be fully assigned.");
             int minMax = _minimum.CompareTo(range._maximum),
                 maxMin = _maximum.CompareTo(range._minimum),
                 minMin = _minimum.CompareTo(range._minimum),
@@ -119,17 +117,14 @@ namespace Groundbeef.Collections
         #region IEquatable members
         public bool Equals(Range<T>? other)
         {
-            return other is Range<T> range && Equals(range);
-        }
-
-        public bool Equals(Range<T> other)
-        {
-                // Both without value
-            return (!HasValue && HasValue == other.HasValue)
-                // Values are equal
-                || (HasValue && other.HasValue
-                && _minimum.CompareTo(other._minimum) == 0
-                && _maximum.CompareTo(other._maximum) == 0);
+                // Other not null
+            return other is Range<T> range
+                // Both without value => equal
+                && ((!_hasValue && !range._hasValue)
+                // Both have value and values are equal => equal
+                || (_hasValue && range._hasValue
+                && _minimum.CompareTo(range._minimum) == 0
+                && _maximum.CompareTo(range._maximum) == 0));
         }
 
         public override bool Equals(object? obj) => obj is Range<T> other && Equals(other);
@@ -140,7 +135,10 @@ namespace Groundbeef.Collections
 
         public static bool operator ==(Range<T>? left, Range<T>? right)
         {
-            return (left is null && right is null) || (left is null ? right.Equals(left) : left.Equals(right));
+                // Both are null => equal
+            return (left is null && right is null)
+                // If left is null, then right is not null => not equal, else check equality
+                || (left?.Equals(right)??false);
         }
         public static bool operator !=(Range<T>? left, Range<T>? right)
         {
@@ -155,7 +153,7 @@ namespace Groundbeef.Collections
         /// <param name="left">The left <see cref="Range{T}"/>.</param>
         /// <param name="right">The right <see cref="Range{T}"/>.</param>
         /// <returns>A new <see cref="Range{T}"/> unifing the <paramref name="left"/> and <paramref name="right"/> <see cref="Range{T}"/>.</returns>
-        public static Range<T>? Unify(Range<T>? left, Range<T>? right) => left?.Unify(right)??right?.Unify(left);
+        public static Range<T>? Unify(Range<T>? left, Range<T>? right) => left?.Unify(right)??right;
 
         /// <summary>
         /// Returns a new <see cref="Range{T}"/> unifing the <paramref name="left"/> and <paramref name="right"/> <see cref="Range{T}"/>.
@@ -163,7 +161,7 @@ namespace Groundbeef.Collections
         /// <param name="left">The left <see cref="Range{T}"/>.</param>
         /// <param name="right">The right <see cref="Range{T}"/>.</param>
         /// <returns>A new <see cref="Range{T}"/> unifing the <paramref name="left"/> and <paramref name="right"/> <see cref="Range{T}"/>.</returns>
-        public static Range<T>? operator +(Range<T>? left, Range<T>? right) => Unify(left, right);
+        public static Range<T> operator +(Range<T> left, Range<T>? right) => Unify(left, right)??left;
 
         /// <summary>
         /// Returns a new <see cref="Range{T}"> to encompassing the <paramref name="value"/>.
@@ -177,28 +175,35 @@ namespace Groundbeef.Collections
         /// </summary>
         /// <param name="value">The value to extend to <see cref="Range{T}"/> to.</param>
         /// <returns>A new <see cref="Range{T}"> to encompassing the <paramref name="value"/>.</returns>
-        public static Range<T>? operator +(Range<T>? range, T value) => Expand(range, value);
+        public static Range<T> operator +(Range<T> range, T value) => Expand(range, value)??range;
         #endregion
     }
 
     public static class RangeExtentions
     {
         /// <summary>
-        /// Returns a new <see cref="Range{int}"/> with the Minumum equal to the <see cref="Range.Start"/> and the Maximum equal to the <see cref="Range.End"/>. 
+        /// Returns a new <see cref="Range{int}"/> with the Minumum equal to the <see cref="Range.Start"/>, and the Maximum equal to the <see cref="Range.End"/>. 
         /// Requires <see cref="Index.IsFromEnd"/> to be false.
         /// </summary>
         /// <param name="range">The <see cref="Range"/>.</param>
-        /// <returns>A new <see cref="Range{int}"/> with the Minumum equal to the <see cref="Range.Start"/> and the Maximum equal to the <see cref="Range.End"/>.</returns>
-        public static Range<int> FromRange(this Range range)
+        /// <returns>A new <see cref="Range{int}"/> with the Minumum equal to the <see cref="Range.Start"/>, and the Maximum equal to the <see cref="Range.End"/>.</returns>
+        public static Range<int> ToGenericRange(this Range range)
         {
             if (range.Start.IsFromEnd || range.End.IsFromEnd)
                 throw new NotSupportedException("Converting a System.Range to a Range<int> requires Index.IsFromEnd to be false.");
             return new Range<int>(range.Start.Value, range.End.Value);
         }
 
-        public static Range ToRange(this Range<int> range)
+        /// <summary>
+        /// Returns a new <see cref="Range"/> with the Start equal to <see cref="Range{int}.Minimum"/>, and the End equal to <see cref="Range{int}.Maximum"/>.
+        /// </summary>
+        /// <param name="range">The <see cref="Range{int}"/>.</param>
+        /// <returns>Returns a new <see cref="Range"/> with the Start equal to <see cref="Range{int}.Minimum"/>, and the End equal to <see cref="Range{int}.Maximum"/>.</returns>
+        public static Range ToIndexRange<T>(this Range<T> range) where T : IComparable<T>, IConvertible
         {
-            return range.Minimum..range.Maximum;
+            int start = range.Minimum.ToInt32(CultureInfo.CurrentCulture.NumberFormat),
+                end = range.Maximum.ToInt32(CultureInfo.CurrentCulture.NumberFormat);
+            return new Range(new Index(start), new Index(end));
         }
     }
 }

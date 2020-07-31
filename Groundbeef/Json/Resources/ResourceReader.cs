@@ -16,10 +16,10 @@ namespace Groundbeef.Json.Resources
     {
         private readonly StreamReader _reader;
         private readonly CultureInfo _culture;
-        private IEnumerable<KeyValuePair<string, object?>>? resourceSetDictionary = null!;
+        private IEnumerable<KeyValuePair<string, object?>>? resourceSetDictionary = null;
 
         /// <summary>
-        /// Initializes a new intance of <see cref="ResourceReader"/>.
+        /// Initializes a new intance of <see cref="ResourceReader"/>. Reads to end.
         /// </summary>
         /// <param name="resourceManager">The resource manager the resource file belongs to.</param>
         /// <param name="resourceCulture">The culture of the resource file.</param>
@@ -52,8 +52,7 @@ namespace Groundbeef.Json.Resources
             {
                 // Deserialize the ResourceGroups
                 JsonSerializer serializer = JsonSerializer.Create(ResourceGroupConverter.SettingsFactory(_culture));
-                var resourceGroups = serializer.Deserialize(_reader, typeof(ResourceGroup[])) as ResourceGroup[];
-                if (resourceGroups != null)
+                if (serializer.Deserialize(_reader, typeof(ResourceGroup[])) is ResourceGroup[] resourceGroups)
                     resourceSetDictionary = resourceGroups.AsParallel().SelectMany(x => x.ToDictionary());
             }
             if (resourceSetDictionary is null)

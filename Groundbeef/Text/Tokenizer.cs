@@ -42,7 +42,7 @@ namespace Groundbeef.Text
             _sourceText = text;
             _comparer = mode switch
             {
-                CharEqualityComparisions.InvariantCaseInsensitivie => new CharEqualityComparer_InvariantCaseInsensitive(),
+                CharEqualityComparisions.InvariantCaseInsensetive => new CharEqualityComparer_InvariantCaseInsensitive(),
                 CharEqualityComparisions.CaseInsensitive => new CharEqualityComparer_CaseInsensitive(),
                 _ => EqualityComparer<char>.Default,
             };
@@ -91,7 +91,7 @@ namespace Groundbeef.Text
             // Read _openText until the token was found or the end is reached.
             for(openIndex = 0; openIndex < openText.Length && tknIndex < token.Length; openIndex++)
             {
-                tknIndex = openText[openIndex] == token[tknIndex]
+                tknIndex = _comparer.Equals(openText[openIndex], token[tknIndex])
                  ? tknIndex + 1
                  : 0;
             }

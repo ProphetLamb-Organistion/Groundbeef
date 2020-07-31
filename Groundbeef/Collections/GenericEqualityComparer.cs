@@ -14,6 +14,15 @@ namespace Groundbeef.Collections
     [System.Runtime.InteropServices.ComVisible(true)]
     public delegate bool EqualityComparison<T>(T left, T right);
 
+    /// <summary>
+    /// Returns the Hashcode of a value using a specific function.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <typeparam name="T">The type of the value</typeparam>
+    /// <returns>The Hashcode of a value using a specific function.</returns>
+    [System.Runtime.InteropServices.ComVisible(true)]
+    public delegate int HashCodeFunction<T>(T value);
+
     [System.Runtime.InteropServices.ComVisible(true)]
     public class GenericEqualityComparer<T> : EqualityComparer<T>
     {
@@ -25,7 +34,7 @@ namespace Groundbeef.Collections
         /// <summary>
         /// Gets or sets the annonymous function used to generate the hashcode of a value.
         /// </summary>
-        public Func<T, int> HashFunction { get; set; } = null!;
+        public HashCodeFunction<T> HashFunction { get; set; } = null!;
 
         /// <summary>
         /// Initializes a new instance of <see cref="GenericEqualityComparer{T}"/>.
@@ -41,7 +50,7 @@ namespace Groundbeef.Collections
         /// </summary>
         /// <param name="equalityFunction">The annonymous <see cref="EqualityComparison{T}"/> used to check for equality.</param>
         /// <param name="hashFunction">The annonymous function used to generate the hashcode of a value.</param>
-        public GenericEqualityComparer(EqualityComparison<T> equalityFunction, Func<T, int> hashFunction)
+        public GenericEqualityComparer(EqualityComparison<T> equalityFunction, HashCodeFunction<T> hashFunction)
         {
             EqualityFunction = equalityFunction;
             HashFunction = hashFunction;

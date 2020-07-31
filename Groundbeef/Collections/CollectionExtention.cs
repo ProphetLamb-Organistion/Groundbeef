@@ -93,7 +93,6 @@ namespace Groundbeef.Collections
             }
         }
 
-
         /// <summary>
         /// Searches a portion of the elements in the <see cref="Collection{T}"/> for the specified element and returns the zero-based index of the first occurence.
         /// </summary>
@@ -106,7 +105,6 @@ namespace Groundbeef.Collections
         {
             return IndexOf(collection, 0, match);
         }
-
 
         /// <summary>
         /// Searches a portion of the elements in the <see cref="Collection{T}"/> for the specified element and returns the zero-based index of the first occurence.
@@ -155,7 +153,6 @@ namespace Groundbeef.Collections
             return -1;
         }
 
-
         /// <summary>
         /// Searches the elements in the <see cref="ICollection"/> for the specified element and returns the zero-based index of the first occurence.
         /// </summary>
@@ -168,7 +165,6 @@ namespace Groundbeef.Collections
         {
             return IndexOf(collection, 0, match);
         }
-
 
         /// <summary>
         /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and returns the zero-based index of the first occurence.
@@ -970,7 +966,6 @@ namespace Groundbeef.Collections
                 comparer = Comparer<T>.Default;
             IntrospectiveSort(collection, startIndex, count, comparer);
         }
-
 
         #region IntrospectiveSort
         // All source code in this region is based on the reference source of following classes:

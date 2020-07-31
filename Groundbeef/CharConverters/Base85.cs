@@ -2,8 +2,9 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Groundbeef.Text;
 
-namespace Groundbeef.Converters
+namespace Groundbeef.CharConverters
 {
     /// <summary>
     /// Z85 encoder for bytes
@@ -11,7 +12,6 @@ namespace Groundbeef.Converters
     [ComVisible(true)]
     public static class Base85
     {
-
         // Divisor and multiplier weights for consecutive bytes for both encoding and decoding.
         private const uint num0 = 0x31C84B1, num1 = 0x95EED, num2 = 0x1C39, num3 = 0x55;
 
@@ -22,6 +22,7 @@ namespace Groundbeef.Converters
         /// <param name="chars">The base85 encoded <see cref="ReadOnlySpan<char>"/> to decode.</param>
         /// <returns>The byte representation of the base85 encoded  <see cref="ReadOnlySpan<char>"/>.</returns>
         public static Span<byte> Decode(ReadOnlySpan<char> chars) => Decode(chars, 0, chars.Length);
+
         /// <summary>
         /// Converts a portion of a base85 encoded <see cref="ReadOnlySpan<char>"/> to the byte represenatation.
         /// </summary>
@@ -29,6 +30,7 @@ namespace Groundbeef.Converters
         /// <param name="offset">The zero-based starting index of the section to decode.</param>
         /// <returns>The byte representation of a protion of the base85 encoded  <see cref="ReadOnlySpan<char>"/>.</returns>
         public static Span<byte> Decode(ReadOnlySpan<char> chars, int offset) => Decode(chars, offset, chars.Length - offset);
+
         /// <summary>
         /// Converts a portion of a base85 encoded <see cref="ReadOnlySpan<char>"/> to the byte represenatation.
         /// </summary>
@@ -64,30 +66,28 @@ namespace Groundbeef.Converters
             return bytes.Slice(0, base85Length);
         }
 
-        private static readonly byte[] decoder = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-:+=^!/*?&<>()[]{}@%$#".ToCharArray().Select(Convert.ToByte).ToArray();
+        private static readonly byte[] decoder = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-:+=^!/*?&<>()[]{}@%$#".GetASCIIBytes();
 
         private static unsafe void DecodeSpan(ReadOnlySpan<char> chars, Span<byte> base85)
         {
             Debug.Assert(chars.Length * 5 >= base85.Length * 4);
             int charsLength = chars.Length,
                 base85Length = base85.Length;
-#pragma warning disable RCS1001
             fixed (byte* outPtr = &MemoryMarshal.GetReference(base85))
             fixed (char* base85Ptr = &MemoryMarshal.GetReference(chars))
-                unchecked
-#pragma warning restore RCS1001
+            unchecked
+            {
+                char* inPtr = base85Ptr;
+                for (int i = 0; i < base85Length; inPtr += 4)
                 {
-                    char* inPtr = base85Ptr;
-                    for (int i = 0; i < base85Length; inPtr += 4)
-                    {
-                        uint value = ((uint)inPtr[0] << 24) | ((uint)inPtr[1] << 16) | ((uint)inPtr[2] << 8) | (uint)inPtr[3];
-                        outPtr[i++] = decoder[(value / num0) % 0x55];
-                        outPtr[i++] = decoder[(value / num1) % 0x55];
-                        outPtr[i++] = decoder[(value / num2) % 0x55];
-                        outPtr[i++] = decoder[(value / num3) % 0x55];
-                        outPtr[i++] = decoder[value % 0x55];
-                    }
+                    uint value = ((uint)inPtr[0] << 24) | ((uint)inPtr[1] << 16) | ((uint)inPtr[2] << 8) | (uint)inPtr[3];
+                    outPtr[i++] = decoder[(value / num0) % 0x55];
+                    outPtr[i++] = decoder[(value / num1) % 0x55];
+                    outPtr[i++] = decoder[(value / num2) % 0x55];
+                    outPtr[i++] = decoder[(value / num3) % 0x55];
+                    outPtr[i++] = decoder[value % 0x55];
                 }
+            }
         }
         #endregion
 
@@ -98,6 +98,7 @@ namespace Groundbeef.Converters
         /// <param name="bytes">The <see cref="Span<byte>"/> to encode.</param>
         /// <returns>The base85 encoded representation of the <see cref="ReadOnlySpan<byte>"/>.</returns>
         public static Span<char> Encode(ReadOnlySpan<byte> bytes) => Encode(bytes, 0, bytes.Length);
+
         /// <summary>
         /// Converts a portion of a <see cref="Span<byte>"/> to the base85 encoded representation.
         /// </summary>
@@ -105,6 +106,7 @@ namespace Groundbeef.Converters
         /// <param name="offset">The zero-based starting index of the section to encode.</param>
         /// <returns>The base85 encoded representation of a portion of the <see cref="ReadOnlySpan<byte>"/>.</returns>
         public static Span<char> Encode(ReadOnlySpan<byte> bytes, int offset) => Encode(bytes, offset, bytes.Length - offset);
+
         /// <summary>
         /// Converts a portion of a <see cref="Span<byte>"/> to the base85 encoded representation.
         /// </summary>
@@ -164,26 +166,24 @@ namespace Groundbeef.Converters
         {
             Debug.Assert(chars.Length * 5 >= base85.Length * 4);
             int length = chars.Length;
-#pragma warning disable RCS1001
             fixed (byte* charsPtr = &MemoryMarshal.GetReference(base85))
             fixed (char* outPtr = &MemoryMarshal.GetReference(chars))
-                unchecked
-#pragma warning restore RCS1001
+            unchecked
+            {
+                byte* inPtr = charsPtr;
+                for (int i = 0; i < length; inPtr += 5)
                 {
-                    byte* inPtr = charsPtr;
-                    for (int i = 0; i < length; inPtr += 5)
-                    {
-                        uint value = encoder[inPtr[0]] * num0
-                                   + encoder[inPtr[1]] * num1
-                                   + encoder[inPtr[2]] * num2
-                                   + encoder[inPtr[3]] * num3
-                                   + encoder[inPtr[4]];
-                        outPtr[i++] = (char)((value >> 24) & 0xFF);
-                        outPtr[i++] = (char)((value >> 16) & 0xFF);
-                        outPtr[i++] = (char)((value >> 8) & 0xFF);
-                        outPtr[i++] = (char)((value >> 0) & 0xFF);
-                    }
+                    uint value = encoder[inPtr[0]] * num0
+                                + encoder[inPtr[1]] * num1
+                                + encoder[inPtr[2]] * num2
+                                + encoder[inPtr[3]] * num3
+                                + encoder[inPtr[4]];
+                    outPtr[i++] = (char)((value >> 24) & 0xFF);
+                    outPtr[i++] = (char)((value >> 16) & 0xFF);
+                    outPtr[i++] = (char)((value >> 8) & 0xFF);
+                    outPtr[i++] = (char)((value >> 0) & 0xFF);
                 }
+            }
         }
         #endregion
     }

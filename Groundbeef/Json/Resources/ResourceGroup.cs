@@ -35,7 +35,7 @@ namespace Groundbeef.Json.Resources
             int length = Keys.Count;
             for (int i = 0; i < length; i++)
             {
-                yield return KeyValuePair.Create(Keys[i], Values[i]??null); // Make the comiler happy: use the nullcop
+                yield return KeyValuePair.Create(Keys[i], Values[i]??null); // Make the comiler happy: use the nullcoop
             }
         }
     }
@@ -127,7 +127,7 @@ namespace Groundbeef.Json.Resources
                     throw new InvalidOperationException("Failed to make generic constructor.");
                 listConstructorTable.Add(guid, ctor);
             }
-            return (IList)ctor.Invoke(new object?[] { capacity })??throw new InvalidOperationException("Failed to invoke the constructor successfully.");
+            return (IList)ctor.Invoke(new object?[] { capacity })??throw new InvalidOperationException("Failed to invoke the constructor.");
         }
     }
 }
