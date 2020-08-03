@@ -1,8 +1,8 @@
+using System.Text;
 using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Groundbeef.Text;
 
 namespace Groundbeef.CharConverters
 {
@@ -66,7 +66,7 @@ namespace Groundbeef.CharConverters
             return bytes.Slice(0, base85Length);
         }
 
-        private static readonly byte[] decoder = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-:+=^!/*?&<>()[]{}@%$#".GetASCIIBytes();
+        private static readonly byte[] decoder = Encoding.ASCII.GetBytes("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-:+=^!/*?&<>()[]{}@%$#");
 
         private static unsafe void DecodeSpan(ReadOnlySpan<char> chars, Span<byte> base85)
         {

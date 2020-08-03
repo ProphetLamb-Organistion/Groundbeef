@@ -27,6 +27,8 @@ namespace Groundbeef.Collections
             return newArray;
         }
 
+        
+
         #region Predicate
         /// <summary>
         /// Searches for the specified object and returns the zero-based index of the first occurrence within the range of elements in the <see cref="ReadOnlySpan<T>"/>.

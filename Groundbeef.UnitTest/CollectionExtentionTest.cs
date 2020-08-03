@@ -46,7 +46,7 @@ namespace Groundbeef.UnitTest
             // ICollection
             Assert.AreEqual(probe, coll1.Find(x => x is string str && str == probe));
             Assert.AreEqual(probe, coll1.FindLast(x => x is string str && str == probe));
-            Assert.AreEqual(2, coll1.FindAll(x => x is string str && str == probe).Count());
+            Assert.AreEqual(2, coll1.FindAll(x => x is string str && str == probe).QuickCount());
             // Generic Collection
             Assert.AreEqual(probe, coll2.Find(x => x == probe));
             Assert.AreEqual(probe, coll2.FindLast(x => x == probe));

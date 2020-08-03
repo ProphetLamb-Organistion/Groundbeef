@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Groundbeef\Converters\Groundbeef.Converters.csproj" />
+    <ProjectReference Include="..\Groundbeef\CharConverters\Groundbeef.CharConverters.csproj" />
     <ProjectReference Include="..\Groundbeef\Collections\Groundbeef.Collections.csproj" />
     <ProjectReference Include="..\Groundbeef\Core\Groundbeef.Core.csproj" />
     <ProjectReference Include="..\Groundbeef\Events\Groundbeef.Events.csproj" />
@@ -28,6 +28,7 @@
     <ProjectReference Include="..\Groundbeef\Json\Resources\Groundbeef.Json.Resources.csproj" />
     <ProjectReference Include="..\Groundbeef\Json\Settings\Groundbeef.Json.Settings.csproj" />
     <ProjectReference Include="..\Groundbeef\Reflection\Groundbeef.Reflection.csproj" />
+    <ProjectReference Include="..\Groundbeef\Text\Groundbeef.Text.csproj" />
   </ItemGroup>
 
 </Project>
