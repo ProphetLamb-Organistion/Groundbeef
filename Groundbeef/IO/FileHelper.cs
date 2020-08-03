@@ -96,5 +96,17 @@ namespace Groundbeef.IO
             hashAlgorithm.TransformFinalBlock(readBuffer, 0, readBuffer.Length);
             return hashAlgorithm.Hash;
         }
+
+        public static bool IsRelativePath(in ReadOnlySpan<char> path) => IsRelativePath(path, out _);
+
+        public static bool IsRelativePath(in ReadOnlySpan<char> path, out int startIndex)
+        {
+            var trimmedPath = path.TrimStart();
+            char lo = trimmedPath[0];
+            trimmedPath = trimmedPath[1..^0].TrimStart();
+            char lo2 = trimmedPath[0];
+            startIndex = path.Length - trimmedPath.Length;
+            return lo == '.' && (lo2 == '/' || lo2 == '\\');
+        }
     }
 }

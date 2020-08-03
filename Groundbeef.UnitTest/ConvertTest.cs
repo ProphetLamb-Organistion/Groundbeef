@@ -1,7 +1,7 @@
 using System.Text;
 using System;
 using NUnit.Framework;
-using Groundbeef.Converters;
+using Groundbeef.CharConverters;
 
 namespace Groundbeef.UnitTest
 {
@@ -18,7 +18,7 @@ namespace Groundbeef.UnitTest
         public unsafe void TestBase85()
         {
             // Encode
-            string test = StringHelper.RandomString(10000000);
+            string test = "StringHelper.RandomString(100_000_000)";
             ReadOnlySpan<char> encoded = Base85.Encode(Encoding.UTF8.GetBytes(test), 0, test.Length);
             //Console.WriteLine(encoded.ToString());
             // Decode
