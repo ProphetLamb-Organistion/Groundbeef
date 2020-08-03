@@ -1,10 +1,11 @@
+using Groundbeef.Text;
+
 using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Groundbeef.Text;
 
-namespace Groundbeef.CharConverters
+namespace Groundbeef.ByteConverters
 {
     /// <summary>
     /// Z85 encoder for bytes
@@ -75,19 +76,19 @@ namespace Groundbeef.CharConverters
                 base85Length = base85.Length;
             fixed (byte* outPtr = &MemoryMarshal.GetReference(base85))
             fixed (char* base85Ptr = &MemoryMarshal.GetReference(chars))
-            unchecked
-            {
-                char* inPtr = base85Ptr;
-                for (int i = 0; i < base85Length; inPtr += 4)
+                unchecked
                 {
-                    uint value = ((uint)inPtr[0] << 24) | ((uint)inPtr[1] << 16) | ((uint)inPtr[2] << 8) | (uint)inPtr[3];
-                    outPtr[i++] = decoder[(value / num0) % 0x55];
-                    outPtr[i++] = decoder[(value / num1) % 0x55];
-                    outPtr[i++] = decoder[(value / num2) % 0x55];
-                    outPtr[i++] = decoder[(value / num3) % 0x55];
-                    outPtr[i++] = decoder[value % 0x55];
+                    char* inPtr = base85Ptr;
+                    for (int i = 0; i < base85Length; inPtr += 4)
+                    {
+                        uint value = ((uint)inPtr[0] << 24) | ((uint)inPtr[1] << 16) | ((uint)inPtr[2] << 8) | inPtr[3];
+                        outPtr[i++] = decoder[(value / num0) % 0x55];
+                        outPtr[i++] = decoder[(value / num1) % 0x55];
+                        outPtr[i++] = decoder[(value / num2) % 0x55];
+                        outPtr[i++] = decoder[(value / num3) % 0x55];
+                        outPtr[i++] = decoder[value % 0x55];
+                    }
                 }
-            }
         }
         #endregion
 
@@ -168,22 +169,22 @@ namespace Groundbeef.CharConverters
             int length = chars.Length;
             fixed (byte* charsPtr = &MemoryMarshal.GetReference(base85))
             fixed (char* outPtr = &MemoryMarshal.GetReference(chars))
-            unchecked
-            {
-                byte* inPtr = charsPtr;
-                for (int i = 0; i < length; inPtr += 5)
+                unchecked
                 {
-                    uint value = encoder[inPtr[0]] * num0
-                                + encoder[inPtr[1]] * num1
-                                + encoder[inPtr[2]] * num2
-                                + encoder[inPtr[3]] * num3
-                                + encoder[inPtr[4]];
-                    outPtr[i++] = (char)((value >> 24) & 0xFF);
-                    outPtr[i++] = (char)((value >> 16) & 0xFF);
-                    outPtr[i++] = (char)((value >> 8) & 0xFF);
-                    outPtr[i++] = (char)((value >> 0) & 0xFF);
+                    byte* inPtr = charsPtr;
+                    for (int i = 0; i < length; inPtr += 5)
+                    {
+                        uint value = encoder[inPtr[0]] * num0
+                                    + encoder[inPtr[1]] * num1
+                                    + encoder[inPtr[2]] * num2
+                                    + encoder[inPtr[3]] * num3
+                                    + encoder[inPtr[4]];
+                        outPtr[i++] = (char)((value >> 24) & 0xFF);
+                        outPtr[i++] = (char)((value >> 16) & 0xFF);
+                        outPtr[i++] = (char)((value >> 8) & 0xFF);
+                        outPtr[i++] = (char)((value >> 0) & 0xFF);
+                    }
                 }
-            }
         }
         #endregion
     }

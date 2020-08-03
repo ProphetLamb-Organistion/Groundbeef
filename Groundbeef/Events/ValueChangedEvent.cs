@@ -53,7 +53,7 @@ namespace Groundbeef.Events
             if (oldT is null && newT is null)
                 throw new ArgumentException("Could not determine the type of values, because oldValue and newValue are null.");
             if ((oldT is null ^ newT is null) || oldT == newT)
-                ValuesType = oldT??newT??typeof(object);
+                ValuesType = oldT ?? newT ?? typeof(object);
             else throw new ArgumentException("The type of oldValue is different from the type of newValue.");
         }
 

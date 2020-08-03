@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 #nullable enable
@@ -28,7 +27,7 @@ namespace Groundbeef.Collections
             int length = list.Count;
             // Cast list items to array
             var items = new T[length];
-            for(int i = 0; i < length; i++)
+            for (int i = 0; i < length; i++)
                 items[i] = (T)list[i];
             // The List<T>(IEnumerable<T>) constructor casts the array to ICollection<T> and calls CopyTo(_items) which is implemented via Array.Copy.
             return new List<T>(items);

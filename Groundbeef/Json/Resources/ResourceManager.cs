@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Groundbeef.Core;
+using Groundbeef.Events;
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-
-using Groundbeef.Core;
-using Groundbeef.Events;
 
 namespace Groundbeef.Json.Resources
 {
@@ -33,7 +33,7 @@ namespace Groundbeef.Json.Resources
             BaseName = baseName;
             Assembly assembly = Assembly.GetCallingAssembly();
             ResourceRootPath = assembly.Location;
-            string stdAssemblyName = typeof(object).Assembly.FullName??throw new InvalidOperationException("Could not determine the name of the System assembly.");
+            string stdAssemblyName = typeof(object).Assembly.FullName ?? throw new InvalidOperationException("Could not determine the name of the System assembly.");
             if (stdAssemblyName.Equals(assembly.FullName, StringComparison.InvariantCulture))
                 throw new NotSupportedException("Cannot be called by the system assembly.");
             // If the assemblyPath is a manifest-file
@@ -85,7 +85,7 @@ namespace Groundbeef.Json.Resources
         /// </summary>
         internal ResourceSet? LoadedResourceSet
         {
-            get => _loadedResourceSet; 
+            get => _loadedResourceSet;
             private set => _loadedResourceSet = value;
         }
 
@@ -285,7 +285,7 @@ namespace Groundbeef.Json.Resources
             if (String.IsNullOrWhiteSpace(key))
                 throw new ArgumentException($"'{nameof(key)}' cannot be null or white space", nameof(key));
             // Change culture & ResourceSet to the requested culture
-            CultureInfo l_culture = culture??CultureInfo.InvariantCulture;
+            CultureInfo l_culture = culture ?? CultureInfo.InvariantCulture;
             if (!l_culture.Name.Equals(_resourceCulture?.Name))
                 ChangeCulture(_resourceCulture, _resourceCulture = l_culture);
         }

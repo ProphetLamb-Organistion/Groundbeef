@@ -27,7 +27,7 @@ namespace Groundbeef.Events
 
     [System.Runtime.InteropServices.ComVisible(true)]
     public delegate void PropertyChangedEventHandler(object? sender, PropertyChangedEventArgs e);
-    
+
     [System.Runtime.InteropServices.ComVisible(true)]
     public class PropertyChangedEventArgs : ValueChangedEventArgs
     {

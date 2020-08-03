@@ -25,7 +25,7 @@ namespace Groundbeef.Text
         /// <summary>
         /// Initializes a new instance of <see cref="Tokenizer"/>.
         /// </summary>
-        /// <param name="text">The source <see cref="string"/> to parse.</param>
+        /// <param name="text">The source <see cref="String"/> to parse.</param>
         public Tokenizer(in string text)
         {
             _sourceText = text;
@@ -35,7 +35,7 @@ namespace Groundbeef.Text
         /// <summary>
         /// Initializes a new instance of <see cref="Tokenizer"/>, with a specified <see cref="CharEqualityComparisions"/>.
         /// </summary>
-        /// <param name="text">The source <see cref="string"/> to parse.</param>
+        /// <param name="text">The source <see cref="String"/> to parse.</param>
         /// <param name="mode">The <see cref="CharEqualityComparisions"/> determining how two chars are compared</param>
         public Tokenizer(in string text, in CharEqualityComparisions mode)
         {
@@ -49,10 +49,10 @@ namespace Groundbeef.Text
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Tokenizer"/>, with a specified <see cref="IEqualityComparer{char}"/>.
+        /// Initializes a new instance of <see cref="Tokenizer"/>, with a specified <see cref="IEqualityComparer{Char}"/>.
         /// </summary>
-        /// <param name="text">The source <see cref="string"/> to parse.</param>
-        /// <param name="comparer">The <see cref="IEqualityComparer{char}"/> used to determine if two chars are equal.</param>
+        /// <param name="text">The source <see cref="String"/> to parse.</param>
+        /// <param name="comparer">The <see cref="IEqualityComparer{Char}"/> used to determine if two chars are equal.</param>
         public Tokenizer(in string text, in IEqualityComparer<char> comparer)
         {
             _sourceText = text;
@@ -89,7 +89,7 @@ namespace Groundbeef.Text
             int tknIndex = 0;
             int openIndex;
             // Read _openText until the token was found or the end is reached.
-            for(openIndex = 0; openIndex < openText.Length && tknIndex < token.Length; openIndex++)
+            for (openIndex = 0; openIndex < openText.Length && tknIndex < token.Length; openIndex++)
             {
                 tknIndex = _comparer.Equals(openText[openIndex], token[tknIndex])
                  ? tknIndex + 1

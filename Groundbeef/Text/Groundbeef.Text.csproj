@@ -25,6 +25,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Core\Groundbeef.Core.csproj" />
     <ProjectReference Include="..\Collections\Groundbeef.Collections.csproj" />
+    <ProjectReference Include="..\Reflection\Groundbeef.Reflection.csproj" />
     <ProjectReference Include="..\SharedResources\Groundbeef.SharedResources.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.Collections.Immutable" Version="1.7.1" />
   </ItemGroup>
 </Project>

@@ -16,7 +16,7 @@ namespace Groundbeef.Text
         /// Initializes a new instacne of <see cref="BulkTokenizer{T}"/>, with a specified <see cref="ITokenizer"/>.
         /// </summary>
         /// <param name="tokenizer">The <see cref="ITokenizer"/> used.</param>
-        /// <param name="tokens">The ordered <see cref="string?[]?"/> containing the tokens,</param>
+        /// <param name="tokens">The ordered <see cref="String?[]?"/> containing the tokens,</param>
         public BulkTokenizer(in ITokenizer tokenizer, in string?[] tokens)
         {
             _tokenizer = tokenizer;
@@ -26,8 +26,8 @@ namespace Groundbeef.Text
         /// <summary>
         /// Initializes a new instacne of <see cref="BulkTokenizer{T}"/>, with the default <see cref="Tokenizer"/>.
         /// </summary>
-        /// <param name="text">The source <see cref="string"/> to parse.</param>
-        /// <param name="tokens">The ordered <see cref="string?[]?"/> </param>
+        /// <param name="text">The source <see cref="String"/> to parse.</param>
+        /// <param name="tokens">The ordered <see cref="String?[]?"/> </param>
         public BulkTokenizer(in string text, in string?[] tokens)
         {
             _tokenizer = new Tokenizer(text);
@@ -35,10 +35,10 @@ namespace Groundbeef.Text
         }
 
         /// <summary>
-        /// Returns a <see cref="string?[]"/> with length equal to the number of tokens - 1, containing the elements inbetween all tokens. 
+        /// Returns a <see cref="String?[]"/> with length equal to the number of tokens - 1, containing the elements inbetween all tokens. 
         /// If a token was not found the value at the index will be null, and the token will be skipped.
         /// </summary>
-        /// <returns>A <see cref="string?[]"/> with length equal to the number of tokens - 1, containing the elements inbetween all tokens.</returns>
+        /// <returns>A <see cref="String?[]"/> with length equal to the number of tokens - 1, containing the elements inbetween all tokens.</returns>
         public string?[] Tokenize()
         {
             var result = new string?[_splitTokens.Length - 1];
@@ -47,12 +47,12 @@ namespace Groundbeef.Text
             {
                 if (_splitTokens[i] is null)
                 {
-                    result[i-1] = null;
+                    result[i - 1] = null;
                 }
                 else
                 {
                     _tokenizer.Next(_splitTokens[i]);
-                    result[i-1] = _tokenizer.Current;
+                    result[i - 1] = _tokenizer.Current;
                 }
             }
             return result;

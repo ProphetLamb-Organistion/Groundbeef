@@ -1,10 +1,11 @@
+using Groundbeef.IO;
+
+using Newtonsoft.Json;
+
 using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-
-using Newtonsoft.Json;
-using Groundbeef.IO;
 
 
 namespace Groundbeef.Json.Resources
@@ -44,7 +45,7 @@ namespace Groundbeef.Json.Resources
             // Attempt to load resource from resource manage, then from file
             if (resourceManager.TryGetResourceSet(_culture, out ResourceSet? resourceSet))
             {
-                _resourceSet = resourceSet??throw new InvalidOperationException(); // Exception is unreachable, but keeps the compiler happy.
+                _resourceSet = resourceSet ?? throw new InvalidOperationException(); // Exception is unreachable, but keeps the compiler happy.
             }
             else if (File.Exists(_resourceFileName))
             {
@@ -110,7 +111,7 @@ namespace Groundbeef.Json.Resources
             {
                 _writer = new StreamWriter(_resourceFileName, append: false);
                 // Generate ResourceGroups form resoruceSet
-                ResourceGroup[] resourceGroups = _resourceSet.GroupBy(kvp => kvp.Value?.GetType()??typeof(object))
+                ResourceGroup[] resourceGroups = _resourceSet.GroupBy(kvp => kvp.Value?.GetType() ?? typeof(object))
                     .Select(grouping => new ResourceGroup(grouping.Key, grouping.Select(kvp => kvp.Key).ToList(), grouping.Select(kvp => kvp.Value).ToList())).ToArray();
                 // Open file
                 using var jsonWriter = new JsonTextWriter(_writer);

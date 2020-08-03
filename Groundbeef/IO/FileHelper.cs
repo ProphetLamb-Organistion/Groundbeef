@@ -1,4 +1,3 @@
-using System.Security.AccessControl;
 using System;
 using System.IO;
 using System.Security.Cryptography;
@@ -71,14 +70,14 @@ namespace Groundbeef.IO
         /// <summary>
         /// Returns the SHA1 hash of a file.
         /// </summary>
-        /// <param name="fileName">The <see cref="string"/> defining the path the file, its name and extention.</param>
+        /// <param name="fileName">The <see cref="String"/> defining the path the file, its name and extention.</param>
         /// <returns>The SHA1 hash of the file.</returns>
         public static byte[] GetFileSHA1Hash(string fileName) => GetFileHash(fileName, SHA1.Create());
 
         /// <summary>
         /// Returns the hash of a file, using the <see cref="HashAlorithm"/> specified.
         /// </summary>
-        /// <param name="fileName">The <see cref="string"/> defining the path the file, its name and extention.</param>
+        /// <param name="fileName">The <see cref="String"/> defining the path the file, its name and extention.</param>
         /// <param name="hashAlgorithm">The new instance of the <see cref="HashAlorithm"/> used.</param>
         /// <returns>The hash of the file.</returns>
         public static byte[] GetFileHash(string fileName, HashAlgorithm hashAlgorithm)

@@ -1,4 +1,7 @@
 using System;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Groundbeef.Core
 {
@@ -26,12 +29,21 @@ namespace Groundbeef.Core
         }
 
         /// <summary>
-        /// Indicates that the object can convert to the type specifed using the <see cref="ConvertTo"/> method.
+        /// Creates a new instance of <see cref="Guid"/> by combining a <see cref="Guid"/> with another. By appling the XOR operation to the first and last 8 bytes, of the 16-element byte arrays, crosswise.
         /// </summary>
-        /// <typeparam name="T">The type to convert to.</typeparam>
-        public interface IConvertible<T>
+        /// <param name="other">The <see cref="Guid"/> to combine with.</param>
+        /// <returns>The <see cref="Guid"/> created by combining two <see cref="Guid"/>s.</returns>
+        public static unsafe Guid Combine(this Guid self, Guid other)
         {
-            T ConvertTo<T>();
+            Span<byte> a = self.ToByteArray();
+            ReadOnlySpan<byte> b = other.ToByteArray();
+            fixed (byte* aPtr = &MemoryMarshal.GetReference(a))
+            fixed (byte* bPtr = &MemoryMarshal.GetReference(b))
+            {
+                Unsafe.WriteUnaligned(aPtr, *(ulong*)aPtr ^ *(ulong*)(bPtr + 8));
+                Unsafe.WriteUnaligned(aPtr + 8, *(ulong*)(aPtr + 8) ^ *(ulong*)bPtr);
+            }
+            return new Guid(a);
         }
     }
 }

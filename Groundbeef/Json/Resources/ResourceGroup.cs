@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Groundbeef.Json.Resources
 {
@@ -35,7 +35,7 @@ namespace Groundbeef.Json.Resources
             int length = Keys.Count;
             for (int i = 0; i < length; i++)
             {
-                yield return KeyValuePair.Create(Keys[i], Values[i]??null); // Make the comiler happy: use the nullcoop
+                yield return KeyValuePair.Create(Keys[i], Values[i] ?? null); // Make the comiler happy: use the nullcoop
             }
         }
     }
@@ -48,14 +48,14 @@ namespace Groundbeef.Json.Resources
 
         public override ResourceGroup ReadJson(JsonReader reader, Type objectType, [AllowNull] ResourceGroup? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            JObject obj = JObject.Load(reader)??throw new JsonReaderException("Failed to load the JObject form the reader.");
+            JObject obj = JObject.Load(reader) ?? throw new JsonReaderException("Failed to load the JObject form the reader.");
             // Read type
             string? typeName = obj["type"]?.ToObject<string?>();
             if (String.IsNullOrWhiteSpace(typeName))
                 throw new JsonReaderException(ExceptionResource.STRING_NULLWHITESPACE);
             if (!elementTypeTable.TryGetValue(typeName, out Type? resourcesType) || resourcesType is null)
             {
-                resourcesType = Type.GetType(typeName)??throw new JsonReaderException("The string typeName could not be converted to a type variable.");
+                resourcesType = Type.GetType(typeName) ?? throw new JsonReaderException("The string typeName could not be converted to a type variable.");
                 elementTypeTable.Add(typeName, resourcesType);
             }
             // Read keys
@@ -63,7 +63,7 @@ namespace Groundbeef.Json.Resources
             if (keys is null)
                 throw new JsonReaderException(ExceptionResource.VALUE_NOTNULL);
             // Read values
-            JToken[] jValues = obj["values"]?.ToArray()??throw new JsonReaderException("Failed to convert values to an array.");
+            JToken[] jValues = obj["values"]?.ToArray() ?? throw new JsonReaderException("Failed to convert values to an array.");
             IList values = MakeGenericList(resourcesType, jValues.Length);
             for (int i = 0; i < jValues.Length; i++)
                 values.Add(JTokenToObject(jValues[i], resourcesType));
@@ -82,7 +82,7 @@ namespace Groundbeef.Json.Resources
             var values = new JToken[((value?.Values.Count) ?? 0)];
             for (int i = 0; i < values.Length; i++)
             {
-                values[i] = JToken.FromObject(value?.Values[i]??throw new JsonWriterException("One or more elements of value are null."), serializer);
+                values[i] = JToken.FromObject(value?.Values[i] ?? throw new JsonWriterException("One or more elements of value are null."), serializer);
             }
             resGrp.Add(new JProperty("values", new JArray(values)));
             resGrp.WriteTo(writer, this);
@@ -127,7 +127,7 @@ namespace Groundbeef.Json.Resources
                     throw new InvalidOperationException("Failed to make generic constructor.");
                 listConstructorTable.Add(guid, ctor);
             }
-            return (IList)ctor.Invoke(new object?[] { capacity })??throw new InvalidOperationException("Failed to invoke the constructor.");
+            return (IList)ctor.Invoke(new object?[] { capacity }) ?? throw new InvalidOperationException("Failed to invoke the constructor.");
         }
     }
 }

@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Core\Groundbeef.Core.csproj" />
     <ProjectReference Include="..\SharedResources\Groundbeef.SharedResources.csproj" />
   </ItemGroup>
 

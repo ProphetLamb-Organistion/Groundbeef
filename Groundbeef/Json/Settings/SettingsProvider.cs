@@ -1,3 +1,9 @@
+using Groundbeef.Events;
+using Groundbeef.IO;
+using Groundbeef.Reflection;
+
+using Newtonsoft.Json;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,11 +12,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Timers;
-
-using Newtonsoft.Json;
-using Groundbeef.IO;
-using Groundbeef.Reflection;
-using Groundbeef.Events;
 
 namespace Groundbeef.Json.Settings
 {
@@ -166,7 +167,7 @@ namespace Groundbeef.Json.Settings
         private void ReadSettings()
         {
             T_STORE? newSettings;
-            lock(_stream)
+            lock (_stream)
             {
                 Stream stream = _stream;
                 using var sr = new StreamReader(stream);
@@ -179,7 +180,7 @@ namespace Groundbeef.Json.Settings
                 // Deserialize json or create default
                 newSettings = serializer.Deserialize(sr, typeof(T_STORE)) as T_STORE ?? DefaultSettings;
             }
-            Parallel.ForEach(_properties.Values, (PropertyInfo prop) => 
+            Parallel.ForEach(_properties.Values, (PropertyInfo prop) =>
             {
                 object? newValue = prop.GetValue(newSettings);
                 if (prop.PropertyType.GetDefaultEqualityComparer() is IEqualityComparer comparer)
@@ -198,7 +199,7 @@ namespace Groundbeef.Json.Settings
 
         private void WriteSettings()
         {
-            lock(_stream)
+            lock (_stream)
             {
                 Stream stream = _stream;
                 using var sw = new StreamWriter(stream);
@@ -240,7 +241,7 @@ namespace Groundbeef.Json.Settings
             if (typeof(T_STORE).GetCustomAttribute<SettingsStorageAttribute>() is null)
                 throw new ArgumentException("The generic type doesnot have the required \"SettingsStorageAttribute\".", nameof(T_STORE));
             // Ensure backing file
-            string directory = Path.GetDirectoryName(fileName)??throw new ArgumentException("The path is not valid."),
+            string directory = Path.GetDirectoryName(fileName) ?? throw new ArgumentException("The path is not valid."),
                    name = Path.GetFileName(fileName);
             if (!Directory.Exists(directory))
                 Directory.CreateDirectory(directory);
