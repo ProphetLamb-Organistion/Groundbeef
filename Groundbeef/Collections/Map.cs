@@ -12,18 +12,18 @@ namespace Groundbeef.Collections
     [System.Runtime.InteropServices.ComVisible(true)]
     public class Map<TForward, TReverse> : IEnumerable<KeyValuePair<TForward, TReverse>> where TForward : notnull where TReverse : notnull
     {
-        private readonly Dictionary<TForward, TReverse> forward;
-        private readonly Dictionary<TReverse, TForward> reverse;
+        private readonly Dictionary<TForward, TReverse> _forward;
+        private readonly Dictionary<TReverse, TForward> _reverse;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Map"/> class.
         /// </summary>
         public Map(IEqualityComparer<TForward> forwardComparer, IEqualityComparer<TReverse> reverseComparer)
         {
-            forward = new Dictionary<TForward, TReverse>(forwardComparer);
-            reverse = new Dictionary<TReverse, TForward>(reverseComparer);
-            Forward = new Indexer<TForward, TReverse>(forward);
-            Reverse = new Indexer<TReverse, TForward>(reverse);
+            _forward = new Dictionary<TForward, TReverse>(forwardComparer);
+            _reverse = new Dictionary<TReverse, TForward>(reverseComparer);
+            Forward = new Indexer<TForward, TReverse>(_forward);
+            Reverse = new Indexer<TReverse, TForward>(_reverse);
         }
 
         /// <summary>
@@ -33,8 +33,8 @@ namespace Groundbeef.Collections
         /// <param name="value2">The forward value, and reverse key.</param>
         public void Add(in TForward value1, in TReverse value2)
         {
-            forward.Add(value1, value2);
-            reverse.Add(value2, value1);
+            _forward.Add(value1, value2);
+            _reverse.Add(value2, value1);
         }
 
         /// <summary>
@@ -43,8 +43,8 @@ namespace Groundbeef.Collections
         /// <param name="value">The <see cref="KeyValuePair{TForward,TReverse}"/>.</param>
         public void Add(in KeyValuePair<TForward, TReverse> value)
         {
-            forward.Add(value);
-            reverse.Add(value.Value, value.Key);
+            _forward.Add(value);
+            _reverse.Add(value.Value, value.Key);
         }
 
         /// <summary>
@@ -57,9 +57,9 @@ namespace Groundbeef.Collections
         /// </summary>
         public Indexer<TReverse, TForward> Reverse { get; }
 
-        public IEnumerator<KeyValuePair<TForward, TReverse>> GetEnumerator() => forward.GetEnumerator();
+        public IEnumerator<KeyValuePair<TForward, TReverse>> GetEnumerator() => _forward.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() => forward.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => _forward.GetEnumerator();
     }
 
     /// <summary>
@@ -68,7 +68,7 @@ namespace Groundbeef.Collections
     [System.Runtime.InteropServices.ComVisible(true)]
     public class Indexer<TKey, TValue> : IReadOnlyDictionary<TKey, TValue>
     {
-        private readonly Dictionary<TKey, TValue> storage;
+        private readonly Dictionary<TKey, TValue> _storage;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Indexer"> class that contains elements copied from the specified <see cref="Dictionary{TKey, TValue}">
@@ -76,26 +76,26 @@ namespace Groundbeef.Collections
         /// <param name="dictionary">The <see cref="Dictionary{TKey, TValue}"> whose elements are copied to the new <see cref="Indexer">.</param>
         internal Indexer(in Dictionary<TKey, TValue> dictionary)
         {
-            storage = dictionary;
+            _storage = dictionary;
         }
 
         public TValue this[TKey index]
         {
-            get { return storage[index]; }
-            set { storage[index] = value; }
+            get { return _storage[index]; }
+            set { _storage[index] = value; }
         }
 
-        public IEnumerable<TKey> Keys => storage.Keys;
+        public IEnumerable<TKey> Keys => _storage.Keys;
 
-        public IEnumerable<TValue> Values => storage.Values;
+        public IEnumerable<TValue> Values => _storage.Values;
 
-        public int Count => storage.Count;
+        public int Count => _storage.Count;
 
-        public bool ContainsKey(TKey key) => storage.ContainsKey(key);
+        public bool ContainsKey(TKey key) => _storage.ContainsKey(key);
 
-        public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value) => storage.TryGetValue(key, out value);
+        public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value) => _storage.TryGetValue(key, out value);
 
-        IEnumerator IEnumerable.GetEnumerator() => storage.GetEnumerator();
-        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => storage.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => _storage.GetEnumerator();
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => _storage.GetEnumerator();
     }
 }

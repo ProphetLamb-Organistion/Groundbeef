@@ -3,6 +3,7 @@ using System.Windows.Input;
 
 namespace Groundbeef.WPF
 {
+    [System.Runtime.InteropServices.ComVisible(true)]
     public class SimpleCommand : ICommand
     {
         public SimpleCommand() { }

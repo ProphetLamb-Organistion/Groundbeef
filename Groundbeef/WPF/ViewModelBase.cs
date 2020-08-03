@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace Groundbeef.WPF
 {
+    [System.Runtime.InteropServices.ComVisible(true)]
     public abstract class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;

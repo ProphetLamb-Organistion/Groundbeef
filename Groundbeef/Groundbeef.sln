@@ -18,6 +18,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Groundbeef.SharedResources", "SharedResources\Groundbeef.SharedResources.csproj", "{42BF955B-3603-4913-A942-DA37E563AF23}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Groundbeef.WPF", "WPF\Groundbeef.WPF.csproj", "{35418487-2584-401D-8593-9BF3941E529B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0A33FBD1-FCBB-404D-ACE7-335FEFEB169C} = {0A33FBD1-FCBB-404D-ACE7-335FEFEB169C}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Json", "Json", "{A1471D06-4520-4C59-A7A8-84AEDAA9C669}"
 EndProject

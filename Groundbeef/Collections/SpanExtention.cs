@@ -1,5 +1,3 @@
-#nullable enable
-
 using System;
 using System.Collections.Generic;
 
@@ -27,7 +25,7 @@ namespace Groundbeef.Collections
             return newArray;
         }
 
-        
+
 
         #region Predicate
         /// <summary>
@@ -367,5 +365,3 @@ namespace Groundbeef.Collections
         #endregion
     }
 }
-
-#nullable disable

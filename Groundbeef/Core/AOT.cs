@@ -7,7 +7,7 @@ namespace Groundbeef.Core
 {
     public static class AOT
     {
-        private const BindingFlags methodBindings = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
+        private const BindingFlags MethodBindings = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
 
         public static Thread PreloadAssembly(Assembly assembly)
         {
@@ -15,7 +15,7 @@ namespace Groundbeef.Core
             {
                 Parallel.ForEach(assembly.GetTypes(), (Type type) =>
                 {
-                    foreach (MethodInfo method in type.GetMethods(methodBindings))
+                    foreach (MethodInfo method in type.GetMethods(MethodBindings))
                         PreloadMethod(method);
                 });
             });

@@ -77,7 +77,7 @@ namespace Groundbeef.Reflection
         {
             if (!attributeType.IsSubclassOf(typeof(Attribute)) && attributeType != typeof(Attribute))
                 throw new ArgumentException("The type is no attribute type.");
-            foreach(MethodInfo? current in methods)
+            foreach (MethodInfo? current in methods)
             {
                 if (!(current is null) && current.GetCustomAttributes(attributeType, false).Length != 0)
                     yield return current;

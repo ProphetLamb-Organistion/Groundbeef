@@ -1,5 +1,3 @@
-#nullable enable
-
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -668,5 +666,3 @@ namespace Groundbeef.Collections
         #endregion
     }
 }
-
-#nullable disable

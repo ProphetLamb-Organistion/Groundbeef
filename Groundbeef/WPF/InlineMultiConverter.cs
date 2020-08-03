@@ -4,6 +4,7 @@ using System.Windows.Data;
 
 namespace Groundbeef.WPF
 {
+    [System.Runtime.InteropServices.ComVisible(true)]
     public class InlineMultiConverter : IMultiValueConverter
     {
         public delegate object? ConvertDelegate(object?[] values, Type? targetType, object? parameter, CultureInfo? culture);

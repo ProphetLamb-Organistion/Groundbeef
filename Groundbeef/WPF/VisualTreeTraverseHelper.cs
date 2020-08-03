@@ -3,6 +3,7 @@ using System.Windows.Media;
 
 namespace Groundbeef.WPF
 {
+    [System.Runtime.InteropServices.ComVisible(true)]
     public static class VisualTreeTraverseHelper
     {
         /// <summary>

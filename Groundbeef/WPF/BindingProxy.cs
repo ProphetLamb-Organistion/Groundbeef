@@ -2,6 +2,7 @@
 
 namespace Groundbeef.WPF
 {
+    [System.Runtime.InteropServices.ComVisible(true)]
     public class BindingProxy : Freezable
     {
         public BindingProxy() { }

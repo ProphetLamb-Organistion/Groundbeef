@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-#nullable enable
 namespace Groundbeef.Collections
 {
     [System.Runtime.InteropServices.ComVisible(true)]
@@ -34,4 +33,3 @@ namespace Groundbeef.Collections
         }
     }
 }
-#nullable disable

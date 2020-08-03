@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-#nullable enable
 namespace Groundbeef.Collections
 {
     /// <summary>
@@ -69,4 +68,3 @@ namespace Groundbeef.Collections
         }
     }
 }
-#nullable disable

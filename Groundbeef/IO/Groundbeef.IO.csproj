@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Collections\Groundbeef.Collections.csproj" />
     <ProjectReference Include="..\SharedResources\Groundbeef.SharedResources.csproj" />
   </ItemGroup>
 

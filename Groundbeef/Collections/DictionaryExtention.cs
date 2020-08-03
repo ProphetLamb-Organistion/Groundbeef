@@ -81,7 +81,7 @@ namespace Groundbeef.Collections
     [System.Runtime.InteropServices.ComVisible(true)]
     public class DictionaryEnumerator<TKey, TValue> : IDictionaryEnumerator, IDisposable where TKey : notnull
     {
-        private readonly IEnumerator<KeyValuePair<TKey, TValue>> enumerator;
+        private readonly IEnumerator<KeyValuePair<TKey, TValue>> _enumerator;
 
         /// <summary>
         /// Initializes a new instance of <see cref="DictionaryEnumerator{TKey,TValue}"/>.
@@ -91,7 +91,7 @@ namespace Groundbeef.Collections
         {
             if (dictionary is null)
                 throw new ArgumentNullException(nameof(dictionary));
-            enumerator = dictionary.GetEnumerator();
+            _enumerator = dictionary.GetEnumerator();
         }
 
         /// <summary>
@@ -102,17 +102,17 @@ namespace Groundbeef.Collections
         {
             if (dictionary is null)
                 throw new ArgumentNullException(nameof(dictionary));
-            enumerator = dictionary.GetEnumerator();
+            _enumerator = dictionary.GetEnumerator();
         }
 
         public void Reset()
         {
-            enumerator.Reset();
+            _enumerator.Reset();
         }
 
         public bool MoveNext()
         {
-            return enumerator.MoveNext();
+            return _enumerator.MoveNext();
         }
 
         /// <summary>
@@ -123,20 +123,20 @@ namespace Groundbeef.Collections
         {
             get
             {
-                (TKey key, TValue value) = enumerator.Current;
+                (TKey key, TValue value) = _enumerator.Current;
                 return new DictionaryEntry(key, value);
             }
         }
 
         public object Current { get => Entry; }
 
-        public object Key { get => enumerator.Current.Key; }
+        public object Key { get => _enumerator.Current.Key; }
 
-        public object Value { get => enumerator.Current.Value; }
+        public object Value { get => _enumerator.Current.Value; }
 
         public void Dispose()
         {
-            enumerator.Dispose();
+            _enumerator.Dispose();
         }
     }
 }

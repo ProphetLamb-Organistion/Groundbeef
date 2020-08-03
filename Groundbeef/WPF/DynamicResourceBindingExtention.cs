@@ -7,6 +7,7 @@ using System.Windows.Markup;
 
 namespace Groundbeef.WPF
 {
+    [System.Runtime.InteropServices.ComVisible(true)]
     public class DynamicResourceBindingExtension : MarkupExtension
     {
         public DynamicResourceBindingExtension() { }
@@ -22,8 +23,8 @@ namespace Groundbeef.WPF
         public string? StringFormat { get; set; }
         public object? TargetNullValue { get; set; }
 
-        private BindingProxy? bindingSource;
-        private BindingTrigger? bindingTrigger;
+        private BindingProxy? _bindingSource;
+        private BindingTrigger? _bindingTrigger;
 
         public override object? ProvideValue(IServiceProvider serviceProvider)
         {
@@ -31,14 +32,14 @@ namespace Groundbeef.WPF
             // Get the binding source for all targets affected by this MarkupExtension
             // whether set directly on an element or object, or when applied via a style
             var dynamicResource = new DynamicResourceExtension(ResourceKey);
-            bindingSource = new BindingProxy(dynamicResource.ProvideValue(null)); // Pass 'null' here
+            _bindingSource = new BindingProxy(dynamicResource.ProvideValue(null)); // Pass 'null' here
 
             // Set up the binding using the just-created source
             // Note, we don't yet set the Converter, ConverterParameter, StringFormat
             // or TargetNullValue (More on that below)
             var dynamicResourceBinding = new Binding()
             {
-                Source = bindingSource,
+                Source = _bindingSource,
                 Path = new PropertyPath(BindingProxy.ValueProperty),
                 Mode = BindingMode.OneWay
             };
@@ -61,7 +62,7 @@ namespace Groundbeef.WPF
                 // If the DependencyObject is a FrameworkElement, then we also add the
                 // bindingSource to its Resources collection to ensure proper resource lookup
                 if (dependencyObject is FrameworkElement targetFrameworkElement)
-                    targetFrameworkElement.Resources.Add(bindingSource, bindingSource);
+                    targetFrameworkElement.Resources.Add(_bindingSource, _bindingSource);
 
                 // And now we simply return the same value as if we were a true binding ourselves
                 return dynamicResourceBinding.ProvideValue(serviceProvider);
@@ -79,14 +80,14 @@ namespace Groundbeef.WPF
                 RelativeSource = new RelativeSource(RelativeSourceMode.Self)
             };
 
-            bindingTrigger = new BindingTrigger();
+            _bindingTrigger = new BindingTrigger();
 
             var wrapperBinding = new MultiBinding()
             {
                 Bindings = {
                 dynamicResourceBinding,
                 findTargetBinding,
-                bindingTrigger.Binding
+                _bindingTrigger.Binding
             },
                 Converter = new InlineMultiConverter(WrapperConvert)
             };
@@ -125,10 +126,10 @@ namespace Groundbeef.WPF
             // If the binding target object is a FrameworkElement, ensure the BindingSource is added
             // to its Resources collection so it will be part of the lookup relative to the FrameworkElement
             if (bindingTargetObject is FrameworkElement targetFrameworkElement
-            && !targetFrameworkElement.Resources.Contains(bindingSource))
+            && !targetFrameworkElement.Resources.Contains(_bindingSource))
             {
                 // Add the resource to the target object's Resources collection
-                targetFrameworkElement.Resources[bindingSource] = bindingSource;
+                targetFrameworkElement.Resources[_bindingSource] = _bindingSource;
 
                 // Since we just added the source to the visual tree, we have to re-evaluate the value
                 // relative to where we are.  However, since there's no way to get a binding expression,
@@ -138,7 +139,7 @@ namespace Groundbeef.WPF
                 // Note: since we're currently in the Convert method from the current operation,
                 // we must make the change via a 'Post' call or else we will get results returned
                 // out of order and the UI won't refresh properly.
-                SynchronizationContext.Current?.Post(_ => bindingTrigger?.Refresh(), null);
+                SynchronizationContext.Current?.Post(_ => _bindingTrigger?.Refresh(), null);
             }
 
             // Return the now-properly-resolved result of the child binding

@@ -1,10 +1,8 @@
 using System;
-using System.Collections;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
-#nullable enable
 namespace Groundbeef.Collections
 {
     public interface IRange
@@ -251,4 +249,3 @@ namespace Groundbeef.Collections
         }
     }
 }
-#nullable disable

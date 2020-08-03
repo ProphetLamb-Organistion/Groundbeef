@@ -7,12 +7,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -53,7 +51,7 @@ namespace Groundbeef.Text
         static StringHelper()
         {
             // Feed convertible type dictionary 
-            foreach(Type t in s_convertibleTypes)
+            foreach (Type t in s_convertibleTypes)
             {
                 _ = VerifyTypeAndGetGenericArguments(t, out _);
             }
@@ -459,7 +457,7 @@ namespace Groundbeef.Text
                 s_toConvertibleTypeMethods.Add(convertibleType.GUID, fromString);
             }
             s_toConvertibleTypeByAttributeParameters[0] = value;
-            return fromString(null, s_toConvertibleTypeByAttributeParameters) ??throw new NullReferenceException("Invoker failed to invoke.");
+            return fromString(null, s_toConvertibleTypeByAttributeParameters) ?? throw new NullReferenceException("Invoker failed to invoke.");
         }
 
         /// <summary>
