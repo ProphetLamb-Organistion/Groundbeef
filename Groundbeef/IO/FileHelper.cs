@@ -97,16 +97,21 @@ namespace Groundbeef.IO
             return hashAlgorithm.Hash;
         }
 
-        public static bool IsRelativePath(in ReadOnlySpan<char> path) => IsRelativePath(path, out _);
+        public static bool IsRelativePath(in ReadOnlySpan<char> path) => IsRelativePath(path, 0, out _);
 
-        public static bool IsRelativePath(in ReadOnlySpan<char> path, out int startIndex)
+        internal static bool IsRelativePath(in ReadOnlySpan<char> path, int startIndex, out int relativeIndicatorEndIndex)
         {
-            var trimmedPath = path.TrimStart();
-            char lo = trimmedPath[0];
-            trimmedPath = trimmedPath[1..^0].TrimStart();
-            char lo2 = trimmedPath[0];
-            startIndex = path.Length - trimmedPath.Length;
-            return lo == '.' && (lo2 == '/' || lo2 == '\\');
+            if (startIndex + 3 >= path.Length)
+                throw new IndexOutOfRangeException();
+            char lo = path[startIndex];
+            char lo2 = path[startIndex + 1];
+            relativeIndicatorEndIndex = startIndex + 2;
+            bool isRelativePath = lo == '.' && UniformResourceIndicator.IsPathSeparator(lo2);
+            // maybe duplicate path separators
+            char lo3 = path[startIndex + 2];
+            if (UniformResourceIndicator.IsPathSeparator(lo3))
+                relativeIndicatorEndIndex++;
+            return isRelativePath;
         }
     }
 }

@@ -23,8 +23,8 @@ namespace Groundbeef.Text
         private static readonly object[] s_fastAllocateStringParameters = new object[1];
         private static readonly Dictionary<Guid, Type[]?> s_genericTypeArguments = new Dictionary<Guid, Type[]?>();
         private static readonly Dictionary<Guid, int> s_convertibleTypeIndicies = new Dictionary<Guid, int>();
-        private static readonly int s_iEnumerableTypeDefinitionIndex = s_convertibleTypes.IndexOf(x => x.GUID == typeof(IEnumerable<>).GUID),
-                                    s_iDictionaryTypeDefinitionIndex = s_convertibleTypes.IndexOf(x => x.GUID == typeof(IDictionary<,>).GUID);
+        private static readonly int s_iEnumerableTypeDefinitionIndex = s_convertibleTypes.IndexOf(typeof(IEnumerable<>)),
+                                    s_iDictionaryTypeDefinitionIndex = s_convertibleTypes.IndexOf(typeof(IDictionary<,>));
 
         internal const int ConvertibleTypeIndex = 0x7FFFFFFF;
 
@@ -103,7 +103,7 @@ namespace Groundbeef.Text
                     index = ConvertibleTypeIndex;
                 t = type;
             }
-            index = index == -1 ? s_convertibleTypes.IndexOf(o => o.GUID == t.GUID) : index;
+            index = index == -1 ? s_convertibleTypes.IndexOf(t) : index;
             s_genericTypeArguments.Add(originGuid, genericArguments);
             s_convertibleTypeIndicies.Add(originGuid, index);
             return index;
@@ -646,10 +646,10 @@ namespace Groundbeef.Text
                 arguments = type.GetGenericArguments();
                 type = type.GetGenericTypeDefinition();
             }
-            int index = s_convertibleTypes.IndexOf(t => type.GUID == t.GUID);
+            int index = s_convertibleTypes.IndexOf(t => t == type);
             // Handle enum type
             if (type.IsEnum)
-                index = s_convertibleTypes.IndexOf(t => type.GUID == typeof(Enum).GUID);
+                index = s_convertibleTypes.IndexOf(t => t == typeof(Enum));
             return index switch
             {
                 0 => formatString is null ? ((byte)value).ToString(provider) : ((byte)value).ToString(formatString, provider),
