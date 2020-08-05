@@ -1,13 +1,11 @@
-using System.Collections.Concurrent;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 
 namespace Groundbeef.Collections
 {
-    public interface IPartitionEnumerator<T> : IEnumerator<T>
+    public interface IPartitionedEnumerator<T> : IEnumerator<T>
     {
         bool MoveNextSatisfied();
         bool MoveNextFalsified();
@@ -16,12 +14,17 @@ namespace Groundbeef.Collections
 
     public interface IPartitionedEnumerable<T> : IEnumerable<T>
     {
-        new IPartitionEnumerator<T> GetEnumerator();
-        IEnumerator<T> GetSatisfiedEnumerator();
-        IEnumerator<T> GetFalsifiedEnumerator();
+        new IPartitionedEnumerator<T> GetEnumerator();
     }
 
-    public class PartitionEnumerator<T> : IPartitionEnumerator<T>
+    public enum PartitionedEnumeratorOperatingMode
+    {
+        Undefinded,
+        Partitioned,
+        Mixed,
+    }
+
+    public class PartitionedEnumerator<T> : IPartitionedEnumerator<T>
     {
         private readonly IEnumerator<T> _sourceEnumerator;
         private Queue<T> _satisfiedQueue = new Queue<T>(),
@@ -29,17 +32,10 @@ namespace Groundbeef.Collections
         private readonly Predicate<T> _partitioner;
         private bool _isSatisfied;
         private T _current = default!;
-        /* 
-         * When enqueing assign the boolean value indicating whether the value satisfied to condition to a ulong at a offset.
-         * That offset is between [1..56). Before enqueing the offset if incremented; before dequeing the offset is decremented.
-         * When enqueing, if the offset would be greater then 56, then we push the ulong to the queue, and reset.
-         * When autodequeing, if the offset would equal one, then we try to pop a ulong from the queue; if that fails or both queues are empty then the dequeing fails.
-         */
-        private Queue<ulong> _dequeueOrderQueue = new Queue<ulong>();
-        private ulong _dequeueOrder;
-        private byte _dequeueOrderOffset = 1;
+        private PartitionedEnumeratorOperatingMode _operatingMode;
+        private BitQueue _queue = new BitQueue();
 
-        internal PartitionEnumerator(in IEnumerable<T> source, in Predicate<T> partitioner)
+        internal PartitionedEnumerator(in IEnumerable<T> source, in Predicate<T> partitioner)
         {
             _sourceEnumerator = source.GetEnumerator();
             _partitioner = partitioner;
@@ -52,8 +48,11 @@ namespace Groundbeef.Collections
         [MaybeNull]
         object IEnumerator.Current => _current;
 
+        public PartitionedEnumeratorOperatingMode OperatingMode => _operatingMode;
+
         public bool MoveNextSatisfied()
         {
+            ProtectOperatingMode(false);
             // Attempt to get queued entry
             if (TryDequeue(true))
             {
@@ -80,6 +79,7 @@ namespace Groundbeef.Collections
 
         public bool MoveNextFalsified()
         {
+            ProtectOperatingMode(false);
             // Attempt to get queued entry
             if (TryDequeue(false))
             {
@@ -106,6 +106,7 @@ namespace Groundbeef.Collections
 
         public bool MoveNext()
         {
+            ProtectOperatingMode(true);
             //Attempt to get queued entry
             if (DeqeueAny())
                 return true;
@@ -124,6 +125,14 @@ namespace Groundbeef.Collections
             }
         }
 
+        private void ProtectOperatingMode(bool mixed)
+        {
+            if (_operatingMode == PartitionedEnumeratorOperatingMode.Undefinded)
+                _operatingMode = mixed ? PartitionedEnumeratorOperatingMode.Mixed : PartitionedEnumeratorOperatingMode.Partitioned;
+            else if (_operatingMode != (mixed ? PartitionedEnumeratorOperatingMode.Mixed : PartitionedEnumeratorOperatingMode.Partitioned))
+                throw new NotSupportedException("This operation is not supported in the current operating mode.");
+        }
+
         public void Reset()
         {
             _sourceEnumerator.Reset();
@@ -131,58 +140,30 @@ namespace Groundbeef.Collections
             _falsifiedQueue.Clear();
             _isSatisfied = false;
             _current = default!;
-            _dequeueOrderQueue.Clear();
-            _dequeueOrderOffset = 1;
-            _dequeueOrder = 0L;
+            _queue.Clear();
         }
 
         private void Enqueue(T value, bool satisfied)
         {
             (satisfied ? _satisfiedQueue : _falsifiedQueue).Enqueue(value);
-            if (_dequeueOrderOffset++ >= 56)
-            {
-                _dequeueOrderQueue.Enqueue(_dequeueOrder);
-                _dequeueOrder = 0L;
-                _dequeueOrderOffset = 1;
-            }
-            WriteBitAtOffset(satisfied);
+            _queue.Enqueue(satisfied);
         }
 
         private bool TryDequeue(bool satisfied)
         {
-            return (satisfied ? _satisfiedQueue : _falsifiedQueue).TryDequeue(out _current);
+           return (satisfied ? _satisfiedQueue : _falsifiedQueue).TryDequeue(out _current);
         }
 
         private bool DeqeueAny()
         {
-            if (_dequeueOrderOffset-- == 0 && !_dequeueOrderQueue.TryDequeue(out _dequeueOrder))
+            if (_queue.IsEmpty)
                 return false;
-            _isSatisfied = ReadBitAtOffsetAndLeftShift();
-            return (_isSatisfied ? _satisfiedQueue : _falsifiedQueue).TryDequeue(out _current);
+            _isSatisfied = _queue.Dequeue();
+            _current = (_isSatisfied ? _satisfiedQueue : _falsifiedQueue).Dequeue();
+            return true;
         }
 
-        private unsafe void WriteBitAtOffset(bool satisfied)
-        {
-            // Mask bit at dequeue order offset with whether the value satisfied the condition or not
-            fixed(ulong* dequeueOrderPtr = &_dequeueOrder)
-            {
-                *(byte*)(dequeueOrderPtr + _dequeueOrderOffset) &= (byte)(0xFF & (satisfied ? 0 : 1));
-            }
-        }
-
-        private unsafe bool ReadBitAtOffsetAndLeftShift()
-        {
-            int result;
-            fixed(ulong* dequeueOrderPtr = &_dequeueOrder)
-            {
-                result = *(byte*)(dequeueOrderPtr + _dequeueOrderOffset) & 0x01;
-            }
-            //Remove bit read
-            _dequeueOrder <<= 1;
-            return result == 0x01;
-        }
-
-        #region IDisposable support
+        #region IDisposable members
         private bool disposedValue;
 
         protected virtual void Dispose(bool disposing)
@@ -194,7 +175,7 @@ namespace Groundbeef.Collections
                     _sourceEnumerator.Dispose();
                     _satisfiedQueue = null!;
                     _falsifiedQueue = null!;
-                    _dequeueOrderQueue = null!;
+                    _queue = null!;
                     _current = default!;
                     _sourceEnumerator.Dispose();
                 }
@@ -220,14 +201,10 @@ namespace Groundbeef.Collections
             _partitioner = partitioner;
         }
 
-        public IPartitionEnumerator<T> GetEnumerator() => new PartitionEnumerator<T>(_source, _partitioner);
+        public IPartitionedEnumerator<T> GetEnumerator() => new PartitionedEnumerator<T>(_source, _partitioner);
 
-        public IEnumerator<T> GetFalsifiedEnumerator() => this.Where(o => !_partitioner(o)).GetEnumerator();
+        IEnumerator<T> IEnumerable<T>.GetEnumerator() =>  new PartitionedEnumerator<T>(_source, _partitioner);
 
-        public IEnumerator<T> GetSatisfiedEnumerator() => this.Where(o => _partitioner(o)).GetEnumerator();
-
-        IEnumerator<T> IEnumerable<T>.GetEnumerator() =>  new PartitionEnumerator<T>(_source, _partitioner);
-
-        IEnumerator IEnumerable.GetEnumerator() =>  new PartitionEnumerator<T>(_source, _partitioner);
+        IEnumerator IEnumerable.GetEnumerator() =>  new PartitionedEnumerator<T>(_source, _partitioner);
     }
 }
