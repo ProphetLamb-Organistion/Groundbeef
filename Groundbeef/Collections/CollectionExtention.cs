@@ -100,7 +100,7 @@ namespace Groundbeef.Collections
         /// <returns>The zero-based index of the first occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public static int IndexOf<T>(this IList<T> collection, Predicate<T> match)
+        public static int IndexOf<T>(this ICollection<T> collection, Predicate<T> match)
         {
             return IndexOf(collection, 0, match);
         }
@@ -115,7 +115,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static int IndexOf<T>(this IList<T> collection, int startIndex, Predicate<T> match)
+        public static int IndexOf<T>(this ICollection<T> collection, int startIndex, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -134,7 +134,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public static int IndexOf<T>(this IList<T> collection, int startIndex, int count, Predicate<T> match)
+        public static int IndexOf<T>(this ICollection<T> collection, int startIndex, int count, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));

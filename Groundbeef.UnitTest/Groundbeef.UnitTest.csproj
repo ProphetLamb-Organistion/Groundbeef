@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Groundbeef\CharConverters\Groundbeef.CharConverters.csproj" />
     <ProjectReference Include="..\Groundbeef\Collections\Groundbeef.Collections.csproj" />
     <ProjectReference Include="..\Groundbeef\Core\Groundbeef.Core.csproj" />
     <ProjectReference Include="..\Groundbeef\Events\Groundbeef.Events.csproj" />
@@ -29,6 +28,7 @@
     <ProjectReference Include="..\Groundbeef\Json\Settings\Groundbeef.Json.Settings.csproj" />
     <ProjectReference Include="..\Groundbeef\Reflection\Groundbeef.Reflection.csproj" />
     <ProjectReference Include="..\Groundbeef\Text\Groundbeef.Text.csproj" />
+    <ProjectReference Include="..\Groundbeef\ByteConverters\Groundbeef.ByteConverters.csproj" />
   </ItemGroup>
 
 </Project>

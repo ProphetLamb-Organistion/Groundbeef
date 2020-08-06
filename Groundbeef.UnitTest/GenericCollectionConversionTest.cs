@@ -26,7 +26,7 @@ namespace Groundbeef.UnitTest
         [Test]
         public void ArrayTest()
         {
-            var array = (char[])CollectionsConvert.ToGenericArray(enumerable, out _);
+            var array = (char[])CollectionsReflect.ToGenericArray(enumerable, out _);
             Assert.NotNull(array);
             Assert.AreEqual(LoremIpsu.Length, array.Length);
 
@@ -36,7 +36,7 @@ namespace Groundbeef.UnitTest
         [Test]
         public void ListTest()
         {
-            var array = (List<char>)CollectionsConvert.ToGenericList(enumerable, out _);
+            var array = (List<char>)CollectionsReflect.ToGenericList(enumerable, out _);
             Assert.NotNull(array);
             Assert.AreEqual(LoremIpsu.Length, array.Count);
 

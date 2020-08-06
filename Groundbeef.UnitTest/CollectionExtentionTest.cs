@@ -13,14 +13,14 @@ namespace Groundbeef.UnitTest
         public const string LoremIpsu = "Laborum adipisci in vel aut tempora et. Asperiores perferendis unde ut natus pariatur et. Vel aut placeat sit provident. Magni consequatur similique sapiente illum ut est";
 
         ICollection coll1;
-        Collection<string> coll2;
+        IList<string> coll2;
 
         [SetUp]
         public void Setup()
         {
             string[] source = LoremIpsu.Split(' ');
             coll1 = source;
-            coll2 = new Collection<string>(source);
+            coll2 = new List<string>(source);
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace Groundbeef.UnitTest
             // Generic Collection
             Assert.AreEqual(probe, coll2.Find(x => x == probe));
             Assert.AreEqual(probe, coll2.FindLast(x => x == probe));
-            Assert.AreEqual(2, coll2.FindAll(x => x == probe).Count());
+            Assert.AreEqual(2, coll2.FindAll(x => x == probe).QuickCount());
 
             Assert.Pass();
         }

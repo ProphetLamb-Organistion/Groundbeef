@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 using Groundbeef.Json.Resources;
 using System;
+using Groundbeef.Text;
 
 namespace Groundbeef.UnitTest
 {
@@ -69,12 +70,12 @@ namespace Groundbeef.UnitTest
             sw.Start();
             for (int i = 0; i < 2048; i++)
             {
-                rwEnglish.AddResource("ResNr_" + i, "StringHelper.RandomString(4196)");
+                rwEnglish.AddResource("ResNr_" + i, StringHelper.RandomString(4196));
             }
             rwEnglish.Close();
             for (int i = 0; i < 2048; i++)
             {
-                rwGerman.AddResource("ResNr_" + i, "StringHelper.RandomString(4196)");
+                rwGerman.AddResource("ResNr_" + i, StringHelper.RandomString(4196));
             }
             rwGerman.Close();
             sw.Stop();
