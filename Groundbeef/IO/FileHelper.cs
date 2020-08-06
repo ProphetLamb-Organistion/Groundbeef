@@ -106,7 +106,7 @@ namespace Groundbeef.IO
             char lo = path[startIndex];
             char lo2 = path[startIndex + 1];
             relativeIndicatorEndIndex = startIndex + 2;
-            bool isRelativePath = lo == '.' && UniformResourceIndicator.IsPathSeparator(lo2);
+            bool isRelativePath = lo == '.' && (lo2 == '\\' || lo2 == '/');
             // maybe duplicate path separators
             char lo3 = path[startIndex + 2];
             if (UniformResourceIndicator.IsPathSeparator(lo3))
