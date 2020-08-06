@@ -15,15 +15,16 @@ namespace Groundbeef.WPF
     /// Syncronizes the <see cref="ICollectionView.Filter"/> property of multiple <see cref="ICollectionView"/>s with the <see cref="Predicate{object?}"/> provided.
     /// </summary>
     [System.Runtime.InteropServices.ComVisible(true)]
-    public class SyncronizedFilter : ViewModelBase
+    public class SyncronizedFilter : ViewModelBase, IDisposable
     {
+        public event ValueChangedEventHandler<Predicate<object?>?>? FilterChanged;
         private static readonly Predicate<object?> s_defaultFilter = _ => true;
         private Predicate<object?> _filter = s_defaultFilter;
-        private List<ICollectionView> _subscribers;
-        private Dictionary<INotifyCollectionChanged, ICollectionView> _observableCollectionMap = new Dictionary<INotifyCollectionChanged, ICollectionView>();
-        private event ValueChangedEventHandler<Predicate<object?>?>? FilterChanged;
+        private readonly List<ICollectionView> _subscribers;
+        private readonly Dictionary<INotifyCollectionChanged, ICollectionView> _observableCollectionMap = new Dictionary<INotifyCollectionChanged, ICollectionView>();
         private string _name = String.Empty;
         private bool _hasName = false;
+
 
         /// <summary>
         /// Initializes a new instance of <see cref="SyncronizedFilter"/>.
@@ -51,7 +52,7 @@ namespace Groundbeef.WPF
         }
 
         /// <summary>
-        /// Gets or sets the name of the instance.
+        /// Gets or sets the name of the instance. Empty by default.
         /// </summary>
         /// <remarks>Can only be assigned once. Must not be null or whitespace.</remarks>
         public string Name
@@ -152,7 +153,9 @@ namespace Groundbeef.WPF
             for (int i = _subscribers.Count; i >= 0; i--)
             {
                 if (_subscribers[i] is null)
+                {
                     _subscribers.RemoveAt(i);
+                }
                 else if (!ReferenceEquals(_subscribers[i].Filter, _filter))
                 {
                     _subscribers[i].Filter = _filter;
@@ -161,5 +164,30 @@ namespace Groundbeef.WPF
             }
             FilterChanged?.Invoke(this, new ValueChangedEventArgs<Predicate<object?>?>(oldValue, newValue));
         }
+
+        #region IDisposable members
+        private bool disposedValue;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    FilterChanged = null;
+                    _filter = s_defaultFilter;
+                    _subscribers.Clear();
+                    _observableCollectionMap.Clear();
+                    _name = String.Empty;
+                    _hasName = false;
+                }
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+        }
+        #endregion
     }
 }

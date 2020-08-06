@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Groundbeef.Collections
 {
@@ -465,6 +466,7 @@ namespace Groundbeef.Collections
             }
         }
 
+        #nullable disable
         /// <summary>
         /// Searches the elements in the <see cref="IList{T}"/> for the specified element and returns the first occurence.
         /// </summary>
@@ -523,7 +525,7 @@ namespace Groundbeef.Collections
                 if (match(collection[i]))
                     return collection[i];
             }
-            return default;
+            return default(T);
         }
 
         /// <summary>
@@ -779,6 +781,7 @@ namespace Groundbeef.Collections
             }
             return last;
         }
+        #nullable enable
 
         /// <summary>
         /// Searches the elements in the <see cref="ICollection"/> for the specified element and enumerates all occurences.

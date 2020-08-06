@@ -14,7 +14,6 @@ namespace Groundbeef.Collections
         bool Contains(object value);
     }
 
-
     [DebuggerDisplay("{" + nameof(GetDebuggerDisplay) + "(),nq}")]
     [System.Runtime.InteropServices.ComVisible(true)]
     public readonly struct Range<T> : IRange, IEquatable<Range<T>?>, IEquatable<object?> where T : IComparable<T>
@@ -37,7 +36,6 @@ namespace Groundbeef.Collections
         /// <summary>
         /// Gets the minimum value in the <see cref="Range{T}"/>.
         /// </summary>
-        [AllowNull]
         public T Minimum
         {
             get
@@ -51,7 +49,6 @@ namespace Groundbeef.Collections
         /// <summary>
         /// Gets the maximum value in the <see cref="Range{T}"/>.
         /// </summary>
-        [AllowNull]
         public T Maximum
         {
             get
@@ -203,7 +200,7 @@ namespace Groundbeef.Collections
         #endregion
     }
 
-    public static class RangeExtentions
+    public static class RangeExtention
     {
         /// <summary>
         /// Returns a new <see cref="Range{Int32}"/> with the Minumum equal to the <see cref="Range.Start"/>, and the Maximum equal to the <see cref="Range.End"/>. 
@@ -211,12 +208,19 @@ namespace Groundbeef.Collections
         /// </summary>
         /// <param name="range">The <see cref="Range"/>.</param>
         /// <returns>A new <see cref="Range{Int32}"/> with the Minumum equal to the <see cref="Range.Start"/>, and the Maximum equal to the <see cref="Range.End"/>.</returns>
-        public static Range<int> ToGenericRange(this Range range)
+        public static Range<int> ToIntRange(this Range range)
         {
             if (range.Start.IsFromEnd || range.End.IsFromEnd)
                 throw new NotSupportedException("Converting a System.Range to a Range<int> requires Index.IsFromEnd to be false.");
             return new Range<int>(range.Start.Value, range.End.Value);
         }
+
+        /// <summary>
+        /// Casts the <see cref="IRange"/> to the specified type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type the range will be cast to.</typeparam>
+        /// <returns>A new instance of <see cref="Range{T}"/>, cast from the <see cref="IRange"/>.</returns>
+        public static Range<T> Cast<T>(this IRange range) where T : IComparable<T> => new Range<T>((T)(range.Minimum??default(T)), (T)(range.Maximum??default(T)));
 
         /// <summary>
         /// Returns a new <see cref="Range"/> with the Start equal to <see cref="Range{Int32}.Minimum"/>, and the End equal to <see cref="Range{Int32}.Maximum"/>.
@@ -229,13 +233,6 @@ namespace Groundbeef.Collections
                 end = range.Maximum.ToInt32(CultureInfo.CurrentCulture.NumberFormat);
             return new Range(new Index(start), new Index(end));
         }
-
-        /// <summary>
-        /// Casts the <see cref="IRange"/> to the specified type <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">The type the range will be cast to.</typeparam>
-        /// <returns>A new instance of <see cref="Range{T}"/>, cast from the <see cref="IRange"/>.</returns>
-        public static Range<T> Cast<T>(IRange range) where T : IComparable<T> => new Range<T>((T)range.Minimum, (T)range.Maximum);
 
         /// <summary>
         /// Enumerates all elements in the range.

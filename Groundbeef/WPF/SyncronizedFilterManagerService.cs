@@ -22,15 +22,18 @@ namespace Groundbeef.WPF
         }
 
         /// <summary>
-        /// Unregsitsters a already registered filter form the <see cref="SyncronizedFilterManagerService"/>.
+        /// Unregsitsters a already registered filter form the <see cref="SyncronizedFilterManagerService"/>. If the filter was unregistered successfully, then disposes the filter.
         /// </summary>
         /// <param name="filter">The filter to unregister.</param>
         /// <returns></returns>
-        public static bool UnregisterFilter(SyncronizedFilter filter)
+        public static bool UnregisterFilter(SyncronizedFilter filter, bool disposes = true)
         {
             if (!filter.HasName)
                 throw new ArgumentException("The filter has no name.");
-            return s_registeredFilters.Remove(filter.Name);
+            bool result = s_registeredFilters.Remove(filter.Name);
+            if (result && disposes)
+                filter.Dispose();
+            return result;
         }
 
         public static bool AddView(string filterName, ItemsControl itemsControl) => GetFilter(filterName).AddView(itemsControl);

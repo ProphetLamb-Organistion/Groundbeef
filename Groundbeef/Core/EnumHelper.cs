@@ -10,18 +10,19 @@ namespace Groundbeef
     [System.Runtime.InteropServices.ComVisible(true)]
     public static class EnumHelper<T> where T : struct, IConvertible
     {
-        private static readonly Type type;
+        private static readonly IFormatProvider s_numberFormat = CultureInfo.CurrentCulture.NumberFormat;
+        private static readonly Type s_type;
 
         static EnumHelper()
         {
-            type = typeof(T);
-            if (!type.IsEnum)
+            s_type = typeof(T);
+            if (!s_type.IsEnum)
                 throw new NotSupportedException("Cannot be used with non enum Types");
         }
 
         public static T[] GetValues()
         {
-            FieldInfo[] fields = type.GetFields(BindingFlags.Static | BindingFlags.Public);
+            FieldInfo[] fields = s_type.GetFields(BindingFlags.Static | BindingFlags.Public);
             var enumValues = new T[fields.Length];
             for (int i = 0; i < fields.Length; i++)
                 enumValues[i] = Enum.Parse<T>(fields[i].Name, false);
@@ -48,7 +49,7 @@ namespace Groundbeef
 
         public static IEnumerable<string> GetNames()
         {
-            return type.GetFields(BindingFlags.Static | BindingFlags.Public).Select(fi => fi.Name);
+            return s_type.GetFields(BindingFlags.Static | BindingFlags.Public).Select(fi => fi.Name);
         }
 
         public static IEnumerable<string> GetNames(Enum value)
@@ -95,6 +96,13 @@ namespace Groundbeef
             if (descriptionAttributes[0].ResourceType != null)
                 return LookupResource(descriptionAttributes[0].ResourceType, descriptionAttributes[0].Name, cultureInfo);
             return (descriptionAttributes.Length > 0) ? descriptionAttributes[0].Name : value.ToString();
+        }
+
+        public static bool HasAny(T value, T flags)
+        {
+            ulong v = value.ToUInt64(s_numberFormat),
+                  m = flags.ToUInt64(s_numberFormat);
+            return (v & m) != 0;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Groundbeef.Collections
@@ -67,76 +68,9 @@ namespace Groundbeef.Collections
         /// </summary>
         /// <param name="enumerable">The enumerable.</param>
         /// <returns>An enumerator that iterates through the collection.</returns>
-        public static DictionaryEnumerator<TKey, TValue> GetDictionaryEnumerator<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> enumerable)
+        public static DictionaryEnumerator<TKey, TValue> GetDictionaryEnumerator<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> enumerable) where TKey : notnull
         {
             return new DictionaryEnumerator<TKey, TValue>(enumerable);
-        }
-    }
-
-    /// <summary>
-    /// Generic implementation of the interface <see cref="IDictionaryEnumerator"/>.
-    /// </summary>
-    /// <typeparam name="TKey">The <see cref="Type"/> of the keys.</typeparam>
-    /// <typeparam name="TValue">The <see cref="Type"/> of the values.</typeparam>
-    [System.Runtime.InteropServices.ComVisible(true)]
-    public class DictionaryEnumerator<TKey, TValue> : IDictionaryEnumerator, IDisposable where TKey : notnull
-    {
-        private readonly IEnumerator<KeyValuePair<TKey, TValue>> _enumerator;
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="DictionaryEnumerator{TKey,TValue}"/>.
-        /// </summary>
-        /// <param name="dictionary">The source dictionary</param>
-        public DictionaryEnumerator(IDictionary<TKey, TValue> dictionary)
-        {
-            if (dictionary is null)
-                throw new ArgumentNullException(nameof(dictionary));
-            _enumerator = dictionary.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="DictionaryEnumerator{TKey,TValue}"/>.
-        /// </summary>
-        /// <param name="dictionary">The source enumerable</param>
-        public DictionaryEnumerator(IEnumerable<KeyValuePair<TKey, TValue>> dictionary)
-        {
-            if (dictionary is null)
-                throw new ArgumentNullException(nameof(dictionary));
-            _enumerator = dictionary.GetEnumerator();
-        }
-
-        public void Reset()
-        {
-            _enumerator.Reset();
-        }
-
-        public bool MoveNext()
-        {
-            return _enumerator.MoveNext();
-        }
-
-        /// <summary>
-        /// Gets the element in the collection at the current position of the enumerator.
-        /// </summary>
-        /// <value>The element in the collection at the current position of the enumerator.</value>
-        public DictionaryEntry Entry
-        {
-            get
-            {
-                (TKey key, TValue value) = _enumerator.Current;
-                return new DictionaryEntry(key, value);
-            }
-        }
-
-        public object Current { get => Entry; }
-
-        public object Key { get => _enumerator.Current.Key; }
-
-        public object Value { get => _enumerator.Current.Value; }
-
-        public void Dispose()
-        {
-            _enumerator.Dispose();
         }
     }
 }
