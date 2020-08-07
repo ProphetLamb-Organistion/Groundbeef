@@ -3,13 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
+using Groundbeef.Collections.BitCollections;
+
 namespace Groundbeef.Collections
 {
     public interface IPartitionedEnumerator<T> : IEnumerator<T>
     {
+        bool IsSatisfied { get; }
         bool MoveNextSatisfied();
         bool MoveNextFalsified();
-        bool IsSatisfied { get; }
+        IEnumerator<T> SynchronizedSatisfiedEnumerator();
+        IEnumerator<T> SynchronizedFalisifiedEnumerator();
     }
 
     public interface IPartitionedEnumerable<T> : IEnumerable<T>
@@ -32,8 +36,10 @@ namespace Groundbeef.Collections
         private readonly Predicate<T> _partitioner;
         private bool _isSatisfied;
         private T _current = default!;
-        private PartitionedEnumeratorOperatingMode _operatingMode;
-        private BitQueue _queue = new BitQueue();
+        private BitList _queue = new BitList();
+        private sbyte _state = -1; // -1 := No state; 0 := Normal; -2 := Failure, Disposed or Ended.
+        private SyncronizedSinglePartitionEnumerator<T>? _falsifiedEn,
+                                                         _satisfiedEn;
 
         internal PartitionedEnumerator(in IEnumerable<T> source, in Predicate<T> partitioner)
         {
@@ -43,34 +49,42 @@ namespace Groundbeef.Collections
 
         public bool IsSatisfied => _isSatisfied;
 
-        public T Current => _current;
+        public T Current
+        {
+            get
+            {
+                if (_state != 0)
+                    throw new InvalidOperationException("State of enumerator is abnormal.");
+                return _current;
+            }
+        }
 
         [MaybeNull]
-        object IEnumerator.Current => _current;
+        object IEnumerator.Current => Current;
 
-        public PartitionedEnumeratorOperatingMode OperatingMode => _operatingMode;
+        internal sbyte State => _state;
 
         public bool MoveNextSatisfied()
         {
-            ProtectOperatingMode(false);
+            if (_state == -2)
+                return false;
             // Attempt to get queued entry
             if (TryDequeue(true))
-            {
-                _isSatisfied = true;
                 return true;
-            }
             // Seek next satisfied
             bool result;
             while((result = _sourceEnumerator.MoveNext()) && !_partitioner(_sourceEnumerator.Current))
                 Enqueue(_sourceEnumerator.Current, false);
             if (result)
             {
+                _state = 0;
                 _current = _sourceEnumerator.Current;
                 _isSatisfied = true;
                 return true;
             }
             else
             {
+                _state = -2;
                 _current = default!;
                 _isSatisfied = false;
                 return false;
@@ -79,25 +93,25 @@ namespace Groundbeef.Collections
 
         public bool MoveNextFalsified()
         {
-            ProtectOperatingMode(false);
+            if (_state == -2)
+                return false;
             // Attempt to get queued entry
             if (TryDequeue(false))
-            {
-                _isSatisfied = false;
                 return true;
-            }
             // Seek next satisfied
             bool result;
             while((result = _sourceEnumerator.MoveNext()) && _partitioner(_sourceEnumerator.Current))
                 Enqueue(_sourceEnumerator.Current, true);
             if (result)
             {
+                _state = 0;
                 _current = _sourceEnumerator.Current;
                 _isSatisfied = false;
                 return true;
             }
             else
             {
+                _state = -2;
                 _current = default!;
                 _isSatisfied = false;
                 return false;
@@ -106,31 +120,40 @@ namespace Groundbeef.Collections
 
         public bool MoveNext()
         {
-            ProtectOperatingMode(true);
+            if (_state == -2)
+                return false;
             //Attempt to get queued entry
-            if (DeqeueAny())
+            if (TryDeqeueAny())
                 return true;
             // Get next entry
             if (_sourceEnumerator.MoveNext())
             {
+                _state = 0;
                 _current = _sourceEnumerator.Current;
                 _isSatisfied = _partitioner(_current);
                 return true;
             }
             else
             {
+                _state = -2;
                 _current = default!;
                 _isSatisfied = false;
                 return false;
             }
         }
 
-        private void ProtectOperatingMode(bool mixed)
+        public IEnumerator<T> SynchronizedSatisfiedEnumerator()
         {
-            if (_operatingMode == PartitionedEnumeratorOperatingMode.Undefinded)
-                _operatingMode = mixed ? PartitionedEnumeratorOperatingMode.Mixed : PartitionedEnumeratorOperatingMode.Partitioned;
-            else if (_operatingMode != (mixed ? PartitionedEnumeratorOperatingMode.Mixed : PartitionedEnumeratorOperatingMode.Partitioned))
-                throw new NotSupportedException("This operation is not supported in the current operating mode.");
+            if (_satisfiedEn is null || _satisfiedEn.State == -2)
+                return _satisfiedEn = new SyncronizedSinglePartitionEnumerator<T>(this, true);
+            return _satisfiedEn;
+        }
+
+        public IEnumerator<T> SynchronizedFalisifiedEnumerator()
+        {
+            if (_falsifiedEn is null || _falsifiedEn.State == -2)
+                return _falsifiedEn = new SyncronizedSinglePartitionEnumerator<T>(this, true);
+            return _falsifiedEn;
         }
 
         public void Reset()
@@ -146,19 +169,24 @@ namespace Groundbeef.Collections
         private void Enqueue(T value, bool satisfied)
         {
             (satisfied ? _satisfiedQueue : _falsifiedQueue).Enqueue(value);
-            _queue.Enqueue(satisfied);
+            _queue.Add(satisfied);
         }
 
         private bool TryDequeue(bool satisfied)
         {
-           return (satisfied ? _satisfiedQueue : _falsifiedQueue).TryDequeue(out _current);
+            if (!satisfied || !_queue.Remove(satisfied))
+                return false;
+            _current = (satisfied ? _satisfiedQueue : _falsifiedQueue).Dequeue();
+            _isSatisfied = satisfied;
+            return true;
         }
 
-        private bool DeqeueAny()
+        private bool TryDeqeueAny()
         {
             if (_queue.IsEmpty)
                 return false;
-            _isSatisfied = _queue.Dequeue();
+            _isSatisfied = _queue[0];
+            _queue.RemoveAt(0);
             _current = (_isSatisfied ? _satisfiedQueue : _falsifiedQueue).Dequeue();
             return true;
         }
@@ -172,6 +200,7 @@ namespace Groundbeef.Collections
             {
                 if (disposing)
                 {
+                    _state = -2;
                     _sourceEnumerator.Dispose();
                     _satisfiedQueue = null!;
                     _falsifiedQueue = null!;
@@ -186,6 +215,74 @@ namespace Groundbeef.Collections
         public void Dispose()
         {
             Dispose(disposing: true);
+        }
+        #endregion
+
+        #region Syncronized
+        private class SyncronizedSinglePartitionEnumerator<T2> : IEnumerator<T2>
+        {
+            private readonly PartitionedEnumerator<T2> _syncEn;
+            private readonly bool _partition;
+            private sbyte _state = -1;
+
+            public SyncronizedSinglePartitionEnumerator(PartitionedEnumerator<T2> enumerator, bool partition)
+            {
+                _syncEn = enumerator;
+                _partition = partition;
+            }
+
+            public T2 Current
+            {
+                get
+                {
+                    if (_state != 0)
+                        throw new InvalidOperationException("State of enumerator is abnormal.");
+                    return Current;
+                }
+            }
+
+            [MaybeNull]
+            object IEnumerator.Current => Current;
+
+            internal sbyte State => _state;
+
+            public bool MoveNext()
+            {
+                lock (_syncEn)
+                {
+                    if (_state == -2)
+                        return false;
+                    _state = _syncEn.State;
+                    return _partition ? _syncEn.MoveNextSatisfied() : _syncEn.MoveNextFalsified();
+                }
+            }
+
+            public void Reset()
+            {
+                lock (_syncEn)
+                    _syncEn.Reset();
+            }
+
+            #region IDisposable members
+            private bool disposedValue;
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (!disposedValue)
+                {
+                    if (disposing)
+                    {
+                        _state = -2;
+                    }
+                    disposedValue = true;
+                }
+            }
+
+            public void Dispose()
+            {
+                Dispose(disposing: true);
+            }
+            #endregion
         }
         #endregion
     }
@@ -203,8 +300,8 @@ namespace Groundbeef.Collections
 
         public IPartitionedEnumerator<T> GetEnumerator() => new PartitionedEnumerator<T>(_source, _partitioner);
 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator() =>  new PartitionedEnumerator<T>(_source, _partitioner);
+        IEnumerator<T> IEnumerable<T>.GetEnumerator() =>  GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() =>  new PartitionedEnumerator<T>(_source, _partitioner);
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

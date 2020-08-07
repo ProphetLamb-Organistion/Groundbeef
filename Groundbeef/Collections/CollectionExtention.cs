@@ -9,10 +9,10 @@ namespace Groundbeef.Collections
     public static class CollectionExtention
     {
         /// <summary>
-        /// Adds a range of elements to the collection by repeatetly calling the <see cref="IList{T}.Add(T)"/> function.
+        /// Adds a range of elements to the collection by repeatetly calling the <see cref="IReadOnlyList{T}.Add(T)"/> function.
         /// </summary>
         /// <typeparam name="T">The type of elements.</typeparam>
-        /// <param name="target">The target <see cref="ICollection{T}"/>.</param>
+        /// <param name="target">The target <see cref=""ICollection{T}""/>.</param>
         /// <param name="source">The source <see cref="IEnumerable{T}"/></param>
         /// <exception cref="ArgumentNullException">If the <paramref name="source"/> or <paramref name="target"/> is null.</exception>
         public static void AddRange<T>(this ICollection<T> target, IEnumerable<T> source)
@@ -24,7 +24,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Adds a range of elements to the collection by repeatetly calling the <see cref="IList{T}.Add(T)"/> function using the <paramref name="selector"/> to convert the elements.
+        /// Adds a range of elements to the collection by repeatetly calling the <see cref="IReadOnlyList{T}.Add(T)"/> function using the <paramref name="selector"/> to convert the elements.
         /// </summary>
         /// <typeparam name="TTarget">The type of elements in the <paramref name="target"/>.</typeparam>
         /// <typeparam name="TSource">The type of elements in the <paramref name="source"/>.</typeparam>
@@ -68,11 +68,11 @@ namespace Groundbeef.Collections
         /// Adds and Removes elements from <paramref name="target"/> so that it only contains elements from <paramref name="source"/> constraint by <paramref name="filter"/>.
         /// </summary>
         /// <typeparam name="T">The type of elements.</typeparam>
-        /// <param name="target">The target <see cref="IList{T}"/>.</param>
-        /// <param name="source">The source<see cref="IList{T}"/>.</param>
+        /// <param name="target">The target <see cref="IReadOnlyList{T}"/>.</param>
+        /// <param name="source">The source<see cref="IReadOnlyList{T}"/>.</param>
         /// <param name="filter">The filter desciding which elements from <paramref name="source"/> to keep in <paramref name="target"/>.</param>
         /// <exception cref="ArgumentNullException">If the <paramref name="source"/>, <paramref name="target"/> or <paramref name="filter"/> is null.</exception>
-        public static void Filter<T>(this IList<T> target, IList<T> source, Predicate<T> filter)
+        public static void Filter<T>(this IList<T> target, IReadOnlyList<T> source, Predicate<T> filter)
         {
             if (target is null) throw new ArgumentNullException(nameof(target));
             if (source is null) throw new ArgumentNullException(nameof(source));
@@ -94,20 +94,20 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="IList{T}"/> for the specified element and returns the zero-based index of the first occurence.
+        /// Searches a portion of the elements in the <see cref="IReadOnlyList{T}"/> for the specified element and returns the zero-based index of the first occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="match">The <see cref="Predicate{T}"/> use to locate the object.</param>
         /// <returns>The zero-based index of the first occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public static int IndexOf<T>(this ICollection<T> collection, Predicate<T> match)
+        public static int IndexOf<T>(this IReadOnlyList<T> collection, Predicate<T> match)
         {
             return IndexOf(collection, 0, match);
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="IList{T}"/> for the specified element and returns the zero-based index of the first occurence.
+        /// Searches a portion of the elements in the <see cref="IReadOnlyList{T}"/> for the specified element and returns the zero-based index of the first occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -116,7 +116,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static int IndexOf<T>(this ICollection<T> collection, int startIndex, Predicate<T> match)
+        public static int IndexOf<T>(this IReadOnlyList<T> collection, int startIndex, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -124,7 +124,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="IList{T}"/> for the specified element and returns the zero-based index of the first occurence.
+        /// Searches a portion of the elements in the <see cref="IReadOnlyList{T}"/> for the specified element and returns the zero-based index of the first occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -135,7 +135,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public static int IndexOf<T>(this ICollection<T> collection, int startIndex, int count, Predicate<T> match)
+        public static int IndexOf<T>(this IReadOnlyList<T> collection, int startIndex, int count, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -154,20 +154,20 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Searches the elements in the <see cref="ICollection"/> for the specified element and returns the zero-based index of the first occurence.
+        /// Searches the elements in the <see cref="ICollection{T}"/> for the specified element and returns the zero-based index of the first occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="match">The <see cref="Predicate{T}"/> use to locate the object.</param>
         /// <returns>The zero-based index of the first occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public static int IndexOf(this ICollection collection, Predicate<object> match)
+        public static int IndexOf<T>(this ICollection<T> collection, Predicate<T> match)
         {
             return IndexOf(collection, 0, match);
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and returns the zero-based index of the first occurence.
+        /// Searches a portion of the elements in the <see cref="ICollection{T}"/> for the specified element and returns the zero-based index of the first occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -176,7 +176,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static int IndexOf(this ICollection collection, int startIndex, Predicate<object> match)
+        public static int IndexOf<T>(this ICollection<T> collection, int startIndex, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -184,7 +184,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and returns the zero-based index of the first occurence.
+        /// Searches a portion of the elements in the <see cref="ICollection{T}"/> for the specified element and returns the zero-based index of the first occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -195,7 +195,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public static int IndexOf(this ICollection collection, int startIndex, int count, Predicate<object> match)
+        public static int IndexOf<T>(this ICollection<T> collection, int startIndex, int count, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -218,20 +218,20 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Searches the elements in the <see cref="IList{T}"/> for the specified element and returns the zero-based index of the last occurence.
+        /// Searches the elements in the <see cref="IReadOnlyList{T}"/> for the specified element and returns the zero-based index of the last occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The zero-based index of the last occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public static int IndexOfLast<T>(this IList<T> collection, Predicate<T> match)
+        public static int IndexOfLast<T>(this IReadOnlyList<T> collection, Predicate<T> match)
         {
             return IndexOfLast(collection, 0, match);
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="IList{T}"/> for the specified element and returns the zero-based index of the last occurence.
+        /// Searches a portion of the elements in the <see cref="IReadOnlyList{T}"/> for the specified element and returns the zero-based index of the last occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -240,13 +240,13 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static int IndexOfLast<T>(this IList<T> collection, int startIndex, Predicate<T> match)
+        public static int IndexOfLast<T>(this IReadOnlyList<T> collection, int startIndex, Predicate<T> match)
         {
             return IndexOfLast(collection, startIndex, collection.Count - startIndex, match);
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="IList{T}"/> for the specified element and returns the zero-based index of the last occurence.
+        /// Searches a portion of the elements in the <see cref="IReadOnlyList{T}"/> for the specified element and returns the zero-based index of the last occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -257,7 +257,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public static int IndexOfLast<T>(this IList<T> collection, int startIndex, int count, Predicate<T> match)
+        public static int IndexOfLast<T>(this IReadOnlyList<T> collection, int startIndex, int count, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -276,20 +276,20 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Searches the elements in the <see cref="ICollection"/> for the specified element and returns the zero-based index of the last occurence.
+        /// Searches the elements in the <see cref="ICollection{T}"/> for the specified element and returns the zero-based index of the last occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The zero-based index of the last occurence of the specified element or -1 if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public static int IndexOfLast(this ICollection collection, Predicate<object> match)
+        public static int IndexOfLast<T>(this ICollection<T> collection, Predicate<T> match)
         {
             return IndexOfLast(collection, 0, match);
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and returns the zero-based index of the last occurence.
+        /// Searches a portion of the elements in the <see cref="ICollection{T}"/> for the specified element and returns the zero-based index of the last occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -298,13 +298,13 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static int IndexOfLast(this ICollection collection, int startIndex, Predicate<object> match)
+        public static int IndexOfLast<T>(this ICollection<T> collection, int startIndex, Predicate<T> match)
         {
             return IndexOfLast(collection, startIndex, collection.Count - startIndex, match);
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and returns the zero-based index of the last occurence.
+        /// Searches a portion of the elements in the <see cref="ICollection{T}"/> for the specified element and returns the zero-based index of the last occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -315,7 +315,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public static int IndexOfLast(this ICollection collection, int startIndex, int count, Predicate<object> match)
+        public static int IndexOfLast<T>(this ICollection<T> collection, int startIndex, int count, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -326,7 +326,7 @@ namespace Groundbeef.Collections
             int endIndex = startIndex + count;
             if (startIndex + count > collection.Count)
                 throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
-            IEnumerator en = collection.GetEnumerator();
+            using IEnumerator<T> en = collection.GetEnumerator();
             int i = 0,
                 last = -1;
             while (i < startIndex && en.MoveNext()) i++;
@@ -339,20 +339,20 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Searches the elements in the <see cref="IList{T}"/> for the specified element and enumerates the zero-based index of all occurences.
+        /// Searches the elements in the <see cref="IReadOnlyList{T}"/> for the specified element and enumerates the zero-based index of all occurences.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="match">The <see cref="Predicate{T}"/> use to locate the object.</param>
         /// <returns>The zero-based index of all occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public static IEnumerable<int> IndexOfAll<T>(this IList<T> collection, in Predicate<T> match)
+        public static IEnumerable<int> IndexOfAll<T>(this IReadOnlyList<T> collection, in Predicate<T> match)
         {
             return IndexOfAll(collection, 0, match);
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="IList{T}"/> for the specified element and enumerates the zero-based index of all occurences.
+        /// Searches a portion of the elements in the <see cref="IReadOnlyList{T}"/> for the specified element and enumerates the zero-based index of all occurences.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -361,7 +361,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static IEnumerable<int> IndexOfAll<T>(this IList<T> collection, int startIndex, in Predicate<T> match)
+        public static IEnumerable<int> IndexOfAll<T>(this IReadOnlyList<T> collection, int startIndex, in Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -369,7 +369,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="IList{T}"/> for the specified element and enumerates the zero-based index of all occurences.
+        /// Searches a portion of the elements in the <see cref="IReadOnlyList{T}"/> for the specified element and enumerates the zero-based index of all occurences.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -380,7 +380,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public static IEnumerable<int> IndexOfAll<T>(this IList<T> collection, int startIndex, int count, Predicate<T> match)
+        public static IEnumerable<int> IndexOfAll<T>(this IReadOnlyList<T> collection, int startIndex, int count, Predicate<T> match)
         {
             int length = collection.Count;
             if (length == 0)
@@ -401,20 +401,20 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Searches the elements in the <see cref="ICollection"/> for the specified element and enumerates the zero-based index of all occurences.
+        /// Searches the elements in the <see cref="ICollection{T}"/> for the specified element and enumerates the zero-based index of all occurences.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="match">The <see cref="Predicate{T}"/> use to locate the object.</param>
         /// <returns>The zero-based index of all occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public static IEnumerable<int> IndexOfAll(this ICollection collection, in Predicate<object> match)
+        public static IEnumerable<int> IndexOfAll<T>(this ICollection<T> collection, in Predicate<T> match)
         {
             return IndexOfAll(collection, 0, match);
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and enumerates the zero-based index of all occurences.
+        /// Searches a portion of the elements in the <see cref="ICollection{T}"/> for the specified element and enumerates the zero-based index of all occurences.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -423,7 +423,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static IEnumerable<int> IndexOfAll(this ICollection collection, int startIndex, in Predicate<object> match)
+        public static IEnumerable<int> IndexOfAll<T>(this ICollection<T> collection, int startIndex, in Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -431,7 +431,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and enumerates the zero-based index of all occurences.
+        /// Searches a portion of the elements in the <see cref="ICollection{T}"/> for the specified element and enumerates the zero-based index of all occurences.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -442,7 +442,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public static IEnumerable<int> IndexOfAll(this ICollection collection, int startIndex, int count, Predicate<object> match)
+        public static IEnumerable<int> IndexOfAll<T>(this ICollection<T> collection, int startIndex, int count, Predicate<T> match)
         {
             int length = collection.Count;
             if (length == 0)
@@ -456,7 +456,7 @@ namespace Groundbeef.Collections
             int endIndex = startIndex + count;
             if (endIndex > length)
                 throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
-            IEnumerator en = collection.GetEnumerator();
+            using IEnumerator<T> en = collection.GetEnumerator();
             int i = 0;
             while (i < startIndex && en.MoveNext()) i++;
             while (i < endIndex && en.MoveNext())
@@ -468,20 +468,20 @@ namespace Groundbeef.Collections
 
         #nullable disable
         /// <summary>
-        /// Searches the elements in the <see cref="IList{T}"/> for the specified element and returns the first occurence.
+        /// Searches the elements in the <see cref="IReadOnlyList{T}"/> for the specified element and returns the first occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public static T Find<T>(this IList<T> collection, Predicate<T> match)
+        public static T Find<T>(this IReadOnlyList<T> collection, Predicate<T> match)
         {
             return Find(collection, 0, match);
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="IList{T}"/> for the specified element and returns the first occurence.
+        /// Searches a portion of the elements in the <see cref="IReadOnlyList{T}"/> for the specified element and returns the first occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -490,7 +490,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static T Find<T>(this IList<T> collection, int startIndex, Predicate<T> match)
+        public static T Find<T>(this IReadOnlyList<T> collection, int startIndex, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -498,7 +498,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="IList{T}"/> for the specified element and returns the first occurence.
+        /// Searches a portion of the elements in the <see cref="IReadOnlyList{T}"/> for the specified element and returns the first occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -509,7 +509,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public static T Find<T>(this IList<T> collection, int startIndex, int count, Predicate<T> match)
+        public static T Find<T>(this IReadOnlyList<T> collection, int startIndex, int count, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -529,20 +529,20 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Searches the elements in the <see cref="IList{T}"/> for the specified element and returns the last occurence.
+        /// Searches the elements in the <see cref="IReadOnlyList{T}"/> for the specified element and returns the last occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public static T FindLast<T>(this IList<T> collection, Predicate<T> match)
+        public static T FindLast<T>(this IReadOnlyList<T> collection, Predicate<T> match)
         {
             return FindLast(collection, 0, match);
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="IList{T}"/> for the specified element and returns the last occurence.
+        /// Searches a portion of the elements in the <see cref="IReadOnlyList{T}"/> for the specified element and returns the last occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -551,7 +551,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static T FindLast<T>(this IList<T> collection, int startIndex, Predicate<T> match)
+        public static T FindLast<T>(this IReadOnlyList<T> collection, int startIndex, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -559,7 +559,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="IList{T}"/> for the specified element and returns the last occurence.
+        /// Searches a portion of the elements in the <see cref="IReadOnlyList{T}"/> for the specified element and returns the last occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -570,7 +570,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public static T FindLast<T>(this IList<T> collection, int startIndex, int count, Predicate<T> match)
+        public static T FindLast<T>(this IReadOnlyList<T> collection, int startIndex, int count, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -586,24 +586,24 @@ namespace Groundbeef.Collections
                 if (match(collection[i]))
                     return collection[i];
             }
-            return default;
+            return default(T);
         }
 
         /// <summary>
-        /// Searches the elements in the <see cref="IList{T}"/> for the specified element and enumerates all occurences.
+        /// Searches the elements in the <see cref="IReadOnlyList{T}"/> for the specified element and enumerates all occurences.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>All occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public static IEnumerable<T> FindAll<T>(this IList<T> collection, Predicate<T> match)
+        public static IEnumerable<T> FindAll<T>(this IReadOnlyList<T> collection, Predicate<T> match)
         {
             return FindAll(collection, 0, match);
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="IList{T}"/> for the specified element and enumerates all occurences.
+        /// Searches a portion of the elements in the <see cref="IReadOnlyList{T}"/> for the specified element and enumerates all occurences.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -612,7 +612,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static IEnumerable<T> FindAll<T>(this IList<T> collection, int startIndex, Predicate<T> match)
+        public static IEnumerable<T> FindAll<T>(this IReadOnlyList<T> collection, int startIndex, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -620,7 +620,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="IList{T}"/> for the specified element and enumerates all occurences.
+        /// Searches a portion of the elements in the <see cref="IReadOnlyList{T}"/> for the specified element and enumerates all occurences.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -631,7 +631,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public static IEnumerable<T> FindAll<T>(this IList<T> collection, int startIndex, int count, Predicate<T> match)
+        public static IEnumerable<T> FindAll<T>(this IReadOnlyList<T> collection, int startIndex, int count, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -650,20 +650,20 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Searches the elements in the <see cref="ICollection"/> for the specified element and returns the first occurence.
+        /// Searches the elements in the <see cref="ICollection{T}"/> for the specified element and returns the first occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public static object Find(this ICollection collection, Predicate<object> match)
+        public static T Find<T>(this ICollection<T> collection, Predicate<T> match)
         {
             return Find(collection, 0, match);
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and returns the first occurence.
+        /// Searches a portion of the elements in the <see cref="ICollection{T}"/> for the specified element and returns the first occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -672,7 +672,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static object Find(this ICollection collection, int startIndex, Predicate<object> match)
+        public static T Find<T>(this ICollection<T> collection, int startIndex, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -680,7 +680,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and returns the first occurence.
+        /// Searches a portion of the elements in the <see cref="ICollection{T}"/> for the specified element and returns the first occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -691,7 +691,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public static object Find(this ICollection collection, int startIndex, int count, Predicate<object> match)
+        public static T Find<T>(this ICollection<T> collection, int startIndex, int count, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -702,12 +702,12 @@ namespace Groundbeef.Collections
             int endIndex = startIndex + count;
             if (startIndex + count > collection.Count)
                 throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
-            IEnumerator en = collection.GetEnumerator();
+            using IEnumerator<T> en = collection.GetEnumerator();
             int i = 0;
             while (i < startIndex && en.MoveNext()) i++;
             while (i < endIndex && en.MoveNext())
             {
-                object current = en.Current;
+                T current = en.Current;
                 if (match(current))
                     return current;
                 i++;
@@ -716,20 +716,20 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Searches the elements in the <see cref="ICollection"/> for the specified element and returns the last occurence.
+        /// Searches the elements in the <see cref="ICollection{T}"/> for the specified element and returns the last occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>The frist occurence of the specified element or <see cref="default"/> if no match was found.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public static object FindLast(this ICollection collection, Predicate<object> match)
+        public static T FindLast<T>(this ICollection<T> collection, Predicate<T> match)
         {
             return FindLast(collection, 0, match);
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and returns the last occurence.
+        /// Searches a portion of the elements in the <see cref="ICollection{T}"/> for the specified element and returns the last occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -738,7 +738,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static object FindLast(this ICollection collection, int startIndex, Predicate<object> match)
+        public static T FindLast<T>(this ICollection<T> collection, int startIndex, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -746,7 +746,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and returns the last occurence.
+        /// Searches a portion of the elements in the <see cref="ICollection{T}"/> for the specified element and returns the last occurence.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -757,7 +757,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public static object FindLast(this ICollection collection, int startIndex, int count, Predicate<object> match)
+        public static T FindLast<T>(this ICollection<T> collection, int startIndex, int count, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -768,13 +768,13 @@ namespace Groundbeef.Collections
             int endIndex = startIndex + count;
             if (startIndex + count > collection.Count)
                 throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
-            IEnumerator en = collection.GetEnumerator();
+            using IEnumerator<T> en = collection.GetEnumerator();
             int i = 0;
-            object last = default;
+            T last = default;
             while (i < startIndex && en.MoveNext()) i++;
             while (i < endIndex && en.MoveNext())
             {
-                object current = en.Current;
+                T current = en.Current;
                 if (match(current))
                     last = current;
                 i++;
@@ -784,20 +784,20 @@ namespace Groundbeef.Collections
         #nullable enable
 
         /// <summary>
-        /// Searches the elements in the <see cref="ICollection"/> for the specified element and enumerates all occurences.
+        /// Searches the elements in the <see cref="ICollection{T}"/> for the specified element and enumerates all occurences.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="match">The <see cref="Predicate{Object}"/> use to locate the object.</param>
         /// <returns>All occurences of the specified element.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public static IEnumerable FindAll(this ICollection collection, Predicate<object> match)
+        public static IEnumerable<T> FindAll<T>(this ICollection<T> collection, Predicate<T> match)
         {
             return FindAll(collection, 0, match);
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and enumerates all occurences.
+        /// Searches a portion of the elements in the <see cref="ICollection{T}"/> for the specified element and enumerates all occurences.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -806,7 +806,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static IEnumerable FindAll(this ICollection collection, int startIndex, Predicate<object> match)
+        public static IEnumerable<T> FindAll<T>(this ICollection<T> collection, int startIndex, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -814,7 +814,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Searches a portion of the elements in the <see cref="ICollection"/> for the specified element and enumerates all occurences.
+        /// Searches a portion of the elements in the <see cref="ICollection{T}"/> for the specified element and enumerates all occurences.
         /// </summary>
         /// <param name="collection">The collection containing the elements.</param>
         /// <param name="startIndex">The zero-based starting index of the range to search.</param>
@@ -825,7 +825,7 @@ namespace Groundbeef.Collections
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public static IEnumerable FindAll(this ICollection collection, int startIndex, int count, Predicate<object> match)
+        public static IEnumerable<T> FindAll<T>(this ICollection<T> collection, int startIndex, int count, Predicate<T> match)
         {
             if (collection is null)
                 throw new ArgumentNullException(nameof(collection));
@@ -836,12 +836,12 @@ namespace Groundbeef.Collections
             int endIndex = startIndex + count;
             if (startIndex + count > collection.Count)
                 throw new IndexOutOfRangeException(ExceptionResource.INDEX_UPPERLIMIT);
-            IEnumerator en = collection.GetEnumerator();
+            using IEnumerator<T> en = collection.GetEnumerator();
             int i = 0;
             while (i < startIndex && en.MoveNext()) i++;
             while (i < endIndex && en.MoveNext())
             {
-                object current = en.Current;
+                T current = en.Current;
                 if (match(current))
                     yield return current;
                 i++;
@@ -849,7 +849,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Sorts the elements in the <see cref="IList{T}"/> using defaul comparer <see cref="Comparer{T}.Default"/> to compare collection elements.
+        /// Sorts the elements in the <see cref="IReadOnlyList{T}"/> using defaul comparer <see cref="Comparer{T}.Default"/> to compare collection elements.
         /// </summary>
         /// <typeparam name="T">Type of collection elements.</typeparam>
         /// <param name="collection">The collection to sort.</param>
@@ -859,7 +859,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Sorts a portion of the elements in the <see cref="IList{T}"/> using defaul comparer <see cref="Comparer{T}.Default"/> to compare collection elements.
+        /// Sorts a portion of the elements in the <see cref="IReadOnlyList{T}"/> using defaul comparer <see cref="Comparer{T}.Default"/> to compare collection elements.
         /// </summary>
         /// <typeparam name="T">Type of collection elements.</typeparam>
         /// <param name="collection">The collection to sort.</param>
@@ -872,7 +872,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Sorts a portion of the elements in the <see cref="IList{T}"/> using defaul comparer <see cref="Comparer{T}.Default"/> to compare collection elements.
+        /// Sorts a portion of the elements in the <see cref="IReadOnlyList{T}"/> using defaul comparer <see cref="Comparer{T}.Default"/> to compare collection elements.
         /// </summary>
         /// <typeparam name="T">Type of collection elements.</typeparam>
         /// <param name="collection">The collection to sort.</param>
@@ -886,7 +886,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Sorts the elements in the <see cref="IList{T}"/> using a provided <see cref="Comparison{T}"/> delegate to compare collection elements.
+        /// Sorts the elements in the <see cref="IReadOnlyList{T}"/> using a provided <see cref="Comparison{T}"/> delegate to compare collection elements.
         /// </summary>
         /// <typeparam name="T">Type of collection elements.</typeparam>
         /// <param name="collection">The collection to sort.</param>
@@ -897,7 +897,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Sorts a portion of the elements in the <see cref="IList{T}"/> using a provided <see cref="Comparison{T}"/> delegate to compare collection elements.
+        /// Sorts a portion of the elements in the <see cref="IReadOnlyList{T}"/> using a provided <see cref="Comparison{T}"/> delegate to compare collection elements.
         /// </summary>
         /// <typeparam name="T">Type of collection elements.</typeparam>
         /// <param name="collection">The collection to sort.</param>
@@ -911,7 +911,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Sorts a portion of the elements in the <see cref="IList{T}"/> using a provided <see cref="Comparison{T}"/> delegate to compare collection elements.
+        /// Sorts a portion of the elements in the <see cref="IReadOnlyList{T}"/> using a provided <see cref="Comparison{T}"/> delegate to compare collection elements.
         /// </summary>
         /// <typeparam name="T">Type of collection elements.</typeparam>
         /// <param name="collection">The collection to sort.</param>
@@ -928,7 +928,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Sorts the elements in the <see cref="IList{T}"/> using the specified or default <see cref="IComparer{T}"/>.
+        /// Sorts the elements in the <see cref="IReadOnlyList{T}"/> using the specified or default <see cref="IComparer{T}"/>.
         /// </summary>
         /// <typeparam name="T">Type of collection elements.</typeparam>
         /// <param name="collection">The collection to sort.</param>
@@ -939,7 +939,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Sorts a portion of the elements in the <see cref="IList{T}"/> using the specified or default <see cref="IComparer{T}"/>.
+        /// Sorts a portion of the elements in the <see cref="IReadOnlyList{T}"/> using the specified or default <see cref="IComparer{T}"/>.
         /// </summary>
         /// <typeparam name="T">Type of collection elements.</typeparam>
         /// <param name="collection">The collection to sort.</param>
@@ -953,7 +953,7 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Sorts a portion of the elements in the <see cref="IList{T}"/> using the specified or default <see cref="IComparer{T}"/>.
+        /// Sorts a portion of the elements in the <see cref="IReadOnlyList{T}"/> using the specified or default <see cref="IComparer{T}"/>.
         /// </summary>
         /// <typeparam name="T">Type of collection elements.</typeparam>
         /// <param name="collection">The collection to sort.</param>

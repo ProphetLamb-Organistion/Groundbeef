@@ -63,7 +63,7 @@ namespace Groundbeef.Collections.BitCollections
                 LeftShiftArrayLong(m_storage.AsSpan());
             while(m_loOffset != 0)
                 LeftShiftArrayBit(m_storage.AsSpan());
-            Array.Resize(ref m_storage, m_elements);
+            Array.Resize(ref m_storage, Math.Max(1, m_elements - 1) / BitsInLong + 1);
         }
 
         public virtual void CopyTo(Array array, int arrayIndex)
@@ -144,7 +144,7 @@ namespace Groundbeef.Collections.BitCollections
             if (elementCount + m_loOffset + 8 >= m_count * BitsInLong)
             {
                 // The number of default capacities needed to satisfy the required element count.
-                int incrementMult = ((elementCount + m_loOffset + 7) / BitsInLong - m_count) / DefaultCapacity + 1; // Two roundup integer divisions: [...] BitsInLong + 1 - 1 - m_count [...]
+                int incrementMult = Math.Max(1, (elementCount + m_loOffset + 7) / BitsInLong - m_count) / DefaultCapacity + 1; // Two roundup integer divisions: [...] BitsInLong + 1 - 1 - m_count [...]
                 Array.Resize(ref m_storage, m_storage.Length + DefaultCapacity * incrementMult);
             }
         }
