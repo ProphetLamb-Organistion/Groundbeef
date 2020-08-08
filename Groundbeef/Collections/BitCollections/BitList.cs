@@ -53,6 +53,8 @@ namespace Groundbeef.Collections.BitCollections
 
         public virtual bool IsReadOnly => false;
 
+        public bool IsEmpty => Count == 0;
+
         protected virtual bool GetValue(int index)
         {
             if ((uint)index >= (uint)m_elements)
@@ -107,11 +109,12 @@ namespace Groundbeef.Collections.BitCollections
             UpdateElementsCount();
         }
 
-        public virtual bool Remove(bool item) // Please dont use this
+        public virtual bool Remove(bool item)
         {
-            if (!Contains(item))
+            int index = IndexOf(item);
+            if (index == -1)
                 return false;
-            RemoveAt(IndexOf(item));
+            RemoveAt(index);
             return true;
         }
 
@@ -201,6 +204,15 @@ namespace Groundbeef.Collections.BitCollections
 
             public override object SyncRoot => _syncRoot;
 
+            public override bool IsReadOnly
+            {
+                get
+                {
+                    lock (_syncRoot)
+                        return _list.IsReadOnly;
+                }
+            }
+
             public override int Count
             {
                 get
@@ -236,7 +248,6 @@ namespace Groundbeef.Collections.BitCollections
                 lock (_syncRoot)
                     _list.TrimToSize();
             }
-    
 
             public override void CopyTo(Array array, int arrayIndex)
             {

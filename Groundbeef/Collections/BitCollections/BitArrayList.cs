@@ -12,8 +12,8 @@ namespace Groundbeef.Collections.BitCollections
         internal const int BitsInLong = sizeof(long) * 8;
         protected ulong[] m_storage = null!;
         private object? _syncRoot;
-        protected int m_count,
-                      m_elements;
+        protected int m_count, // Number of allocated long chunks
+                      m_elements; // Number of elements between lo and incl. hi
         protected sbyte m_loOffset, // Offset in the first ulong in storage to the first bit
                         m_hiOffset; // Offset in the last ulong to the first empty bit
 
@@ -29,15 +29,29 @@ namespace Groundbeef.Collections.BitCollections
             m_count = count;
         }
 
+        /// <summary>
+        /// Gets the number of <see cref="Boolean"/> elements in the collection.
+        /// </summary>
         public virtual int Count => m_elements;
 
+        /// <summary>
+        /// Gets the number of <see cref="ulong"/> chunks allocated to encompass all <see cref="Boolean"/> elements in the collection. 
+        /// <see cref="DataBlockCount"/> : <see cref="Count"/> converges to 1 : 64 on a 64bit platform and to 1 : 32 on a 32bit platform.
+        /// </summary>
         public virtual int DataBlockCount => m_count;
+
+        /// <summary>
+        /// Indicates that the collection is syncronized.
+        /// </summary>
 
         public virtual bool IsSynchronized
         {
             get => false;
         }
 
+        /// <summary>
+        /// Gets the <see cref="Object"/> that is the syncronization root for the current instance if <see cref="IsSyncronized"/>; otherwise, a reference to the instance itself.
+        /// </summary>
         public virtual object SyncRoot
         {
             get
@@ -48,6 +62,10 @@ namespace Groundbeef.Collections.BitCollections
             }
         }
 
+        /// <summary>
+        /// Clears all data from the collection.
+        /// </summary>
+        /// <remarks>Does not reallocate.</remarks>
         public virtual void Clear()
         {
             m_count = 0;
@@ -56,6 +74,9 @@ namespace Groundbeef.Collections.BitCollections
             m_loOffset = 0;
         }
 
+        /// <summary>
+        /// Trims the <see cref="DataBlockCount"/> to minimally fit the <see cref="Count"/> by reallocating the storage array.
+        /// </summary>
         public virtual void TrimToSize()
         {
             // Shift lo to zero
@@ -63,7 +84,7 @@ namespace Groundbeef.Collections.BitCollections
                 LeftShiftArrayLong(m_storage.AsSpan());
             while(m_loOffset != 0)
                 LeftShiftArrayBit(m_storage.AsSpan());
-            Array.Resize(ref m_storage, m_elements);
+            Array.Resize(ref m_storage, Math.Max(1, m_elements - 1) / BitsInLong + 1);
         }
 
         public virtual void CopyTo(Array array, int arrayIndex)
@@ -144,7 +165,7 @@ namespace Groundbeef.Collections.BitCollections
             if (elementCount + m_loOffset + 8 >= m_count * BitsInLong)
             {
                 // The number of default capacities needed to satisfy the required element count.
-                int incrementMult = ((elementCount + m_loOffset + 7) / BitsInLong - m_count) / DefaultCapacity + 1; // Two roundup integer divisions: [...] BitsInLong + 1 - 1 - m_count [...]
+                int incrementMult = Math.Max(1, (elementCount + m_loOffset + 7) / BitsInLong - m_count) / DefaultCapacity + 1; // Two roundup integer divisions: [...] BitsInLong + 1 - 1 - m_count [...]
                 Array.Resize(ref m_storage, m_storage.Length + DefaultCapacity * incrementMult);
             }
         }
