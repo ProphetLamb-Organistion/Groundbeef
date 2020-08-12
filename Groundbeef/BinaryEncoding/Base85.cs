@@ -4,15 +4,16 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Groundbeef.CharConverters
+namespace Groundbeef.BinaryEncoding
 {
     /// <summary>
-    /// Z85 encoder for bytes
+    /// ZeroMQ Base85 Encoding Algorithm, see: https://rfc.zeromq.org/spec/32/
     /// </summary>
     [ComVisible(true)]
     public static class Base85
     {
         // Divisor and multiplier weights for consecutive bytes for both encoding and decoding.
+        // Num_0 = 85^4, Num_1 = 85^3, Num_2 = 85^2, Num_3 = 85^1
         private const uint Num0 = 0x31C84B1, Num1 = 0x95EED, Num2 = 0x1C39, Num3 = 0x55;
 
         #region Decode
@@ -57,11 +58,10 @@ namespace Groundbeef.CharConverters
             Span<byte> bytes = new byte[base85AllocLength];
             DecodeSpan(chars, bytes);
             if (charsRemainder == 0)
-                return bytes;
+                return bytes; // alloclength = length
             // Allocate one remainder chunk
             Span<char> leftoverChars = stackalloc char[4];
-            for (int i = 0; i < charsRemainder; i++)
-                leftoverChars[i] = chars[offset + charsChunksLength + i];
+            chars.Slice(offset + charsChunksLength).CopyTo(leftoverChars);
             DecodeSpan(leftoverChars, bytes.Slice(base85ChunksLength));
             return bytes.Slice(0, base85Length);
         }
@@ -74,20 +74,20 @@ namespace Groundbeef.CharConverters
             int charsLength = chars.Length,
                 base85Length = base85.Length;
             fixed (byte* outPtr = &MemoryMarshal.GetReference(base85))
-            fixed (char* base85Ptr = &MemoryMarshal.GetReference(chars))
-                unchecked
+            fixed (char* charsPtr = &MemoryMarshal.GetReference(chars))
+            unchecked
+            {
+                char* inPtr = charsPtr;
+                for (int i = 0; i < base85Length; inPtr += 4)
                 {
-                    char* inPtr = base85Ptr;
-                    for (int i = 0; i < base85Length; inPtr += 4)
-                    {
-                        uint value = ((uint)inPtr[0] << 24) | ((uint)inPtr[1] << 16) | ((uint)inPtr[2] << 8) | inPtr[3];
-                        outPtr[i++] = s_decoder[(value / Num0) % 0x55];
-                        outPtr[i++] = s_decoder[(value / Num1) % 0x55];
-                        outPtr[i++] = s_decoder[(value / Num2) % 0x55];
-                        outPtr[i++] = s_decoder[(value / Num3) % 0x55];
-                        outPtr[i++] = s_decoder[value % 0x55];
-                    }
+                    uint value = ((uint)inPtr[0] << 24) | ((uint)inPtr[1] << 16) | ((uint)inPtr[2] << 8) | inPtr[3];
+                    outPtr[i++] = s_decoder[(value / Num0) % 0x55];
+                    outPtr[i++] = s_decoder[(value / Num1) % 0x55];
+                    outPtr[i++] = s_decoder[(value / Num2) % 0x55];
+                    outPtr[i++] = s_decoder[(value / Num3) % 0x55];
+                    outPtr[i++] = s_decoder[value % 0x55];
                 }
+            }
         }
         #endregion
 
@@ -136,15 +136,14 @@ namespace Groundbeef.CharConverters
                 return chars;
             // Allocate one remainder chunk
             Span<byte> leftoverBytes = stackalloc byte[5];
-            for (int i = 0; i < base85Remainder; i++)
-                leftoverBytes[i] = bytes[offset + base85ChunksLength + i];
+            bytes.Slice(offset + base85ChunksLength).CopyTo(leftoverBytes);
             EncodeSpan(leftoverBytes, chars.Slice(charsChunksLength));
             return chars.Slice(0, charsLength); // Remove null-byte remainder bytes
         }
 
         private static readonly char[] s_encoder = new byte[]
         {
-             0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, // 0x00..0x0F ASCII
+             0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, // 0x00..0x0F
              0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, // 0x10..0x1F
              0, 68,  0, 84, 83, 82, 72,  0, 75, 76, 70, 65,  0, 63, 62, 69, // 0x20..0x2F
              0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 64,  0, 73, 66, 74, 71, // 0x30..0x3F
@@ -152,7 +151,7 @@ namespace Groundbeef.CharConverters
             51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 77,  0, 78, 67,  0, // 0x50..0x5F
              0, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, // 0x60..0x6F
             25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 79,  0, 80,  0,  0, // 0x70..0x7F
-             0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, // 0x80..0x8F ASCII ext
+             0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, // 0x80..0x8F
              0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, // 0x90..0x9F
              0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, // 0xA0..0xAF
              0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, // 0xB0..0xBF
@@ -174,10 +173,10 @@ namespace Groundbeef.CharConverters
                     for (int i = 0; i < length; inPtr += 5)
                     {
                         uint value = s_encoder[inPtr[0]] * Num0
-                                    + s_encoder[inPtr[1]] * Num1
-                                    + s_encoder[inPtr[2]] * Num2
-                                    + s_encoder[inPtr[3]] * Num3
-                                    + s_encoder[inPtr[4]];
+                                   + s_encoder[inPtr[1]] * Num1
+                                   + s_encoder[inPtr[2]] * Num2
+                                   + s_encoder[inPtr[3]] * Num3
+                                   + s_encoder[inPtr[4]];
                         outPtr[i++] = (char)((value >> 24) & 0xFF);
                         outPtr[i++] = (char)((value >> 16) & 0xFF);
                         outPtr[i++] = (char)((value >> 8) & 0xFF);

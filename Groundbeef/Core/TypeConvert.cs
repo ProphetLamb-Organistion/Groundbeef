@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace Groundbeef.Core
 {
-    [System.Runtime.InteropServices.ComVisible(true)]
+    [ComVisible(true)]
     public static class TypeConvert
     {
         /// <summary>

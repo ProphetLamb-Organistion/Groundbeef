@@ -4,7 +4,6 @@ namespace Groundbeef.Core
 {
     public static class ColorExtention
     {
-
         /// <summary>
         /// Returns the perceptive lightness value of a <see cref="System.Drawing.Color"/>.
         /// </summary>

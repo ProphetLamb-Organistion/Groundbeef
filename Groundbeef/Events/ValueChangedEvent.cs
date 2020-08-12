@@ -2,7 +2,6 @@
 
 namespace Groundbeef.Events
 {
-    // Generic
     [System.Runtime.InteropServices.ComVisible(true)]
     public delegate void ValueChangedEventHandler<TValue>(object? sender, ValueChangedEventArgs<TValue> e);
 

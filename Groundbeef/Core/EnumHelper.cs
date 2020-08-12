@@ -52,19 +52,9 @@ namespace Groundbeef
             return s_type.GetFields(BindingFlags.Static | BindingFlags.Public).Select(fi => fi.Name);
         }
 
-        public static IEnumerable<string> GetNames(Enum value)
-        {
-            return value.GetType().GetFields(BindingFlags.Static | BindingFlags.Public).Select(fi => fi.Name);
-        }
-
         public static IEnumerable<string?> GetDisplayValues()
         {
             return GetNames().Select(obj => GetDisplayValue(Parse(obj)));
-        }
-
-        public static IEnumerable<string?> GetDisplayValues(Enum value)
-        {
-            return GetNames(value).Select(obj => GetDisplayValue(Parse(obj)));
         }
 
         private static string? LookupResource(Type resourceManagerProvider, string resourceKey, CultureInfo cultureInfo)
