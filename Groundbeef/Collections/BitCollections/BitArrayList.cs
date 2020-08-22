@@ -204,7 +204,7 @@ namespace Groundbeef.Collections.BitCollections
                 // Because of the dead byte at the last index we can shift a int32, int16, byte on 64bit, and a int16, byte on 32bit,
                 // without going out of our allocated memory range.
                 ulong* lastLong = &source[sourceSpan.Length -1];
-#if _WIN64
+#if WIN64
                 *(byte*)(lastLong + 48) = *(byte*)(lastLong + 49);
                 *(ushort*)(lastLong + 32) = *(ushort*)(lastLong + 33);
                 *(uint*)(lastLong + 0) = *(uint*)(lastLong + 1);
@@ -246,7 +246,7 @@ namespace Groundbeef.Collections.BitCollections
                 // Because of the dead byte at the last index we can shift a int32, int16, byte on 64bit, and a int16, byte on 32bit,
                 // without going out of our allocated memory range.
                 ulong* lastLong = &source[sourceSpan.Length -1];
-#if _WIN64
+#if WIN64
                 *(uint*)(lastLong + 1) = *(uint*)(lastLong + 0);
                 *(ushort*)(lastLong + 33) = *(ushort*)(lastLong + 32);
                 *(byte*)(lastLong + 49) = *(byte*)(lastLong + 48);
@@ -265,7 +265,7 @@ namespace Groundbeef.Collections.BitCollections
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void UpdateElementsCount()
         {
-            m_elements = Math.Max(0, (m_count - 1) * BitsInLong + m_hiOffset - m_loOffset);
+            m_elements = Math.Max(0, (m_count - 1) * BitsInLong + 1 + m_hiOffset - m_loOffset);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
