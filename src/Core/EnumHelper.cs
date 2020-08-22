@@ -6,13 +6,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Groundbeef.Core
 {
     [System.Runtime.InteropServices.ComVisible(true)]
-    public static class EnumHelper<T> where T : struct, IConvertible
+    public static class EnumHelper<T> where T : struct, Enum, IConvertible
     {
-        private static readonly IFormatProvider s_numberFormat = CultureInfo.CurrentCulture.NumberFormat;
         private static readonly Type s_type;
 
         static EnumHelper()
@@ -25,15 +25,6 @@ namespace Groundbeef.Core
         public static T[] GetValues()
         {
             FieldInfo[] fields = s_type.GetFields(BindingFlags.Static | BindingFlags.Public);
-            var enumValues = new T[fields.Length];
-            for (int i = 0; i < fields.Length; i++)
-                enumValues[i] = Enum.Parse<T>(fields[i].Name, false);
-            return enumValues;
-        }
-
-        public static T[] GetValues(Enum value)
-        {
-            FieldInfo[] fields = value.GetType().GetFields(BindingFlags.Static | BindingFlags.Public);
             var enumValues = new T[fields.Length];
             for (int i = 0; i < fields.Length; i++)
                 enumValues[i] = Enum.Parse<T>(fields[i].Name, false);
@@ -89,12 +80,30 @@ namespace Groundbeef.Core
                 return LookupResource(descriptionAttributes[0].ResourceType, descriptionAttributes[0].Name, cultureInfo);
             return (descriptionAttributes.Length > 0) ? descriptionAttributes[0].Name : value.ToString();
         }
+    }
 
-        public static bool HasAny(T value, T flags)
+    public static class EnumExtention
+    {
+        /// <summary>
+        /// Indicates whether a enum <paramref name="value"/> has any <paramref name="flags"/>.
+        /// </summary>
+        /// <param name="value">The value of the enum.</param>
+        /// <param name="flags">The enum flags to test for.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasAnyFlag<T>(this T value, T flags) where T : struct, Enum, IConvertible
         {
-            ulong v = value.ToUInt64(s_numberFormat),
-                  m = flags.ToUInt64(s_numberFormat);
-            return (v & m) != 0;
+            return (value.ToUInt64(null) & flags.ToUInt64(null)) != 0;
+        }
+
+        /// <summary>
+        /// Indicates whether a enum <paramref name="value"/> has all <paramref name="flags"/>.
+        /// </summary>
+        /// <param name="value">The value of the enum.</param>
+        /// <param name="flags">The enum flags to test for.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasAllFlags<T>(this T value, T flags) where T : struct, Enum, IConvertible
+        {
+            return (value.ToUInt64(null) & flags.ToUInt64(null)) == flags.ToUInt64(null);
         }
     }
 }

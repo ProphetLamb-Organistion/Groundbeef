@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Groundbeef.Collections
 {
     /// <summary>
-    /// Returns whether two values are equal.
+    /// Indicates whether two values are equal.
     /// </summary>
     /// <param name="left">The left value.</param>
     /// <param name="right">The right value.</param>
@@ -66,5 +66,13 @@ namespace Groundbeef.Collections
                 throw new ArgumentNullException(nameof(obj));
             return HashFunction is null ? obj.GetHashCode() : HashFunction(obj);
         }
+    }
+
+    public static class GenericEqualityComparerExtention
+    {
+        /// <summary>
+        /// Returns a new instance of a <see cref="GenericEqualityComparer{T}"/> with the specified comparison.
+        /// </summary>
+        public static GenericEqualityComparer<T> ToComparer<T>(EqualityComparison<T> comparison) => new GenericEqualityComparer<T>(comparison);
     }
 }

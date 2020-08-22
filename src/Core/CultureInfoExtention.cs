@@ -9,7 +9,7 @@ namespace Groundbeef.Core
     public static class CultureInfoExtention
     {
         /// <summary>
-        /// Returns whether the string <see cref="CultureInfo"/> has a valid culture name string.
+        /// Indicates whether the string <see cref="CultureInfo"/> has a valid culture name string.
         /// </summary>
         /// <param name="culture">The culture.</param>
         /// <param name="throwException">if <see cref="true"/> then throws exception if the <see cref="CultureInfo.Name"/> is invalid.</param>
@@ -22,7 +22,7 @@ namespace Groundbeef.Core
         }
 
         /// <summary>
-        /// Returns whether the string <paramref name="cultureName"/> is a valid culture name string.
+        /// Indicates whether the string <paramref name="cultureName"/> is a valid culture name string.
         /// </summary>
         /// <param name="cultureName">The name of the culture.</param>
         /// <param name="throwException">if <see cref="true"/> then throws exception if the <paramref name="cultureName"/> is invalid.</param>

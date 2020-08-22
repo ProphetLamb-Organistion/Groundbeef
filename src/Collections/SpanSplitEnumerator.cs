@@ -5,12 +5,32 @@ namespace Groundbeef.Collections
 {
     public static class SpanExtention
     {
+        /// <summary>
+        /// Enumerates slices of a <see cref="Span{T}"/> separated by a specific <paramref name="separator"/>.
+        /// </summary>
+        /// <param name="separator">The separator.</param>
+        /// <param name="options">The split options.</param>
         public static SpanSplitEnumerator<T> Split<T>(this ReadOnlySpan<T> span, in T separator, StringSplitOptions options = StringSplitOptions.None) where T : IEquatable<T>
         => Split(span, separator, 0, span.Length, options);
 
+        /// <summary>
+        /// Enumerates slices of a portion of a <see cref="Span{T}"/> separated by a specific <paramref name="separator"/>.
+        /// </summary>
+        /// <param name="separator">The separator.</param>
+        /// <param name="index">The start index of the first slice.</param>
+        /// <param name="options">The split options.</param>
+        /// <returns></returns>
         public static SpanSplitEnumerator<T> Split<T>(this ReadOnlySpan<T> span, in T separator, int index, StringSplitOptions options = StringSplitOptions.None) where T : IEquatable<T>
         => Split(span, separator, index, span.Length - index, options);
 
+        /// <summary>
+        /// Enumerates slices of a portion of a <see cref="Span{T}"/> separated by a specific <paramref name="separator"/>.
+        /// </summary>
+        /// <param name="separator">The separator.</param>
+        /// <param name="index">The start index of the first slice.</param>
+        /// <param name="count">The number of elements </param>
+        /// <param name="options">The split options.</param>
+        /// <returns></returns>
         public static SpanSplitEnumerator<T> Split<T>(this ReadOnlySpan<T> span, in T separator, int index, int count, StringSplitOptions options = StringSplitOptions.None) where T : IEquatable<T>
         {
             if (index < 0)
@@ -31,6 +51,14 @@ namespace Groundbeef.Collections
         public static SpanSplitEnumerator<T> SplitWhere<T>(this ReadOnlySpan<T> span, in Predicate<T> match, int index, StringSplitOptions options = StringSplitOptions.None)
         => SplitWhere(span, match, index, span.Length - index, options);
 
+        /// <summary>
+        /// Enumerates slices of a portion of a <see cref="Span{T}"/> separated when a specified condition is met.
+        /// </summary>
+        /// <param name="match">The <see cref="Predicate{T}"/> signaling the elements at which the <see cref="Span{T}"/> is to be split.</param>
+        /// <param name="index">The start index of the first slice.</param>
+        /// <param name="count">The number of elements </param>
+        /// <param name="options">The split options.</param>
+        /// <returns></returns>
         public static SpanSplitEnumerator<T> SplitWhere<T>(this ReadOnlySpan<T> span, in Predicate<T> match, int index, int count, StringSplitOptions options = StringSplitOptions.None)
         {
             if (index < 0)

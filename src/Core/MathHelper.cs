@@ -1,6 +1,7 @@
 ﻿using Groundbeef.SharedResources;
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace Groundbeef.Core
@@ -8,9 +9,15 @@ namespace Groundbeef.Core
     [System.Runtime.InteropServices.ComVisible(true)]
     public static partial class MathHelper
     {
+        /// <summary>
+        /// Indicates whether the value is a power of two.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsPowerOfTwo(this int x) => (x & (x - 1)) == 0;
 
+        /// <summary>
+        /// Indicates whether the value is a power of two.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsPowerOfTwo(this long x) => (x & (x - 1)) == 0;
 
@@ -49,6 +56,53 @@ namespace Groundbeef.Core
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long RoundInt64(this decimal value) => (long)Math.Round(value);
+
+        /// <summary>
+        /// Returns the highest value of the provided values.
+        /// </summary>
+        public static T Max<T>(params T[] values) where T : IComparable<T>
+        {
+            if (values.Length == 0)
+                throw new ArgumentException(ExceptionResource.COLLECTION_NOT_EMPTY);
+            Comparison<T> comp = Comparer<T>.Default.Compare;
+            T max = values[0];
+            for (int i = 0; i < values.Length; i++)
+                max = comp(max, values[i]) < 0 ? values[i] : max;
+            return max;
+        }
+
+        /// <summary>
+        /// Returns the highest value of the provided values.
+        /// </summary>
+        public static T Min<T>(params T[] values) where T : IComparable<T>
+        {
+            if (values.Length == 0)
+                throw new ArgumentException(ExceptionResource.COLLECTION_NOT_EMPTY);
+            Comparison<T> comp = Comparer<T>.Default.Compare;
+            T min = values[0];
+            for (int i = 0; i < values.Length; i++)
+                min = comp(min, values[i]) > 0 ? values[i] : min;
+            return min;
+        }
+
+        /// <summary>
+        /// Returns the minimum and maximum value of the provided value.
+        /// </summary>
+        public static (T Min, T Max) MinMax<T>(params T[] values) where T : IComparable<T>
+        {
+            if (values.Length == 0)
+                throw new ArgumentException(ExceptionResource.COLLECTION_NOT_EMPTY);
+            Comparison<T> comp = Comparer<T>.Default.Compare;
+            T max = values[0],
+              min = values[0];
+            for (int i = 0; i < values.Length; i++)
+            {
+                max = comp(max, values[i]) < 0 ? values[i] : max;
+                min = comp(min, values[i]) > 0 ? values[i] : min;
+            }
+            return (max, min);
+        }
+
 
         /// <summary>
         /// Returns the highest value of the provided values.

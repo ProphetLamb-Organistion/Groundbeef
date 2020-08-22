@@ -22,6 +22,10 @@ namespace Groundbeef.Collections
         new IPartitionedEnumerator<T> GetEnumerator();
     }
 
+    /// <summary>
+    /// Enumerates a sequence, partitioning elements based on a condition.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class PartitionedEnumerator<T> : IPartitionedEnumerator<T>
     {
         private readonly IEnumerator<T> _sourceEnumerator;

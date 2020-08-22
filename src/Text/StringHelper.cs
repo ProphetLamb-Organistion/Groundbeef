@@ -28,7 +28,7 @@ namespace Groundbeef.Text
         private static readonly int s_iEnumerableTypeDefinitionIndex = s_convertibleTypes.IndexOf(typeof(IEnumerable<>)),
                                     s_iDictionaryTypeDefinitionIndex = s_convertibleTypes.IndexOf(typeof(IDictionary<,>));
 
-        internal const int ConvertibleTypeIndex = 0x7FFFFFFF;
+        internal const int CONVERTIBLE_TYPE_INDEX = 0x7FFFFFFF;
 
         private static readonly Type[] s_convertibleTypes = {
             typeof(Byte),
@@ -62,7 +62,7 @@ namespace Groundbeef.Text
         }
 
         /// <summary>
-        /// Returns whether the type is convertible to and from a string using the <see cref="StringHelper"/> functions. 
+        /// Indicates whether the type is convertible to and from a string using the <see cref="StringHelper"/> functions. 
         /// Eligeble are primitives, <see cref="Color"/>, <see cref="DateTime"/>, <see cref="IEnumerable{}"/>, <see cref="KeyValuePair{,}"/>, <see cref="IDictionary{,}"/>, <see cref="Range{}"/>,
         /// and all types that have a public static method with the <see cref="FromString"/> and <see cref="ToString"/> attribute.
         /// </summary>
@@ -102,7 +102,7 @@ namespace Groundbeef.Text
                 MethodInfo? toString = methods.WithAttribute<ToString>().FirstOrDefault(),
                             fromString = methods.WithAttribute<FromString>().FirstOrDefault();
                 if (!(toString is null || fromString is null))
-                    index = ConvertibleTypeIndex;
+                    index = CONVERTIBLE_TYPE_INDEX;
                 t = type;
             }
             index = index == -1 ? s_convertibleTypes.IndexOf(t) : index;
@@ -118,7 +118,7 @@ namespace Groundbeef.Text
         }
 
         /// <summary>
-        /// Encodes all characters in the <see cref="String"/> into a squence of <see cref="bytes"/> using the specified encoding
+        /// Encodes all characters in the <see cref="String"/> into a squence of <see cref="bytes"/> using the specified encoding.
         /// </summary>
         /// <param name="encoding">The character encoding used to encode the characters.</param>
         /// <returns>A <see cref="Byte[]"/> containing the encoded <see cref="String"/>.</returns>
@@ -137,7 +137,7 @@ namespace Groundbeef.Text
         public static byte[] GetASCIIBytes(this string self) => Encoding.ASCII.GetBytes(self);
 
         /// <summary>
-        /// Returns whether the string only contains ASCII characters.
+        /// Indicates whether the string only contains ASCII characters.
         /// </summary>
         /// <returns><see cref="true"/> if the string contains only ASCII characters; otherwise, <see cref="false"/>.</returns>
         public static bool IsASCIIString(this string self)
@@ -146,7 +146,7 @@ namespace Groundbeef.Text
         }
 
         /// <summary>
-        /// Returns a new instance <see cref="StringBuilder"/> appending <paramref name="value"/> to the <see cref="String"/>.
+        /// Returns a <see cref="StringBuilder"/> appending the <paramref name="value"/> to the <see cref="String"/>.
         /// </summary>
         /// <param name="value">The <see cref="String" to append.</param>
         /// <returns>A new instance <see cref="StringBuilder"/> appending <paramref name="value"/> to the <see cref="String"/>.</returns>
@@ -156,20 +156,15 @@ namespace Groundbeef.Text
         /// Indicates whether the string is empty ("").
         /// </summary>
         /// <returns><see cref="true"/> if the string is empty; otherwise <see cref="false"/>.</returns>
-        public static bool IsEmpty(this string self)
-        {
-            return String.IsNullOrEmpty(self);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsEmpty(this string self) => String.IsNullOrEmpty(self);
 
         /// <summary>
         /// Indicates whether the string is empty or consisits only of white-space characters.
         /// </summary>
         /// <returns><see cref="true"/> if the string is empty or consisits only of white-space characters; otherwise <see cref="false"/>.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsWhitespace(this string self)
-        {
-            return String.IsNullOrWhiteSpace(self);
-        }
+        public static bool IsWhitespace(this string self) => String.IsNullOrWhiteSpace(self);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool EqualsIgnoreCase(this string left, string right)
@@ -200,7 +195,10 @@ namespace Groundbeef.Text
         {
             return String.Equals(left, right, StringComparison.OrdinalIgnoreCase);
         }
-
+        /// <summary>
+        /// Dereferences a <see cref="Nullable{String}"/>, by coalescing the value with <see cref="String.Empty"/> on null.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string NullSafe(this string? self)
         {
             return self??String.Empty;
@@ -544,7 +542,7 @@ namespace Groundbeef.Text
                 14 => ToKeyValuePair(value, arguments[0], arguments[1]),
                 15 => ToDictionary(value, arguments[0], arguments[1]),
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
-                ConvertibleTypeIndex => ToConvertibleTypeByAttribute(value, type),
+                CONVERTIBLE_TYPE_INDEX => ToConvertibleTypeByAttribute(value, type),
                 _ => throw new FormatException(ExceptionResource.TYPE_CANNOT_CONVERT_TO_TYPE),
             };
         }
@@ -706,7 +704,7 @@ namespace Groundbeef.Text
                 13 => SequenceToString((IEnumerable)value, arguments[0]),
                 14 => KeyValuePairToString(value, type),
                 15 => DictionaryToString(value, type),
-                ConvertibleTypeIndex => FromConvertibleTypeByAttribute(value, type),
+                CONVERTIBLE_TYPE_INDEX => FromConvertibleTypeByAttribute(value, type),
                 _ => throw new FormatException(ExceptionResource.TYPE_CANNOT_CONVERT_TO_TYPE),
             };
         }

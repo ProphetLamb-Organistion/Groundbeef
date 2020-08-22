@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 
 namespace Groundbeef.Collections
 {
@@ -16,6 +17,9 @@ namespace Groundbeef.Collections
         bool Contains(object value);
     }
 
+    /// <summary>
+    /// Generic Range valuetype.
+    /// </summary>
     [DebuggerDisplay("{" + nameof(GetDebuggerDisplay) + "(),nq}")]
     [System.Runtime.InteropServices.ComVisible(true)]
     public readonly struct Range<T> : IRange, IEquatable<Range<T>?>, IEquatable<object?> where T : IComparable<T>
@@ -67,7 +71,7 @@ namespace Groundbeef.Collections
         public bool HasValue => _hasValue;
 
         /// <summary>
-        /// Returns a new <see cref="Range{T}"/> unifing this instance and the <paramref name="other"/>.
+        /// Returns a new <see cref="Range{T}"/> unifing the Range with another.
         /// </summary>
         /// <param name="other">The other <see cref="Range{T}"/>.</param>
         /// <returns>A new <see cref="Range{T}"/> unifing this instance and the <paramref name="other"/>.</returns>
@@ -78,12 +82,12 @@ namespace Groundbeef.Collections
             if (!HasValue || !other.HasValue)
                 throw new InvalidOperationException(ExceptionResource.RANGE_BOUNDS_NOT_ASSIGNED);
             return new Range<T>(
-                _minimum.CompareTo(range._minimum) == -1 ? _minimum : range._minimum,
-                _maximum.CompareTo(range._maximum) == -1 ? range._maximum : _maximum);
+                _minimum.CompareTo(range._minimum) < 0 ? _minimum : range._minimum,
+                _maximum.CompareTo(range._maximum) < 0 ? range._maximum : _maximum);
         }
 
         /// <summary>
-        /// Returns a new <see cref="Range{T}"> to encompassing the <paramref name="value"/>.
+        /// Returns a new <see cref="Range{T}"> encompassing the <paramref name="value"/>.
         /// </summary>
         /// <param name="value">The value to extend to <see cref="Range{T}"/> to.</param>
         /// <returns>A new <see cref="Range{T}"> to encompassing the <paramref name="value"/>.</returns>
@@ -94,12 +98,12 @@ namespace Groundbeef.Collections
             if (!HasValue)
                 throw new InvalidOperationException(ExceptionResource.RANGE_BOUNDS_NOT_ASSIGNED);
             return new Range<T>(
-                _minimum.CompareTo(value) == -1 ? _minimum : value,
-                _maximum.CompareTo(value) == -1 ? value : _maximum);
+                _minimum.CompareTo(value) < 0 ? _minimum : value,
+                _maximum.CompareTo(value) < 0 ? value : _maximum);
         }
 
         /// <summary>
-        /// Returns whether the <paramref name="other"/> <see cref="Range{T}"/> intersects with this instance.
+        /// Indicates whether the <paramref name="other"/> <see cref="Range{T}"/> intersects with this instance.
         /// </summary>
         /// <param name="other">The other <see cref="Range{T}"/>.</param>
         /// <returns><see cref="true"/> if the <paramref name="other"/> <see cref="Range{T}"/> intersects with this instance; otherwise, <see cref="false"/>.</returns>
@@ -115,10 +119,11 @@ namespace Groundbeef.Collections
         }
 
         /// <summary>
-        /// Returns whether the <paramref name="value"/> is contained widthin the <see cref="Range{T}"/>.
+        /// Indicates whether the <paramref name="value"/> is contained widthin the <see cref="Range{T}"/>.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns><see cref="true"/> if the <paramref name="value"/> is contained widthin the <see cref="Range{T}"/>; otherwise, <see cref="false"/>.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Contains(T value)
         {
             return _minimum.CompareTo(value) <= 0 && _maximum.CompareTo(value) >= 0;
@@ -222,6 +227,7 @@ namespace Groundbeef.Collections
         /// </summary>
         /// <typeparam name="T">The type the range will be cast to.</typeparam>
         /// <returns>A new instance of <see cref="Range{T}"/>, cast from the <see cref="IRange"/>.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Range<T> Cast<T>(this IRange range) where T : IComparable<T> => new Range<T>((T)(range.Minimum??default(T)), (T)(range.Maximum??default(T)));
 
         /// <summary>
@@ -229,7 +235,7 @@ namespace Groundbeef.Collections
         /// </summary>
         /// <param name="range">The <see cref="Range{Int32}"/>.</param>
         /// <returns>Returns a new <see cref="Range"/> with the Start equal to <see cref="Range{Int32}.Minimum"/>, and the End equal to <see cref="Range{Int32}.Maximum"/>.</returns>
-        public static Range ToIndexRange<T>(this Range<T> range) where T : IComparable<T>, IConvertible
+        public static Range ToIndexedRange<T>(this Range<T> range) where T : IComparable<T>, IConvertible
         {
             int start = range.Minimum.ToInt32(CultureInfo.CurrentCulture.NumberFormat),
                 end = range.Maximum.ToInt32(CultureInfo.CurrentCulture.NumberFormat);

@@ -15,7 +15,7 @@ namespace Groundbeef.Reflection
         private static readonly Dictionary<Guid, Type> s_enumerableArguments = new Dictionary<Guid, Type>();
 
         /// <summary>
-        /// Returns whether the interface specified is implemented by the <see cref="Type"/>.
+        /// Indicates whether the interface specified is implemented by the <see cref="Type"/>.
         /// </summary>
         /// <typeparam name="T">The type of the interface to check for.</typeparam>
         /// <param name="preferGenericTypeDefinition">If the interface is a generic type, then specifies whether to check for the type definition instead of the specific implementation.</param>
@@ -23,7 +23,7 @@ namespace Groundbeef.Reflection
         public static bool HasInterface<T>(this Type type, bool preferGenericTypeDefinition = false) => HasInterface(type, typeof(T), preferGenericTypeDefinition);
 
         /// <summary>
-        /// Returns whether the interface specified is implemented by the <see cref="Type"/>.
+        /// Indicates whether the interface specified is implemented by the <see cref="Type"/>.
         /// </summary>
         /// <param name="interfaceType">The type of the interface to check for.</param>
         /// <param name="preferGenericTypeDefinition">If the interface is a generic type, then specifies whether to check for the type definition instead of the specific implementation.</param>
@@ -65,13 +65,13 @@ namespace Groundbeef.Reflection
 
 
         /// <summary>
-        /// Filters a sequence by methods with the attribute specified.
+        /// Filters a sequence by methods with the <see cref="Attribute"/> specified.
         /// </summary>
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
         public static IEnumerable<MethodInfo?> WithAttribute<TAttribute>(this IEnumerable<MethodInfo?> methods) where TAttribute : Attribute => WithAttribute(methods, typeof(TAttribute));
 
         /// <summary>
-        /// Filters a sequence by methods with the attribute specified.
+        /// Filters a sequence by methods with the <see cref="Attribute"/> specified.
         /// </summary>
         /// <param name="attribute">The type of the attribute.</param>
         public static IEnumerable<MethodInfo?> WithAttribute(this IEnumerable<MethodInfo?> methods, Type attributeType)

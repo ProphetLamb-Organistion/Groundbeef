@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -6,7 +7,7 @@ using System.Runtime.InteropServices;
 namespace Groundbeef.Core
 {
     [ComVisible(true)]
-    public static class ObjectHelper
+    public static class ObjectExtention
     {
         /// <summary>
         /// Casts the provided object to a specified type.
@@ -54,14 +55,14 @@ namespace Groundbeef.Core
         }
 
         /// <summary>
-        /// Dereferences the <see cref="Nullable"/> object, if the object is null throws a <see cref="ArgumentNullException"/>.
+        /// Dereferences the <see cref="Nullable"/> object, if the object is null throws a <see cref="ArgumentNullException"/>; otherwise returns the dereferenced object.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T DerefOrThrow<T>(this T? self, in string? paramerterName = null) where T : class
             => self ?? throw new ArgumentNullException(paramerterName ?? nameof(paramerterName));
 
         /// <summary>
-        /// Dereferences the <see cref="Nullable"/> object, if the object is null throws a <see cref="ArgumentNullException"/>.
+        /// Dereferences the <see cref="Nullable"/> object, if the object is null throws a <see cref="ArgumentNullException"/>; otherwise returns the dereferenced object.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T DerefOrThrow<T>(this T? self, in string? paramerterName = null) where T : struct

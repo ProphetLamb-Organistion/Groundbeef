@@ -51,7 +51,7 @@ namespace Groundbeef.IO
         }
 
         /// <summary>
-        /// Returns whether the file at the path specified is a directory or not.
+        /// Indicates whether the file at the path specified is a directory or not.
         /// </summary>
         /// <param name="filePath">The path leading to the file incuding the name and extention.</param>
         /// <returns><see cref="true"/> if the file is a directory; otherwise, <see cref="false"/>.</returns>
@@ -60,7 +60,7 @@ namespace Groundbeef.IO
             return IsDirectory(new FileInfo(filePath));
         }
         /// <summary>
-        /// Returns whether the <see cref="FileInfo"/> is a directory or not.
+        /// Indicates whether the <see cref="FileInfo"/> is a directory or not.
         /// </summary>
         /// <param name="fileInfo">The <see cref="FileInfo"/>.</param>
         /// <returns><see cref="true"/> if the file is a directory; otherwise, <see cref="false"/>.</returns>
@@ -68,13 +68,6 @@ namespace Groundbeef.IO
         {
             return (fileInfo.Attributes & FileAttributes.Directory) == FileAttributes.Directory;
         }
-
-        /// <summary>
-        /// Returns the SHA1 hash of a file.
-        /// </summary>
-        /// <param name="fileName">The <see cref="String"/> defining the path the file, its name and extention.</param>
-        /// <returns>The SHA1 hash of the file.</returns>
-        public static byte[] GetFileSHA1Hash(string fileName) => GetFileHash(fileName, SHA1.Create());
 
         /// <summary>
         /// Returns the hash of a file, using the <see cref="HashAlorithm"/> specified.
@@ -99,6 +92,9 @@ namespace Groundbeef.IO
             return hashAlgorithm.Hash;
         }
 
+        /// <summary>
+        /// Indicates whether the path is a relative path.
+        /// </summary>
         public static bool IsRelativePath(in ReadOnlySpan<char> path) => IsRelativePath(path, 0, out _);
 
         internal static bool IsRelativePath(in ReadOnlySpan<char> path, int startIndex, out int relativeIndicatorEndIndex)

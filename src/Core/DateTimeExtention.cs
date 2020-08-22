@@ -53,11 +53,23 @@ namespace Groundbeef.Core
             return dt.FirstOfMonth().AddDays(DateTime.DaysInMonth(dt.Year, dt.Month)).AddMilliseconds(-1);
         }
 
+        /// <summary>
+        /// Enumerates all timezones between the offsets of two <see cref="DateTimeOffset"/>s.
+        /// </summary>
+        /// <param name="offset1">The first <see cref="DateTimeOffset"/>.</param>
+        /// <param name="offset2">The second <see cref="DateTimeOffset"/>.</param>
+        /// <param name="distinct">Whether to eliminate all timezones with duplicate offsets.</param>
         public static IEnumerable<TimeZoneInfo> GetTimzonesBetween(DateTimeOffset offset1, DateTimeOffset offset2, bool distinct = true)
         {
             return GetTimzonesBetween(offset1.Offset, offset2.Offset, distinct);
         }
 
+        /// <summary>
+        /// Enumerates all timezones between the offsets of two <see cref="DateTimeOffset"/>s.
+        /// </summary>
+        /// <param name="utcOffset1">The first UTC offset.</param>
+        /// <param name="utcOffset2">The second UTC offset.</param>
+        /// <param name="distinct">Whether to eliminate all timezones with duplicate offsets.</param>
         public static IEnumerable<TimeZoneInfo> GetTimzonesBetween(TimeSpan utcOffset1, TimeSpan utcOffset2, bool distinct = true)
         {
             return GetTimzonesBetween(utcOffset1.TotalHours.RoundInt32(), utcOffset2.TotalHours.RoundInt32(), distinct);
