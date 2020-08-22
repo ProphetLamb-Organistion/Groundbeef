@@ -5,6 +5,11 @@
     <LangVersion>8.0</LangVersion>
     <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>
+  
+  <PropertyGroup>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)nupkgs</PackageOutputPath>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
 
   <PropertyGroup>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>

@@ -5,6 +5,11 @@
     <Nullable>enable</Nullable>
     <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>
+  
+  <PropertyGroup>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)nupkgs</PackageOutputPath>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

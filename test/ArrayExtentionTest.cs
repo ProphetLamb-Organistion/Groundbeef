@@ -5,6 +5,8 @@ using NUnit.Framework;
 using System;
 using System.Linq;
 
+using RNG = System.Security.Cryptography.RandomNumberGenerator;
+
 namespace Groundbeef.UnitTest
 {
     public class ArrayExtentionTest
@@ -25,8 +27,7 @@ namespace Groundbeef.UnitTest
             keys = new int[array1.Length];
             for (int i = 0; i < array1.Length; i++)
                 keys[i] = i;
-            var rng = new Random();
-            keys = keys.OrderBy(rng.Next).ToArray();
+            keys = keys.OrderBy(i => RNG.GetInt32(array1.Length)).ToArray();
         }
 
         [Test]
