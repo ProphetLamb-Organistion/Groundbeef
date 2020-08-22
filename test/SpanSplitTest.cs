@@ -1,8 +1,10 @@
+using Groundbeef.Collections;
+
+using NUnit.Framework;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using Groundbeef.Collections;
-using NUnit.Framework;
 
 namespace Groundbeef.UnitTest
 {

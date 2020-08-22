@@ -1,7 +1,6 @@
 ﻿using Groundbeef.Core;
 
 using System;
-using System.Collections.Generic;
 
 namespace Groundbeef.Drawing.ColorX
 {

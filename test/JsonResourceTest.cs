@@ -1,11 +1,12 @@
+using Groundbeef.Json.Resources;
+using Groundbeef.Text;
+
+using NUnit.Framework;
+
+using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using NUnit.Framework;
-
-using Groundbeef.Json.Resources;
-using System;
-using Groundbeef.Text;
 
 namespace Groundbeef.UnitTest
 {
@@ -30,7 +31,7 @@ namespace Groundbeef.UnitTest
         }
 
         [Test]
-        public void  FunctionalityTest()
+        public void FunctionalityTest()
         {
             _resourceManager = new ResourceManager("CommonResource", RES_DIR);
             using (var writer = new ResourceWriter(_resourceManager, s_german))

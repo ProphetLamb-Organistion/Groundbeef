@@ -1,7 +1,6 @@
 ﻿using Groundbeef.Core;
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -72,7 +71,7 @@ namespace Groundbeef.Drawing.ColorX
 
         public override string ToString() => ToString(ColorStyles.Tuple);
 
-        public string ToString(ColorStyles style) => ColorExtention.InternalToString(A, R/255f, G/255f, B/255f, style);
+        public string ToString(ColorStyles style) => ColorExtention.InternalToString(A, R / 255f, G / 255f, B / 255f, style);
     }
 
     /// <summary>

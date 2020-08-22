@@ -1,8 +1,10 @@
-using System.Text;
-using System;
-using NUnit.Framework;
 using Groundbeef.BinaryEncoding;
 using Groundbeef.Text;
+
+using NUnit.Framework;
+
+using System;
+using System.Text;
 
 namespace Groundbeef.UnitTest
 {

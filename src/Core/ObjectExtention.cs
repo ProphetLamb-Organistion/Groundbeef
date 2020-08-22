@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -51,7 +49,7 @@ namespace Groundbeef.Core
         public static void ThrowOnNull(this object? self, in string? parameterName = null)
         {
             if (self is null)
-                throw new ArgumentNullException(parameterName??nameof(parameterName));
+                throw new ArgumentNullException(parameterName ?? nameof(parameterName));
         }
 
         /// <summary>

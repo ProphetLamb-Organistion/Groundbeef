@@ -11,7 +11,7 @@ namespace Groundbeef.Collections.BitCollections
         {
             m_storage = new ulong[DefaultCapacity];
         }
-        
+
         private BitQueue(ulong[] storage, sbyte loOffset, sbyte hiOffset, int elements, int count) : base(storage, loOffset, hiOffset, elements, count)
         { }
 
@@ -47,7 +47,7 @@ namespace Groundbeef.Collections.BitCollections
 
         public virtual bool Contains(bool item)
         {
-            for(int i = m_loOffset; i < m_elements; i++)
+            for (int i = m_loOffset; i < m_elements; i++)
             {
                 if (ReadBitAt(m_storage, i) == item)
                     return true;

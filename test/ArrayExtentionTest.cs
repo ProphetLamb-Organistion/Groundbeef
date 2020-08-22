@@ -1,11 +1,9 @@
-using System.Security.Cryptography;
-using System.Linq;
-using System;
+using Groundbeef.Collections;
+
 using NUnit.Framework;
 
-using Groundbeef.Core;
-using System.Collections.Generic;
-using Groundbeef.Collections;
+using System;
+using System.Linq;
 
 namespace Groundbeef.UnitTest
 {
@@ -48,7 +46,7 @@ namespace Groundbeef.UnitTest
             // Parallel
             Assert.AreNotEqual(-1, array2.ParallelIndexOfAny(0, array2.Length, x => x is string str && str == probe));
             Assert.AreEqual(2, array2.ParallelIndexOfAll(0, array2.Length, x => x is string str && str == probe).Length);
-            
+
             Assert.Pass();
         }
 

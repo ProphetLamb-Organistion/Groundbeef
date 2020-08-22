@@ -326,7 +326,7 @@ namespace Groundbeef.Collections
             }
         }
 
-        #nullable disable
+#nullable disable
         /// <summary>
         /// Searches the elements in the <see cref="IReadOnlyList{T}"/> for the specified element and returns the first occurence.
         /// </summary>
@@ -508,7 +508,7 @@ namespace Groundbeef.Collections
                     yield return collection[i];
             }
         }
-        #nullable enable
+#nullable enable
 
         /// <summary>
         /// Sorts the elements in the <see cref="IReadOnlyList{T}"/> using defaul comparer <see cref="Comparer{T}.Default"/> to compare collection elements.

@@ -33,7 +33,7 @@ namespace Groundbeef.Collections.BitCollections
             {
                 source = new bool[System.Linq.Enumerable.Count(collection)];
                 using IEnumerator<bool> en = collection.GetEnumerator();
-                for(int i = 0; i < source.Length && en.MoveNext(); i++)
+                for (int i = 0; i < source.Length && en.MoveNext(); i++)
                     source[i] = en.Current;
             }
             m_count = (source.Length + 7) / BitsInLong + 1; // Round up integer division: (a - 1) / b + 1
@@ -54,7 +54,7 @@ namespace Groundbeef.Collections.BitCollections
         {
             return new BitList(m_storage, m_loOffset, m_hiOffset, m_elements, m_count);
         }
-        
+
         protected virtual bool GetValue(int index)
         {
             if ((uint)index >= (uint)m_elements)
@@ -82,7 +82,7 @@ namespace Groundbeef.Collections.BitCollections
 
         public virtual int IndexOf(bool item)
         {
-            for(int i = m_loOffset; i < m_elements; i++)
+            for (int i = m_loOffset; i < m_elements; i++)
             {
                 if (ReadBitAt(m_storage, i) == item)
                     return i - m_loOffset;
@@ -151,7 +151,7 @@ namespace Groundbeef.Collections.BitCollections
         {
             m_loOffset--;
             EnforceOffsetRange();
-            Span<ulong> span = m_storage.AsSpan(0, longIndex+1);
+            Span<ulong> span = m_storage.AsSpan(0, longIndex + 1);
             LeftShiftArrayBit(span);
             // Correct the part of the long that was shifted
             RightShiftLongRightAt(m_storage, longIndex, offset);
@@ -173,7 +173,7 @@ namespace Groundbeef.Collections.BitCollections
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void RemoveLeftShift(int longIndex, int offset)
         {
-            Span<ulong> span = m_storage.AsSpan(longIndex+1);
+            Span<ulong> span = m_storage.AsSpan(longIndex + 1);
             LeftShiftLongLeftAt(m_storage, longIndex, offset);
             LeftShiftArrayBit(span);
         }
@@ -276,7 +276,7 @@ namespace Groundbeef.Collections.BitCollections
 
             protected override bool GetValue(int index)
             {
-                lock(_syncRoot)
+                lock (_syncRoot)
                     return _list.GetValue(index);
             }
 
@@ -319,7 +319,7 @@ namespace Groundbeef.Collections.BitCollections
             public override void RemoveAt(int index)
             {
                 lock (_syncRoot)
-                     _list.RemoveAt(index);
+                    _list.RemoveAt(index);
             }
         }
         #endregion

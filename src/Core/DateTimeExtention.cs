@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using System.Linq;
 
 namespace Groundbeef.Core
 {
@@ -88,7 +88,7 @@ namespace Groundbeef.Core
                 delta = min - max;
             var hoursBetween = Enumerable.Range(min, delta).ToList();
             var zones = new TimeZoneInfo[delta];
-            return distinct 
+            return distinct
             ? TimeZoneInfo.GetSystemTimeZones()
                 .Where(tzi => hoursBetween.Contains(tzi.BaseUtcOffset.TotalHours.RoundInt32()))
                 .Distinct(new TimeZoneInfoOffsetIntegerComparer())

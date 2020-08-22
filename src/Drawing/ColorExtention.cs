@@ -1,11 +1,10 @@
-﻿using Groundbeef.Drawing.ColorX;
+﻿using Groundbeef.Core;
+using Groundbeef.Drawing.ColorX;
 
-using System;
 using System.Drawing;
-using Groundbeef.Core;
-using System.Text;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Groundbeef.Drawing
 {
@@ -73,7 +72,7 @@ namespace Groundbeef.Drawing
                     .Append(", B = ").Append(b.ToString("f2")).Append('%');
                     break;
                 case ColorStyles.Integer:
-                    sb.Append((uint)a << 0 | (uint)(r*255f) << 8 | (uint)(g * 255f) << 16 | (uint)(b * 255f) << 24);
+                    sb.Append((uint)a << 0 | (uint)(r * 255f) << 8 | (uint)(g * 255f) << 16 | (uint)(b * 255f) << 24);
                     break;
                 case ColorStyles.HexInteger:
                     sb.Append(((uint)a << 0 | (uint)(r * 255f) << 8 | (uint)(g * 255f) << 16 | (uint)(b * 255f) << 24).ToString("X"));

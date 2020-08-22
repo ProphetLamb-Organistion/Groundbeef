@@ -77,19 +77,19 @@ namespace Groundbeef.BinaryEncoding
                 base85Length = base85.Length;
             fixed (byte* outPtr = &MemoryMarshal.GetReference(base85))
             fixed (char* charsPtr = &MemoryMarshal.GetReference(chars))
-            unchecked
-            {
-                char* inPtr = charsPtr;
-                for (int i = 0; i < base85Length; inPtr += 4)
+                unchecked
                 {
-                    uint value = ((uint)inPtr[0] << 24) | ((uint)inPtr[1] << 16) | ((uint)inPtr[2] << 8) | inPtr[3];
-                    outPtr[i++] = s_decoder[(value / Num0) % 0x55];
-                    outPtr[i++] = s_decoder[(value / Num1) % 0x55];
-                    outPtr[i++] = s_decoder[(value / Num2) % 0x55];
-                    outPtr[i++] = s_decoder[(value / Num3) % 0x55];
-                    outPtr[i++] = s_decoder[value % 0x55];
+                    char* inPtr = charsPtr;
+                    for (int i = 0; i < base85Length; inPtr += 4)
+                    {
+                        uint value = ((uint)inPtr[0] << 24) | ((uint)inPtr[1] << 16) | ((uint)inPtr[2] << 8) | inPtr[3];
+                        outPtr[i++] = s_decoder[(value / Num0) % 0x55];
+                        outPtr[i++] = s_decoder[(value / Num1) % 0x55];
+                        outPtr[i++] = s_decoder[(value / Num2) % 0x55];
+                        outPtr[i++] = s_decoder[(value / Num3) % 0x55];
+                        outPtr[i++] = s_decoder[value % 0x55];
+                    }
                 }
-            }
         }
         #endregion
 

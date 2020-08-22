@@ -228,7 +228,7 @@ namespace Groundbeef.Collections
         /// <typeparam name="T">The type the range will be cast to.</typeparam>
         /// <returns>A new instance of <see cref="Range{T}"/>, cast from the <see cref="IRange"/>.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Range<T> Cast<T>(this IRange range) where T : IComparable<T> => new Range<T>((T)(range.Minimum??default(T)), (T)(range.Maximum??default(T)));
+        public static Range<T> Cast<T>(this IRange range) where T : IComparable<T> => new Range<T>((T)(range.Minimum ?? default(T)), (T)(range.Maximum ?? default(T)));
 
         /// <summary>
         /// Returns a new <see cref="Range"/> with the Start equal to <see cref="Range{Int32}.Minimum"/>, and the End equal to <see cref="Range{Int32}.Maximum"/>.

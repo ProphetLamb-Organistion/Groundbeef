@@ -201,7 +201,7 @@ namespace Groundbeef.Text
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string NullSafe(this string? self)
         {
-            return self??String.Empty;
+            return self ?? String.Empty;
         }
 
         #region Random string

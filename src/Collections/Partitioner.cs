@@ -1,10 +1,10 @@
+using Groundbeef.Collections.BitCollections;
+using Groundbeef.SharedResources;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-
-using Groundbeef.Collections.BitCollections;
-using Groundbeef.SharedResources;
 
 namespace Groundbeef.Collections
 {
@@ -71,7 +71,7 @@ namespace Groundbeef.Collections
                 return true;
             // Seek next satisfied
             bool result;
-            while((result = _sourceEnumerator.MoveNext()) && !_partitioner(_sourceEnumerator.Current))
+            while ((result = _sourceEnumerator.MoveNext()) && !_partitioner(_sourceEnumerator.Current))
                 Enqueue(_sourceEnumerator.Current, false);
             if (result)
             {
@@ -98,7 +98,7 @@ namespace Groundbeef.Collections
                 return true;
             // Seek next satisfied
             bool result;
-            while((result = _sourceEnumerator.MoveNext()) && _partitioner(_sourceEnumerator.Current))
+            while ((result = _sourceEnumerator.MoveNext()) && _partitioner(_sourceEnumerator.Current))
                 Enqueue(_sourceEnumerator.Current, true);
             if (result)
             {
@@ -298,7 +298,7 @@ namespace Groundbeef.Collections
 
         public IPartitionedEnumerator<T> GetEnumerator() => new PartitionedEnumerator<T>(_source, _partitioner);
 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator() =>  GetEnumerator();
+        IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }

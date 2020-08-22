@@ -113,7 +113,7 @@ namespace Groundbeef.Collections
             Span<Range> ranges = new Range[split.Length + 1];
             int lastIndex = 0;
             int rangeIndex = 0;
-            for(int i = 0; i < split.Length; i++)
+            for (int i = 0; i < split.Length; i++)
             {
                 int length = split[i] - lastIndex;
                 if (_options == StringSplitOptions.None && length >= 2)

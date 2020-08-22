@@ -1,11 +1,9 @@
-using System;
-using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Linq;
+using Groundbeef.Json.Settings;
+
 using NUnit.Framework;
 
-using Groundbeef.Json.Settings;
+using System;
+using System.Drawing;
 
 namespace Groundbeef.UnitTest
 {
@@ -14,7 +12,7 @@ namespace Groundbeef.UnitTest
         [SetUp]
         public void SetUp()
         {
-            
+
         }
 
         public string settingsPath = @".\config\appsettings.json";

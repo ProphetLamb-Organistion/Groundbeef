@@ -1,9 +1,10 @@
+using Groundbeef.SharedResources;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using Groundbeef.SharedResources;
+using System.Runtime.InteropServices;
 
 namespace Groundbeef.Collections.BitCollections
 {
@@ -81,9 +82,9 @@ namespace Groundbeef.Collections.BitCollections
         public virtual void TrimToSize()
         {
             // Shift lo to zero
-            while(m_loOffset / BitsInLong != 0)
+            while (m_loOffset / BitsInLong != 0)
                 LeftShiftArrayLong(m_storage.AsSpan());
-            while(m_loOffset != 0)
+            while (m_loOffset != 0)
                 LeftShiftArrayBit(m_storage.AsSpan());
             Array.Resize(ref m_storage, Math.Max(1, m_elements - 1) / BitsInLong + 1);
         }
@@ -108,7 +109,7 @@ namespace Groundbeef.Collections.BitCollections
         {
             if (arrayIndex + m_elements > array.Length)
                 throw new IndexOutOfRangeException();
-            for(int i = m_loOffset; i < m_elements; i++)
+            for (int i = m_loOffset; i < m_elements; i++)
                 array.SetValue(ReadBitAt(m_storage, i), arrayIndex++);
         }
 
@@ -116,13 +117,13 @@ namespace Groundbeef.Collections.BitCollections
         {
             if (arrayIndex + m_elements > array.Length)
                 throw new IndexOutOfRangeException();
-            for(int i = 0; i < m_count; i++)
+            for (int i = 0; i < m_count; i++)
                 array.SetValue(m_storage[i], arrayIndex++);
         }
 
         public virtual IEnumerator<bool> GetEnumerator()
         {
-            for(int i = m_loOffset; i < m_elements; i++)
+            for (int i = m_loOffset; i < m_elements; i++)
                 yield return ReadBitAt(m_storage, i);
         }
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -174,10 +175,10 @@ namespace Groundbeef.Collections.BitCollections
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected unsafe static void RightShiftArrayLong(in Span<ulong> sourceSpan)
         {
-            fixed(ulong* source = &MemoryMarshal.GetReference(sourceSpan))
+            fixed (ulong* source = &MemoryMarshal.GetReference(sourceSpan))
             {
                 for (int i = sourceSpan.Length - 2; i >= 0; i--)
-                    source[i] = source[i+1];
+                    source[i] = source[i + 1];
             }
         }
 
@@ -200,11 +201,11 @@ namespace Groundbeef.Collections.BitCollections
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected unsafe static void RightShiftArrayBit(in Span<ulong> sourceSpan)
         {
-            fixed(ulong* source = &MemoryMarshal.GetReference(sourceSpan))
+            fixed (ulong* source = &MemoryMarshal.GetReference(sourceSpan))
             {
                 // Because of the dead byte at the last index we can shift a int32, int16, byte on 64bit, and a int16, byte on 32bit,
                 // without going out of our allocated memory range.
-                ulong* lastLong = &source[sourceSpan.Length -1];
+                ulong* lastLong = &source[sourceSpan.Length - 1];
 #if WIN64
                 *(byte*)(lastLong + 48) = *(byte*)(lastLong + 49);
                 *(ushort*)(lastLong + 32) = *(ushort*)(lastLong + 33);
@@ -224,10 +225,10 @@ namespace Groundbeef.Collections.BitCollections
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected unsafe static void LeftShiftArrayLong(in Span<ulong> sourceSpan)
         {
-            fixed(ulong* source = &MemoryMarshal.GetReference(sourceSpan))
+            fixed (ulong* source = &MemoryMarshal.GetReference(sourceSpan))
             {
                 for (int i = 1; i < sourceSpan.Length; i++)
-                    source[i-1] = source[i];
+                    source[i - 1] = source[i];
             }
         }
 
@@ -242,11 +243,11 @@ namespace Groundbeef.Collections.BitCollections
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected unsafe static void LeftShiftArrayBit(in Span<ulong> sourceSpan)
         {
-            fixed(ulong* source = &MemoryMarshal.GetReference(sourceSpan))
+            fixed (ulong* source = &MemoryMarshal.GetReference(sourceSpan))
             {
                 // Because of the dead byte at the last index we can shift a int32, int16, byte on 64bit, and a int16, byte on 32bit,
                 // without going out of our allocated memory range.
-                ulong* lastLong = &source[sourceSpan.Length -1];
+                ulong* lastLong = &source[sourceSpan.Length - 1];
 #if WIN64
                 *(uint*)(lastLong + 1) = *(uint*)(lastLong + 0);
                 *(ushort*)(lastLong + 33) = *(ushort*)(lastLong + 32);
@@ -272,7 +273,7 @@ namespace Groundbeef.Collections.BitCollections
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected unsafe static void WriteBitAt(in Span<ulong> sourceSpan, int offset, bool value)
         {
-            fixed(ulong* source = &MemoryMarshal.GetReference(sourceSpan))
+            fixed (ulong* source = &MemoryMarshal.GetReference(sourceSpan))
             {
                 *(byte*)(source + offset) = (byte)(value
                 ? *(byte*)(source + offset) | 0x01 // Set bit at offset
@@ -291,12 +292,12 @@ namespace Groundbeef.Collections.BitCollections
 
         protected static unsafe void CopyFromBooleanArray(ref bool[] sourceArray, ref ulong[] targetArray, int length)
         {
-            fixed(bool* source = &sourceArray[0])
-            fixed(ulong* target = &targetArray[0])
+            fixed (bool* source = &sourceArray[0])
+            fixed (ulong* target = &targetArray[0])
             {
                 byte* sourceAsBytes = (byte*)source;
                 ulong* value = stackalloc ulong[2];
-                for(int i = 0; i < length; i++)
+                for (int i = 0; i < length; i++)
                 {
                     // Asign value at the correct bit. 
                     // A boolean vale is a byte 0x00 if false; otherwise, 0x01 so we can simply shift it to the correct position;
