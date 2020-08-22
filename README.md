@@ -87,11 +87,11 @@ Based on https://github.com/dotnet/runtime/issues/934.
 ```
 public interface IPartitionedEnumerator<T> : IEnumerator<T>
 {
-	bool IsSatisfied { get; }
-	bool MoveNextSatisfied();
-	bool MoveNextFalsified();
-	IEnumerator<T> SynchronizedSatisfiedEnumerator();
-	IEnumerator<T> SynchronizedFalisifiedEnumerator();
+    bool IsSatisfied { get; }
+    bool MoveNextSatisfied();
+    bool MoveNextFalsified();
+    IEnumerator<T> SynchronizedSatisfiedEnumerator();
+    IEnumerator<T> SynchronizedFalisifiedEnumerator();
 }
 ```
 
@@ -99,7 +99,7 @@ public interface IPartitionedEnumerator<T> : IEnumerator<T>
 ```
 public interface IPartitionedEnumerable<T> : IEnumerable<T>
 {
-	new IPartitionedEnumerator<T> GetEnumerator();
+    new IPartitionedEnumerator<T> GetEnumerator();
 }
 ```
 
@@ -110,11 +110,11 @@ Enumerates a sequence, partitioning elements based on a condition.
 ```
 public interface IRange
 {
-	object? Minimum { get; }
-	object? Maximum { get; }
-	bool HasValue { get; }
-
-	bool Contains(object value);
+    object? Minimum { get; }
+    object? Maximum { get; }
+    bool HasValue { get; }
+    
+    bool Contains(object value);
 }
 ```
 
@@ -242,10 +242,10 @@ Syncronizes a JSON settings file with a SettingsStorage POCO. Allows reading and
 ```
 public interface ISettingsProvider
 {
-  event PropertyChangedEventHandler? SettingsChanged;
-  string FileName { get; }
-  object? GetValue(string propertyName);
-  void SetValue(string propertyName, object? value);
+    event PropertyChangedEventHandler? SettingsChanged;
+    string FileName { get; }
+    object? GetValue(string propertyName);
+    void SetValue(string propertyName, object? value);
 }
 ```
 
@@ -308,9 +308,9 @@ Splits a string by tokens and enumerates the elements inbetween tokens.
 ```
 public interface ITokenizer
 {
-  string? Current { get; }
-  bool First(ReadOnlySpan<char> token);
-  bool Next(ReadOnlySpan<char> token);
+    string? Current { get; }
+    bool First(ReadOnlySpan<char> token);
+    bool Next(ReadOnlySpan<char> token);
 }
 ```
 
