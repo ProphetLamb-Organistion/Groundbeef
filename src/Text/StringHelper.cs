@@ -16,6 +16,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
+using RNG = System.Security.Cryptography.RandomNumberGenerator;
+
 namespace Groundbeef.Text
 {
     [ComVisible(true)]
@@ -211,7 +213,7 @@ namespace Groundbeef.Text
         /// </summary>
         /// <param name="length">The number of chars in the random string.</param>
         /// <returns>A new randomly generated string with the specified <paramref name="length"/> containing lower and uppercase alphanumeric characters 0-9a-zA-Z.</returns>
-        public static string RandomString(int length) => RandomString(length, s_defaultAlphabet, new Random());
+        public static string RandomString(int length) => RandomString(length, s_defaultAlphabet);
 
         /// <summary>
         /// Returns a new randomly generated string with the specified <paramref name="length"/> containing characters in the <paramref name="alphabet"/>.
@@ -219,28 +221,19 @@ namespace Groundbeef.Text
         /// <param name="length">The number of chars in the random string.</param>
         /// <param name="alphabet">The alphabet used to generate characters in the string.</param>
         /// <returns>A new randomly generated string with the specified <paramref name="length"/> containing characters in the <paramref name="alphabet"/>.</returns>
-        public static unsafe string RandomString(int length, ReadOnlySpan<char> alphabet) => RandomString(length, alphabet, new Random());
-        /// <summary>
-        /// Returns a new randomly generated string using the provided <paramref name="random"/> with the specified <paramref name="length"/> containing characters in the <paramref name="alphabet"/>.
-        /// </summary>
-        /// <param name="length">The number of chars in the random string.</param>
-        /// <param name="alphabet">The alphabet used to generate characters in the string.</param>
-        /// <param name="random">The random generator used.</param>
-        /// <returns>A new randomly generated string using the provided <paramref name="random"/> with the specified <paramref name="length"/> containing characters in the <paramref name="alphabet"/>.</returns>
-        public static unsafe string RandomString(int length, ReadOnlySpan<char> alphabet, in Random random)
+        public static unsafe string RandomString(int length, ReadOnlySpan<char> alphabet)
         {
             if (length < 0)
                 throw new ArgumentOutOfRangeException(nameof(length), ExceptionResource.INTEGER_POSITIVEZERO);
             if (alphabet.Length < 2)
                 throw new ArgumentException(ExceptionResource.ALPHABET_LENGTH_LESS_2);
             string str = FastAllocateString(length) ?? String.Empty;
-            int alphabetEndIndex = alphabet.Length - 1;
             fixed (char* outStr = str)
             fixed (char* alphabetPtr = &MemoryMarshal.GetReference(alphabet))
             {
                 for (int i = 0; i != length; i++)
                 {
-                    outStr[i] = alphabetPtr[random.Next(0, alphabetEndIndex)];
+                    outStr[i] = alphabetPtr[RNG.GetInt32(alphabet.Length)];
                 }
             }
             return str;
