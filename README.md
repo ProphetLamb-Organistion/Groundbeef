@@ -38,11 +38,11 @@ Simpler implementation of a range structure then System.Range
 
 **MathHelper**
 
-IsPowerOfTwo: Indicates whether the value is a power of two.
-RoundToInt: Rounds the value to the nearest 32/64bit signed integer.
-MinMax(params): Returns the minimum and maximum value of the provided value.
-Max(params): Returns the highest value of the provided values.
-Min(params): Returns the lowerst value of the provided values.
+* IsPowerOfTwo: Indicates whether the value is a power of two.
+* RoundToInt: Rounds the value to the nearest 32/64bit signed integer.
+* MinMax(params): Returns the minimum and maximum value of the provided value.
+* Max(params): Returns the highest value of the provided values.
+* Min(params): Returns the lowerst value of the provided values.
 
 **TaskHelper**
 
