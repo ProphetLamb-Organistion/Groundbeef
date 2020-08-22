@@ -37,6 +37,7 @@ VerifyCultureName: Verifes that the culture name (en_US etc.) of a given culture
 Simpler implementation of a range structure then System.Range
 
 **MathHelper**
+
 IsPowerOfTwo: Indicates whether the value is a power of two.
 RoundToInt: Rounds the value to the nearest 32/64bit signed integer.
 MinMax(params): Returns the minimum and maximum value of the provided value.
@@ -172,6 +173,23 @@ A bi-directionally accessible dictionary implementation.
 
 * Indexer: A wrapper class of Dictionary tailored for the needs of Map.
 
+**EqualityComparison**
+Delegate indicating whether two values are equal
+```
+public delegate bool EqualityComparison<T>(T left, T right);
+```
+
+* ToComparer: Returns a new instance of a GenericEqualityComparer{T} with the specified comparison.
+
+**HashCodeFunction**
+Delegate returning the hashcode of a value using a specific function.
+```
+public delegate int HashCodeFunction<T>(T value);
+```
+
+**GenericEqualityComparer**
+Warpper class for lamba EqualityComparison functions.
+
 #### Concurrent
 
 **Concurrent dictionary**
@@ -268,16 +286,27 @@ IsInDesignModeStatic: Gets a value indicating whether the control is in design m
 
 ### Reflection (.NET Standard)
 
-**CollectionsConvert**
+**CollectionsReflect**
 Static class that can convert IEnumerable<T> to List<T> and T[] based on a type variable using reflection.
-
-**Enumerables**
-* IsGenericIEnumerable: Returns whether the type implements the IEnumerable<T> interface.
-* GetEnumerableElementType: Returns the generic type argument of any IEnumerable<T> type.
+  
+  
+**Invoker**
+Delegate that invokes the underlying MethodInfo.Invoke method.
+```
+public delegate object? Invoker(object? obj, object?[]? parameters);
+```
 
 **EqualityComparers**
-* GetDefaultEqualityComparer: Returns the default <see cref="IEqualityComparer"/> for the type specified.
+
+* GetDefaultEqualityComparer: Returns the default IEqualityComparer for the type specified.
   Same as IEqualityComparer<T>.Default but with a type variable using reflection.
+  
+**TypeEntention**
+
+* HasInterface: Indicates whether the interface specified is implemented by the type.
+* IsGenericIEnumerable: Returns whether the type implements the IEnumerable<T> interface.
+* GetEnumerableElementType: Returns the generic type argument of any IEnumerable<T> type.
+* WithAttribute: Filters a sequence by methods with the Attribute specified.
 
 ### Text (.NET Standard)
 
