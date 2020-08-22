@@ -168,6 +168,36 @@ namespace Groundbeef.Text
             return String.IsNullOrWhiteSpace(self);
         }
 
+        public static bool EqualsIgnoreCase(this string left, string right)
+        {
+            return String.Equals(left, right, StringComparison.CurrentCultureIgnoreCase);
+        }
+
+        public static bool EqualsInvariant(this string left, string right)
+        {
+            return String.Equals(left, right, StringComparison.InvariantCulture);
+        }
+
+        public static bool EqualsInvariantIgnoreCase(this string left, string right)
+        {
+            return String.Equals(left, right, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        public static bool EqualsOrdinal(this string left, string right)
+        {
+            return String.Equals(left, right, StringComparison.Ordinal);
+        }
+
+        public static bool EqualsOrdinalIgnoreCase(this string left, string right)
+        {
+            return String.Equals(left, right, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static string NullSafe(this string? self)
+        {
+            return self??String.Empty;
+        }
+
         #region Random string
         private static readonly char[] s_defaultAlphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
         /// <summary>
@@ -350,15 +380,15 @@ namespace Groundbeef.Text
         public static Color ToColor(this string self, ColorStyles colorStyles = ColorStyles.None)
         {
             // Set to default ColorStyles if None
-            colorStyles = colorStyles == ColorStyles.None ? ColorStyles.HexNumber : colorStyles;
+            colorStyles = colorStyles == ColorStyles.None ? ColorStyles.HexInteger : colorStyles;
 
             string trimmed = self.Trim();
             // Hex or Int
-            if ((colorStyles & (ColorStyles.Integer | ColorStyles.HexNumber)) != ColorStyles.None)
+            if ((colorStyles & (ColorStyles.Integer | ColorStyles.HexInteger)) != ColorStyles.None)
             {
                 NumberStyles styles = NumberStyles.None
                 | ((colorStyles & ColorStyles.Integer) == ColorStyles.Integer ? NumberStyles.Integer : NumberStyles.None)
-                | ((colorStyles & ColorStyles.HexNumber) == ColorStyles.HexNumber ? NumberStyles.HexNumber | NumberStyles.AllowHexSpecifier : NumberStyles.None);
+                | ((colorStyles & ColorStyles.HexInteger) == ColorStyles.HexInteger ? NumberStyles.HexNumber | NumberStyles.AllowHexSpecifier : NumberStyles.None);
                 if (Int32.TryParse(trimmed, styles, CultureInfo.CurrentCulture.NumberFormat, out int value))
                     return Color.FromArgb(value);
             }
@@ -366,7 +396,7 @@ namespace Groundbeef.Text
             if ((colorStyles & ColorStyles.Name) == ColorStyles.Name && EnumHelper<KnownColor>.GetNames().Contains(trimmed))
                 return Color.FromKnownColor(EnumHelper<KnownColor>.Parse(trimmed));
             // Bytes
-            if ((colorStyles & ColorStyles.Bytes) == ColorStyles.Bytes)
+            if ((colorStyles & ColorStyles.Tuple) == ColorStyles.Tuple)
             {
                 var bytes = new byte[4];
                 var values = trimmed.Split(',');
@@ -524,10 +554,10 @@ namespace Groundbeef.Text
         {
             return colorStyles switch
             {
-                ColorStyles.Bytes => String.Concat(self.A, ",", self.R, ",", self.G, ",", self.B),
-                ColorStyles.HexNumber => self.ToInteger().ToString("X"),
+                ColorStyles.Tuple => String.Concat(self.A, ",", self.R, ",", self.G, ",", self.B),
+                ColorStyles.HexInteger => self.ToInteger().ToString("X"),
                 ColorStyles.Integer => self.ToInteger().ToString(),
-                ColorStyles.Name => self.IsNamedColor ? self.Name : ConvertToString(self, ColorStyles.HexNumber),
+                ColorStyles.Name => self.IsNamedColor ? self.Name : ConvertToString(self, ColorStyles.HexInteger),
                 _ => throw new FormatException("The ColorStyle is not supported."),
             };
         }
