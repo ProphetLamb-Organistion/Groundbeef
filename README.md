@@ -1,6 +1,6 @@
 # Groundbeef
 
-Collection of personal tools and utility functionality written in C# using .NET Standard 2.1, .NET Core 3.1, WPF, and Nullable context.
+Collection of personal tools and utility functionality written in C# 8.0 with Nullable context using .NET Standard 2.1, .NET Core 3.1, and WPF.
 
 ## Table of contents
 
