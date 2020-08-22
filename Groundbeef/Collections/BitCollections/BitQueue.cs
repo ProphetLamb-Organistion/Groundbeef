@@ -11,6 +11,7 @@ namespace Groundbeef.Collections.BitCollections
         {
             m_storage = new ulong[DefaultCapacity];
         }
+        
         private BitQueue(ulong[] storage, sbyte loOffset, sbyte hiOffset, int elements, int count) : base(storage, loOffset, hiOffset, elements, count)
         { }
 

@@ -1,11 +1,12 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Groundbeef.Core
 {
-    [System.Runtime.InteropServices.ComVisible(true)]
-    public static class TypeConvert
+    [ComVisible(true)]
+    public static class ObjectHelper
     {
         /// <summary>
         /// Casts the provided object to a specified type.
@@ -43,6 +44,32 @@ namespace Groundbeef.Core
                 Unsafe.WriteUnaligned(aPtr + 8, *(ulong*)(aPtr + 8) ^ *(ulong*)bPtr);
             }
             return new Guid(a);
+        }
+
+        /// <summary>
+        /// Throws an ArgumentNullException if the object is null.
+        /// </summary>
+        /// <param name="parameterName">The parameter name of the object.</param>
+        public static void ThrowOnNull(this object? self, in string? parameterName = null)
+        {
+            if (self is null)
+                throw new ArgumentNullException(parameterName??"parameterName");
+        }
+
+        /// <summary>
+        /// Dereferences the <see cref="Nullable"/> object, if the object is null throws a <see cref="ArgumentNullException"/>.
+        /// </summary>
+        public static T DerefOrThrow<T>(this T? self, in string? paramerterName = null) where T : class
+        {
+            return self??throw new ArgumentNullException(paramerterName??nameof(paramerterName));
+        }
+
+        /// <summary>
+        /// Dereferences the <see cref="Nullable"/> object, if the object is null throws a <see cref="ArgumentNullException"/>.
+        /// </summary>
+        public static T DerefOrThrow<T>(this T? self, in string? paramerterName = null) where T : struct
+        {
+            return self??throw new ArgumentNullException(paramerterName??nameof(paramerterName));
         }
     }
 }

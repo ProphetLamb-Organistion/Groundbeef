@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
 
 namespace Groundbeef.Collections
 {
@@ -108,6 +109,7 @@ namespace Groundbeef.Collections
             return c;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int CombineHashCodes(int h1, int h2)
         {
             return ((h1 << 5) + h1) ^ h2;

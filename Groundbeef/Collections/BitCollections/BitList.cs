@@ -21,11 +21,6 @@ namespace Groundbeef.Collections.BitCollections
         private BitList(ulong[] storage, sbyte loOffset, sbyte hiOffset, int elements, int count) : base(storage, loOffset, hiOffset, elements, count)
         { }
 
-        public virtual object Clone()
-        {
-            return new BitList(m_storage, m_loOffset, m_hiOffset, m_elements, m_count);
-        }
-
         public BitList(IEnumerable<bool> collection)
         {
             bool[] source;
@@ -55,6 +50,11 @@ namespace Groundbeef.Collections.BitCollections
 
         public bool IsEmpty => Count == 0;
 
+        public virtual object Clone()
+        {
+            return new BitList(m_storage, m_loOffset, m_hiOffset, m_elements, m_count);
+        }
+        
         protected virtual bool GetValue(int index)
         {
             if ((uint)index >= (uint)m_elements)

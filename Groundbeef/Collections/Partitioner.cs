@@ -21,13 +21,6 @@ namespace Groundbeef.Collections
         new IPartitionedEnumerator<T> GetEnumerator();
     }
 
-    public enum PartitionedEnumeratorOperatingMode
-    {
-        Undefinded,
-        Partitioned,
-        Mixed,
-    }
-
     public class PartitionedEnumerator<T> : IPartitionedEnumerator<T>
     {
         private readonly IEnumerator<T> _sourceEnumerator;

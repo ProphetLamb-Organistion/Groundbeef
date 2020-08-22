@@ -74,8 +74,8 @@ namespace Groundbeef
         /// <summary>
         /// Waits for all of the provided System.Threading.Tasks.Task objects to complete execution.
         /// </summary>
-        /// <param name="collection">The <see cref="IList<Task>"/> to await.</param>
-        public static void WaitAll(this IList<Task> collection)
+        /// <param name="collection">The <see cref="IReadOnlyList<Task>"/> to await.</param>
+        public static void WaitAll(this IReadOnlyList<Task> collection)
         {
             Task.WaitAll(collection.ToArray());
         }
@@ -92,8 +92,8 @@ namespace Groundbeef
         /// <summary>
         /// Waits for any of the provided System.Threading.Tasks.Task objects to complete execution.
         /// </summary>
-        /// <param name="collection">The <see cref="IList<Task>"/> to await.</param>
-        public static void WaitAny(this IList<Task> collection)
+        /// <param name="collection">The <see cref="IReadOnlyList<Task>"/> to await.</param>
+        public static void WaitAny(this IReadOnlyList<Task> collection)
         {
             Task.WaitAny(collection.ToArray());
         }
@@ -110,8 +110,8 @@ namespace Groundbeef
         /// <summary>
         /// Creates a task that will complete when all of the System.Threading.Tasks.Task objects in an array have completed.
         /// </summary>
-        /// <param name="collection">The <see cref="IList<Task>"/> to await.</param>
-        public static Task WhenAll(this IList<Task> collection)
+        /// <param name="collection">The <see cref="IReadOnlyList<Task>"/> to await.</param>
+        public static Task WhenAll(this IReadOnlyList<Task> collection)
         {
             return Task.WhenAll(collection.ToArray());
         }
@@ -128,8 +128,8 @@ namespace Groundbeef
         /// <summary>
         /// Creates a task that will complete when any of the supplied tasks have completed.
         /// </summary>
-        /// <param name="collection">The <see cref="IList<Task>"/> to await.</param>
-        public static Task WhenAny(this IList<Task> collection)
+        /// <param name="collection">The <see cref="IReadOnlyList<Task>"/> to await.</param>
+        public static Task WhenAny(this IReadOnlyList<Task> collection)
         {
             return Task.WhenAny(collection.ToArray());
         }
