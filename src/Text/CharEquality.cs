@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace Groundbeef.Text
+namespace Groundbeef.Text.CharEquality
 {
     public enum CharEqualityComparisions { Default, CaseInsensitive, InvariantCaseInsensetive }
 
-    public sealed class CharEqualityComparer_InvariantCaseInsensitive : IEqualityComparer<char>
+    public sealed class InvariantCaseInsensitive : IEqualityComparer<char>
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(char x, char y) => Char.ToLowerInvariant(x) == Char.ToLowerInvariant(y);
@@ -14,7 +14,8 @@ namespace Groundbeef.Text
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int GetHashCode(char obj) => obj.GetHashCode();
     }
-    public sealed class CharEqualityComparer_CaseInsensitive : IEqualityComparer<char>
+
+    public sealed class CaseInsensitive : IEqualityComparer<char>
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(char x, char y) => Char.ToLower(x) == Char.ToLower(y);
