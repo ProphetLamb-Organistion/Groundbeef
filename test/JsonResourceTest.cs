@@ -12,7 +12,7 @@ namespace Groundbeef.UnitTest
 {
     public class JsonResourceTest
     {
-        private const string RES_DIR = ".\\resource_test";
+        private const string c_resDir = ".\\resource_test";
         private static readonly CultureInfo s_german = CultureInfo.GetCultureInfo("de-de"),
                                             s_english = CultureInfo.GetCultureInfo("en-us");
         private ResourceManager _resourceManager;
@@ -23,9 +23,9 @@ namespace Groundbeef.UnitTest
         public void SetUp()
         {
             // Clear directory
-            if (Directory.Exists(RES_DIR))
-                Directory.Delete(RES_DIR, true);
-            Directory.CreateDirectory(RES_DIR);
+            if (Directory.Exists(c_resDir))
+                Directory.Delete(c_resDir, true);
+            Directory.CreateDirectory(c_resDir);
 
             _foo = new Foo("Schneider", 0.3146d);
         }
@@ -33,7 +33,7 @@ namespace Groundbeef.UnitTest
         [Test]
         public void FunctionalityTest()
         {
-            _resourceManager = new ResourceManager("CommonResource", RES_DIR);
+            _resourceManager = new ResourceManager("CommonResource", c_resDir);
             using (var writer = new ResourceWriter(_resourceManager, s_german))
             {
                 writer.AddResource("first", "Hallo Welt!");
@@ -47,7 +47,7 @@ namespace Groundbeef.UnitTest
             Assert.AreEqual(2, _resourceManager.Cultures.Count());
             // Clear resources
             _resourceManager.Dispose();
-            _resourceManager = new ResourceManager("CommonResource", RES_DIR);
+            _resourceManager = new ResourceManager("CommonResource", c_resDir);
             using (var reader = new ResourceReader(_resourceManager, s_german))
                 reader.ReadToEnd();
             using (var reader = new ResourceReader(_resourceManager, s_english))
@@ -64,7 +64,7 @@ namespace Groundbeef.UnitTest
         [Test]
         public void PerformanceTest()
         {
-            _resourceManager = new ResourceManager("PerfResource", RES_DIR);
+            _resourceManager = new ResourceManager("PerfResource", c_resDir);
             using var rwGerman = new ResourceWriter(_resourceManager, s_german);
             using var rwEnglish = new ResourceWriter(_resourceManager, s_english);
             var sw = new System.Diagnostics.Stopwatch();
@@ -82,7 +82,7 @@ namespace Groundbeef.UnitTest
             sw.Stop();
             Console.WriteLine("Write: " + sw.Elapsed);
             _resourceManager.Dispose();
-            _resourceManager = new ResourceManager("PerfResource", RES_DIR);
+            _resourceManager = new ResourceManager("PerfResource", c_resDir);
             sw.Reset();
             using var rrGerman = new ResourceReader(_resourceManager, s_german);
             using var rrEnglish = new ResourceReader(_resourceManager, s_english);

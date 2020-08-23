@@ -9,14 +9,14 @@ namespace Groundbeef.UnitTest
 {
     public class GenericCollectionConversionTest
     {
-        public const string LOREM_IPSU = "Laborum adipisci in vel aut tempora et. Asperiores perferendis unde ut natus pariatur et. Vel aut placeat sit provident. Magni consequatur similique sapiente illum ut est";
+        public const string c_loremIpsu = "Laborum adipisci in vel aut tempora et. Asperiores perferendis unde ut natus pariatur et. Vel aut placeat sit provident. Magni consequatur similique sapiente illum ut est";
 
         IEnumerable<char> _enumerable;
 
         [SetUp]
         public void Setup()
         {
-            _enumerable = LOREM_IPSU.Select(x => x);
+            _enumerable = c_loremIpsu.Select(x => x);
         }
 
         [Test]
@@ -24,7 +24,7 @@ namespace Groundbeef.UnitTest
         {
             var array = (char[])CollectionsReflect.ToGenericArray(_enumerable, out _);
             Assert.NotNull(array);
-            Assert.AreEqual(LOREM_IPSU.Length, array.Length);
+            Assert.AreEqual(c_loremIpsu.Length, array.Length);
 
             Assert.Pass();
         }
@@ -34,7 +34,7 @@ namespace Groundbeef.UnitTest
         {
             var array = (List<char>)CollectionsReflect.ToGenericList(_enumerable, out _);
             Assert.NotNull(array);
-            Assert.AreEqual(LOREM_IPSU.Length, array.Count);
+            Assert.AreEqual(c_loremIpsu.Length, array.Count);
 
             Assert.Pass();
         }

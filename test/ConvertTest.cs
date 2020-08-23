@@ -10,7 +10,7 @@ namespace Groundbeef.UnitTest
 {
     public class Z85EncodingTest
     {
-        public const string LOREM_IPSU = "Laborum adipisci in vel aut tempora et. Asperiores perferendis unde ut natus pariatur et. Vel aut placeat sit provident. Magni consequatur similique sapiente illum ut est";
+        public const string c_loremIpsu = "Laborum adipisci in vel aut tempora et. Asperiores perferendis unde ut natus pariatur et. Vel aut placeat sit provident. Magni consequatur similique sapiente illum ut est";
 
         [SetUp]
         public void SetUp()

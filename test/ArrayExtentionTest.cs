@@ -11,7 +11,7 @@ namespace Groundbeef.UnitTest
 {
     public class ArrayExtentionTest
     {
-        public const string LoremIpsu = "Laborum adipisci in vel aut tempora et. Asperiores perferendis unde ut natus pariatur et. Vel aut placeat sit provident. Magni consequatur similique sapiente illum ut est";
+        public const string c_loremIpsu = "Laborum adipisci in vel aut tempora et. Asperiores perferendis unde ut natus pariatur et. Vel aut placeat sit provident. Magni consequatur similique sapiente illum ut est";
 
         string[] array1;
         Array array2;
@@ -21,7 +21,7 @@ namespace Groundbeef.UnitTest
         [SetUp]
         public void Setup()
         {
-            array1 = LoremIpsu.Split(' ');
+            array1 = c_loremIpsu.Split(' ');
             array2 = array1;
             // randomize keys
             keys = new int[array1.Length];
@@ -80,7 +80,7 @@ namespace Groundbeef.UnitTest
         public void HashCodeTest()
         {
             string[] array2 = array1.Clone() as string[],
-                     array3 = LoremIpsu.Split(' ');
+                     array3 = c_loremIpsu.Split(' ');
             int hash1 = array1.GetHashCode(true),
                 hash2 = array2.GetHashCode(true),
                 hash3 = array3.GetHashCode(true);

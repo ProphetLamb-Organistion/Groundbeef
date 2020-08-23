@@ -1,3 +1,5 @@
+using Groundbeef.Text.CharEquality;
+
 using System;
 using System.Collections.Generic;
 
@@ -42,8 +44,8 @@ namespace Groundbeef.Text
             _sourceText = text;
             _comparer = mode switch
             {
-                CharEqualityComparisions.InvariantCaseInsensetive => new CharEqualityComparer_InvariantCaseInsensitive(),
-                CharEqualityComparisions.CaseInsensitive => new CharEqualityComparer_CaseInsensitive(),
+                CharEqualityComparisions.InvariantCaseInsensetive => new InvariantCaseInsensitive(),
+                CharEqualityComparisions.CaseInsensitive => new CaseInsensitive(),
                 _ => EqualityComparer<char>.Default,
             };
         }

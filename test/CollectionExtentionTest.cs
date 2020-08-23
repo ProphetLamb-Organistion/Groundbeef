@@ -4,12 +4,12 @@ namespace Groundbeef.UnitTest
 {
     public class CollectionExtentionTest
     {
-        public const string LOREM_IPSU = "Laborum adipisci in vel aut tempora et. Asperiores perferendis unde ut natus pariatur et. Vel aut placeat sit provident. Magni consequatur similique sapiente illum ut est";
+        public const string c_loremIpsu = "Laborum adipisci in vel aut tempora et. Asperiores perferendis unde ut natus pariatur et. Vel aut placeat sit provident. Magni consequatur similique sapiente illum ut est";
 
         [SetUp]
         public void Setup()
         {
-            string[] source = LOREM_IPSU.Split(' ');
+            string[] source = c_loremIpsu.Split(' ');
         }
 
         [Test]
