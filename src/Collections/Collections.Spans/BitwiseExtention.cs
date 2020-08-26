@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Groundbeef.Collections.Spans
 {
-    public static unsafe class LogicExtention
+    public static unsafe class BitwiseExtention
     {
         #region Boolean
         /// <summary>
