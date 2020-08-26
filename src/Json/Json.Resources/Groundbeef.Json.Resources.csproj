@@ -30,7 +30,6 @@
     <ProjectReference Include="..\..\IO\Groundbeef.IO.csproj" />
     <ProjectReference Include="..\..\Core\Groundbeef.Core.csproj" />
     <ProjectReference Include="..\..\Events\Groundbeef.Events.csproj" />
-    <ProjectReference Include="..\..\Collections\Groundbeef.Collections.csproj" />
   </ItemGroup>
 
 </Project>

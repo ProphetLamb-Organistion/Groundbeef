@@ -6,7 +6,7 @@ namespace Groundbeef.Localisation
     [System.Runtime.InteropServices.ComVisible(true)]
     public static class DesignHelper
     {
-        private static bool? _isInDesignMode;
+        private static bool? s_isInDesignMode;
 
         /// <summary>
         /// Gets a value indicating whether the control is in design mode (running in Blend or Visual Studio).
@@ -15,18 +15,18 @@ namespace Groundbeef.Localisation
         {
             get
             {
-                if (!_isInDesignMode.HasValue)
+                if (!s_isInDesignMode.HasValue)
                 {
 #if SILVERLIGHT
                     _isInDesignMode = DesignerProperties.IsInDesignTool;
 #else
                     var prop = DesignerProperties.IsInDesignModeProperty;
-                    _isInDesignMode = (bool)DependencyPropertyDescriptor.FromProperty(prop, typeof(FrameworkElement)).Metadata.DefaultValue;
-                    if (!_isInDesignMode.Value && System.Diagnostics.Process.GetCurrentProcess().ProcessName.StartsWith(@"devenv"))
-                        _isInDesignMode = true;
+                    s_isInDesignMode = (bool)DependencyPropertyDescriptor.FromProperty(prop, typeof(FrameworkElement)).Metadata.DefaultValue;
+                    if (!s_isInDesignMode.Value && System.Diagnostics.Process.GetCurrentProcess().ProcessName.StartsWith(@"devenv"))
+                        s_isInDesignMode = true;
 #endif
                 }
-                return _isInDesignMode.Value;
+                return s_isInDesignMode.Value;
             }
         }
     }

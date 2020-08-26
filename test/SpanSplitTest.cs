@@ -1,4 +1,4 @@
-using Groundbeef.Collections;
+using Groundbeef.Collections.Spans;
 
 using NUnit.Framework;
 

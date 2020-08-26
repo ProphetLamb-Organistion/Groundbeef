@@ -22,9 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Collections\Collections\Groundbeef.Collections.csproj" />
     <ProjectReference Include="..\Events\Groundbeef.Events.csproj" />
     <ProjectReference Include="..\SharedResources\Groundbeef.SharedResources.csproj" />
-    <ProjectReference Include="..\Collections\Groundbeef.Collections.csproj" />
   </ItemGroup>
 
   <ItemGroup>

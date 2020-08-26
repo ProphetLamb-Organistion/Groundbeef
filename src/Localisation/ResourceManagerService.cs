@@ -9,7 +9,7 @@ namespace Groundbeef.Localisation
     [System.Runtime.InteropServices.ComVisible(true)]
     public static class ResourceManagerService
     {
-        private static readonly Dictionary<string, System.Resources.ResourceManager> _managers;
+        private static readonly Dictionary<string, System.Resources.ResourceManager> s_managers;
 
         public static event ValueChangedEventHandler<Locale?>? LocaleChanged;
 
@@ -23,7 +23,7 @@ namespace Groundbeef.Localisation
         /// </summary>
         static ResourceManagerService()
         {
-            _managers = new Dictionary<string, System.Resources.ResourceManager>();
+            s_managers = new Dictionary<string, System.Resources.ResourceManager>();
             // Set to default culture
             ChangeLocale(CultureInfo.CurrentCulture.IetfLanguageTag);
         }
@@ -37,7 +37,7 @@ namespace Groundbeef.Localisation
         public static string? GetResourceString(in string managerName, in string resourceKey)
         {
             string? resource = null!;
-            if (_managers.TryGetValue(managerName, out var manager))
+            if (s_managers.TryGetValue(managerName, out var manager))
                 resource = manager.GetString(resourceKey);
             return resource;
         }
@@ -85,8 +85,8 @@ namespace Groundbeef.Localisation
         /// <param name="refresh">Whether to fire the LocaleChanged event to refresh bindings</param>
         public static void RegisterManager(in string managerName, in System.Resources.ResourceManager manager, bool refresh)
         {
-            if (!_managers.TryGetValue(managerName, out _))
-                _managers.Add(managerName, manager);
+            if (!s_managers.TryGetValue(managerName, out _))
+                s_managers.Add(managerName, manager);
             if (refresh)
                 Refresh();
         }
@@ -97,8 +97,8 @@ namespace Groundbeef.Localisation
         /// <param name="name">Name of the manager to remove</param>
         public static void UnregisterManager(in string name)
         {
-            if (!_managers.TryGetValue(name, out _))
-                _managers.Remove(name);
+            if (!s_managers.TryGetValue(name, out _))
+                s_managers.Remove(name);
         }
     }
 }

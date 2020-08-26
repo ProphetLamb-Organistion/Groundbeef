@@ -44,10 +44,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Collections\Collections\Groundbeef.Collections.csproj" />
     <ProjectReference Include="..\Core\Groundbeef.Core.csproj" />
     <ProjectReference Include="..\Drawing\Groundbeef.Drawing.csproj" />
     <ProjectReference Include="..\Reflection\Groundbeef.Reflection.csproj" />
-    <ProjectReference Include="..\Collections\Groundbeef.Collections.csproj" />
     <ProjectReference Include="..\SharedResources\Groundbeef.SharedResources.csproj" />
   </ItemGroup>
 

@@ -94,10 +94,7 @@ namespace Groundbeef.Collections.Spans
             _current = s_defaultValue;
         }
 
-        public Span<T>.Enumerator GetEnumerator()
-        {
-            // TODO: implement
-        }
+        public SpanSplitEnumerator<T> GetEnumerator() => this;
 
         public IList<Range> ToList()
         {

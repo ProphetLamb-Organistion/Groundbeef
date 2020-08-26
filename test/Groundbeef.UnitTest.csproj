@@ -19,13 +19,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\BinaryEncoding\Groundbeef.BinaryEncoding.csproj" />
-    <ProjectReference Include="..\src\Collections\Groundbeef.Collections.csproj" />
+    <ProjectReference Include="..\src\Collections\Collections.BitCollections\Groundbeef.Collections.BitCollections.csproj" />
+    <ProjectReference Include="..\src\Collections\Collections.Concurrent\Groundbeef.Collections.Concurrent.csproj" />
+    <ProjectReference Include="..\src\Collections\Collections.Spans\Groundbeef.Collections.Spans.csproj" />
+    <ProjectReference Include="..\src\Collections\Collections\Groundbeef.Collections.csproj" />
     <ProjectReference Include="..\src\Core\Groundbeef.Core.csproj" />
     <ProjectReference Include="..\src\Drawing\Groundbeef.Drawing.csproj" />
     <ProjectReference Include="..\src\Events\Groundbeef.Events.csproj" />
     <ProjectReference Include="..\src\IO\Groundbeef.IO.csproj" />
-    <ProjectReference Include="..\src\Json\Resources\Groundbeef.Json.Resources.csproj" />
-    <ProjectReference Include="..\src\Json\Settings\Groundbeef.Json.Settings.csproj" />
+    <ProjectReference Include="..\src\Json\Json.Resources\Groundbeef.Json.Resources.csproj" />
+    <ProjectReference Include="..\src\Json\Json.Settings\Groundbeef.Json.Settings.csproj" />
     <ProjectReference Include="..\src\Localisation\Groundbeef.Localisation.csproj" />
     <ProjectReference Include="..\src\Reflection\Groundbeef.Reflection.csproj" />
     <ProjectReference Include="..\src\SharedResources\Groundbeef.SharedResources.csproj" />
