@@ -48,12 +48,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)" />
+    <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SharedResources\Groundbeef.SharedResources.csproj" />
-    <ProjectReference Include="..\Core\Groundbeef.Core.csproj" />
+    <ProjectReference Include="..\..\SharedResources\Groundbeef.SharedResources.csproj" />
+    <ProjectReference Include="..\..\Core\Groundbeef.Core.csproj" />
+    <ProjectReference Include="..\Collections.BitCollections\Groundbeef.Collections.BitCollections.csproj" />
   </ItemGroup>
   
 </Project>

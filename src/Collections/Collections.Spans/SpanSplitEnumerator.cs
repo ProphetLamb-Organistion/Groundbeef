@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Groundbeef.Collections
+namespace Groundbeef.Collections.Spans
 {
     public static class SpanExtention
     {
@@ -19,7 +19,6 @@ namespace Groundbeef.Collections
         /// <param name="separator">The separator.</param>
         /// <param name="index">The start index of the first slice.</param>
         /// <param name="options">The split options.</param>
-        /// <returns></returns>
         public static SpanSplitEnumerator<T> Split<T>(this ReadOnlySpan<T> span, in T separator, int index, StringSplitOptions options = StringSplitOptions.None) where T : IEquatable<T>
         => Split(span, separator, index, span.Length - index, options);
 
@@ -30,7 +29,6 @@ namespace Groundbeef.Collections
         /// <param name="index">The start index of the first slice.</param>
         /// <param name="count">The number of elements </param>
         /// <param name="options">The split options.</param>
-        /// <returns></returns>
         public static SpanSplitEnumerator<T> Split<T>(this ReadOnlySpan<T> span, in T separator, int index, int count, StringSplitOptions options = StringSplitOptions.None) where T : IEquatable<T>
         {
             if (index < 0)
@@ -58,7 +56,6 @@ namespace Groundbeef.Collections
         /// <param name="index">The start index of the first slice.</param>
         /// <param name="count">The number of elements </param>
         /// <param name="options">The split options.</param>
-        /// <returns></returns>
         public static SpanSplitEnumerator<T> SplitWhere<T>(this ReadOnlySpan<T> span, in Predicate<T> match, int index, int count, StringSplitOptions options = StringSplitOptions.None)
         {
             if (index < 0)
@@ -77,7 +74,7 @@ namespace Groundbeef.Collections
     //Based on https://github.com/dotnet/runtime/issues/934
     public ref struct SpanSplitEnumerator<T>
     {
-        private static readonly Range s_defaultValue = default(Range);
+        private static readonly Range s_defaultValue = default!;
         private readonly ReadOnlySpan<T> _span;
         private readonly Predicate<T> _comparison;
         private int _index;
@@ -164,6 +161,6 @@ namespace Groundbeef.Collections
             return true;
         }
 
-        public Range Current { get => _current; }
+        public Range Current { get { return _current; } }
     }
 }

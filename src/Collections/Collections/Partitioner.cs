@@ -143,14 +143,22 @@ namespace Groundbeef.Collections
         public IEnumerator<T> SynchronizedSatisfiedEnumerator()
         {
             if (_satisfiedEn is null || _satisfiedEn.State == -2)
+            {
+                if (!(_satisfiedEn is null))
+                    _satisfiedEn.Dispose();
                 return _satisfiedEn = new SyncronizedSinglePartitionEnumerator<T>(this, true);
+            }
             return _satisfiedEn;
         }
 
         public IEnumerator<T> SynchronizedFalisifiedEnumerator()
         {
             if (_falsifiedEn is null || _falsifiedEn.State == -2)
-                return _falsifiedEn = new SyncronizedSinglePartitionEnumerator<T>(this, true);
+            {
+                if (!(_falsifiedEn is null))
+                    _falsifiedEn.Dispose();
+                return _falsifiedEn = new SyncronizedSinglePartitionEnumerator<T>(this, false);
+            }
             return _falsifiedEn;
         }
 
@@ -222,6 +230,7 @@ namespace Groundbeef.Collections
             private readonly PartitionedEnumerator<T2> _syncEn;
             private readonly bool _partition;
             private sbyte _state = -1;
+            private T2 _current;
 
             public SyncronizedSinglePartitionEnumerator(PartitionedEnumerator<T2> enumerator, bool partition)
             {
@@ -235,7 +244,7 @@ namespace Groundbeef.Collections
                 {
                     if (_state != 0)
                         throw new InvalidOperationException(ExceptionResource.ENUMERATOR_STATE_ABNORMAL);
-                    return Current;
+                    return _current;
                 }
             }
 
@@ -251,7 +260,12 @@ namespace Groundbeef.Collections
                     if (_state == -2)
                         return false;
                     _state = _syncEn.State;
-                    return _partition ? _syncEn.MoveNextSatisfied() : _syncEn.MoveNextFalsified();
+                    if (_partition ? _syncEn.MoveNextSatisfied() : _syncEn.MoveNextFalsified())
+                    {
+                        _current = _syncEn.Current;
+                        return true;
+                    }
+                    return false;
                 }
             }
 

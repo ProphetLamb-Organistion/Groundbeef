@@ -10,7 +10,7 @@ namespace Groundbeef.Collections.BitCollections
 {
     public abstract class BitArrayList : IReadOnlyCollection<bool>, ICollection
     {
-        public const int DefaultCapacity = 4;
+        public const int DefaultCapacity = 1;
         internal const int BitsInLong = sizeof(long) * 8;
         protected ulong[] m_storage = null!;
         private object? _syncRoot;

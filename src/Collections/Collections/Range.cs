@@ -203,7 +203,7 @@ namespace Groundbeef.Collections
         /// <summary>
         /// Converts a <see cref="ValueTuple{T1, T2}"/> to a <see cref="Range{T}"/> where item1 is the  minimum, and item2 the maximum value.
         /// </summary>
-        public static implicit operator Range<T>(ValueTuple<T, T> tuple) => new Range<T>(tuple.Item1, tuple.Item2);
+        public static explicit operator Range<T>(ValueTuple<T, T> tuple) => new Range<T>(tuple.Item1, tuple.Item2);
         #endregion
     }
 
