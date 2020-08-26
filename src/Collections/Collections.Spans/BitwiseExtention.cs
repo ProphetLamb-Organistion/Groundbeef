@@ -637,7 +637,7 @@ namespace Groundbeef.Collections.Spans
         /// <returns>The reference of the result span passed as parameter.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span<byte> LeftShift(this Span<byte> span, in Span<byte> result, int n)
-         => LeftShift(span, result, n);
+         => LeftShift((ReadOnlySpan<byte>)span, result, n);
 
         /// <summary>
         /// Shifts all bits in the span to the left by a specified ammount. Writes to the result span.
@@ -646,11 +646,18 @@ namespace Groundbeef.Collections.Spans
         /// <returns>The reference of the result span passed as parameter.</returns>
         public static Span<byte> LeftShift(this ReadOnlySpan<byte> span, in Span<byte> result, int n)
         {
-            if ((uint)n > 64u || n == 0)
-                throw new ArgumentOutOfRangeException(nameof(n), "Value must be an integer between 1 and 64.");
+            if (span.Length == 0)
+                throw new ArgumentException(nameof(span));
             if (span.Length < result.Length)
                 throw new IndexOutOfRangeException();
-            fixed(byte* inPtr = &MemoryMarshal.GetReference(span))
+            if ((uint)n > 64u) // Casting a negative to unsinged will result in a big number, have to cast other operand to unsigned as well, else the signed comparison will be used.
+                throw new ArgumentOutOfRangeException(nameof(n));
+            if (n == 0)
+            {
+                span.CopyTo(result);
+                return result;
+            }
+            fixed (byte* inPtr = &MemoryMarshal.GetReference(span))
             fixed(byte* outPtr = &MemoryMarshal.GetReference(result))
             {
                 ProtLShift(inPtr, outPtr, span.Length, n);
@@ -662,25 +669,24 @@ namespace Groundbeef.Collections.Spans
         public static void ProtLShift(byte* inPtr, byte* outPtr, int len, int n)
         {
             int i = 0;
-            ulong carryMask = 0x0000000000000000;
+            ulong carryMask = 0;
             if (len >= 8)
             {
                 for(; i < len; i += 8)
                 {
-                    ulong tmp = (*(ulong*)(inPtr + i) << n) | carryMask;
-                    carryMask = *(ulong*)(inPtr + i) >> (64 - n);
-                    *(ulong*)(outPtr + i) = tmp;
+                    ulong tmp = *(ulong*)(inPtr + i);
+                    *(ulong*)(outPtr + i) = (tmp << n) | carryMask;
+                    carryMask = tmp >> (64 - n);
                 }
                 i -= 8; // Offset overshoot
             }
-            if (len - i != 0)
+            if (i != len)
             {
-                // Consume remaining bytes
+                // TODO: fix
                 ulong tmp = 0;
-                for(int f = i; f < len; f++)
-                    tmp |= (ulong)*(inPtr + f) << ((len - f) * 8);
+                for (int f = i; f < len; f++)
+                    tmp |= (ulong)(*(inPtr + f) << ((len - f) * 8)) & 0xFF;
                 tmp = (tmp << n) | carryMask;
-                // Write shifted data
                 for (; i < len; i++)
                     *(outPtr + i) = (byte)((tmp >> ((len - i) * 8)) & 0xFF);
             }
@@ -726,7 +732,7 @@ namespace Groundbeef.Collections.Spans
         /// <returns>The reference of the result span passed as parameter.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span<byte> RightShift(this Span<byte> span, in Span<byte> result, int n)
-         => RightShift(span, result, n);
+         => RightShift((ReadOnlySpan<byte>)span, result, n);
 
         /// <summary>
         /// Shifts all bits in the span to the right by a specified ammount. Writes to the result span.
@@ -735,11 +741,18 @@ namespace Groundbeef.Collections.Spans
         /// <returns>The reference of the result span passed as parameter.</returns>
         public static Span<byte> RightShift(this ReadOnlySpan<byte> span, in Span<byte> result, int n)
         {
-            if ((uint)n > 64u || n == 0)
-                throw new ArgumentOutOfRangeException(nameof(n), "Value must be an integer between 1 and 64.");
+            if (span.Length == 0)
+                throw new ArgumentException(nameof(span));
             if (span.Length < result.Length)
                 throw new IndexOutOfRangeException();
-            fixed(byte* inPtr = &MemoryMarshal.GetReference(span))
+            if ((uint)n > 64u)
+                throw new ArgumentOutOfRangeException(nameof(n));
+            if (n == 0)
+            {
+                span.CopyTo(result);
+                return result;
+            }
+            fixed (byte* inPtr = &MemoryMarshal.GetReference(span))
             fixed(byte* outPtr = &MemoryMarshal.GetReference(result))
             {
                 ProtRShift(inPtr, outPtr, span.Length, n);
@@ -750,28 +763,27 @@ namespace Groundbeef.Collections.Spans
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ProtRShift(byte* inPtr, byte* outPtr, int len, int n)
         {
-            int i = len;
-            ulong carryMask = 0x0000000000000000;
+            int i = len - 8;
+            ulong carryMask = 0;
             if (len >= 8)
             {
                 for (; i >= 0; i -= 8)
                 {
-                    ulong tmp = (*(ulong*)(inPtr + i) >> n) | carryMask;
-                    carryMask = *(ulong*)(inPtr + i) << (64 - n);
-                    *(ulong*)(outPtr + 1) = tmp;
+                    ulong tmp = *(ulong*)(inPtr + i);
+                    *(ulong*)outPtr = tmp >> n | carryMask;
+                    carryMask = tmp & ((1ul << n) - 1);
                 }
                 i += 8; // Offset overshoot
             }
             if (i != 0)
             {
-                // Consume remaining bytes
+                // TODO: fix
                 ulong tmp = 0;
-                for(int f = i; f >= 0; f--)
-                    tmp |= (ulong)*(inPtr + f) >> (f * 8);
-                tmp = (tmp >> n) | carryMask;
-                // Write shifted data
-                for (; i >= 0; i--)
-                    *(outPtr + i) = (byte)((tmp << (i * 8)) & 0xFF);
+                for (int f = i; f >= 0; f--)
+                    tmp |= ((ulong)*(inPtr + f) & 0xFF) << (i - f);
+                tmp = tmp >> n | carryMask;
+                for (int f = i; f >= 0; f--)
+                    *(outPtr + f) = (byte)((tmp >> ((i - f) * 8)) & 0xFF);
             }
         }
         #endregion
