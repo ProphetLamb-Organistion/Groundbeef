@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/ProphetLamb.Tools.UnitTest/bin/Debug/netcoreapp3.1/ProphetLamb.Tools.UnitTest.dll",
+            "program": "${workspaceFolder}/test/bin/Debug/netcoreapp3.1/Groundbeef.UnitTest.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/ProphetLamb.Tools.UnitTest",
+            "cwd": "${workspaceFolder}/test",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false
