@@ -8,6 +8,28 @@ namespace Groundbeef.Collections.Spans
     {
         #region Boolean
         /// <summary>
+        /// Indicates whether the bit at the specified offset is set.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool GetBitAt(this Span<byte> span, int bitOffset)
+         => GetBitAt((ReadOnlySpan<byte>)span, bitOffset);
+
+        /// <summary>
+        /// Indicates whether the bit at the specified offset is set.
+        /// Little edian => Counts from end.
+        /// Big edian => Counts from start.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool GetBitAt(this ReadOnlySpan<byte> span, int bitOffset)
+        {
+#if BIG_EDIAN
+            return ((span[bitOffset/8] >> (bitOffset % 8)) & 0x01) != 0;
+#else
+            return ((span[^(bitOffset/8)] >> (bitOffset % 8)) & 0x01) != 0;
+#endif
+        }
+
+        /// <summary>
         /// Combines two spans using biwise AND. Mutates the span passed as this parameter.
         /// </summary>
         /// <returns>The reference to the left operand span.</returns>
@@ -39,7 +61,7 @@ namespace Groundbeef.Collections.Spans
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ArrAnd(byte* leftPtr, byte* rightPtr, byte* outPtr, int len)
+        internal static void ArrAnd(byte* leftPtr, byte* rightPtr, byte* outPtr, int len)
         {
             int i = 0;
             if (len >= 8)
@@ -89,7 +111,7 @@ namespace Groundbeef.Collections.Spans
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ArrOr(byte* leftPtr, byte* rightPtr, byte* outPtr, int len)
+        internal static void ArrOr(byte* leftPtr, byte* rightPtr, byte* outPtr, int len)
         {
             int i = 0;
             if (len >= 8)
@@ -139,7 +161,7 @@ namespace Groundbeef.Collections.Spans
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ArrNand(byte* leftPtr, byte* rightPtr, byte* outPtr, int len)
+        internal static void ArrNand(byte* leftPtr, byte* rightPtr, byte* outPtr, int len)
         {
             int i = 0;
             if (len >= 8)
@@ -189,7 +211,7 @@ namespace Groundbeef.Collections.Spans
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ArrNor(byte* leftPtr, byte* rightPtr, byte* outPtr, int len)
+        internal static void ArrNor(byte* leftPtr, byte* rightPtr, byte* outPtr, int len)
         {
             int i = 0;
             if (len >= 8)
@@ -239,7 +261,7 @@ namespace Groundbeef.Collections.Spans
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ArrXor(byte* leftPtr, byte* rightPtr, byte* outPtr, int len)
+        internal static void ArrXor(byte* leftPtr, byte* rightPtr, byte* outPtr, int len)
         {
             int i = 0;
             if (len >= 8)
@@ -289,7 +311,7 @@ namespace Groundbeef.Collections.Spans
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ArrXnor(byte* leftPtr, byte* rightPtr, byte* outPtr, int len)
+        internal static void ArrXnor(byte* leftPtr, byte* rightPtr, byte* outPtr, int len)
         {
             int i = 0;
             if (len >= 8)
@@ -309,6 +331,100 @@ namespace Groundbeef.Collections.Spans
         #endregion
 
         #region Masked
+        /// <summary>
+        /// Computes the bitmask to obtain <paramref name="bitCount"/> bits, begining at <paramref name="bitOffset"/>.
+        /// Mutates the span passed as parameter.
+        /// </summary>
+        /// <param name="bitOffset">Number of bits from the 0th bit to the 1st bit to set.</param>
+        /// <param name="bitCount">Number of bits from the <paramref name="bitOffset"/> to set.</param>
+        /// <returns>The reference to the span passed as parameter.</returns>
+        public static Span<byte> ComputeMask(in Span<byte> span, int bitOffset, int bitCount)
+        {
+            int bitLength = span.Length * 8;
+            if (bitCount > bitLength)
+                bitCount = bitLength;
+            if (bitCount == bitLength)
+            {
+                if (bitOffset >= 0)
+                {
+                    // (1 << (count + offset))- 1;
+                    OneLeftShfitByNSubtractOne(span, bitCount + bitOffset);
+                    span.LeftShift(bitOffset);
+                }
+                else //if (offset < 0)
+                {
+                    // 0xFF... << offset
+                    span.Assign(0xFF);
+                }
+            }
+            else if (bitOffset < 0)
+            {
+                int totalBits = bitCount - bitOffset;
+                if (totalBits <= 0)
+                {
+                    // Leave empty, nothing to fill: out of range
+                }
+                else
+                {
+                    // (1 << total) - 1
+                    OneLeftShfitByNSubtractOne(span, totalBits);
+                }
+            }
+            else
+            {
+                // ((1 << count) - 1) << offset
+                OneLeftShfitByNSubtractOne(span, bitCount);
+                span.LeftShift(bitOffset);
+            }
+            return span;
+        }
+
+        /// <summary>
+        /// Performs following integer arithmetic operation on byte arrays:
+        /// Little edian => (1 << n) - 1.
+        /// Big edian => (1 >> n) - 1.
+        /// </summary>
+        /// <remarks>Originally not part of the shipped API design.</remarks>
+        public static void OneLeftShfitByNSubtractOne(in Span<byte> storage, int n)
+        {
+            if (n < 0)
+                throw new ArgumentOutOfRangeException(nameof(n));
+            if (n > storage.Length)
+            {
+                storage.Assign(0xFF);
+                return;
+            }
+            fixed(byte* storagePtr = &MemoryMarshal.GetReference(storage))
+            {
+                int bytes = n / 8,
+                    remainder = n % 8,
+                    len = storage.Length;
+#if BIG_EDIAN
+                int i = 0;
+                if (bytes >= 8)
+                {
+                    for (; i < bytes; i += 8)
+                        *(ulong*)(storagePtr + i) = 0xFFFFFFFFFFFFFFFF;
+                }
+                for (; i < bytes, i++)
+                    *(storagePtr + i) = 0xFF;
+                if (remainder != 0)
+                    *(storagePtr + bytes + 1) = (byte)((1 >> remainder) - 1);
+#else
+                int i = 0;
+                if (bytes >= 8)
+                {
+                    for (; i < bytes; i += 8)
+                        *(ulong*)(storagePtr + len - i) = 0xFFFFFFFFFFFFFFFF;
+                }
+                for (; i < bytes; i++)
+                    *(storagePtr + len - i) = 0xFF;
+                if (remainder != 0)
+                    storagePtr[bytes + 1] = (byte)((1 << remainder) - 1);
+#endif
+            }
+        }
+
         /// <summary>
         /// Masks each chunk - with the size of the mask - in the span with the value of mask. Mutates the span passed as this parameter.
         /// If the size of the span is not a multiple of the mask size, then the remaining byte will be computed with a part of the mask.
@@ -412,7 +528,7 @@ namespace Groundbeef.Collections.Spans
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ArrAndMask(byte* inPtr, byte* outPtr, int len, ulong mask)
+        internal static void ArrAndMask(byte* inPtr, byte* outPtr, int len, ulong mask)
         {
             int i = 0;
             if (len >= 8)
@@ -431,7 +547,7 @@ namespace Groundbeef.Collections.Spans
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ArrAndMask(byte* inPtr, byte* outPtr, int len, uint mask)
+        internal static void ArrAndMask(byte* inPtr, byte* outPtr, int len, uint mask)
         {
             int i = 0;
             if (len >= 4)
@@ -445,7 +561,7 @@ namespace Groundbeef.Collections.Spans
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ArrAndMask(byte* inPtr, byte* outPtr, int len, byte mask)
+        internal static void ArrAndMask(byte* inPtr, byte* outPtr, int len, byte mask)
         {
             int rem = len;
             for (int i = 0; i != len; i++)
@@ -555,7 +671,7 @@ namespace Groundbeef.Collections.Spans
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ArrOrMask(byte* inPtr, byte* outPtr, int len, ulong mask)
+        internal static void ArrOrMask(byte* inPtr, byte* outPtr, int len, ulong mask)
         {
             int i = 0;
             if (len >= 8)
@@ -574,7 +690,7 @@ namespace Groundbeef.Collections.Spans
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ArrOrMask(byte* inPtr, byte* outPtr, int len, uint mask)
+        internal static void ArrOrMask(byte* inPtr, byte* outPtr, int len, uint mask)
         {
             int i = 0;
             if (len >= 4)
@@ -588,7 +704,7 @@ namespace Groundbeef.Collections.Spans
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ArrOrMask(byte* inPtr, byte* outPtr, int len, byte mask)
+        internal static void ArrOrMask(byte* inPtr, byte* outPtr, int len, byte mask)
         {
             int rem = len;
             for (int i = 0; i != len; i++)
@@ -624,7 +740,7 @@ namespace Groundbeef.Collections.Spans
         /// <summary>
         /// Shifts all bits in the span to the left by a specified ammount. Mutates the span passed as this parameter.
         /// </summary>
-        /// <param name="n">The amount by shich to shift. Must be greater or equal to one and smaller or equal to 64.</param>
+        /// <param name="n">The amount by which to shift. Must be greater or equal to zero.</param>
         /// <returns>The reference to the span passed as parameter.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span<byte> LeftShift(this Span<byte> span, int n)
@@ -633,7 +749,7 @@ namespace Groundbeef.Collections.Spans
         /// <summary>
         /// Shifts all bits in the span to the left by a specified ammount. Writes to the result span.
         /// </summary>
-        /// <param name="n">The amount by shich to shift. Must be greater or equal to one and smaller or equal to 64.</param>
+        /// <param name="n">The amount by which to shift. Must be greater or equal to zero.</param>
         /// <returns>The reference of the result span passed as parameter.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span<byte> LeftShift(this Span<byte> span, in Span<byte> result, int n)
@@ -642,7 +758,7 @@ namespace Groundbeef.Collections.Spans
         /// <summary>
         /// Shifts all bits in the span to the left by a specified ammount. Writes to the result span.
         /// </summary>
-        /// <param name="n">The amount by shich to shift. Must be greater or equal to one and smaller or equal to 64.</param>
+        /// <param name="n">The amount by which to shift. Must be greater or equal to zero.</param>
         /// <returns>The reference of the result span passed as parameter.</returns>
         public static Span<byte> LeftShift(this ReadOnlySpan<byte> span, in Span<byte> result, int n)
         {
@@ -650,14 +766,22 @@ namespace Groundbeef.Collections.Spans
                 throw new ArgumentException(nameof(span));
             if (span.Length < result.Length)
                 throw new IndexOutOfRangeException();
-            if ((uint)n > 64u) // Casting a negative to unsinged will result in a big number, have to cast other operand to unsigned as well, else the signed comparison will be used.
+            if (n < 0)
                 throw new ArgumentOutOfRangeException(nameof(n));
+            // Doesnt modify the span
             if (n == 0)
             {
-                span.CopyTo(result);
+                if (span != result)
+                    span.CopyTo(result);
                 return result;
             }
-            fixed (byte* inPtr = &MemoryMarshal.GetReference(span))
+            // Zeros all bits
+            if (n > span.Length * 8)
+            {
+                result.Assign(0x00);
+                return result;
+            }
+            fixed(byte* inPtr = &MemoryMarshal.GetReference(span))
             fixed(byte* outPtr = &MemoryMarshal.GetReference(result))
             {
                 ProtLShift(inPtr, outPtr, span.Length, n);
@@ -666,7 +790,7 @@ namespace Groundbeef.Collections.Spans
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ProtLShift(byte* inPtr, byte* outPtr, int len, int n)
+        internal static void ProtLShift(byte* inPtr, byte* outPtr, int len, int n)
         {
             int i = 0;
             ulong carryMask = 0;
@@ -685,7 +809,8 @@ namespace Groundbeef.Collections.Spans
             if (i < len)
             {
                 ulong tmp = 0;
-                int shift = ((len + 1) / 8 - 1) * 8; // Round up to 8 bytes
+                int shift = ((len - 1) / 8 + 1) * 8; // Round up to 8 bytes
+                // TODO: use s_memcpy
                 for (int j = i; j < len; j++)
                     tmp |= (ulong)*(inPtr + j) << ((shift - j) * 8) & 0xFF;
                 tmp = (tmp << n) | carryMask;
@@ -721,7 +846,7 @@ namespace Groundbeef.Collections.Spans
         /// <summary>
         /// Shifts all bits in the span to the right by a specified ammount. Mutates the span passed as this parameter.
         /// </summary>
-        /// <param name="n">The amount by shich to shift. Must be greater or equal to one and smaller or equal to 64.</param>
+        /// <param name="n">The amount by which to shift. Must be greater or equal to zero.</param>
         /// <returns>The reference to the span passed as parameter.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span<byte> RightShift(this Span<byte> span, int n)
@@ -730,7 +855,7 @@ namespace Groundbeef.Collections.Spans
         /// <summary>
         /// Shifts all bits in the span to the right by a specified ammount. Writes to the result span.
         /// </summary>
-        /// <param name="n">The amount by shich to shift. Must be greater or equal to one and smaller or equal to 64.</param>
+        /// <param name="n">The amount by which to shift. Must be greater or equal to zero.</param>
         /// <returns>The reference of the result span passed as parameter.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span<byte> RightShift(this Span<byte> span, in Span<byte> result, int n)
@@ -739,7 +864,7 @@ namespace Groundbeef.Collections.Spans
         /// <summary>
         /// Shifts all bits in the span to the right by a specified ammount. Writes to the result span.
         /// </summary>
-        /// <param name="n">The amount by shich to shift. Must be greater or equal to one and smaller or equal to 64.</param>
+        /// <param name="n">The amount by which to shift. Must be greater or equal to zero.</param>
         /// <returns>The reference of the result span passed as parameter.</returns>
         public static Span<byte> RightShift(this ReadOnlySpan<byte> span, in Span<byte> result, int n)
         {
@@ -747,23 +872,38 @@ namespace Groundbeef.Collections.Spans
                 throw new ArgumentException(nameof(span));
             if (span.Length < result.Length)
                 throw new IndexOutOfRangeException();
-            if ((uint)n > 64u)
+            if (n < 0)
                 throw new ArgumentOutOfRangeException(nameof(n));
+            // Doesnt modify the span
             if (n == 0)
             {
-                span.CopyTo(result);
+                if (span != result)
+                    span.CopyTo(result);
                 return result;
             }
-            fixed (byte* inPtr = &MemoryMarshal.GetReference(span))
+            // Zeros all bits
+            if (n > span.Length * 8)
+            {
+                result.Assign(0x00);
+                return result;
+            }
+            fixed(byte* inPtr = &MemoryMarshal.GetReference(span))
             fixed(byte* outPtr = &MemoryMarshal.GetReference(result))
             {
-                ProtRShift(inPtr, outPtr, span.Length, n);
+                // Can only shift by upto 64bits at once.
+                int offset = 0;
+                while(n != 0)
+                {
+                    offset = Math.Min(n, offset);
+                    ProtRShift(inPtr, outPtr, span.Length, offset);
+                    n -= offset;
+                }
             }
             return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ProtRShift(byte* inPtr, byte* outPtr, int len, int n)
+        internal static void ProtRShift(byte* inPtr, byte* outPtr, int len, int n)
         {
             int i = len - 8;
             ulong carryMask = 0;
@@ -782,6 +922,7 @@ namespace Groundbeef.Collections.Spans
             if (i < 0)
             {
                 ulong tmp = 0;
+                // TODO: use s_memcpy
                 for (int j = 0; j < i; j++)
                     tmp |= ((ulong)*(inPtr + j) & 0xFF) << ((i - j) * 8);
                 tmp = tmp >> n | carryMask;
