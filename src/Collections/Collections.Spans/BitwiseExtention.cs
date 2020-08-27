@@ -678,17 +678,19 @@ namespace Groundbeef.Collections.Spans
                     *(ulong*)(outPtr + i) = (tmp << n) | carryMask;
                     carryMask = tmp >> (64 - n);
                 }
-                i -= 8; // Offset overshoot
+                if (i == len + 8)
+                    return;
+                i -= 7; // Offset overshoot
             }
-            if (i != len)
+            if (i < len)
             {
-                // TODO: fix
                 ulong tmp = 0;
-                for (int f = i; f < len; f++)
-                    tmp |= (ulong)(*(inPtr + f) << ((len - f) * 8)) & 0xFF;
+                int shift = ((len + 1) / 8 - 1) * 8; // Round up to 8 bytes
+                for (int j = i; j < len; j++)
+                    tmp |= (ulong)*(inPtr + j) << ((shift - j) * 8) & 0xFF;
                 tmp = (tmp << n) | carryMask;
-                for (; i < len; i++)
-                    *(outPtr + i) = (byte)((tmp >> ((len - i) * 8)) & 0xFF);
+                for (int j = i; j < len; j++)
+                    *(outPtr + j) = (byte)(tmp >> ((shift - i) * 8) & 0xFF);
             }
         }
 
@@ -773,17 +775,18 @@ namespace Groundbeef.Collections.Spans
                     *(ulong*)outPtr = tmp >> n | carryMask;
                     carryMask = tmp & ((1ul << n) - 1);
                 }
-                i += 8; // Offset overshoot
+                if (i == -8)
+                    return;
+                i += 7; // Offset overshoot
             }
-            if (i != 0)
+            if (i < 0)
             {
-                // TODO: fix
                 ulong tmp = 0;
-                for (int f = i; f >= 0; f--)
-                    tmp |= ((ulong)*(inPtr + f) & 0xFF) << (i - f);
+                for (int j = 0; j < i; j++)
+                    tmp |= ((ulong)*(inPtr + j) & 0xFF) << ((i - j) * 8);
                 tmp = tmp >> n | carryMask;
-                for (int f = i; f >= 0; f--)
-                    *(outPtr + f) = (byte)((tmp >> ((i - f) * 8)) & 0xFF);
+                for (int j = 0; j < i; j++)
+                    *(outPtr + j) = (byte)((tmp >> ((i - j) * 8)) & 0xFF);
             }
         }
         #endregion
