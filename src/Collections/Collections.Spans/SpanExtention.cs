@@ -6,11 +6,12 @@ namespace Groundbeef.Collections.Spans
     public static class SpanExtention
     {
         #region Assign
-        [DllImport("coredll.dll", EntryPoint = "memset", SetLastError = false)]
-        private static extern void memset(IntPtr dest, int c, int size);
+        // Source: http://www.pinvoke.net/default.aspx/msvcrt/memset.html
+        [DllImport("msvcrt.dll", EntryPoint = "memset", CallingConvention = CallingConvention.Cdecl, SetLastError = false)]
+        public static extern IntPtr MemSet(IntPtr dest, int c, int byteCount);
 
         /// <summary>
-        /// Assigns the value to all elements in the span. PInvoke memset.
+        /// Assigns the value to all elements in the span. PInvokes memset.
         /// Chars in the span ought to be ASCII or Windows 1252 characters: [0..255]
         /// </summary>
         /// <param name="value">Must be convertible to the 'unsigned char' datatype. Allows only ASCII or Windows 1252 values: [0..255].</param>
@@ -20,23 +21,23 @@ namespace Groundbeef.Collections.Spans
                 throw new ArgumentException(nameof(value));
             fixed(char* spanPtr = &MemoryMarshal.GetReference(span))
             {
-                memset(new IntPtr(spanPtr), value, span.Length);
+                MemSet(new IntPtr(spanPtr), value, span.Length);
             }
         }
 
         /// <summary>
-        /// Assings the value to all elements in the span. PInvoke memset.
+        /// Assings the value to all elements in the span. PInvokes memset.
         /// </summary>
         public static unsafe void Assign(this Span<byte> span, byte value)
         {
             fixed(byte* spanPtr = &MemoryMarshal.GetReference(span))
             {
-                memset(new IntPtr(spanPtr), value, span.Length);
+                MemSet(new IntPtr(spanPtr), value, span.Length);
             }
         }
         #endregion
 
-        #region SpanSplitEnumerator<>
+        #region SpanSplitEnumerator
         /// <summary>
         /// Enumerates slices of a <see cref="Span{T}"/> separated by a specific <paramref name="separator"/>.
         /// </summary>
