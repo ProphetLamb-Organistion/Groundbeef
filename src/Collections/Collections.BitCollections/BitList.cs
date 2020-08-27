@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Groundbeef.Collections.BitCollections
 {
@@ -49,6 +50,35 @@ namespace Groundbeef.Collections.BitCollections
         public virtual bool IsReadOnly => false;
 
         public bool IsEmpty => Count == 0;
+
+        public static unsafe BitList FromData(Span<byte> data)
+        {
+            var list = new BitList(data.Length / 8 + 1);
+            list.m_count = data.Length / 8 + 1; // Round up integer division + 1 for padding byte
+            list.m_elements = data.Length * 8;
+            list.m_hiOffset = (sbyte)(list.m_count * BitsInLong - list.m_elements);
+            fixed(byte* dataPtr = &MemoryMarshal.GetReference(data))
+            {
+                // Cast byte span to ulong
+                for (int i = 0; i < data.Length / 8; i++)
+                    list.m_storage[i] = *(ulong*)(dataPtr + i);
+                // Add remaining bytes
+                int lastChunk = data.Length / 8 * 8;
+                int rem = data.Length - lastChunk;
+                for (int i = 0; i < data.Length; i++)
+                    list.m_storage[^0] |= (byte)((*(dataPtr + lastChunk + i) << i) & 0xFF);
+            }
+            return list;
+        }
+
+        public static BitList FromData(Span<ulong> data)
+        {
+            var list = new BitList(data.Length + 1);
+            data.CopyTo(list.m_storage);
+            list.m_count = data.Length;
+            list.m_elements = data.Length * BitsInLong;
+            return list;
+        }
 
         public virtual object Clone()
         {
