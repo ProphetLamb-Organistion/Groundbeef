@@ -105,7 +105,7 @@ public interface IPartitionedEnumerable<T> : IEnumerable<T>
 
 Enumerates a sequence, partitioning elements based on a condition.
 
-##### Generic Collections - IRange
+#### Generic Collections - IRange
 
 ```C#
 public interface IRange
@@ -118,7 +118,7 @@ public interface IRange
 }
 ```
 
-##### Generic Collections - Range
+#### Generic Collections - Range
 
 Generic Range valuetype
 
@@ -127,13 +127,13 @@ Generic Range valuetype
 * Intersects: Indicates whether the other `Range<T>` intersects with this instance.
 * Contains: Indicates whether the value is contained widthin the `Range<T>`.
 
-###### Generic Collections - RangeExtention
+#### Generic Collections - RangeExtention
 
 * ToIntRange: Returns a `Range<Int32>` with the Minumum equal to the Range.Start, and the Maximum equal to the Range.End.
 * `Cast<T>`: Casts the IRange to the specified type.
 * ToIndexedRange: Returns a new Range with the Start equal to `Range<Int32>.Minimum`, and the End equal to `Range<Int32>.Maximum`.
 
-##### Generic Collections - Arrays
+#### Generic Collections - Arrays
 
 * SortByKeys: Sorts a one-dimesional array into a new array by swapping each element to the index indicated by keys without shuffeling the keys.
   Returns the sorted array.
@@ -143,7 +143,7 @@ Generic Range valuetype
 * GetHashCode: Additional parameter: fromValues, if true:
   Generates the hashcode of the array or span using the GetHashCode method of thier elements instead and combines these into one.
 
-##### Generic Collections - Collections
+#### Generic Collections - Collections
 
 * AddRange: Adds a range of elements to the collection by repeatetly calling the Collection.Add function.
 * `Collection{DateTime}.AddDays`: Adds all days between two specific dates to the collection.
@@ -152,29 +152,29 @@ Generic Range valuetype
   Find and return the requested element or index of that element using a match predicate.
 * Sort: Sorts the elements in the collection using an introspective sort algorithm.
 
-##### Generic Collections - Dictionary
+#### Generic Collections - Dictionary
 
 * `AddRange`: Adds a range of keyvalue-pairs to the dictionary.
 * `Add(KeyValuePair)`: Adds the specified key and value to the dictionary
 * `GetDictionaryEnumerator`: Returns an DictionaryEnumerator that iterates through the collection.
 * `DictionaryEnumerator`: Implementation of IDictionaryEnumerator.
 
-##### Generic Collections - Enumerable (non generic)
+#### Generic Collections - Enumerable (non generic)
 
 * Count: Returns the number of elements in a sequence.
 
-##### Generic Collections - GenericCollectionConversion
+#### Generic Collections - GenericCollectionConversion
 
 * ToGenericList: Converts the generic IEnumerable to a generic List of the same element type.
 * ToGenericArray: Converts the generic IEnumerable to a generic Array of the same element type.
 
-##### Generic Collections - Map
+#### Generic Collections - Map
 
 A bi-directionally accessible dictionary implementation.
 
 * Indexer: A wrapper class of Dictionary tailored for the needs of Map.
 
-##### Generic Collections - EqualityComparison
+#### Generic Collections - EqualityComparison
 
 Delegate indicating whether two values are equal
 
@@ -184,7 +184,7 @@ public delegate bool EqualityComparison<T>(T left, T right);
 
 * ToComparer: Returns a new instance of a `GenericEqualityComparer<T>` with the specified comparison.
 
-##### Generic Collections - HashCodeFunction
+#### Generic Collections - HashCodeFunction
 
 Delegate returning the hashcode of a value using a specific function.
 
@@ -192,13 +192,13 @@ Delegate returning the hashcode of a value using a specific function.
 public delegate int HashCodeFunction<T>(T value);
 ```
 
-##### Generic Collections - GenericEqualityComparer
+#### Generic Collections - GenericEqualityComparer
 
 Warpper class for lamba `EqualityComparison` functions.
 
-#### Concurrent Collections
+### Concurrent Collections
 
-##### Concurrent Collections - Concurrent dictionary
+#### Concurrent Collections - Concurrent dictionary
 
 The purpose here is to streamline the code produced for Dictionarys with ConcurrentDictionaries
 
@@ -207,7 +207,9 @@ The purpose here is to streamline the code produced for Dictionarys with Concurr
 * `Remove(key)`: Removes the value with the specified key from the ConcurrentDictionary.
 * `AddRange`: Adds a range of keyvalue-pairs to the dictionary.
 
-#### Bitwise byte Span
+### Spans
+
+#### Spans - Bitwise byte Span
 
 * Assign(byte)(char): Assigns the value to all elements in the span. PInvokes memset.
 * GetBitAt: Indicates whether the bit at the specified significance is set.
@@ -220,7 +222,7 @@ The purpose here is to streamline the code produced for Dictionarys with Concurr
 * LeftShfit: Shifts all bits in the span to the left by one.
 * RightShfit: Shifts all bits in the span to the right by one.
 
-#### SpanSplitEnumerator
+#### Spans - SpanSplitEnumerator
 
 Based on <https://github.com/dotnet/runtime/issues/934>.
 
@@ -229,13 +231,13 @@ Based on <https://github.com/dotnet/runtime/issues/934>.
 
 ### BinaryEncoding (.NET Standard)
 
-#### Base85
+#### BinaryEncoding - Base85
 
 Encodes and decodes base85 strings to bytes.
 
 ### Drawing (.NET Standard)
 
-#### ColorExtention
+#### Drawing - ColorExtention
 
 * ToRgb: Converts the color to an RgbColor
 * ToSRgb: Converts the color to an SRgbColor
@@ -248,17 +250,17 @@ Encodes and decodes base85 strings to bytes.
 
 ### Events (.NET Standard)
 
-* `ValueChangedEvent`: Generic event for a changed property value.
-* `PropertyChangedEvent`: Generic event based on ValueChangedEvent with a property name.
+* `ValueChangedEvent<T>`: Generic and non generic event for a changed property value.
+* `PropertyChangedEvent<T>`: Generic and non generic event based on `ValueChangedEvent<T>` with a property name.
 
 ### IO (.NET Standard)
 
-#### Binary reader
+#### IO - Binary reader
 
 * ReadAllBytes: Reads the binary reader to the end.
 * ReadBytes: Enumerates bytes read from the BinaryReader in blocks with a maximum size of one page (4096).
 
-#### FileHelper
+#### IO - FileHelper
 
 * Create: Creates or overwrites an existing file allowing other programs read and write access to the created file.
 * Open: Opens or creates a file allowing other programs read and write access to the file.
@@ -270,25 +272,25 @@ Encodes and decodes base85 strings to bytes.
 
 Simmilar API to System.Resources, but json backed.
 
-#### ReourceManager
+#### Json - ReourceManager
 
 Manages locale ResourceSets
 
-#### ResourceWriter
+#### Json - ResourceWriter
 
 Writes a ResourceSet to a location derived from the associated ResourceManager.
 
-#### ResourceReader
+#### Json - ResourceReader
 
 Reads a Culture from the device to the ResourceManager.
 
 ### Json Settings (.NET Standard)
 
-#### SettingsProvider
+#### Json - SettingsProvider
 
 Syncronizes a JSON settings file with a SettingsStorage POCO. Allows reading and writing.
 
-#### ISettingsProvider
+#### Json - ISettingsProvider
 
 ```C#
 public interface ISettingsProvider
@@ -300,7 +302,7 @@ public interface ISettingsProvider
 }
 ```
 
-#### SettingsManagerService
+#### Json - SettingsManagerService
 
 Static class multiple SettingsProviders can be registered to in order to access thier data.
 
@@ -308,25 +310,25 @@ Static class multiple SettingsProviders can be registered to in order to access 
 
 WPF localisation helpers ported from some blog post I found, extened it somewhat.
 
-#### LocaslisationHelper
+#### Localisation - LocaslisationHelper
 
 Helper class for binding to resource strings.
 
-#### ResourceManagerService
+#### Localisation - ResourceManagerService
 
 Static class multiple ResourceManager can be registered to in order to access thier data.
 
-#### DesignHelper
+#### Localisation - DesignHelper
 
 IsInDesignModeStatic: Gets a value indicating whether the control is in design mode (running in Blend or Visual Studio
 
 ### Reflection (.NET Standard)
 
-#### CollectionsReflect
+#### Reflection - CollectionsReflect
 
 Static class that can convert `IEnumerable<T>` to `List<T>` and `T[]` based on a type variable using reflection.
 
-#### Invoker
+#### Reflection - Invoker
 
 Delegate that invokes the underlying `MethodInfo.Invoke` method.
 
@@ -339,7 +341,7 @@ public delegate object? Invoker(object? obj, object?[]? parameters);
 * GetDefaultEqualityComparer: Returns the default `IEqualityComparer` for the type specified.
   Same as `IEqualityComparer<T>.Default` but with a type variable using reflection.
   
-#### TypeEntention
+#### TypeExtention
 
 * HasInterface: Indicates whether the interface specified is implemented by the type.
 * IsGenericIEnumerable: Returns whether the type implements the `IEnumerable<T>` interface.
@@ -348,7 +350,7 @@ public delegate object? Invoker(object? obj, object?[]? parameters);
 
 ### Text (.NET Standard)
 
-#### StringHelper
+#### Text - StringHelper
 
 * FastAllocateString: Calls the internal FastAllocateString method using reflection.
 * RandomString: Returns a new randomly generated string using the provided Random with the specified length containing characters in alphabet.
@@ -366,15 +368,7 @@ public delegate object? Invoker(object? obj, object?[]? parameters);
   ToString requires the signature `static string function(T)` where T is the gerneric type of the class of these members.
 * SplitAndTrim: Splits a String into substrings based on the separator".
 
-#### BulkTokenizer
-
-Splits a string by tokens and returns the elements inbetween tokens.
-
-#### Tokenizer
-
-Splits a string by tokens and enumerates the elements inbetween tokens.
-
-#### ITokenizer
+#### Text - ITokenizer
 
 ```C#
 public interface ITokenizer
@@ -385,35 +379,43 @@ public interface ITokenizer
 }
 ```
 
+#### Text - BulkTokenizer
+
+Splits a string by tokens and returns the elements inbetween tokens.
+
+#### Text - Tokenizer
+
+Splits a string by tokens and enumerates the elements inbetween tokens.
+
 ### WPF (.NET Core WPF)
 
-#### Colors
+#### WPF - Colors
 
 For System.Media & System.Drawing colors.
 
 * ToDrawingColor: Converts the System.Media.Color to a System.Drawing.Color.
 * ToMediaColor: Converts System.Drawing.Color to a System.Media.Color.
 
-#### DynamicResourceBindingExtention
+#### WPF - DynamicResourceBindingExtention
 
 From Mark A. Donohoe <https://stackoverflow.com/a/49159501/6401643>
 
-#### SyncronizedFilter
+#### WPF - SyncronizedFilter
 
 Syncronizes the `ICollectionView.Filter` property of multiple `ICollectionViews` with the `Predicate<object?>` provided.
 
-#### SyncronizedFilterManagerService
+#### WPF - SyncronizedFilterManagerService
 
 Manages `SyncronizedFilters` allowing `ItemsControl` to be added and Predicates to be changed.
 
-#### SimpleCommand
+#### WPF - SimpleCommand
 
 ICommand implementation.
 
-#### ViewModelBase
+#### WPF - ViewModelBase
 
 Abstract class implementing `INotifyPropertyChanged` as a lightweight alternative to DependencyObjects
 
-#### VisualTreeTraverseHelper
+#### WPF - VisualTreeTraverseHelper
 
 * GetSuperElement: Traverses the VisualTree parentage until the first element of the type is traversed, then returns the instance of that `DependencyObject`.
