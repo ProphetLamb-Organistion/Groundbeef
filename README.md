@@ -64,9 +64,7 @@ Simpler implementation of a range structure then System.Range
 
 ### Collections (.NET Standard)
 
-#### Generic
-
-##### Spans
+#### Generic Collections - Spans
 
 * SortByKeys: Sorts a one-dimesional array into a new array by swapping each element to the index indicated by keys without shuffeling the keys.
   Returns the sorted array.
@@ -75,13 +73,13 @@ Simpler implementation of a range structure then System.Range
 * GetHashCode: Additional parameter: fromValues, if true:
   Generates the hashcode of the array or span using the GetHashCode method of thier elements instead and combines these into one.
 
-##### EnumerableExtentions
+#### Generic Collections - EnumerableExtentions
 
 * QuickCount: Returns the number of elements in a sequence, attempts to cast the enumerable to a ICollection.
 * CastList: Casts all elements in the IList to the type specified.
 * Partition: Partitions the IEnumerable{T} by the partitioner.
 
-##### IPartitionedEnumerator
+#### Generic Collections - IPartitionedEnumerator
 
 ```C#
 public interface IPartitionedEnumerator<T> : IEnumerator<T>
@@ -94,7 +92,7 @@ public interface IPartitionedEnumerator<T> : IEnumerator<T>
 }
 ```
 
-##### IPartitionedEnumerable
+#### Generic Collections - IPartitionedEnumerable
 
 ```C#
 public interface IPartitionedEnumerable<T> : IEnumerable<T>
@@ -103,11 +101,11 @@ public interface IPartitionedEnumerable<T> : IEnumerable<T>
 }
 ```
 
-##### PartitionedEnumerator | PartitionedEnumerable
+#### Generic Collections - PartitionedEnumerator | PartitionedEnumerable
 
 Enumerates a sequence, partitioning elements based on a condition.
 
-##### IRange
+##### Generic Collections - IRange
 
 ```C#
 public interface IRange
@@ -120,7 +118,7 @@ public interface IRange
 }
 ```
 
-##### Range
+##### Generic Collections - Range
 
 Generic Range valuetype
 
@@ -129,13 +127,13 @@ Generic Range valuetype
 * Intersects: Indicates whether the other `Range<T>` intersects with this instance.
 * Contains: Indicates whether the value is contained widthin the `Range<T>`.
 
-##### RangeExtention
+###### Generic Collections - RangeExtention
 
 * ToIntRange: Returns a `Range<Int32>` with the Minumum equal to the Range.Start, and the Maximum equal to the Range.End.
 * `Cast<T>`: Casts the IRange to the specified type.
 * ToIndexedRange: Returns a new Range with the Start equal to `Range<Int32>.Minimum`, and the End equal to `Range<Int32>.Maximum`.
 
-##### Arrays
+##### Generic Collections - Arrays
 
 * SortByKeys: Sorts a one-dimesional array into a new array by swapping each element to the index indicated by keys without shuffeling the keys.
   Returns the sorted array.
@@ -145,7 +143,7 @@ Generic Range valuetype
 * GetHashCode: Additional parameter: fromValues, if true:
   Generates the hashcode of the array or span using the GetHashCode method of thier elements instead and combines these into one.
 
-##### Collections
+##### Generic Collections - Collections
 
 * AddRange: Adds a range of elements to the collection by repeatetly calling the Collection.Add function.
 * `Collection{DateTime}.AddDays`: Adds all days between two specific dates to the collection.
@@ -154,29 +152,29 @@ Generic Range valuetype
   Find and return the requested element or index of that element using a match predicate.
 * Sort: Sorts the elements in the collection using an introspective sort algorithm.
 
-##### Dictionary
+##### Generic Collections - Dictionary
 
 * `AddRange`: Adds a range of keyvalue-pairs to the dictionary.
 * `Add(KeyValuePair)`: Adds the specified key and value to the dictionary
 * `GetDictionaryEnumerator`: Returns an DictionaryEnumerator that iterates through the collection.
 * `DictionaryEnumerator`: Implementation of IDictionaryEnumerator.
 
-##### Enumerable (non generic)
+##### Generic Collections - Enumerable (non generic)
 
 * Count: Returns the number of elements in a sequence.
 
-##### GenericCollectionConversion
+##### Generic Collections - GenericCollectionConversion
 
 * ToGenericList: Converts the generic IEnumerable to a generic List of the same element type.
 * ToGenericArray: Converts the generic IEnumerable to a generic Array of the same element type.
 
-##### Map
+##### Generic Collections - Map
 
 A bi-directionally accessible dictionary implementation.
 
 * Indexer: A wrapper class of Dictionary tailored for the needs of Map.
 
-##### EqualityComparison
+##### Generic Collections - EqualityComparison
 
 Delegate indicating whether two values are equal
 
@@ -186,7 +184,7 @@ public delegate bool EqualityComparison<T>(T left, T right);
 
 * ToComparer: Returns a new instance of a `GenericEqualityComparer<T>` with the specified comparison.
 
-##### HashCodeFunction
+##### Generic Collections - HashCodeFunction
 
 Delegate returning the hashcode of a value using a specific function.
 
@@ -194,13 +192,13 @@ Delegate returning the hashcode of a value using a specific function.
 public delegate int HashCodeFunction<T>(T value);
 ```
 
-##### GenericEqualityComparer
+##### Generic Collections - GenericEqualityComparer
 
 Warpper class for lamba `EqualityComparison` functions.
 
-#### Concurrent
+#### Concurrent Collections
 
-##### Concurrent dictionary
+##### Concurrent Collections - Concurrent dictionary
 
 The purpose here is to streamline the code produced for Dictionarys with ConcurrentDictionaries
 
@@ -222,7 +220,7 @@ The purpose here is to streamline the code produced for Dictionarys with Concurr
 * LeftShfit: Shifts all bits in the span to the left by one.
 * RightShfit: Shifts all bits in the span to the right by one.
 
-##### SpanSplitEnumerator
+#### SpanSplitEnumerator
 
 Based on <https://github.com/dotnet/runtime/issues/934>.
 
