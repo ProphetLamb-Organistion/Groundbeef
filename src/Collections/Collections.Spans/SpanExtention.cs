@@ -7,7 +7,7 @@ namespace Groundbeef.Collections.Spans
     {
         #region Assign
         /// <summary>
-        /// Assigns the value to all elements in the span. PInvokes memset.
+        /// Assigns the value to all elements in the span.
         /// Chars in the span ought to be ASCII or Windows 1252 characters: [0..255]
         /// </summary>
         /// <param name="value">Must be convertible to the 'unsigned char' datatype. Allows only ASCII or Windows 1252 values: [0..255].</param>
@@ -22,7 +22,7 @@ namespace Groundbeef.Collections.Spans
         }
 
         /// <summary>
-        /// Assings the value to all elements in the span. PInvokes memset.
+        /// Assings the value to all elements in the span.
         /// </summary>
         public static unsafe void Assign(this Span<byte> span, byte value)
         {
