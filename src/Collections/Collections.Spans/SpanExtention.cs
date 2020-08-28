@@ -6,10 +6,6 @@ namespace Groundbeef.Collections.Spans
     public static class SpanExtention
     {
         #region Assign
-        // Source: http://www.pinvoke.net/default.aspx/msvcrt/memset.html
-        [DllImport("msvcrt.dll", EntryPoint = "memset", CallingConvention = CallingConvention.Cdecl, SetLastError = false)]
-        public static extern IntPtr MemSet(IntPtr dest, int c, int byteCount);
-
         /// <summary>
         /// Assigns the value to all elements in the span. PInvokes memset.
         /// Chars in the span ought to be ASCII or Windows 1252 characters: [0..255]
@@ -21,7 +17,7 @@ namespace Groundbeef.Collections.Spans
                 throw new ArgumentException(nameof(value));
             fixed(char* spanPtr = &MemoryMarshal.GetReference(span))
             {
-                MemSet(new IntPtr(spanPtr), value, span.Length);
+                PInvoke.MemSet(spanPtr, value, span.Length);
             }
         }
 
@@ -32,7 +28,7 @@ namespace Groundbeef.Collections.Spans
         {
             fixed(byte* spanPtr = &MemoryMarshal.GetReference(span))
             {
-                MemSet(new IntPtr(spanPtr), value, span.Length);
+                PInvoke.MemSet(spanPtr, value, span.Length);
             }
         }
         #endregion
