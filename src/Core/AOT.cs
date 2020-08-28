@@ -24,7 +24,7 @@ namespace Groundbeef.Core
             return thread;
         }
 
-        public static bool PreloadMethod(MethodInfo method)
+        public static bool PreloadMethod(in MethodInfo method)
         {
             if ((method.Attributes & MethodAttributes.Abstract) == MethodAttributes.Abstract || method.ContainsGenericParameters)
                 return false;

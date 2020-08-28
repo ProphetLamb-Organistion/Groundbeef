@@ -59,7 +59,7 @@ namespace Groundbeef.Core
         /// <param name="offset1">The first <see cref="DateTimeOffset"/>.</param>
         /// <param name="offset2">The second <see cref="DateTimeOffset"/>.</param>
         /// <param name="distinct">Whether to eliminate all timezones with duplicate offsets.</param>
-        public static IEnumerable<TimeZoneInfo> GetTimzonesBetween(DateTimeOffset offset1, DateTimeOffset offset2, bool distinct = true)
+        public static IEnumerable<TimeZoneInfo> GetTimzonesBetween(this DateTimeOffset offset1, DateTimeOffset offset2, bool distinct = true)
         {
             return GetTimzonesBetween(offset1.Offset, offset2.Offset, distinct);
         }

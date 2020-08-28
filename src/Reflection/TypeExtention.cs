@@ -63,7 +63,6 @@ namespace Groundbeef.Reflection
             return genericArgument;
         }
 
-
         /// <summary>
         /// Filters a sequence by methods with the <see cref="Attribute"/> specified.
         /// </summary>

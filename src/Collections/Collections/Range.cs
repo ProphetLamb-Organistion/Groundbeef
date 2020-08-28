@@ -169,7 +169,7 @@ namespace Groundbeef.Collections
         }
         #endregion
 
-        #region Operators 
+        #region Operators
         /// <summary>
         /// Returns a new <see cref="Range{T}"/> unifing the <paramref name="left"/> and <paramref name="right"/> <see cref="Range{T}"/>.
         /// </summary>
