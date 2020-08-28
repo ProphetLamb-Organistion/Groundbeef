@@ -216,7 +216,9 @@ The purpose here is to streamline the code produced for Dictionarys with Concurr
 * And, Nand, Or, Nor, Xor, Xnor: Combines two spans using the biwise operations.
 * ComputeMask: Computes the bitmask to obtain count bits, begining at offset.
 * MaskSignificantBitsExclusive: Performs following integer arithmetic operation on byte arrays:
+
     Little edian => (1 << n) - 1.
+    
     Big edian => (1 >> n) - 1.
 * AndMask, OrMask: Masks each chunk - with the size of the mask - in the span with the value of mask. If the size of the span is not a multiple of the mask size, then the remaining byte will be computed with a part of the mask.
 * LeftShfit: Shifts all bits in the span to the left by one.
