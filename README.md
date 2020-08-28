@@ -127,7 +127,7 @@ Generic Range valuetype
 * Intersects: Indicates whether the other `Range<T>` intersects with this instance.
 * Contains: Indicates whether the value is contained widthin the `Range<T>`.
 
-#### Generic Collections - RangeExtention
+##### RangeExtention
 
 * ToIntRange: Returns a `Range<Int32>` with the Minumum equal to the Range.Start, and the Maximum equal to the Range.End.
 * `Cast<T>`: Casts the IRange to the specified type.
