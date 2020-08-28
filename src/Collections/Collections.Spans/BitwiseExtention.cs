@@ -1019,7 +1019,7 @@ namespace Groundbeef.Collections.Spans
                 // Shift 8byte chunks
                 for (int i = 0; i < chunksLen; i+=4)
                 {
-                    ulong tmp = *(uint*)(inPtr + i);
+                    uint tmp = *(uint*)(inPtr + i);
                     *(uint*)(outPtr + i) = (tmp >> n) | carryMask;
                     // Left align bits that will overflow to the next chunk
                     carryMask = tmp << (32 - n);
@@ -1028,7 +1028,7 @@ namespace Groundbeef.Collections.Spans
             if (len % 4 != 0)
             {
                 // Shift tailing bits
-                ulong tmp = 0;
+                uint tmp = 0;
                 PInvoke.MemCpy(&tmp, inPtr + chunksLen, len % 4);
                 tmp = (tmp >> n) | carryMask;
                 PInvoke.MemCpy(outPtr + chunksLen, &tmp, len % 4);
