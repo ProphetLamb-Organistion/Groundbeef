@@ -1,31 +1,36 @@
-using System.Runtime.InteropServices;
 using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Groundbeef.Collections.Spans
 {
     public static unsafe class BitwiseExtention
     {
+        /*
+         * Contrary to C++, the C# specification dictates that the long datatype consists of one QWORD (64bit or 8bytes) of continues memory.
+         * On 32bit Systems this is archived by allocating a tuple of two DWORDs (32bit or 4byte) consecutive,
+         * in turn this results in non atomic operations on the long datatype when compiling for 32bit (csproj profile: x86 or AnyCPU).
+         * Hence using DWORD operations is much faster then psudo QWORD when not executing in a 64bit environment.
+         */
         #region Boolean
         /// <summary>
-        /// Indicates whether the bit at the specified offset is set.
+        /// Indicates whether the bit at the specified significance is set.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool GetBitAt(this Span<byte> span, int bitOffset)
-         => GetBitAt((ReadOnlySpan<byte>)span, bitOffset);
+        public static bool GetBitAt(this Span<byte> span, int bitSignificance)
+         => GetBitAt((ReadOnlySpan<byte>)span, bitSignificance);
 
         /// <summary>
-        /// Indicates whether the bit at the specified offset is set.
-        /// Little edian => Counts from end.
-        /// Big edian => Counts from start.
+        /// Indicates whether the bit at the specified significance is set.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool GetBitAt(this ReadOnlySpan<byte> span, int bitOffset)
+        public static bool GetBitAt(this ReadOnlySpan<byte> span, int bitSignificance)
         {
 #if BIG_EDIAN
             return ((span[bitOffset/8] >> (bitOffset % 8)) & 0x01) != 0;
 #else
-            return ((span[^(bitOffset/8)] >> (bitOffset % 8)) & 0x01) != 0;
+            return ((span[^(bitSignificance/8)] >> (bitSignificance % 8)) & 0x01) != 0;
 #endif
         }
 
@@ -64,17 +69,25 @@ namespace Groundbeef.Collections.Spans
         internal static void ArrAnd(byte* leftPtr, byte* rightPtr, byte* outPtr, int len)
         {
             int i = 0;
+#if WIN64
             if (len >= 8)
             {
                 for (; i < len; i += 8)
-                    *(ulong*)outPtr[i] = *(ulong*)(leftPtr + i) & *(ulong*)(rightPtr + i);
+                    *(ulong*)outPtr[i] = *(ulong*)(leftPtr + i) | *(ulong*)(rightPtr + i);
                 i -= 8; // Offset overshoot
             }
             if (len - i >= 4)
             {
-                *(uint*)outPtr[i] = *(uint*)(leftPtr + i) & *(uint*)(rightPtr + i);
+                *(uint*)outPtr[i] = *(uint*)(leftPtr + i) | *(uint*)(rightPtr + i);
                 i+=4;
             }
+#else
+            if (len >= 4)
+            {
+                for (; i < len; i+= 4)
+                    *(uint*)outPtr[i] = *(uint*)(leftPtr + i) | *(uint*)(rightPtr + i);
+            }
+#endif
             for (; i != len; i++)
                 *(outPtr + i) = (byte)((*(leftPtr + i) & *(rightPtr + i)) & 0xFF);
         }
@@ -114,6 +127,7 @@ namespace Groundbeef.Collections.Spans
         internal static void ArrOr(byte* leftPtr, byte* rightPtr, byte* outPtr, int len)
         {
             int i = 0;
+#if WIN64
             if (len >= 8)
             {
                 for (; i < len; i += 8)
@@ -125,6 +139,13 @@ namespace Groundbeef.Collections.Spans
                 *(uint*)outPtr[i] = *(uint*)(leftPtr + i) | *(uint*)(rightPtr + i);
                 i+=4;
             }
+#else
+            if (len >= 4)
+            {
+                for (; i < len; i+= 4)
+                    *(uint*)outPtr[i] = *(uint*)(leftPtr + i) | *(uint*)(rightPtr + i);
+            }
+#endif
             for (; i != len; i++)
                 *(outPtr + i) = (byte)((*(leftPtr + i) | *(rightPtr + i)) & 0xFF);
         }
@@ -164,6 +185,7 @@ namespace Groundbeef.Collections.Spans
         internal static void ArrNand(byte* leftPtr, byte* rightPtr, byte* outPtr, int len)
         {
             int i = 0;
+#if WIN64
             if (len >= 8)
             {
                 for (; i < len; i += 8)
@@ -175,6 +197,13 @@ namespace Groundbeef.Collections.Spans
                 *(uint*)outPtr[i] = ~(*(uint*)(leftPtr + i) & *(uint*)(rightPtr + i));
                 i+=4;
             }
+#else
+            if (len >= 4)
+            {
+                for (; i < len; i+= 4)
+                    *(uint*)outPtr[i] = ~(*(uint*)(leftPtr + i) & *(uint*)(rightPtr + i));
+            }
+#endif
             for (; i != len; i++)
                 *(outPtr + i) = (byte)(~(*(leftPtr + i) & *(rightPtr + i)) & 0xFF);
         }
@@ -214,6 +243,7 @@ namespace Groundbeef.Collections.Spans
         internal static void ArrNor(byte* leftPtr, byte* rightPtr, byte* outPtr, int len)
         {
             int i = 0;
+#if WIN64
             if (len >= 8)
             {
                 for (; i < len; i += 8)
@@ -225,6 +255,13 @@ namespace Groundbeef.Collections.Spans
                 *(uint*)outPtr[i] = ~(*(uint*)(leftPtr + i) | *(uint*)(rightPtr + i));
                 i+=4;
             }
+#else
+            if (len >= 4)
+            {
+                for (; i < len; i+= 4)
+                    *(uint*)outPtr[i] = ~(*(uint*)(leftPtr + i) | *(uint*)(rightPtr + i));
+            }
+#endif
             for (; i != len; i++)
                 *(outPtr + i) = (byte)(~(*(leftPtr + i) | *(rightPtr + i)) & 0xFF);
         }
@@ -264,6 +301,7 @@ namespace Groundbeef.Collections.Spans
         internal static void ArrXor(byte* leftPtr, byte* rightPtr, byte* outPtr, int len)
         {
             int i = 0;
+#if WIN64
             if (len >= 8)
             {
                 for (; i < len; i += 8)
@@ -275,6 +313,13 @@ namespace Groundbeef.Collections.Spans
                 *(uint*)outPtr[i] = *(uint*)(leftPtr + i) ^ *(uint*)(rightPtr + i);
                 i+=4;
             }
+#else
+            if (len >= 4)
+            {
+                for (; i < len; i+= 4)
+                    *(uint*)outPtr[i] = *(uint*)(leftPtr + i) ^ *(uint*)(rightPtr + i);
+            }
+#endif
             for (; i != len; i++)
                 *(outPtr + i) = (byte)((*(leftPtr + i) ^ *(rightPtr + i)) & 0xFF);
         }
@@ -314,6 +359,7 @@ namespace Groundbeef.Collections.Spans
         internal static void ArrXnor(byte* leftPtr, byte* rightPtr, byte* outPtr, int len)
         {
             int i = 0;
+#if WIN64
             if (len >= 8)
             {
                 for (; i < len; i += 8)
@@ -325,6 +371,13 @@ namespace Groundbeef.Collections.Spans
                 *(uint*)outPtr[i] = ~(*(uint*)(leftPtr + i) ^ *(uint*)(rightPtr + i));
                 i+=4;
             }
+#else
+            if (len >= 4)
+            {
+                for (; i < len; i+= 4)
+                    *(uint*)outPtr[i] = ~(*(uint*)(leftPtr + i) ^ *(uint*)(rightPtr + i));
+            }
+#endif
             for (; i != len; i++)
                 *(outPtr + i) = (byte)(~(*(leftPtr + i) ^ *(rightPtr + i)) & 0xFF);
         }
@@ -348,7 +401,7 @@ namespace Groundbeef.Collections.Spans
                 if (bitOffset >= 0)
                 {
                     // (1 << (count + offset))- 1;
-                    OneLeftShfitByNSubtractOne(span, bitCount + bitOffset);
+                    MaskSignificantBitsExclusive(span, bitCount + bitOffset);
                     span.LeftShift(bitOffset);
                 }
                 else //if (offset < 0)
@@ -367,13 +420,13 @@ namespace Groundbeef.Collections.Spans
                 else
                 {
                     // (1 << total) - 1
-                    OneLeftShfitByNSubtractOne(span, totalBits);
+                    MaskSignificantBitsExclusive(span, totalBits);
                 }
             }
             else
             {
                 // ((1 << count) - 1) << offset
-                OneLeftShfitByNSubtractOne(span, bitCount);
+                MaskSignificantBitsExclusive(span, bitCount);
                 span.LeftShift(bitOffset);
             }
             return span;
@@ -384,8 +437,11 @@ namespace Groundbeef.Collections.Spans
         /// Little edian => (1 << n) - 1.
         /// Big edian => (1 >> n) - 1.
         /// </summary>
-        /// <remarks>Originally not part of the shipped API design.</remarks>
-        public static void OneLeftShfitByNSubtractOne(in Span<byte> storage, int n)
+        /// <remarks>
+        /// Originally not part of the shipped API design.
+        /// Primerly used to generate compute masks.
+        /// </remarks>
+        public static void MaskSignificantBitsExclusive(in Span<byte> storage, int n)
         {
             if (n < 0)
                 throw new ArgumentOutOfRangeException(nameof(n));
@@ -397,30 +453,15 @@ namespace Groundbeef.Collections.Spans
             fixed(byte* storagePtr = &MemoryMarshal.GetReference(storage))
             {
                 int bytes = n / 8,
-                    remainder = n % 8,
-                    len = storage.Length;
+                    remainder = n % 8;
 #if BIG_EDIAN
-                int i = 0;
-                if (bytes >= 8)
-                {
-                    for (; i < bytes; i += 8)
-                        *(ulong*)(storagePtr + i) = 0xFFFFFFFFFFFFFFFF;
-                }
-                for (; i < bytes, i++)
-                    *(storagePtr + i) = 0xFF;
+                PInvoke.MemSet(storagePtr, 0xFF, bytes);
                 if (remainder != 0)
-                    *(storagePtr + bytes + 1) = (byte)((1 >> remainder) - 1);
+                    *(storagePtr + (bytes + 1)*8) = (byte)((1 >> remainder) - 1);
 #else
-                int i = 0;
-                if (bytes >= 8)
-                {
-                    for (; i < bytes; i += 8)
-                        *(ulong*)(storagePtr + len - i) = 0xFFFFFFFFFFFFFFFF;
-                }
-                for (; i < bytes; i++)
-                    *(storagePtr + len - i) = 0xFF;
+                PInvoke.MemSet(storagePtr + (storage.Length - bytes)*8, 0xFF, bytes);
                 if (remainder != 0)
-                    storagePtr[bytes + 1] = (byte)((1 << remainder) - 1);
+                    *(storagePtr + (storage.Length - bytes - 1)*8) = (byte)((1 << remainder) - 1);
 #endif
             }
         }
@@ -762,9 +803,10 @@ namespace Groundbeef.Collections.Spans
         /// <returns>The reference of the result span passed as parameter.</returns>
         public static Span<byte> LeftShift(this ReadOnlySpan<byte> span, in Span<byte> result, int n)
         {
-            if (span.Length == 0)
+            int len = span.Length;
+            if (len == 0)
                 throw new ArgumentException(nameof(span));
-            if (span.Length < result.Length)
+            if (len > result.Length)
                 throw new IndexOutOfRangeException();
             if (n < 0)
                 throw new ArgumentOutOfRangeException(nameof(n));
@@ -776,7 +818,7 @@ namespace Groundbeef.Collections.Spans
                 return result;
             }
             // Zeros all bits
-            if (n > span.Length * 8)
+            if (n > len * 8)
             {
                 result.Assign(0x00);
                 return result;
@@ -784,39 +826,72 @@ namespace Groundbeef.Collections.Spans
             fixed(byte* inPtr = &MemoryMarshal.GetReference(span))
             fixed(byte* outPtr = &MemoryMarshal.GetReference(result))
             {
-                ProtLShift(inPtr, outPtr, span.Length, n);
+                // Shift n so that less then one byte is to be shifted
+                // using memmove or memcopy depending on if the spans overlap
+                int bytesToShift = n / 8;
+                if (bytesToShift != 0)
+                {
+                    if (result.Overlaps(span))
+                        PInvoke.MemMove(outPtr, inPtr + bytesToShift, len - bytesToShift);
+                    else
+                        PInvoke.MemCpy(outPtr, inPtr + bytesToShift, len - bytesToShift);
+                    // Zero out dirty memory
+                    PInvoke.MemSet(outPtr + len - bytesToShift, 0x00, bytesToShift);
+                }
+                // Shift by remaining bits.
+                if (bytesToShift * 8 != n)
+                    ProtLShiftBits(inPtr, outPtr, len, n % 8);
             }
             return result;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void ProtLShift(byte* inPtr, byte* outPtr, int len, int n)
+        private static void ProtLShiftBits(byte* inPtr, byte* outPtr, int len, int bitsToShift)
         {
-            int i = 0;
+            Debug.Assert(bitsToShift < 8);
+            Debug.Assert(len != 0);
+#if WIN64
             ulong carryMask = 0;
+            int chunksLen = len / 8 * 8;
+            if (len % 8 != 0)
+            {
+                // Shift tailing bits
+                ulong tmp = 0;
+                PInvoke.MemCpy(&tmp, inPtr + chunksLen, len % 8);
+                carryMask = tmp >> (64 - bitsToShift);
+                PInvoke.MemCpy(outPtr + chunksLen, &tmp, len % 8);
+            }
             if (len >= 8)
             {
-                for(; i < len; i += 8)
+                // Shift 8byte chunks
+                for(int i = 0; i < chunksLen; i+=8)
                 {
                     ulong tmp = *(ulong*)(inPtr + i);
-                    *(ulong*)(outPtr + i) = (tmp << n) | carryMask;
-                    carryMask = tmp >> (64 - n);
+                    *(ulong*)(outPtr + i) = (tmp << bitsToShift) | carryMask;
+                    carryMask = tmp >> (64 - bitsToShift);
                 }
-                if (i == len + 8)
-                    return;
-                i -= 7; // Offset overshoot
             }
-            if (i < len)
+#else
+            uint carryMask = 0;
+            int chunksLen = len / 4 * 4;
+            if (len % 4 != 0)
             {
-                ulong tmp = 0;
-                int shift = ((len - 1) / 8 + 1) * 8; // Round up to 8 bytes
-                // TODO: use s_memcpy
-                for (int j = i; j < len; j++)
-                    tmp |= (ulong)*(inPtr + j) << ((shift - j) * 8) & 0xFF;
-                tmp = (tmp << n) | carryMask;
-                for (int j = i; j < len; j++)
-                    *(outPtr + j) = (byte)(tmp >> ((shift - i) * 8) & 0xFF);
+                // Shift tailing bits
+                uint tmp = 0;
+                PInvoke.MemCpy(&tmp, inPtr + chunksLen, len % 4);
+                carryMask = tmp >> (32 - n);
+                PInvoke.MemCpy(outPtr + chunksLen, &tmp, len % 4);
             }
+            if (len >= 8)
+            {
+                // Shift 8byte chunks
+                for(int i = 0; i < chunksLen; i+=4)
+                {
+                    uint tmp = *(uint*)(inPtr + i);
+                    *(uint*)(outPtr + i) = (tmp << n) | carryMask;
+                    carryMask = tmp >> (32 - n);
+                }
+            }
+#endif
         }
 
         /// <summary>
@@ -868,9 +943,10 @@ namespace Groundbeef.Collections.Spans
         /// <returns>The reference of the result span passed as parameter.</returns>
         public static Span<byte> RightShift(this ReadOnlySpan<byte> span, in Span<byte> result, int n)
         {
-            if (span.Length == 0)
+            int len = span.Length;
+            if (len == 0)
                 throw new ArgumentException(nameof(span));
-            if (span.Length < result.Length)
+            if (len > result.Length)
                 throw new IndexOutOfRangeException();
             if (n < 0)
                 throw new ArgumentOutOfRangeException(nameof(n));
@@ -882,7 +958,7 @@ namespace Groundbeef.Collections.Spans
                 return result;
             }
             // Zeros all bits
-            if (n > span.Length * 8)
+            if (n > len * 8)
             {
                 result.Assign(0x00);
                 return result;
@@ -890,45 +966,74 @@ namespace Groundbeef.Collections.Spans
             fixed(byte* inPtr = &MemoryMarshal.GetReference(span))
             fixed(byte* outPtr = &MemoryMarshal.GetReference(result))
             {
-                // Can only shift by upto 64bits at once.
-                int offset = 0;
-                while(n != 0)
+                // Shift so that less then one byte remains to be shifted
+                // using memmove or memcopy depending on if the spans overlap
+                int bytesToShift = n / 8;
+                if (bytesToShift != 0)
                 {
-                    offset = Math.Min(n, offset);
-                    ProtRShift(inPtr, outPtr, span.Length, offset);
-                    n -= offset;
+                    if (result.Overlaps(span))
+                        PInvoke.MemMove(outPtr + bytesToShift, inPtr, len - bytesToShift);
+                    else
+                        PInvoke.MemCpy(outPtr + bytesToShift, inPtr, len - bytesToShift);
+                    // Zero out dirty memory
+                    PInvoke.MemSet(outPtr, 0x00, bytesToShift);
                 }
+                // Shift by remaining bits.
+                if (bytesToShift * 8 != n)
+                    ProtRShiftBits(inPtr, outPtr, len, n % 8);
             }
             return result;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void ProtRShift(byte* inPtr, byte* outPtr, int len, int n)
+        private static void ProtRShiftBits(byte* inPtr, byte* outPtr, int len, int bitsToShift)
         {
-            int i = len - 8;
+            Debug.Assert(bitsToShift < 8);
+            Debug.Assert(len != 0);
+#if WIN64
             ulong carryMask = 0;
+            int chunksLen = len / 8 * 8;
             if (len >= 8)
             {
-                for (; i >= 0; i -= 8)
+                // Shift 8byte chunks
+                for (int i = 0; i < chunksLen; i+=8)
                 {
                     ulong tmp = *(ulong*)(inPtr + i);
-                    *(ulong*)outPtr = tmp >> n | carryMask;
-                    carryMask = tmp & ((1ul << n) - 1);
+                    *(ulong*)(outPtr + i) = (tmp >> bitsToShift) | carryMask;
+                    // Left align bits that will overflow to the next chunk
+                    carryMask = tmp << (64 - bitsToShift);
                 }
-                if (i == -8)
-                    return;
-                i += 7; // Offset overshoot
             }
-            if (i < 0)
+            if (len % 8 != 0)
             {
+                // Shift tailing bits
                 ulong tmp = 0;
-                // TODO: use s_memcpy
-                for (int j = 0; j < i; j++)
-                    tmp |= ((ulong)*(inPtr + j) & 0xFF) << ((i - j) * 8);
-                tmp = tmp >> n | carryMask;
-                for (int j = 0; j < i; j++)
-                    *(outPtr + j) = (byte)((tmp >> ((i - j) * 8)) & 0xFF);
+                PInvoke.MemCpy(&tmp, inPtr + chunksLen, len % 8);
+                tmp = (tmp >> bitsToShift) | carryMask;
+                PInvoke.MemCpy(outPtr + chunksLen, &tmp, len % 8);
             }
+#else
+            uint carryMask = 0;
+            int chunksLen = len / 4 * 4;
+            if (len >= 4)
+            {
+                // Shift 8byte chunks
+                for (int i = 0; i < chunksLen; i+=4)
+                {
+                    ulong tmp = *(uint*)(inPtr + i);
+                    *(uint*)(outPtr + i) = (tmp >> n) | carryMask;
+                    // Left align bits that will overflow to the next chunk
+                    carryMask = tmp << (32 - n);
+                }
+            }
+            if (len % 4 != 0)
+            {
+                // Shift tailing bits
+                ulong tmp = 0;
+                PInvoke.MemCpy(&tmp, inPtr + chunksLen, len % 4);
+                tmp = (tmp >> n) | carryMask;
+                PInvoke.MemCpy(outPtr + chunksLen, &tmp, len % 4);
+            }
+#endif
         }
         #endregion
     }
