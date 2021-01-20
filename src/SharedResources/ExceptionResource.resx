@@ -261,4 +261,7 @@
   <data name="VALUE_ONLY_SET_ONCE" xml:space="preserve">
     <value>The value can only be set once.</value>
   </data>
+  <data name="UNICODE_ILLEGAL_SYMBOL" xml:space="preserve">
+    <value>The string source contains corrupted unicode symbols, at index {0}</value>
+  </data>
 </root>

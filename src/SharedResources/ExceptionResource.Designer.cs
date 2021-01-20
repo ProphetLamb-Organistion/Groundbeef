@@ -475,6 +475,15 @@ namespace Groundbeef.SharedResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The string source contains corrupted unicode symbols, at index {0}.
+        /// </summary>
+        public static string UNICODE_ILLEGAL_SYMBOL {
+            get {
+                return ResourceManager.GetString("UNICODE_ILLEGAL_SYMBOL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The value cannot be null..
         /// </summary>
         public static string VALUE_NOTNULL {

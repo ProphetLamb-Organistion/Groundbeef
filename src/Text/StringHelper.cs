@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -821,6 +822,257 @@ namespace Groundbeef.Text
                 parts[i] = parts[i].Trim(trim);
             return parts;
         }
+        #endregion
+
+        #region Crop
+        /// <summary>
+        /// Crops the string into chunks of equal length. If not strict the last chunk may be of length equal to the remainder of the length of the string, and chunk length.
+        /// </summary>
+        /// <param name="self">The string to crop.</param>
+        /// <param name="chunkLength">The length of each chunk.</param>
+        /// <param name="strict">Whether to throw an exception if the length of the string is not a multiple of chunk length.</param>
+        /// <returns>An array of string of equal length.</returns>
+        [Pure]
+        public static string[] Crop(this string? self, int chunkLength, bool strict) => Crop((self ?? throw new ArgumentNullException(nameof(self))).AsSpan(), chunkLength, strict);
+
+        /// <summary>
+        /// Crops the string into chunks of equal length. If not strict the last chunk may be of length equal to the remainder of the length of the string, and chunk length.
+        /// </summary>
+        /// <param name="self">The string to crop.</param>
+        /// <param name="chunkLength">The length of each chunk.</param>
+        /// <param name="strict">Whether to throw an exception if the length of the string is not a multiple of chunk length.</param>
+        /// <returns>An array of string of equal length.</returns>
+        [Pure]
+        public static string[] Crop(this ReadOnlySpan<char> self, int chunkLength, bool strict)
+        {
+            if (strict && self.Length % chunkLength != 0)
+                throw new ArgumentOutOfRangeException(nameof(chunkLength));
+            return Crop(self, chunkLength);
+        }
+
+        /// <summary>
+        /// Crops the string into chunks of equal length. The last chunk may be of length equal to the remainder of the length of the string, and chunk length.
+        /// </summary>
+        /// <param name="self">The string to crop.</param>
+        /// <param name="chunkLength">The length of each chunk.</param>
+        /// <returns>An array of string of equal length.</returns>
+        [Pure]
+        public static string[] Crop(this string? self, int chunkLength) => Crop((self ?? throw new ArgumentNullException(nameof(self))).AsSpan(), chunkLength);
+
+        /// <summary>
+        /// Crops the string into chunks of equal length. The last chunk may be of length equal to the remainder of the length of the string, and chunk length.
+        /// </summary>
+        /// <param name="self">The string to crop.</param>
+        /// <param name="chunkLength">The length of each chunk.</param>
+        /// <returns>An array of string of equal length.</returns>
+        [Pure]
+        public static unsafe string[] Crop(this ReadOnlySpan<char> self, int chunkLength)
+        {
+            int symbolCount = CountTextSymbols(self);
+            if (symbolCount == 0)
+            {
+                if (chunkLength == 0)
+                    return new string[0];
+                throw new ArgumentOutOfRangeException(nameof(self));
+            }
+            if (chunkLength > symbolCount || chunkLength <= 0)
+                throw new ArgumentOutOfRangeException(nameof(chunkLength));
+            if (symbolCount == chunkLength)
+                return new []{ self.ToString() };
+
+            string[] output = new string[(symbolCount - 1) / chunkLength + 1];
+            fixed (char* ptr = &MemoryMarshal.GetReference(self))
+            {
+                if (symbolCount == self.Length)
+                {
+                    CropAscii(ptr, symbolCount, chunkLength, output);
+                }
+                else
+                {
+                    CropUnicode(ptr, symbolCount, chunkLength, output);   
+                }
+            }
+            return output;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static unsafe void CropAscii(char* source, int symbolCount, int chunkLength, string[] output)
+        {
+            int outIndex = 0;
+            int i;
+            for (i = 0; i + chunkLength <= symbolCount; i += chunkLength)
+            {
+                output[outIndex++] = new string(source, i, chunkLength);
+            }
+
+            if (symbolCount != i)
+            {
+                output[outIndex] = new string(source, i, symbolCount - i);
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static unsafe void CropUnicode(char* source, int symbolCount, int chunkLength, string[] output)
+        {
+            int outIndex = 0;
+            int i = 0;
+            int blockCharCount;
+            do
+            {
+                blockCharCount = 0;
+                int increment;
+                for (int blockSymbols = 0; i < symbolCount && blockSymbols < chunkLength; i++, blockSymbols++, blockCharCount += increment)
+                {
+                    increment = UnicodeSymbolCharLength(source + blockCharCount);
+                }
+
+                output[outIndex++] = new string(source, 0, blockCharCount);
+                source += blockCharCount;
+            } while (i < symbolCount);
+
+            if (symbolCount != i)
+            {
+                source -= blockCharCount;
+                blockCharCount = 0;
+                while (*(source + blockCharCount) != '\0')
+                    blockCharCount++;
+                output[outIndex] = new string(source, 0, blockCharCount);
+            }
+        }
+
+        /// <summary>
+        /// Returns the number of valid unicode symbols in the string.
+        /// </summary>
+        /// <param name="self">The string to count.</param>
+        /// <returns>The number of valid unicode symbols in the string.</returns>
+        /// <exception cref="ArgumentException">Throws when encountering an illegal symbol in the character sequence.</exception>
+        public static int CountTextSymbols(this string? self) => CountTextSymbols(self.AsSpan(), true);
+
+        /// <summary>
+        /// Returns the number of valid unicode symbols in the string.
+        /// </summary>
+        /// <param name="self">The string to count.</param>
+        /// <returns>The number of valid unicode symbols in the string.</returns>
+        /// <exception cref="ArgumentException">Throws when encountering an illegal symbol in the character sequence.</exception>
+        public static int CountTextSymbols(this ReadOnlySpan<char> self) => CountTextSymbols(self, true);
+
+        /// <summary>
+        /// Returns the number of valid unicode symbols in the string.
+        /// </summary>
+        /// <param name="self">The string to count.</param>
+        /// <param name="throwOnIllegalSymbol">Whether to throw an exception, when encountering an illegal symbol or return the number of valid elements.</param>
+        /// <returns>The number of valid unicode symbols in the string.</returns>
+        /// <exception cref="ArgumentException">Throws when encountering an illegal symbol in the character sequence.</exception>
+        public static int CountTextSymbols(this string? self, bool throwOnIllegalSymbol) => CountTextSymbols(self.AsSpan(), throwOnIllegalSymbol);
+
+        /// <summary>
+        /// Returns the number of valid unicode symbols in the string.
+        /// </summary>
+        /// <param name="self">The string to count.</param>
+        /// <param name="throwOnIllegalSymbol">Whether to throw an exception, when encountering an illegal symbol or return the number of valid elements.</param>
+        /// <returns>The number of valid unicode symbols in the string.</returns>
+        /// <exception cref="ArgumentException">Throws when encountering an illegal symbol in the character sequence.</exception>
+        public static unsafe int CountTextSymbols(this ReadOnlySpan<char> self, bool throwOnIllegalSymbol)
+        {
+            if (self.IsEmpty)
+                return 0;
+            int length;
+            fixed (char* inPtr = &MemoryMarshal.GetReference(self))
+            {
+                length = CountValidTextSymbols(inPtr, self.Length);
+            }
+
+            if (length > 0)
+                return length;
+
+            length = ~length;
+            if (throwOnIllegalSymbol)
+                throw new ArgumentException(string.Format(ExceptionResource.UNICODE_ILLEGAL_SYMBOL, length), nameof(self));
+            return length;
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static unsafe int CountValidTextSymbols(char* c, int remainingChars)
+        {
+            int length = 0;
+            int increment = 0;
+            for (int i = 0; i + increment <= remainingChars; i += increment, length++)
+            {
+                increment = ValidateUnicodeSymbol(c + i);
+                if (increment <= 0)
+                {
+                    return ~length;
+                }
+            }
+            return length;
+        }
+
+        /// <summary>Returns the number of 2byte characters that compose the next symbol. If the symbol is illegal returns the complement of the number of corrupted 2byte characters.</summary>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static unsafe int ValidateUnicodeSymbol(char* c)
+        {
+            // Modified from source: https://stackoverflow.com/a/27084836/6401643
+
+            uint ch = *c;
+            // Null terminator -> return zero
+            if (ch == 0)
+                return 0;
+
+            if (ch < 0xD800) // Char is up to first high surrogate
+                return 1;
+
+            if (ch <= 0xDBFF)
+            {
+                // Found high surrogate -> check surrogate pair
+                uint chLow = *(c + 1);
+                if (chLow == 0)
+                {
+                    // Fast char is high surrogate, so it is missing its pair
+                    return ~1;
+                }
+
+                if (!(chLow >= 0xDC00 && chLow <= 0xDFFF))
+                {
+                    // Did not find a low surrogate after the high surrogate
+                    return ~1;
+                }
+
+                // Convert to UTF32 - like in Char.ConvertToUtf32(highSurrogate, lowSurrogate)
+                ch = ((ch - 0xD800) << 10) + (chLow - 0xDC00) + 0x10000;
+                if ((ch & 0xFFFE) == 0xFFFE) // Other non-char found
+                    return ~2;
+                // Found a good surrogate pair
+                return 2;
+            }
+
+            if (ch <= 0xDFFF) // Unexpected low surrogate
+                return ~1;
+
+            if (ch >= 0xFDD0 && ch <= 0xFDEF) // Non-chars are considered invalid by System.Text.Encoding.GetBytes() and String.Normalize()
+                return ~1;
+
+            if ((ch & 0xFFFE) == 0xFFFE) // Other non-char found
+                return ~1;
+
+            return 1;
+        }
+
+        /// <summary>
+        /// !Warning: Does not validate the symbol
+        /// !Warning: Assumes that the pointer does not point to the null terminator.
+        /// Returns the number of 2byte characters that compose the next symbol.
+        /// </summary>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static unsafe int UnicodeSymbolCharLength(char* c)
+        {
+            // We can always check c and c + 1 (four bytes total) because of the null terminator.
+            bool isTwoChars = (*(uint*)c & 0xFC00FC00) == 0xDC00D800;
+            return 1 + *(byte*)(&isTwoChars); // Casting bool to byte is 0 when false, 1 when true;
+        }
+
         #endregion
     }
 }
