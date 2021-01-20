@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Groundbeef.BinaryEncoding</name>
+    </assembly>
+    <members>
+        <member name="T:Groundbeef.BinaryEncoding.Base85">
+            <summary>
+            ZeroMQ Base85 Encoding Algorithm, see: https://rfc.zeromq.org/spec/32/
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.BinaryEncoding.Base85.Decode(System.ReadOnlySpan{System.Char})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.BinaryEncoding.Base85.Decode(System.ReadOnlySpan{System.Char},System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.BinaryEncoding.Base85.Decode(System.ReadOnlySpan{System.Char},System.Int32,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.BinaryEncoding.Base85.Encode(System.ReadOnlySpan{System.Byte})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.BinaryEncoding.Base85.Encode(System.ReadOnlySpan{System.Byte},System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.BinaryEncoding.Base85.Encode(System.ReadOnlySpan{System.Byte},System.Int32,System.Int32)" -->
+    </members>
+</doc>

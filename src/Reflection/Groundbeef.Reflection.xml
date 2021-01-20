@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Groundbeef.Reflection</name>
+    </assembly>
+    <members>
+        <member name="M:Groundbeef.Reflection.CollectionsReflect.Cast(System.Collections.IEnumerable,System.Type)">
+            <summary>
+            Casts the elements of an <see cref="T:System.Collections.IEnumerable"/> to the specified type.
+            </summary>
+            <param name="source">The <see cref="T:System.Collections.IEnumerable"/> that contains the elements to be cast to type <paramref name="resultType"/>.</param>
+            <param name="resultType">The type to cast the elements of <paramref name="source"/> to.</param>
+            <returns>The <see cref="T:System.Collections.IEnumerable"/> that contains the elements to be cast to <paramref name="resultType"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Reflection.CollectionsReflect.ToGenericList(System.Object@,System.Type@)">
+            <summary>
+            Converts a <see cref="T:System.Collections.Generic.IEnumerable`1"/> to <see cref="T:System.Collections.Generic.List`1"/> of the same TSource. 
+            </summary>
+            <param name="enumerable">The source <see cref="T:System.Collections.Generic.IEnumerable`1"/> for the conversion.</param>
+            <param name="sourceType">The type of TSource.</param>
+            <returns>A <see cref="T:System.Collections.Generic.List`1"/> with the data of <paramref name="enumerable"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Reflection.CollectionsReflect.ToGenericArray(System.Object@,System.Type@)">
+            <summary>
+            Converts a <see cref="T:System.Collections.Generic.IEnumerable`1"/> to <see cref="!:T[]"/> of the same TSource. 
+            </summary>
+            <param name="enumerable">The source <see cref="T:System.Collections.Generic.IEnumerable`1"/> for the conversion.</param>
+            <param name="sourceType">The type of TSource.</param>
+            <returns>A <see cref="T:System.Collections.Generic.List`1"/> with the data of <paramref name="enumerable"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Reflection.CollectionsReflect.MakeList(System.Type)">
+            <summary>
+            Initializes a new instance of <see cref="!:List&lt;&gt;"/> with the specified generic type.
+            </summary>
+            <param name="elementType">The generic type argument.</param>
+            <returns>A new instance of <see cref="!:List&lt;&gt;"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Reflection.CollectionsReflect.MakeList(System.Type,System.Int32)">
+            <summary>
+            Initializes a new instance of <see cref="!:List&lt;&gt;"/> with the specified generic type and initial capacity.
+            </summary>
+            <param name="elementType">The generic type argument.</param>
+            <param name="capacity">The intial capacity.</param>
+            <returns>A new instance of <see cref="!:List&lt;&gt;"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Reflection.CollectionsReflect.MakeList(System.Type,System.Collections.IEnumerable)">
+            <summary>
+            Initializes a new instance of <see cref="!:List&lt;&gt;"/> with the specified generic type and initial capacity.
+            </summary>
+            <param name="elementType">The generic type argument.</param>
+            <param name="collection">The <see cref="!:IEnumerable&lt;&gt;"/> with the same element type as specifed for the <see cref="!:List&lt;&gt;"/>.</param>
+            <returns>A new instance of <see cref="!:List&lt;&gt;"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Reflection.EqualityComparers.GetDefaultEqualityComparer(System.Type)">
+            <summary>
+            Returns the default <see cref="T:System.Collections.IEqualityComparer"/> for the type specified.
+            </summary>
+            <param name="type">The <see cref="T:System.Type"/>.</param>
+            <returns>The default <see cref="T:System.Collections.IEqualityComparer"/> for the type specified.</returns>
+        </member>
+        <member name="T:Groundbeef.Reflection.Invoker">
+            <summary>
+            Invokes the underlying <see cref="!:System.Reflection.MethodInfo.Invoke"/> method.
+            </summary>
+            <param name="obj">The instance the method is to be invoked on.</param>
+            <param name="parameters">The parameters passed as arguments to the method.</param>
+            <returns>The return value of the invokation of the underlying method.</returns>
+        </member>
+        <member name="M:Groundbeef.Reflection.TypeExtention.HasInterface``1(System.Type,System.Boolean)">
+            <summary>
+            Indicates whether the interface specified is implemented by the <see cref="T:System.Type"/>.
+            </summary>
+            <typeparam name="T">The type of the interface to check for.</typeparam>
+            <param name="preferGenericTypeDefinition">If the interface is a generic type, then specifies whether to check for the type definition instead of the specific implementation.</param>
+            <returns><see cref="!:true"/> if the <see cref="T:System.Type"/> contains the interface specified; otherwise, <see cref="!:false"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Reflection.TypeExtention.HasInterface(System.Type,System.Type,System.Boolean)">
+            <summary>
+            Indicates whether the interface specified is implemented by the <see cref="T:System.Type"/>.
+            </summary>
+            <param name="interfaceType">The type of the interface to check for.</param>
+            <param name="preferGenericTypeDefinition">If the interface is a generic type, then specifies whether to check for the type definition instead of the specific implementation.</param>
+            <returns><see cref="!:true"/> if the <see cref="T:System.Type"/> contains the interface specified; otherwise, <see cref="!:false"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Reflection.TypeExtention.GetEnumerableElementType(System.Type@)">
+            <summary>
+            Returns the generic type argument of any <see cref="T:System.Collections.Generic.IEnumerable`1"/> type.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>The generic type argument of any <see cref="T:System.Collections.Generic.IEnumerable`1"/> type.</returns>
+        </member>
+        <member name="M:Groundbeef.Reflection.TypeExtention.WithAttribute``1(System.Collections.Generic.IEnumerable{System.Reflection.MethodInfo})">
+            <summary>
+            Filters a sequence by methods with the <see cref="T:System.Attribute"/> specified.
+            </summary>
+            <typeparam name="TAttribute">The type of the attribute.</typeparam>
+        </member>
+        <member name="M:Groundbeef.Reflection.TypeExtention.WithAttribute(System.Collections.Generic.IEnumerable{System.Reflection.MethodInfo},System.Type)">
+            <summary>
+            Filters a sequence by methods with the <see cref="T:System.Attribute"/> specified.
+            </summary>
+            <param name="attribute">The type of the attribute.</param>
+        </member>
+    </members>
+</doc>

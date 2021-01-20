@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Groundbeef.IO</name>
+    </assembly>
+    <members>
+        <member name="M:Groundbeef.IO.BinaryReaderExtention.ReadBytes(System.IO.BinaryReader)">
+            <summary>
+            Enumerates bytes read from the <see cref="T:System.IO.BinaryReader"/> in blocks with a maximum size of one page (4096).
+            </summary>
+        </member>
+        <member name="M:Groundbeef.IO.BinaryReaderExtention.ReadAllBytes(System.IO.BinaryReader)">
+            <summary>
+            Reads the <see cref="T:System.IO.BinaryReader"/> to the end.
+            </summary>
+            <param name="reader"></param>
+            <returns>A <see cref="!:byte[]"/> containing all data of the reader.</returns>
+        </member>
+        <member name="M:Groundbeef.IO.FileHelper.Create(System.String)">
+            <summary>
+            Creates or overwrites an existing file allowing other programs read and write access to the created file.
+            </summary>
+            <param name="fileName">The string specifing the path to the file and its name.</param>
+            <returns>A filestream for the file specified.</returns>
+            <exception name="ArgumentException">fileName null or whitespace</exception>
+        </member>
+        <member name="M:Groundbeef.IO.FileHelper.Open(System.String)">
+            <summary>
+            Opens a file allowing other programs read and write access to the file. This operation also requires write access the file specified.
+            </summary>
+            <param name="fileName">The string specifing the path to the file and its name.</param>
+            <returns>A filestream for the file specified.</returns>
+            <exception name="ArgumentException">fileName null or whitespace</exception>
+            <exception name="FileNotFoundException"></exception>
+        </member>
+        <member name="M:Groundbeef.IO.FileHelper.Open(System.String,System.Boolean)">
+            <summary>
+            Opens or creates a file allowing other programs read and write access to the file. This operation also requires write access the file specified.
+            </summary>
+            <param name="fileName">The string specifing the path to the file and its name.</param>
+            <param name="create">If <see cref="!:true"/> creates the file specified if it doenst already exsit; otherwise, throws a FileNotFoundException.</param>
+            <returns>A filestream for the file specified.</returns>
+            <exception name="ArgumentException">fileName null or whitespace</exception>
+            <exception name="FileNotFoundException"></exception>
+        </member>
+        <member name="M:Groundbeef.IO.FileHelper.IsDirectory(System.String)">
+            <summary>
+            Indicates whether the file at the path specified is a directory or not.
+            </summary>
+            <param name="filePath">The path leading to the file incuding the name and extention.</param>
+            <returns><see cref="!:true"/> if the file is a directory; otherwise, <see cref="!:false"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.IO.FileHelper.IsDirectory(System.IO.FileInfo)">
+            <summary>
+            Indicates whether the <see cref="T:System.IO.FileInfo"/> is a directory or not.
+            </summary>
+            <param name="fileInfo">The <see cref="T:System.IO.FileInfo"/>.</param>
+            <returns><see cref="!:true"/> if the file is a directory; otherwise, <see cref="!:false"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.IO.FileHelper.GetFileHash(System.String,System.Security.Cryptography.HashAlgorithm)">
+            <summary>
+            Returns the hash of a file, using the <see cref="!:HashAlorithm"/> specified.
+            </summary>
+            <param name="fileName">The <see cref="T:System.String"/> defining the path the file, its name and extention.</param>
+            <param name="hashAlgorithm">The new instance of the <see cref="!:HashAlorithm"/> used.</param>
+            <returns>The hash of the file.</returns>
+        </member>
+        <member name="M:Groundbeef.IO.FileHelper.IsRelativePath(System.ReadOnlySpan{System.Char}@)">
+            <summary>
+            Indicates whether the path is a relative path.
+            </summary>
+        </member>
+    </members>
+</doc>

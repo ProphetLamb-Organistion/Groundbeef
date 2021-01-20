@@ -1,0 +1,209 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Groundbeef.Json.Resources</name>
+    </assembly>
+    <members>
+        <member name="M:Groundbeef.Json.Resources.ResourceManager.#ctor(System.String@)">
+            <summary>
+            Initializses a new instance of <see cref="T:Groundbeef.Json.Resources.ResourceManager"/>. Deriving the resource location from the calling assembly's location. 
+            A task loading the <see cref="P:System.Globalization.CultureInfo.InvariantCulture"/> resources ist started, upon completion the <see cref="E:Groundbeef.Json.Resources.ResourceManager.CultureChangedEvent"/> is raised.
+            </summary>
+            <param name="baseName">The first component of the name of a resource file. Format: [baseName].[culture identifier].json</param>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceManager.#ctor(System.String@,System.String@)">
+            <summary>
+            Initializses a new instance of <see cref="T:Groundbeef.Json.Resources.ResourceManager"/>.
+            A task loading the <see cref="P:System.Globalization.CultureInfo.InvariantCulture"/> resources ist started, upon completion the <see cref="E:Groundbeef.Json.Resources.ResourceManager.CultureChangedEvent"/> is raised.
+            </summary>
+            <param name="baseName">The first component of the name of a resource file. Format: [baseName].[culture identifier].json</param>
+            <param name="resourcePath">The path leading to the directory that contains the resource files.</param>
+        </member>
+        <member name="P:Groundbeef.Json.Resources.ResourceManager.CaseInsensitiveDefault">
+            <summary>
+            Gets or sets if key should be treated as case insensive by default or not.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Json.Resources.ResourceManager.Item(System.String@)">
+            <summary>
+            Returns the string value associated with the <paramref cref="!:key"/> with the culture <see cref="P:Groundbeef.Json.Resources.ResourceManager.Culture"/>.
+            </summary>
+            <param name="key">The key.</param>
+        </member>
+        <member name="P:Groundbeef.Json.Resources.ResourceManager.BaseName">
+            <summary>
+            Gets the first component of the name of a resource file. Format: [baseName].[culture identifier].json
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Json.Resources.ResourceManager.Culture">
+            <summary>
+            Gets or sets the culture used when requesting resources, unless specified otherwise.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Json.Resources.ResourceManager.LoadedResourceSet">
+            <summary>
+            Gets or sets the currently loaded resource set, corrosponding to <see cref="P:Groundbeef.Json.Resources.ResourceManager.Culture"/>.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Json.Resources.ResourceManager.ResourceRootPath">
+            <summary>
+            Gets the path leading to the directory that contains the resource files.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceManager.GetStringFormat(System.String@,System.Object[])">
+            <summary>
+            Returns the string value associated with the <paramref cref="!:key"/> with the culture <see cref="P:Groundbeef.Json.Resources.ResourceManager.Culture"/>. 
+            Replaces the format item in a value string with the string representation of a corresponding object in a specified array.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="args"> An object array that contains zero or more objects to format.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceManager.GetStringFormat(System.String@,System.Object@)">
+            <summary>
+            Returns the string value associated with the <paramref cref="!:key"/> with the culture <see cref="P:Groundbeef.Json.Resources.ResourceManager.Culture"/>. 
+            Replaces one or more format items in a string with the string representation of a specified object.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="arg0">The frist object to format.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceManager.GetStringFormat(System.String@,System.Object@,System.Object@)">
+            <summary>
+            Returns the string value formatted with the format arguments associated with the <paramref cref="!:key"/> with the culture <see cref="P:Groundbeef.Json.Resources.ResourceManager.Culture"/>.
+            Replaces one or more format items in a string with the string representation of a specified object.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="arg0">The frist object to format.</param>
+            <param name="arg1">The second object to format.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceManager.GetStringFormat(System.String@,System.Object@,System.Object@,System.Object@)">
+            <summary>
+            Returns the string value formatted with the format arguments associated with the <paramref cref="!:key"/> with the culture <see cref="P:Groundbeef.Json.Resources.ResourceManager.Culture"/>.
+            Replaces one or more format items in a string with the string representation of a specified object.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="arg0">The frist object to format.</param>
+            <param name="arg1">The second object to format.</param>
+            <param name="arg2">The third object to format.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceManager.GetString(System.String@,System.Nullable{System.Boolean})">
+            <summary>
+            Returns the string value associated with the <paramref cref="!:key"/> with the culture <see cref="P:Groundbeef.Json.Resources.ResourceManager.Culture"/>.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="ignoreCase">Whether the key is treated case insensitive.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceManager.GetString(System.String@,System.Globalization.CultureInfo@,System.Nullable{System.Boolean})">
+            <summary>
+            Returns the string value associated with the <paramref cref="!:key"/> with the culture <see cref="P:Groundbeef.Json.Resources.ResourceManager.Culture"/>.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="culture">The culture of the resource value</param>
+            <param name="ignoreCase">Whether the key is treated case insensitive.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceManager.GetObject(System.String@,System.Nullable{System.Boolean})">
+            <summary>
+            Returns the object value associated with the <paramref cref="!:key"/> with the culture <see cref="P:Groundbeef.Json.Resources.ResourceManager.Culture"/>.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="ignoreCase">Whether the key is treated case insensitive.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceManager.GetObject(System.String@,System.Globalization.CultureInfo@,System.Nullable{System.Boolean})">
+            <summary>
+            Returns the object value associated with the <paramref cref="!:key"/> with the culture <see cref="P:Groundbeef.Json.Resources.ResourceManager.Culture"/>.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="culture">The culture of the resource value</param>
+            <param name="ignoreCase">Whether the key is treated case insensitive.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceReader.#ctor(Groundbeef.Json.Resources.ResourceManager@,System.Globalization.CultureInfo@)">
+            <summary>
+            Initializes a new intance of <see cref="T:Groundbeef.Json.Resources.ResourceReader"/>. Reads to end.
+            </summary>
+            <param name="resourceManager">The resource manager the resource file belongs to.</param>
+            <param name="resourceCulture">The culture of the resource file.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceReader.#ctor(Groundbeef.Json.Resources.ResourceManager@,System.Globalization.CultureInfo@,System.Boolean)">
+            <summary>
+            Initializes a new intance of <see cref="T:Groundbeef.Json.Resources.ResourceReader"/>.
+            </summary>
+            <param name="resourceManager">The resource manager the resource file belongs to.</param>
+            <param name="resourceCulture">The culture of the resource file.</param>
+            <param name="readToEnd">Whether to read the resource file to end or not.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceReader.ReadToEnd">
+            <summary>
+            Reads all data from the underlying stream. Required to enumerate.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceSet.#ctor(System.Resources.IResourceReader)">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.Json.Resources.ResourceSet"/>.
+            </summary>
+            <param name="reader">The resource reader to read the resource from.</param>
+        </member>
+        <member name="P:Groundbeef.Json.Resources.ResourceSet.ThrowExceptionOnResourceMiss">
+            <summary>
+            Determins wherther to throw a ArgumentException if the specified key was not found or the <see cref="T:Groundbeef.Json.Resources.ResourceSet"/>.
+            </summary>
+            <value>If <see cref="!:true"/> throws a ArguemntException; otherwise, returns <see cref="!:null"/>.</value>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceSet.GetString(System.String@,System.Boolean)">
+            <summary>
+            Returns the string associated with the <paramref cref="!:key"/>.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="ignoreCase">Whether the key is treated case insensitive.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceSet.GetObject(System.String@,System.Boolean)">
+            <summary>
+            Returns the object associated with the <paramref cref="!:key"/>.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="ignoreCase">Whether the key is treated case insensitive.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceSet.Add(System.String@,System.Object@)">
+            <summary>
+            Adds the specified key and value to the tables. If the key already exists overwrites the exisiting value.
+            </summary>
+            <param name="key">The key of the element to add.</param>
+            <param name="value">The value of the element to add. The value can not be null.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceWriter.#ctor(Groundbeef.Json.Resources.ResourceSet@,System.Globalization.CultureInfo@,System.String@)">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.Json.Resources.ResourceWriter"/>.
+            </summary>
+            <param name="resourceSet">The instance of <see cref="T:Groundbeef.Json.Resources.ResourceSet"/> the <see cref="T:Groundbeef.Json.Resources.ResourceWriter"/> will write to.</param>
+            <param name="culture">The culture of the <paramref name="resourceSet"/>.</param>
+            <param name="fileName">The full or relative path to the <paramref name="resourceSet"/> including file-name and -extention.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceWriter.#ctor(Groundbeef.Json.Resources.ResourceManager@,System.Globalization.CultureInfo@)">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.Json.Resources.ResourceWriter"/>.
+            Loading the <see cref="T:Groundbeef.Json.Resources.ResourceSet"/> by association to a <see cref="T:Groundbeef.Json.Resources.ResourceManager"/>.
+            </summary>
+            <param name="resourceManager">The <se cref="T:Groundbeef.Json.Resources.ResourceManager"/>, associated with the <see cref="T:Groundbeef.Json.Resources.ResourceSet"/>.</param>
+            <param name="resourceCulture">The culture of the <see cref="T:Groundbeef.Json.Resources.ResourceSet"/>.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceWriter.AddResource(System.String,System.Byte[])">
+            <summary>
+            Adds a new resource to the <see cref="T:Groundbeef.Json.Resources.ResourceSet"/>.
+            </summary>
+            <param name="name">The unique name key of the resource.</param>
+            <param name="value">The value of the resource.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceWriter.AddResource(System.String,System.Object)">
+            <summary>
+            Adds a new resource to the <see cref="T:Groundbeef.Json.Resources.ResourceSet"/>.
+            </summary>
+            <param name="name">The unique name key of the resource.</param>
+            <param name="value">The value of the resource.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Resources.ResourceWriter.AddResource(System.String,System.String)">
+            <summary>
+            Adds a new resource to the <see cref="T:Groundbeef.Json.Resources.ResourceSet"/>.
+            </summary>
+            <param name="name">The unique name key of the resource.</param>
+            <param name="value">The value of the resource.</param>
+        </member>
+    </members>
+</doc>

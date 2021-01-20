@@ -1,0 +1,822 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Groundbeef.Collections</name>
+    </assembly>
+    <members>
+        <member name="T:Groundbeef.Collections.ArrayExtention">
+            <summary>
+            Collection of extention functions for arrays, and generic arrays: 
+            SortByKeys(keys), FindFirst(predicate), FindLast(predicate), FindAll(predicate), IndexOf(element|predicate), IndexOfLast(element|predicate), IndexOfAll(element|predicate), GetHashCode(fromValues)
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.ArrayExtention.SortByKeys(System.Array,System.Int32[]@)">
+            <summary>
+            Sorts a one-dimesional array into a new array by swapping each element to the index indicated by <paramref name="keys"/>. 
+            The length of both arrays must be equal.
+            </summary>
+            <param name="array">The one-dimensional <see cref="!:T[]"/> that contains the elements to be sorted.</param>
+            <param name="keys">The one-dimensional <see cref="!:Int32[]"/> that contains indicies.</param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.ArrayExtention.GetRange``1(``0[],System.Int32,System.Int32)">
+            <summary>
+            Returns a array containing a portion of the elements in the <see cref="!:T[]"/>.
+            </summary>
+            <param name="startIndex">The zero-based starting index.</param>
+            <param name="length">The length of the portion.</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOf(System.Array,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOf(System.Array,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOf(System.Array,System.Int32,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfLast(System.Array,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfLast(System.Array,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfLast(System.Array,System.Int32,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfAll(System.Array,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfAll(System.Array,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfAll(System.Array,System.Int32,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAny(System.Array,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAny(System.Array,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAny(System.Array,System.Int32,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAll(System.Array,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAll(System.Array,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAll(System.Array,System.Int32,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.Find(System.Array,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.Find(System.Array,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.Find(System.Array,System.Int32,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.FindLast(System.Array,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.FindLast(System.Array,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.FindLast(System.Array,System.Int32,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.FindAll(System.Array,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.FindAll(System.Array,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.FindAll(System.Array,System.Int32,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelFindAny(System.Array,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelFindAny(System.Array,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelFindAny(System.Array,System.Int32,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelFindAll(System.Array,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelFindAll(System.Array,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelFindAll(System.Array,System.Int32,System.Int32,System.Predicate{System.Object})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOf(System.Array,System.Object@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOf(System.Array,System.Int32,System.Object@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOf(System.Array,System.Int32,System.Int32,System.Object@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfLast(System.Array,System.Object@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfLast(System.Array,System.Int32,System.Object@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfLast(System.Array,System.Int32,System.Int32,System.Object@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfAll(System.Array,System.Object)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfAll(System.Array,System.Int32,System.Object)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfAll(System.Array,System.Int32,System.Int32,System.Object)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAny(System.Array,System.Object@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAny(System.Array,System.Int32,System.Object@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAny(System.Array,System.Int32,System.Int32,System.Object@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAll(System.Array,System.Object@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAll(System.Array,System.Int32,System.Object@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAll(System.Array,System.Int32,System.Int32,System.Object@)" -->
+        <member name="M:Groundbeef.Collections.ArrayExtention.SortByKeys``1(``0[],System.Int32[]@)">
+            <summary>
+            Sorts a one-dimesional array into a new array by swapping each element to the index indicated by <paramref name="keys"/>. 
+            The length of both arrays must be equal.
+            </summary>
+            <param name="array">The one-dimensional <see cref="!:T[]"/> that contains the elements to be sorted.</param>
+            <param name="keys">The one-dimensional <see cref="!:Int32[]"/> that contains indicies.</param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOf``1(``0[],System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOf``1(``0[],System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOf``1(``0[],System.Int32,System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfLast``1(``0[],System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfLast``1(``0[],System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfLast``1(``0[],System.Int32,System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfAll``1(``0[],System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfAll``1(``0[],System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfAll``1(``0[],System.Int32,System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAny``1(``0[],System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAny``1(``0[],System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAny``1(``0[],System.Int32,System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAll``1(``0[],System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAll``1(``0[],System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAll``1(``0[],System.Int32,System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.Find``1(``0[],System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.Find``1(``0[],System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.Find``1(``0[],System.Int32,System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.FindLast``1(``0[],System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.FindLast``1(``0[],System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.FindLast``1(``0[],System.Int32,System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.FindAll``1(``0[],System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.FindAll``1(``0[],System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.FindAll``1(``0[],System.Int32,System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelFindAny``1(``0[],System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelFindAny``1(``0[],System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelFindAny``1(``0[],System.Int32,System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelFindAll``1(``0[],System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelFindAll``1(``0[],System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelFindAll``1(``0[],System.Int32,System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOf``1(``0[],``0@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOf``1(``0[],System.Int32,``0@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOf``1(``0[],System.Int32,System.Int32,``0@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfLast``1(``0[],``0@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfLast``1(``0[],System.Int32,``0@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfLast``1(``0[],System.Int32,System.Int32,``0@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfAll``1(``0[],``0)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfAll``1(``0[],System.Int32,``0)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfAll``1(``0[],System.Int32,System.Int32,``0)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAny``1(``0[],``0@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAny``1(``0[],System.Int32,``0@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAny``1(``0[],System.Int32,System.Int32,``0@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAll``1(``0[],``0@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAll``1(``0[],System.Int32,``0@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.ParallelIndexOfAll``1(``0[],System.Int32,System.Int32,``0@)" -->
+        <member name="M:Groundbeef.Collections.ArrayExtention.SortByKeys``1(System.ReadOnlySpan{``0},System.Int32[]@)">
+            <summary>
+            Sorts aspan into a new span by swapping each element to the index indicated by <paramref name="keys"/>. 
+            The length of both spans must be equal.
+            </summary>
+            <param name="span">The one-dimensional <see cref="T:System.ReadOnlySpan`1"/> that contains the elements to be sorted.</param>
+            <param name="keys">The one-dimensional <see cref="!:Int32[]"/> that contains indicies.</param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOf``1(System.ReadOnlySpan{``0},System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOf``1(System.ReadOnlySpan{``0},System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOf``1(System.ReadOnlySpan{``0},System.Int32,System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfLast``1(System.ReadOnlySpan{``0},System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfLast``1(System.ReadOnlySpan{``0},System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfLast``1(System.ReadOnlySpan{``0},System.Int32,System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfAll``1(System.ReadOnlySpan{``0},System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfAll``1(System.ReadOnlySpan{``0},System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfAll``1(System.ReadOnlySpan{``0},System.Int32,System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.FindAll``1(System.ReadOnlySpan{``0},System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.FindAll``1(System.ReadOnlySpan{``0},System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.FindAll``1(System.ReadOnlySpan{``0},System.Int32,System.Int32,System.Predicate{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOf``1(System.ReadOnlySpan{``0},``0@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOf``1(System.ReadOnlySpan{``0},System.Int32,``0@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOf``1(System.ReadOnlySpan{``0},System.Int32,System.Int32,``0@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfLast``1(System.ReadOnlySpan{``0},``0@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfLast``1(System.ReadOnlySpan{``0},System.Int32,``0@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfLast``1(System.ReadOnlySpan{``0},System.Int32,System.Int32,``0@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfAll``1(System.ReadOnlySpan{``0},``0)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfAll``1(System.ReadOnlySpan{``0},System.Int32,``0)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.ArrayExtention.IndexOfAll``1(System.ReadOnlySpan{``0},System.Int32,System.Int32,``0)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.CollectionExtention.AddRange``1(System.Collections.Generic.ICollection{``0},System.Collections.Generic.IEnumerable{``0})" -->
+        <member name="M:Groundbeef.Collections.CollectionExtention.AddRange``2(System.Collections.Generic.ICollection{``0},System.Collections.Generic.IEnumerable{``1},System.Func{``1,``0})">
+            <summary>
+            Adds a range of elements to the collection by repeatetly calling the <see cref="!:IReadOnlyList&lt;T&gt;.Add(T)"/> function using the <paramref name="selector"/> to convert the elements.
+            </summary>
+            <typeparam name="TTarget">The type of elements in the <paramref name="target"/>.</typeparam>
+            <typeparam name="TSource">The type of elements in the <paramref name="source"/>.</typeparam>
+            <param name="target">The target <see cref="T:System.Collections.Generic.ICollection`1"/>.</param>
+            <param name="source">The source <see cref="T:System.Collections.Generic.IEnumerable`1"/></param>
+            <exception cref="T:System.ArgumentNullException">If the <paramref name="source"/>, <paramref name="target"/> or <paramref name="selector"/> is null.</exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.AddDays(System.Collections.Generic.ICollection{System.DateTime},System.DateTime,System.DateTime)">
+            <summary>
+            Adds all days between <paramref name="start"/> and <paramref name="end"/> to the collection.
+            </summary>
+            <param name="collection">The collection</param>
+            <param name="start">The frist day that will be added to the collection.</param>
+            <param name="end">The last day that will be added to the collection.</param>
+            <returns>The reference to the <see cref="T:System.Collections.Generic.ICollection`1"/>.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">If <paramref name="start"/> is greater then <paramref name="end"/>.</exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.Filter``1(System.Collections.Generic.IList{``0},System.Collections.Generic.IReadOnlyList{``0},System.Predicate{``0})">
+            <summary>
+            Adds and Removes elements from <paramref name="target"/> so that it only contains elements from <paramref name="source"/> constraint by <paramref name="filter"/>.
+            </summary>
+            <typeparam name="T">The type of elements.</typeparam>
+            <param name="target">The target <see cref="T:System.Collections.Generic.IReadOnlyList`1"/>.</param>
+            <param name="source">The source<see cref="T:System.Collections.Generic.IReadOnlyList`1"/>.</param>
+            <param name="filter">The filter desciding which elements from <paramref name="source"/> to keep in <paramref name="target"/>.</param>
+            <exception cref="T:System.ArgumentNullException">If the <paramref name="source"/>, <paramref name="target"/> or <paramref name="filter"/> is null.</exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.IndexOf``1(System.Collections.Generic.IReadOnlyList{``0},System.Predicate{``0})">
+            <summary>
+            Searches a portion of the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> for the specified element and returns the zero-based index of the first occurence.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>The zero-based index of the first occurence of the specified element or -1 if no match was found.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.IndexOf``1(System.Collections.Generic.IReadOnlyList{``0},System.Int32,System.Predicate{``0})">
+            <summary>
+            Searches a portion of the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> for the specified element and returns the zero-based index of the first occurence.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="startIndex">The zero-based starting index of the range to search.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>The zero-based index of the first occurence of the specified element or -1 if no match was found.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.IndexOf``1(System.Collections.Generic.IReadOnlyList{``0},System.Int32,System.Int32,System.Predicate{``0})">
+            <summary>
+            Searches a portion of the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> for the specified element and returns the zero-based index of the first occurence.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="startIndex">The zero-based starting index of the range to search.</param>
+            <param name="count">The length of the range to search.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>The zero-based index of the first occurence of the specified element or -1 if no match was found.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.IndexOutOfRangeException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.IndexOfLast``1(System.Collections.Generic.IReadOnlyList{``0},System.Int32,System.Predicate{``0})">
+            <summary>
+            Searches a portion of the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> for the specified element and returns the zero-based index of the last occurence.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="startIndex">The zero-based starting index of the range to search.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>The zero-based index of the last occurence of the specified element or -1 if no match was found.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.IndexOfLast``1(System.Collections.Generic.IReadOnlyList{``0},System.Int32,System.Int32,System.Predicate{``0})">
+            <summary>
+            Searches a portion of the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> for the specified element and returns the zero-based index of the last occurence.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="startIndex">The zero-based starting index of the range to search.</param>
+            <param name="count">The length of the range to search.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>The zero-based index of the last occurence of the specified element or -1 if no match was found.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.IndexOutOfRangeException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.IndexOfAll``1(System.Collections.Generic.IReadOnlyList{``0},System.Predicate{``0}@)">
+            <summary>
+            Searches the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> for the specified element and enumerates the zero-based index of all occurences.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>The zero-based index of all occurences of the specified element.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.IndexOfAll``1(System.Collections.Generic.IReadOnlyList{``0},System.Int32,System.Predicate{``0}@)">
+            <summary>
+            Searches a portion of the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> for the specified element and enumerates the zero-based index of all occurences.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="startIndex">The zero-based starting index of the range to search.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>The zero-based index of all occurences of the specified element.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.IndexOfAll``1(System.Collections.Generic.IReadOnlyList{``0},System.Int32,System.Int32,System.Predicate{``0})">
+            <summary>
+            Searches a portion of the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> for the specified element and enumerates the zero-based index of all occurences.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="startIndex">The zero-based starting index of the range to search.</param>
+            <param name="count">The length of the range to search.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>The zero-based index of all occurences of the specified element.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.IndexOutOfRangeException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.IndexOfAll``1(System.Collections.Generic.ICollection{``0},System.Predicate{``0}@)">
+            <summary>
+            Searches the elements in the <see cref="T:System.Collections.Generic.ICollection`1"/> for the specified element and enumerates the zero-based index of all occurences.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>The zero-based index of all occurences of the specified element.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.IndexOfAll``1(System.Collections.Generic.ICollection{``0},System.Int32,System.Predicate{``0}@)">
+            <summary>
+            Searches a portion of the elements in the <see cref="T:System.Collections.Generic.ICollection`1"/> for the specified element and enumerates the zero-based index of all occurences.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="startIndex">The zero-based starting index of the range to search.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>The zero-based index of all occurences of the specified element.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.IndexOfAll``1(System.Collections.Generic.ICollection{``0},System.Int32,System.Int32,System.Predicate{``0})">
+            <summary>
+            Searches a portion of the elements in the <see cref="T:System.Collections.Generic.ICollection`1"/> for the specified element and enumerates the zero-based index of all occurences.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="startIndex">The zero-based starting index of the range to search.</param>
+            <param name="count">The length of the range to search.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>The zero-based index of all occurences of the specified element.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.IndexOutOfRangeException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.Find``1(System.Collections.Generic.IReadOnlyList{``0},System.Predicate{``0})">
+            <summary>
+            Searches the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> for the specified element and returns the first occurence.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>The frist occurence of the specified element or <see cref="!:default"/> if no match was found.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.Find``1(System.Collections.Generic.IReadOnlyList{``0},System.Int32,System.Predicate{``0})">
+            <summary>
+            Searches a portion of the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> for the specified element and returns the first occurence.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="startIndex">The zero-based starting index of the range to search.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>The frist occurence of the specified element or <see cref="!:default"/> if no match was found.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.Find``1(System.Collections.Generic.IReadOnlyList{``0},System.Int32,System.Int32,System.Predicate{``0})">
+            <summary>
+            Searches a portion of the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> for the specified element and returns the first occurence.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="startIndex">The zero-based starting index of the range to search.</param>
+            <param name="count">The length of the range to search.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>The frist occurence of the specified element or <see cref="!:default"/> if no match was found.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.IndexOutOfRangeException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.FindLast``1(System.Collections.Generic.IReadOnlyList{``0},System.Predicate{``0})">
+            <summary>
+            Searches the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> for the specified element and returns the last occurence.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>The frist occurence of the specified element or <see cref="!:default"/> if no match was found.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.FindLast``1(System.Collections.Generic.IReadOnlyList{``0},System.Int32,System.Predicate{``0})">
+            <summary>
+            Searches a portion of the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> for the specified element and returns the last occurence.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="startIndex">The zero-based starting index of the range to search.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>The frist occurence of the specified element or <see cref="!:default"/> if no match was found.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.FindLast``1(System.Collections.Generic.IReadOnlyList{``0},System.Int32,System.Int32,System.Predicate{``0})">
+            <summary>
+            Searches a portion of the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> for the specified element and returns the last occurence.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="startIndex">The zero-based starting index of the range to search.</param>
+            <param name="count">The length of the range to search.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>The frist occurence of the specified element or <see cref="!:default"/> if no match was found.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.IndexOutOfRangeException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.FindAll``1(System.Collections.Generic.IReadOnlyList{``0},System.Predicate{``0})">
+            <summary>
+            Searches the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> for the specified element and enumerates all occurences.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>All occurences of the specified element.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.FindAll``1(System.Collections.Generic.IReadOnlyList{``0},System.Int32,System.Predicate{``0})">
+            <summary>
+            Searches a portion of the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> for the specified element and enumerates all occurences.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="startIndex">The zero-based starting index of the range to search.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>All occurences of the specified element.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.FindAll``1(System.Collections.Generic.IReadOnlyList{``0},System.Int32,System.Int32,System.Predicate{``0})">
+            <summary>
+            Searches a portion of the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> for the specified element and enumerates all occurences.
+            </summary>
+            <param name="collection">The collection containing the elements.</param>
+            <param name="startIndex">The zero-based starting index of the range to search.</param>
+            <param name="count">The length of the range to search.</param>
+            <param name="match">The <see cref="T:System.Predicate`1"/> use to locate the object.</param>
+            <returns>All occurences of the specified element.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.IndexOutOfRangeException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.Sort``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Sorts the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> using defaul comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/> to compare collection elements.
+            </summary>
+            <typeparam name="T">Type of collection elements.</typeparam>
+            <param name="collection">The collection to sort.</param>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.Sort``1(System.Collections.Generic.IList{``0},System.Int32)">
+            <summary>
+            Sorts a portion of the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> using defaul comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/> to compare collection elements.
+            </summary>
+            <typeparam name="T">Type of collection elements.</typeparam>
+            <param name="collection">The collection to sort.</param>
+            <param name="startIndex">The zero-based starting index of the range to sort.</param>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.Sort``1(System.Collections.Generic.IList{``0},System.Int32,System.Int32)">
+            <summary>
+            Sorts a portion of the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> using defaul comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/> to compare collection elements.
+            </summary>
+            <typeparam name="T">Type of collection elements.</typeparam>
+            <param name="collection">The collection to sort.</param>
+            <param name="startIndex">The zero-based starting index of the range to sort.</param>
+            <param name="count">The length of the range to sort.</param>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.Sort``1(System.Collections.Generic.IList{``0},System.Comparison{``0})">
+            <summary>
+            Sorts the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> using a provided <see cref="T:System.Comparison`1"/> delegate to compare collection elements.
+            </summary>
+            <typeparam name="T">Type of collection elements.</typeparam>
+            <param name="collection">The collection to sort.</param>
+            <param name="comparison">The <see cref="T:System.Comparison`1"/> to use when comparing elements.</param>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.Sort``1(System.Collections.Generic.IList{``0},System.Int32,System.Comparison{``0})">
+            <summary>
+            Sorts a portion of the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> using a provided <see cref="T:System.Comparison`1"/> delegate to compare collection elements.
+            </summary>
+            <typeparam name="T">Type of collection elements.</typeparam>
+            <param name="collection">The collection to sort.</param>
+            <param name="startIndex">The zero-based starting index of the range to sort.</param>
+            <param name="comparison">The <see cref="T:System.Comparison`1"/> to use when comparing elements.</param>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.Sort``1(System.Collections.Generic.IList{``0},System.Int32,System.Int32,System.Comparison{``0})">
+            <summary>
+            Sorts a portion of the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> using a provided <see cref="T:System.Comparison`1"/> delegate to compare collection elements.
+            </summary>
+            <typeparam name="T">Type of collection elements.</typeparam>
+            <param name="collection">The collection to sort.</param>
+            <param name="startIndex">The zero-based starting index of the range to sort.</param>
+            <param name="count">The length of the range to sort.</param>
+            <param name="comparison">The <see cref="T:System.Comparison`1"/> to use when comparing elements.</param>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.Sort``1(System.Collections.Generic.IList{``0},System.Collections.Generic.IComparer{``0})">
+            <summary>
+            Sorts the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> using the specified or default <see cref="T:System.Collections.Generic.IComparer`1"/>.
+            </summary>
+            <typeparam name="T">Type of collection elements.</typeparam>
+            <param name="collection">The collection to sort.</param>
+            <param name="comparer">The <see cref="T:System.Collections.Generic.IComparer`1"/> used when comparing collection elements, or null to use the default comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/>.</param>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.Sort``1(System.Collections.Generic.IList{``0},System.Int32,System.Collections.Generic.IComparer{``0})">
+            <summary>
+            Sorts a portion of the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> using the specified or default <see cref="T:System.Collections.Generic.IComparer`1"/>.
+            </summary>
+            <typeparam name="T">Type of collection elements.</typeparam>
+            <param name="collection">The collection to sort.</param>
+            <param name="startIndex">The zero-based starting index of the range to sort.</param>
+            <param name="comparer">The <see cref="T:System.Collections.Generic.IComparer`1"/> used when comparing collection elements, or null to use the default comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/>.</param>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionExtention.Sort``1(System.Collections.Generic.IList{``0},System.Int32,System.Int32,System.Collections.Generic.IComparer{``0})">
+            <summary>
+            Sorts a portion of the elements in the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> using the specified or default <see cref="T:System.Collections.Generic.IComparer`1"/>.
+            </summary>
+            <typeparam name="T">Type of collection elements.</typeparam>
+            <param name="collection">The collection to sort.</param>
+            <param name="startIndex">The zero-based starting index of the range to sort.</param>
+            <param name="count">The length of the range to sort.</param>
+            <param name="comparer">The <see cref="T:System.Collections.Generic.IComparer`1"/> used when comparing collection elements, or null to use the default comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/>.</param>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionHashing.GetHashCode(System.Array,System.Boolean)">
+            <summary>
+            Serves as the default hash function. If <paramref name="fromValues"/> is <see cref="!:true"/> returns the combined hashcode of all elements widthin the <see cref="T:System.Array"/>; otherwise returns the default hashcode.
+            </summary>
+            <param name="array">The one-dimensional array containing the elements.</param>
+            <param name="fromValues">Indicates that the hashcode should be derived from the elements of the array instead.</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionHashing.GetHashCode``1(System.ReadOnlySpan{``0},System.Boolean)">
+            <summary>
+            Serves as the default hash function. If <paramref name="fromValues"/> is <see cref="!:true"/> returns the combined hashcode of all elements widthin the <see cref="T:System.ReadOnlySpan`1"/>; otherwise returns the default hashcode.
+            </summary>
+            <param name="span">The span containing the elements.</param>
+            <param name="fromValues">Indicates that the hashcode should be derived from the elements of the array instead.</param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionHashing.GetHashCode(System.Collections.IList,System.Boolean)">
+            <summary>
+            Serves as the default hash function. If <paramref name="fromValues"/> is <see cref="!:true"/> returns the combined hashcode of all elements widthin the <see cref="T:System.Collections.IList"/>; otherwise returns the default hashcode.
+            </summary>
+            <param name="list">The list containing the elements.</param>
+            <param name="fromValues">Indicates that the hashcode should be derived from the elements of the list instead.</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.CollectionHashing.GetHashCode(System.Collections.IEnumerable,System.Boolean)">
+            <summary>
+            Serves as the default hash function. If <paramref name="fromValues"/> is <see cref="!:true"/> returns the combined hashcode of all elements widthin the <see cref="T:System.Collections.IEnumerable"/>; otherwise returns the default hashcode.
+            </summary>
+            <param name="enumerable">The enumerable containing the elements.</param>
+            <param name="fromValues">Indicates that the hashcode should be derived from the elements of the enumerable instead.</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="T:Groundbeef.Collections.DictionaryEnumerator`2">
+            <summary>
+            Generic implementation of the interface <see cref="T:System.Collections.IDictionaryEnumerator"/>.
+            </summary>
+            <typeparam name="TKey">The <see cref="T:System.Type"/> of the keys.</typeparam>
+            <typeparam name="TValue">The <see cref="T:System.Type"/> of the values.</typeparam>
+        </member>
+        <member name="M:Groundbeef.Collections.DictionaryEnumerator`2.#ctor(System.Collections.Generic.IDictionary{`0,`1})">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.Collections.DictionaryEnumerator`2"/>.
+            </summary>
+            <param name="dictionary">The source dictionary</param>
+        </member>
+        <member name="M:Groundbeef.Collections.DictionaryEnumerator`2.#ctor(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{`0,`1}})">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.Collections.DictionaryEnumerator`2"/>.
+            </summary>
+            <param name="dictionary">The source enumerable</param>
+        </member>
+        <member name="P:Groundbeef.Collections.DictionaryEnumerator`2.Entry">
+            <summary>
+            Gets the element in the collection at the current position of the enumerator.
+            </summary>
+        </member>
+        <member name="T:Groundbeef.Collections.DictionaryExtention">
+            <summary>
+            Adds additional functionallity to implementations of <see cref="T:System.Collections.IDictionary"/>.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.DictionaryExtention.AddRange``2(System.Collections.Generic.IDictionary{``0,``1},System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{``0,``1}}@)">
+            <summary>
+            Adds a range of <see cref="T:System.Collections.Generic.KeyValuePair"/>s to the <paramref name="dictionary"/>.
+            </summary>
+            <param name="dictionary">The dictionary.</param>
+            <param name="keyValuePairs">The collection of <see cref="!:KeyValuePairs"/> to add.</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.DictionaryExtention.Add``2(System.Collections.Generic.IDictionary{``0,``1},System.Collections.Generic.KeyValuePair{``0,``1}@)">
+            <summary>
+            Adds the specified key and value to the <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+            </summary>
+            <param name="dictionary">The dictionary.</param>
+            <param name="keyValuePair">The key value pair to add.</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.DictionaryExtention.GetMany``2(System.Collections.Generic.IDictionary{``0,``1},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Enumerates the <see cref="T:System.Collections.Generic.KeyValuePair"/>s associated with the <paramref name="keys"/>.
+            </summary>
+            <param name="dictionary">The dictionary.</param>
+            <param name="keys">The collection of <typeparamref name="TKey"/>s.</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:Groundbeef.Collections.DictionaryExtention.GetDictionaryEnumerator``2(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{``0,``1}})">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <param name="enumerable">The enumerable.</param>
+            <returns>An enumerator that iterates through the collection.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.EnumerableExtention.QuickCount(System.Collections.IEnumerable)">
+            <summary>
+            Returns the number of elements in a sequence, attempts to cast the enumerable to a <see cref="T:System.Collections.ICollection"/>.
+            </summary>
+            <param name="collection">The collection to count the elements of.</param>
+            <returns>The number of elements in a sequence.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.EnumerableExtention.CastList``1(System.Collections.IList)">
+            <summary>
+            Casts all elements in the <see cref="T:System.Collections.IList"/> to the type specified.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.EnumerableExtention.Partition``1(System.Collections.Generic.IEnumerable{``0},System.Predicate{``0})">
+            <summary>
+            Partitions the <see cref="T:System.Collections.Generic.IEnumerable`1"/> by the <paramref name="partitioner"/>.
+            </summary>
+            <param name="partitioner">The partitioner.</param>
+        </member>
+        <member name="T:Groundbeef.Collections.EqualityComparison`1">
+            <summary>
+            Indicates whether two values are equal.
+            </summary>
+            <param name="left">The left value.</param>
+            <param name="right">The right value.</param>
+            <typeparam name="T">The type of the values.</typeparam>
+            <returns><see cref="!:true"/> if both value are equal; otherwise, <see cref="!:false"/>.</returns>
+        </member>
+        <member name="T:Groundbeef.Collections.HashCodeFunction`1">
+            <summary>
+            Returns the Hashcode of a value using a specific function.
+            </summary>
+            <param name="value">The value.</param>
+            <typeparam name="T">The type of the value</typeparam>
+            <returns>The Hashcode of a value using a specific function.</returns>
+        </member>
+        <member name="P:Groundbeef.Collections.GenericEqualityComparer`1.EqualityFunction">
+            <summary>
+            Gets or sets the annonymous <see cref="T:Groundbeef.Collections.EqualityComparison`1"/> used to check for equality.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Collections.GenericEqualityComparer`1.HashFunction">
+            <summary>
+            Gets or sets the annonymous function used to generate the hashcode of a value.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.GenericEqualityComparer`1.#ctor(Groundbeef.Collections.EqualityComparison{`0})">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.Collections.GenericEqualityComparer`1"/>.
+            </summary>
+            <param name="equalityFunction">The annonymous <see cref="T:Groundbeef.Collections.EqualityComparison`1"/> used to check for equality.</param>
+        </member>
+        <member name="M:Groundbeef.Collections.GenericEqualityComparer`1.#ctor(Groundbeef.Collections.EqualityComparison{`0},Groundbeef.Collections.HashCodeFunction{`0})">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.Collections.GenericEqualityComparer`1"/>.
+            </summary>
+            <param name="equalityFunction">The annonymous <see cref="T:Groundbeef.Collections.EqualityComparison`1"/> used to check for equality.</param>
+            <param name="hashFunction">The annonymous function used to generate the hashcode of a value.</param>
+        </member>
+        <member name="M:Groundbeef.Collections.GenericEqualityComparerExtention.ToComparer``1(Groundbeef.Collections.EqualityComparison{``0})">
+            <summary>
+            Returns a new instance of a <see cref="T:Groundbeef.Collections.GenericEqualityComparer`1"/> with the specified comparison.
+            </summary>
+        </member>
+        <member name="T:Groundbeef.Collections.Map`2">
+            <summary>
+            Represents a bi-directionally accessible dictionary implementation of <typeparam name="TForward"/> and <typeparam name="TReverse"/>.
+            </summary>
+            <typeparam name="TForward">The forward key, and reverse value type of the <see cref="!:Map"/>.</typeparam>
+            <typeparam name="TReverse">The forward value, and reverse key type of the <see cref="!:Map"/>.</typeparam>
+        </member>
+        <member name="M:Groundbeef.Collections.Map`2.#ctor(System.Collections.Generic.IEqualityComparer{`0},System.Collections.Generic.IEqualityComparer{`1})">
+            <summary>
+            Initializes a new instance of the <see cref="!:Map"/> class.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.Map`2.Add(`0@,`1@)">
+            <summary>
+            Adds the specified key and value to the <see cref="!:Map"/>. If the key already exists overwrites the exisiting value.
+            </summary>
+            <param name="value1">The forward key, and reverse value.</param>
+            <param name="value2">The forward value, and reverse key.</param>
+        </member>
+        <member name="M:Groundbeef.Collections.Map`2.Add(System.Collections.Generic.KeyValuePair{`0,`1}@)">
+            <summary>
+            Adds the specified key and value to the <see cref="!:Map"/>. If the key already exists overwrites the exisiting value.
+            </summary>
+            <param name="value">The <see cref="T:System.Collections.Generic.KeyValuePair`2"/>.</param>
+        </member>
+        <member name="P:Groundbeef.Collections.Map`2.Forward">
+            <summary>
+            Gets the indexer with the <typeparam name="TForward"/> key and <typeparam name="TReverse"/> value.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Collections.Map`2.Reverse">
+            <summary>
+            Gets the indexer with the <typeparam name="TReverse"/> key and <typeparam name="TForward"/> value.
+            </summary>
+        </member>
+        <member name="T:Groundbeef.Collections.Indexer`2">
+            <summary>
+            Represents a wrapper class of <see cref="T:System.Collections.Generic.Dictionary`2"/> tailored for the needs of <see cref="!:Map"/>.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.Indexer`2.#ctor(System.Collections.Generic.Dictionary{`0,`1}@)" -->
+        <member name="T:Groundbeef.Collections.PartitionedEnumerator`1">
+            <summary>
+            Enumerates a sequence, partitioning elements based on a condition.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Groundbeef.Collections.Range`1">
+            <summary>
+            Generic Range valuetype.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.Range`1.#ctor(`0,`0)">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.Collections.Range`1"/>.
+            </summary>
+            <param name="minimum">The minimum value in the <see cref="T:Groundbeef.Collections.Range`1"/>.</param>
+            <param name="maximum">The maximum value in the <see cref="T:Groundbeef.Collections.Range`1"/>.</param>
+        </member>
+        <member name="P:Groundbeef.Collections.Range`1.Minimum">
+            <summary>
+            Gets the minimum value in the <see cref="T:Groundbeef.Collections.Range`1"/>.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Collections.Range`1.Maximum">
+            <summary>
+            Gets the maximum value in the <see cref="T:Groundbeef.Collections.Range`1"/>.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Collections.Range`1.HasValue">
+            <summary>
+            Indicates whether the <see cref="P:Groundbeef.Collections.Range`1.Minimum"/> and <see cref="P:Groundbeef.Collections.Range`1.Maximum"/> value is set.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.Range`1.Unify(System.Nullable{Groundbeef.Collections.Range{`0}})">
+            <summary>
+            Returns a new <see cref="T:Groundbeef.Collections.Range`1"/> unifing the Range with another.
+            </summary>
+            <param name="other">The other <see cref="T:Groundbeef.Collections.Range`1"/>.</param>
+            <returns>A new <see cref="T:Groundbeef.Collections.Range`1"/> unifing this instance and the <paramref name="other"/>.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.Range`1.Expand(`0)" -->
+        <member name="M:Groundbeef.Collections.Range`1.Intersects(System.Nullable{Groundbeef.Collections.Range{`0}})">
+            <summary>
+            Indicates whether the <paramref name="other"/> <see cref="T:Groundbeef.Collections.Range`1"/> intersects with this instance.
+            </summary>
+            <param name="other">The other <see cref="T:Groundbeef.Collections.Range`1"/>.</param>
+            <returns><see cref="!:true"/> if the <paramref name="other"/> <see cref="T:Groundbeef.Collections.Range`1"/> intersects with this instance; otherwise, <see cref="!:false"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Range`1.Contains(`0)">
+            <summary>
+            Indicates whether the <paramref name="value"/> is contained widthin the <see cref="T:Groundbeef.Collections.Range`1"/>.
+            </summary>
+            <param name="value">The value.</param>
+            <returns><see cref="!:true"/> if the <paramref name="value"/> is contained widthin the <see cref="T:Groundbeef.Collections.Range`1"/>; otherwise, <see cref="!:false"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Range`1.Unify(System.Nullable{Groundbeef.Collections.Range{`0}},System.Nullable{Groundbeef.Collections.Range{`0}})">
+            <summary>
+            Returns a new <see cref="T:Groundbeef.Collections.Range`1"/> unifing the <paramref name="left"/> and <paramref name="right"/> <see cref="T:Groundbeef.Collections.Range`1"/>.
+            </summary>
+            <param name="left">The left <see cref="T:Groundbeef.Collections.Range`1"/>.</param>
+            <param name="right">The right <see cref="T:Groundbeef.Collections.Range`1"/>.</param>
+            <returns>A new <see cref="T:Groundbeef.Collections.Range`1"/> unifing the <paramref name="left"/> and <paramref name="right"/> <see cref="T:Groundbeef.Collections.Range`1"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Range`1.op_Addition(Groundbeef.Collections.Range{`0},System.Nullable{Groundbeef.Collections.Range{`0}})">
+            <summary>
+            Returns a new <see cref="T:Groundbeef.Collections.Range`1"/> unifing the <paramref name="left"/> and <paramref name="right"/> <see cref="T:Groundbeef.Collections.Range`1"/>.
+            </summary>
+            <param name="left">The left <see cref="T:Groundbeef.Collections.Range`1"/>.</param>
+            <param name="right">The right <see cref="T:Groundbeef.Collections.Range`1"/>.</param>
+            <returns>A new <see cref="T:Groundbeef.Collections.Range`1"/> unifing the <paramref name="left"/> and <paramref name="right"/> <see cref="T:Groundbeef.Collections.Range`1"/>.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.Range`1.Expand(System.Nullable{Groundbeef.Collections.Range{`0}},`0)" -->
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.Range`1.op_Addition(Groundbeef.Collections.Range{`0},`0)" -->
+        <member name="M:Groundbeef.Collections.Range`1.op_Explicit(System.ValueTuple{`0,`0})~Groundbeef.Collections.Range{`0}">
+            <summary>
+            Converts a <see cref="T:System.ValueTuple`2"/> to a <see cref="T:Groundbeef.Collections.Range`1"/> where item1 is the  minimum, and item2 the maximum value.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.RangeExtention.ToIntRange(System.Range)">
+            <summary>
+            Returns a new <see cref="T:Groundbeef.Collections.Range`1"/> with the Minumum equal to the <see cref="P:System.Range.Start"/>, and the Maximum equal to the <see cref="P:System.Range.End"/>. 
+            Requires <see cref="P:System.Index.IsFromEnd"/> to be false.
+            </summary>
+            <param name="range">The <see cref="T:System.Range"/>.</param>
+            <returns>A new <see cref="T:Groundbeef.Collections.Range`1"/> with the Minumum equal to the <see cref="P:System.Range.Start"/>, and the Maximum equal to the <see cref="P:System.Range.End"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.RangeExtention.Cast``1(Groundbeef.Collections.IRange)">
+            <summary>
+            Casts the <see cref="T:Groundbeef.Collections.IRange"/> to the specified type <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T">The type the range will be cast to.</typeparam>
+            <returns>A new instance of <see cref="T:Groundbeef.Collections.Range`1"/>, cast from the <see cref="T:Groundbeef.Collections.IRange"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.RangeExtention.ToIndexedRange``1(Groundbeef.Collections.Range{``0})">
+            <summary>
+            Returns a new <see cref="T:System.Range"/> with the Start equal to <see cref="P:Groundbeef.Collections.Range`1.Minimum"/>, and the End equal to <see cref="P:Groundbeef.Collections.Range`1.Maximum"/>.
+            </summary>
+            <param name="range">The <see cref="T:Groundbeef.Collections.Range`1"/>.</param>
+            <returns>Returns a new <see cref="T:System.Range"/> with the Start equal to <see cref="P:Groundbeef.Collections.Range`1.Minimum"/>, and the End equal to <see cref="P:Groundbeef.Collections.Range`1.Maximum"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.RangeExtention.GetEnumerator(Groundbeef.Collections.Range{System.Int32},System.Boolean,System.Boolean)">
+            <summary>
+            Enumerates all elements in the range.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Groundbeef.Json.Settings</name>
+    </assembly>
+    <members>
+        <member name="M:Groundbeef.Json.Settings.SettingsManagerService.RegisterProvider``1(Groundbeef.Json.Settings.ISettingsProvider{``0})">
+            <summary>
+            Registers a <see cref="T:Groundbeef.Json.Settings.ISettingsProvider"/> to the <see cref="T:Groundbeef.Json.Settings.SettingsManagerService"/>.
+            </summary>
+            <param name="provider"></param>
+            <typeparam name="T_STORE"></typeparam>
+        </member>
+        <member name="M:Groundbeef.Json.Settings.SettingsManagerService.GetProvider``1">
+            <summary>
+            Retrieves the <see cref="T:Groundbeef.Json.Settings.ISettingsProvider"/> associated with the STORE.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Json.Settings.SettingsManagerService.GetValue``1(System.String)">
+            <summary>
+            Gets the value of the property.
+            </summary>
+            <param name="propertyName">The case-sensitive name of the property.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Settings.SettingsManagerService.SetValue``1(System.String,System.Object)">
+            <summary>
+            Sets the value of the property.
+            </summary>
+            <param name="propertyName">The case-sensitive name of the property.</param>
+            <param name="value">The new value that will be assigned to the property.</param>
+        </member>
+        <member name="T:Groundbeef.Json.Settings.SettingsProvider`1">
+            <summary>
+            Syncronizes a JSON settings file with a SettingsStorage object. Allows reading and writing.
+            </summary>
+            <typeparam name="T_STORE">The type of the settings storage instance, that has the "SettingsStorageAttribute".</typeparam>
+        </member>
+        <member name="E:Groundbeef.Json.Settings.SettingsProvider`1.SettingsChanged">
+            <summary>
+            Notifies subscribers when a property in the storage class was changed.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Json.Settings.SettingsProvider`1.Item(System.String)">
+            <summary>
+            Gets or sets the value of the property, by the name of the property.
+            </summary>
+            <value>The new value that will be assigned to the property.</value>
+        </member>
+        <member name="P:Groundbeef.Json.Settings.SettingsProvider`1.FileName">
+            <summary>
+            Gets the full path to the underlying file including its name and file extention.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Json.Settings.SettingsProvider`1.SerializerSettings">
+            <summary>
+            Gets or sets the <see cref="T:Newtonsoft.Json.JsonSerializerSettings"/> used for de-/serialization of the storage.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Json.Settings.SettingsProvider`1.GetValue``1(System.String)">
+            <summary>
+            Gets the value of the property.
+            </summary>
+            <param name="propertyName">The case-sensitive name of the property.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Settings.SettingsProvider`1.GetValue(System.String)">
+            <summary>
+            Gets the value of the property.
+            </summary>
+            <param name="propertyName">The case-sensitive name of the property.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Settings.SettingsProvider`1.SetValue(System.String,System.Object)">
+            <summary>
+            Sets the value of the property.
+            </summary>
+            <param name="propertyName">The case-sensitive name of the property.</param>
+            <param name="value">The new value that will be assigned to the property.</param>
+        </member>
+        <member name="M:Groundbeef.Json.Settings.SettingsProvider`1.Create(System.String)">
+            <summary>
+            Returns a new instance of <see cref="T:Groundbeef.Json.Settings.SettingsProvider`1"/>, using the default <see cref="!:JsonSerializationSettings"/>.
+            </summary>
+            <param name="fileName">The relative or full path to the file including its name and file extention.</param>
+            <returns>A new instance of <see cref="T:Groundbeef.Json.Settings.SettingsProvider`1"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Json.Settings.SettingsProvider`1.Create(System.String,Newtonsoft.Json.JsonSerializerSettings)">
+            <summary>
+            Returns a new instance of <see cref="T:Groundbeef.Json.Settings.SettingsProvider`1"/>.
+            </summary>
+            <param name="fileName">The relative or full path to the file including its name and file extention.</param>
+            <param name="settings">The <see cref="T:Newtonsoft.Json.JsonSerializerSettings"/> used when serializing and deserializing the storage object.</param>
+            <returns>A new instance of <see cref="T:Groundbeef.Json.Settings.SettingsProvider`1"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Json.Settings.SettingsProvider`1.Create(`0,System.String,Newtonsoft.Json.JsonSerializerSettings)">
+            <summary>
+            Returns a new instance of <see cref="T:Groundbeef.Json.Settings.SettingsProvider`1"/>.
+            </summary>
+            <param name="instance">The initial settings instance.</param>
+            <param name="fileName">The relative or full path to the file including its name and file extention.</param>
+            <param name="settings">The <see cref="T:Newtonsoft.Json.JsonSerializerSettings"/> used when serializing and deserializing the storage object.</param>
+            <returns>A new instance of <see cref="T:Groundbeef.Json.Settings.SettingsProvider`1"/>.</returns>
+        </member>
+        <member name="P:Groundbeef.Json.Settings.SettingsProvider`1.DefaultSettings">
+            <summary>
+            Gets the default instance of the settings storage
+            </summary>
+        </member>
+    </members>
+</doc>

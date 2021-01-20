@@ -1,0 +1,406 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Groundbeef.Collections.Spans</name>
+    </assembly>
+    <members>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.GetBitAt(System.Span{System.Byte},System.Int32)">
+            <summary>
+            Indicates whether the bit at the specified significance is set.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.GetBitAt(System.ReadOnlySpan{System.Byte},System.Int32)">
+            <summary>
+            Indicates whether the bit at the specified significance is set.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.And(System.Span{System.Byte},System.ReadOnlySpan{System.Byte}@)">
+            <summary>
+            Combines two spans using biwise AND. Mutates the span passed as this parameter.
+            </summary>
+            <returns>The reference to the left operand span.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.And(System.Span{System.Byte},System.ReadOnlySpan{System.Byte}@,System.Span{System.Byte}@)">
+            <summary>
+            Combines two spans using biwise AND. Writes to the result span.
+            </summary>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.And(System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte}@,System.Span{System.Byte}@)">
+            <summary>
+            Combines two spans using biwise AND. Writes to the result span.
+            </summary>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.Or(System.Span{System.Byte},System.ReadOnlySpan{System.Byte}@)">
+            <summary>
+            Combines two spans using biwise OR. Mutates the span passed as this parameter.
+            </summary>
+            <returns>The reference to the left operand span.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.Or(System.Span{System.Byte},System.ReadOnlySpan{System.Byte}@,System.Span{System.Byte}@)">
+            <summary>
+            Combines two spans using biwise OR. Writes to the result span.
+            </summary>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.Or(System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte}@,System.Span{System.Byte}@)">
+            <summary>
+            Combines two spans using biwise OR. Writes to the result span.
+            </summary>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.Nand(System.Span{System.Byte},System.ReadOnlySpan{System.Byte}@)">
+            <summary>
+            Combines two spans using biwise NAND. Mutates the span passed as this parameter.
+            </summary>
+            <returns>The reference to the left operand span.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.Nand(System.Span{System.Byte},System.ReadOnlySpan{System.Byte}@,System.Span{System.Byte}@)">
+            <summary>
+            Combines two spans using biwise NAND. Writes to the result span.
+            </summary>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.Nand(System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte}@,System.Span{System.Byte}@)">
+            <summary>
+            Combines two spans using biwise NAND. Writes to the result span.
+            </summary>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.Nor(System.Span{System.Byte},System.ReadOnlySpan{System.Byte}@)">
+            <summary>
+            Combines two spans using biwise NOR. Mutates the span passed as this parameter.
+            </summary>
+            <returns>The reference to the left operand span.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.Nor(System.Span{System.Byte},System.ReadOnlySpan{System.Byte}@,System.Span{System.Byte}@)">
+            <summary>
+            Combines two spans using biwise NOR. Writes to the result span.
+            </summary>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.Nor(System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte}@,System.Span{System.Byte}@)">
+            <summary>
+            Combines two spans using biwise NOR. Writes to the result span.
+            </summary>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.Xor(System.Span{System.Byte},System.ReadOnlySpan{System.Byte}@)">
+            <summary>
+            Combines two spans using biwise XOR. Mutates the span passed as this parameter.
+            </summary>
+            <returns>The reference to left operand span.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.Xor(System.Span{System.Byte},System.ReadOnlySpan{System.Byte}@,System.Span{System.Byte}@)">
+            <summary>
+            Combines two spans using biwise XOR. Writes to the result span.
+            </summary>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.Xor(System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte}@,System.Span{System.Byte}@)">
+            <summary>
+            Combines two spans using biwise XOR. Writes to the result span.
+            </summary>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.Xnor(System.Span{System.Byte},System.ReadOnlySpan{System.Byte}@)">
+            <summary>
+            Combines two spans using biwise XNOR. Mutates the span passed as this parameter.
+            </summary>
+            <returns>The reference to the left operand span.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.Xnor(System.Span{System.Byte},System.ReadOnlySpan{System.Byte}@,System.Span{System.Byte}@)">
+            <summary>
+            Combines two spans using biwise XNOR. Writes to the result span.
+            </summary>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.Xnor(System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte}@,System.Span{System.Byte}@)">
+            <summary>
+            Combines two spans using biwise XNOR. Writes to the result span.
+            </summary>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.ComputeMask(System.Span{System.Byte}@,System.Int32,System.Int32)">
+            <summary>
+            Computes the bitmask to obtain <paramref name="bitCount"/> bits, begining at <paramref name="bitOffset"/>.
+            Mutates the span passed as parameter.
+            </summary>
+            <param name="bitOffset">Number of bits from the 0th bit to the 1st bit to set.</param>
+            <param name="bitCount">Number of bits from the <paramref name="bitOffset"/> to set.</param>
+            <returns>The reference to the span passed as parameter.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.Spans.BitwiseExtention.MaskSignificantBitsExclusive(System.Span{System.Byte}@,System.Int32)" -->
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.AndMask(System.Span{System.Byte},System.UInt64)">
+            <summary>
+            Masks each chunk - with the size of the mask - in the span with the value of mask. Mutates the span passed as this parameter.
+            If the size of the span is not a multiple of the mask size, then the remaining byte will be computed with a part of the mask.
+            </summary>
+            <param name="mask">The mask to AND each chunk with.</param>
+            <returns>The reference to the span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.AndMask(System.Span{System.Byte},System.UInt32)">
+            <summary>
+            Masks each chunk - with the size of the mask - in the span with the value of mask. Mutates the span passed as this parameter.
+            If the size of the span is not a multiple of the mask size, then the remaining byte will be computed with a part of the mask.
+            </summary>
+            <param name="mask">The mask to AND each chunk with.</param>
+            <returns>The reference to the span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.AndMask(System.Span{System.Byte},System.Byte)">
+            <summary>
+            Masks each chunk - with the size of the mask - in the span with the value of mask. Mutates the span passed as this parameter.
+            If the size of the span is not a multiple of the mask size, then the remaining byte will be computed with a part of the mask.
+            </summary>
+            <param name="mask">The mask to AND each chunk with.</param>
+            <returns>The reference to the span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.AndMask(System.ReadOnlySpan{System.Byte},System.Span{System.Byte},System.UInt64)">
+            <summary>
+            Masks each chunk - with the size of the mask - in the span with the value of mask.
+            If the size of the span is not a multiple of the mask size, then the remaining byte will be computed with a part of the mask.
+            </summary>
+            <param name="result">The span to which to write the results of the operation.</param>
+            <param name="mask">The mask to AND each chunk with.</param>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.AndMask(System.ReadOnlySpan{System.Byte},System.Span{System.Byte},System.UInt32)">
+            <summary>
+            Masks each chunk - with the size of the mask - in the span with the value of mask.
+            If the size of the span is not a multiple of the mask size, then the remaining byte will be computed with a part of the mask.
+            </summary>
+            <param name="result">The span to which to write the results of the operation.</param>
+            <param name="mask">The mask to AND each chunk with.</param>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.AndMask(System.ReadOnlySpan{System.Byte},System.Span{System.Byte},System.Byte)">
+            <summary>
+            Masks each chunk - with the size of the mask - in the span with the value of mask.
+            If the size of the span is not a multiple of the mask size, then the remaining byte will be computed with a part of the mask.
+            </summary>
+            <param name="result">The span to which to write the results of the operation.</param>
+            <param name="mask">The mask to AND each chunk with.</param>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.OrMask(System.Span{System.Byte},System.UInt64)">
+            <summary>
+            Masks each chunk - with the size of the mask - in the span with the value of mask. Mutates the span passed as this parameter.
+            If the size of the span is not a multiple of the mask size, then the remaining byte will be computed with a part of the mask.
+            </summary>
+            <param name="mask">The mask to OR each chunk with.</param>
+            <returns>The reference to the span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.OrMask(System.Span{System.Byte},System.UInt32)">
+            <summary>
+            Masks each chunk - with the size of the mask - in the span with the value of mask. Mutates the span passed as this parameter.
+            If the size of the span is not a multiple of the mask size, then the remaining byte will be computed with a part of the mask.
+            </summary>
+            <param name="mask">The mask to OR each chunk with.</param>
+            <returns>The reference to the span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.OrMask(System.Span{System.Byte},System.Byte)">
+            <summary>
+            Masks each chunk - with the size of the mask - in the span with the value of mask. Mutates the span passed as this parameter.
+            If the size of the span is not a multiple of the mask size, then the remaining byte will be computed with a part of the mask.
+            </summary>
+            <param name="mask">The mask to OR each chunk with.</param>
+            <returns>The reference to the span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.OrMask(System.ReadOnlySpan{System.Byte},System.Span{System.Byte},System.UInt64)">
+            <summary>
+            Masks each chunk - with the size of the mask - in the span with the value of mask.
+            If the size of the span is not a multiple of the mask size, then the remaining byte will be computed with a part of the mask.
+            </summary>
+            <param name="result">The span to which to write the results of the operation.</param>
+            <param name="mask">The mask to OR each chunk with.</param>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.OrMask(System.ReadOnlySpan{System.Byte},System.Span{System.Byte},System.UInt32)">
+            <summary>
+            Masks each chunk - with the size of the mask - in the span with the value of mask.
+            If the size of the span is not a multiple of the mask size, then the remaining byte will be computed with a part of the mask.
+            </summary>
+            <param name="result">The span to which to write the results of the operation.</param>
+            <param name="mask">The mask to OR each chunk with.</param>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.OrMask(System.ReadOnlySpan{System.Byte},System.Span{System.Byte},System.Byte)">
+            <summary>
+            Masks each chunk - with the size of the mask - in the span with the value of mask.
+            If the size of the span is not a multiple of the mask size, then the remaining byte will be computed with a part of the mask.
+            </summary>
+            <param name="result">The span to which to write the results of the operation.</param>
+            <param name="mask">The mask to OR each chunk with.</param>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.LeftShift(System.Span{System.Byte})">
+            <summary>
+            Shifts all bits in the span to the left by one. Mutates the span passed as this parameter.
+            </summary>
+            <returns>The reference to the span as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.LeftShift(System.Span{System.Byte},System.Span{System.Byte}@)">
+            <summary>
+            Shifts all bits in the span to the left by one. Mutates the span passed as this parameter.
+            </summary>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.LeftShift(System.ReadOnlySpan{System.Byte},System.Span{System.Byte}@)">
+            <summary>
+            Shifts all bits in the span to the left by one. Writes to the result span.
+            </summary>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.LeftShift(System.Span{System.Byte},System.Int32)">
+            <summary>
+            Shifts all bits in the span to the left by a specified ammount. Mutates the span passed as this parameter.
+            </summary>
+            <param name="n">The amount by which to shift. Must be greater or equal to zero.</param>
+            <returns>The reference to the span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.LeftShift(System.Span{System.Byte},System.Span{System.Byte}@,System.Int32)">
+            <summary>
+            Shifts all bits in the span to the left by a specified ammount. Writes to the result span.
+            </summary>
+            <param name="n">The amount by which to shift. Must be greater or equal to zero.</param>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.LeftShift(System.ReadOnlySpan{System.Byte},System.Span{System.Byte}@,System.Int32)">
+            <summary>
+            Shifts all bits in the span to the left by a specified ammount. Writes to the result span.
+            </summary>
+            <param name="n">The amount by which to shift. Must be greater or equal to zero.</param>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.RightShift(System.Span{System.Byte})">
+            <summary>
+            Shifts all bits in the span to the right by one. Mutates the span passed as this parameter.
+            </summary>
+            <returns>The reference to the span as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.RightShift(System.Span{System.Byte},System.Span{System.Byte}@)">
+            <summary>
+            Shifts all bits in the span to the right by one. Mutates the span passed as this parameter.
+            </summary>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.RightShift(System.ReadOnlySpan{System.Byte},System.Span{System.Byte}@)">
+            <summary>
+            Shifts all bits in the span to the right by one. Writes to the result span.
+            </summary>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.RightShift(System.Span{System.Byte},System.Int32)">
+            <summary>
+            Shifts all bits in the span to the right by a specified ammount. Mutates the span passed as this parameter.
+            </summary>
+            <param name="n">The amount by which to shift. Must be greater or equal to zero.</param>
+            <returns>The reference to the span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.RightShift(System.Span{System.Byte},System.Span{System.Byte}@,System.Int32)">
+            <summary>
+            Shifts all bits in the span to the right by a specified ammount. Writes to the result span.
+            </summary>
+            <param name="n">The amount by which to shift. Must be greater or equal to zero.</param>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.BitwiseExtention.RightShift(System.ReadOnlySpan{System.Byte},System.Span{System.Byte}@,System.Int32)">
+            <summary>
+            Shifts all bits in the span to the right by a specified ammount. Writes to the result span.
+            </summary>
+            <param name="n">The amount by which to shift. Must be greater or equal to zero.</param>
+            <returns>The reference of the result span passed as parameter.</returns>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.PInvoke.MemCpy(System.IntPtr,System.IntPtr,System.UIntPtr)">
+            <summary>
+            Copies a block of unmanaged memory.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.PInvoke.MemMove(System.IntPtr,System.IntPtr,System.UIntPtr)">
+            <summary>
+            Moves a block of maybe overlapping unmanaged memory.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.PInvoke.MemSet(System.IntPtr,System.Int32,System.Int32)">
+            <summary>
+            Assigns a specified value to a block of unmanaged memory.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.PInvoke.MemCpy(System.Void*,System.Void*,System.Int32)">
+            <summary>
+            Copies a block of unmanaged memory.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.PInvoke.MemCpy(System.Void*,System.Void*,System.UInt32)">
+            <summary>
+            Copies a block of unmanaged memory.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.PInvoke.MemMove(System.Void*,System.Void*,System.Int32)">
+            <summary>
+            Moves a block of maybe overlapping unmanaged memory.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.PInvoke.MemMove(System.Void*,System.Void*,System.UInt32)">
+            <summary>
+            Moves a block of maybe overlapping unmanaged memory.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.PInvoke.MemSet(System.Void*,System.Char,System.Int32)">
+            <summary>
+            Assigns a specified value to a block of unmanaged memory.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.PInvoke.MemSet(System.Void*,System.Byte,System.Int32)">
+            <summary>
+            Assigns a specified value to a block of unmanaged memory.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.SpanExtention.Assign(System.Span{System.Char},System.Char)">
+            <summary>
+            Assigns the value to all elements in the span.
+            Chars in the span ought to be ASCII or Windows 1252 characters: [0..255]
+            </summary>
+            <param name="value">Must be convertible to the 'unsigned char' datatype. Allows only ASCII or Windows 1252 values: [0..255].</param>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.SpanExtention.Assign(System.Span{System.Byte},System.Byte)">
+            <summary>
+            Assings the value to all elements in the span.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.SpanExtention.Split``1(System.ReadOnlySpan{``0},``0@,System.StringSplitOptions)">
+            <summary>
+            Enumerates slices of a <see cref="T:System.Span`1"/> separated by a specific <paramref name="separator"/>.
+            </summary>
+            <param name="separator">The separator.</param>
+            <param name="options">The split options.</param>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.SpanExtention.Split``1(System.ReadOnlySpan{``0},``0@,System.Int32,System.StringSplitOptions)">
+            <summary>
+            Enumerates slices of a portion of a <see cref="T:System.Span`1"/> separated by a specific <paramref name="separator"/>.
+            </summary>
+            <param name="separator">The separator.</param>
+            <param name="index">The start index of the first slice.</param>
+            <param name="options">The split options.</param>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.SpanExtention.Split``1(System.ReadOnlySpan{``0},``0@,System.Int32,System.Int32,System.StringSplitOptions)">
+            <summary>
+            Enumerates slices of a portion of a <see cref="T:System.Span`1"/> separated by a specific <paramref name="separator"/>.
+            </summary>
+            <param name="separator">The separator.</param>
+            <param name="index">The start index of the first slice.</param>
+            <param name="count">The number of elements </param>
+            <param name="options">The split options.</param>
+        </member>
+        <member name="M:Groundbeef.Collections.Spans.SpanExtention.SplitWhere``1(System.ReadOnlySpan{``0},System.Predicate{``0}@,System.Int32,System.Int32,System.StringSplitOptions)">
+            <summary>
+            Enumerates slices of a portion of a <see cref="T:System.Span`1"/> separated when a specified condition is met.
+            </summary>
+            <param name="match">The <see cref="T:System.Predicate`1"/> signaling the elements at which the <see cref="T:System.Span`1"/> is to be split.</param>
+            <param name="index">The start index of the first slice.</param>
+            <param name="count">The number of elements </param>
+            <param name="options">The split options.</param>
+        </member>
+    </members>
+</doc>

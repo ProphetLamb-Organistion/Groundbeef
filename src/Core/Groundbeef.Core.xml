@@ -1,0 +1,377 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Groundbeef.Core</name>
+    </assembly>
+    <members>
+        <member name="F:Groundbeef.Core.ColorStyles.None">
+            <summary>Default must be used.</summary>
+        </member>
+        <member name="F:Groundbeef.Core.ColorStyles.Integer">
+            <summary>32bit integer in decimal.</summary>
+        </member>
+        <member name="F:Groundbeef.Core.ColorStyles.HexInteger">
+            <summary>32bit integer in hexadecimal, optionally with the hex specifier.</summary>
+        </member>
+        <member name="F:Groundbeef.Core.ColorStyles.Name">
+            <summary>Known name of a <see cref="!:Color"/>.</summary>
+        </member>
+        <member name="F:Groundbeef.Core.ColorStyles.Tuple">
+            <summary>Three or four numeric values separated by a comma.</summary>
+        </member>
+        <member name="F:Groundbeef.Core.ColorStyles.Any">
+            <summary>All <see cref="T:Groundbeef.Core.ColorStyles"/>.</summary>
+        </member>
+        <member name="M:Groundbeef.Core.CultureInfoExtention.VerifyCultureName(System.Globalization.CultureInfo,System.Boolean)">
+            <summary>
+            Indicates whether the string <see cref="T:System.Globalization.CultureInfo"/> has a valid culture name string.
+            </summary>
+            <param name="culture">The culture.</param>
+            <param name="throwException">if <see cref="!:true"/> then throws exception if the <see cref="P:System.Globalization.CultureInfo.Name"/> is invalid.</param>
+            <returns><see cref="!:true"/> if the <see cref="P:System.Globalization.CultureInfo.Name"/> is a valid culture name; otherwise, <see cref="!:false"/>.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:Groundbeef.Core.CultureInfoExtention.VerifyCultureName(System.String@,System.Boolean)">
+            <summary>
+            Indicates whether the string <paramref name="cultureName"/> is a valid culture name string.
+            </summary>
+            <param name="cultureName">The name of the culture.</param>
+            <param name="throwException">if <see cref="!:true"/> then throws exception if the <paramref name="cultureName"/> is invalid.</param>
+            <returns><see cref="!:true"/> if the <paramref name="cultureName"/> is a valid culture name; otherwise, <see cref="!:false"/>.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:Groundbeef.Core.DateTimeExtention.FirstOfWeek(System.DateTime,System.DayOfWeek)">
+            <summary>
+            Returns the first day in the week at 00:00:00.000 relative to the provided <see cref="T:System.DateTime"/>.
+            </summary>
+            <param name="dt">The <see cref="T:System.DateTime"/> used to determine to week.</param>
+            <param name="startOfWeek">The <see cref="T:System.DayOfWeek"/> that counts as the first. Default is <see cref="F:System.DayOfWeek.Monday"/>.</param>
+            <returns>The first day of the week at 00:00:00.000 relative to the provided <see cref="T:System.DateTime"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Core.DateTimeExtention.LastOfWeek(System.DateTime,System.DayOfWeek)">
+            <summary>
+            Returns the last day in the week at 23:59:59.999 relative to the provided <see cref="T:System.DateTime"/>.
+            </summary>
+            <param name="dt">The <see cref="T:System.DateTime"/> used to determine to week.</param>
+            <param name="endOfWeek">The <see cref="T:System.DayOfWeek"/> that counts as the last. Default is <see cref="F:System.DayOfWeek.Sunday"/>.</param>
+            <returns>The first day of the week at  23:59:59.999 relative to the provided <see cref="T:System.DateTime"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Core.DateTimeExtention.FirstOfMonth(System.DateTime)">
+            <summary>
+            Return the first day in the month at 00:00:00.000 relative to the provided <see cref="T:System.DateTime"/>.
+            </summary>
+            <param name="dt">The <see cref="T:System.DateTime"/> used to determine to year and month.</param>
+            <returns>The first day in the month at 00:00:00.000 relative to the provided <see cref="T:System.DateTime"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Core.DateTimeExtention.LastOfMonth(System.DateTime)">
+            <summary>
+            Return the last day in the month at 23:59:59.999 relative to the provided <see cref="T:System.DateTime"/>.
+            </summary>
+            <param name="dt">The <see cref="T:System.DateTime"/> used to determine to year and month.</param>
+            <returns>The last day in the month at 23:59:59.999 relative to the provided <see cref="T:System.DateTime"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Core.DateTimeExtention.GetTimzonesBetween(System.DateTimeOffset,System.DateTimeOffset,System.Boolean)">
+            <summary>
+            Enumerates all timezones between the offsets of two <see cref="T:System.DateTimeOffset"/>s.
+            </summary>
+            <param name="offset1">The first <see cref="T:System.DateTimeOffset"/>.</param>
+            <param name="offset2">The second <see cref="T:System.DateTimeOffset"/>.</param>
+            <param name="distinct">Whether to eliminate all timezones with duplicate offsets.</param>
+        </member>
+        <member name="M:Groundbeef.Core.DateTimeExtention.GetTimzonesBetween(System.TimeSpan,System.TimeSpan,System.Boolean)">
+            <summary>
+            Enumerates all timezones between the offsets of two <see cref="T:System.DateTimeOffset"/>s.
+            </summary>
+            <param name="utcOffset1">The first UTC offset.</param>
+            <param name="utcOffset2">The second UTC offset.</param>
+            <param name="distinct">Whether to eliminate all timezones with duplicate offsets.</param>
+        </member>
+        <member name="M:Groundbeef.Core.DateTimeExtention.GetTimzonesBetween(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Enumerates all timezones between the UTC timezone offsets.
+            </summary>
+            <param name="utcOffset1">The first UTC offset.</param>
+            <param name="utcOffset2">The second UTC offset.</param>
+            <param name="distinct">Whether to eliminate all timezones with duplicate offsets.</param>
+        </member>
+        <member name="M:Groundbeef.Core.EnumExtention.HasAnyFlag``1(``0,``0)">
+            <summary>
+            Indicates whether a enum <paramref name="value"/> has any <paramref name="flags"/>.
+            </summary>
+            <param name="value">The value of the enum.</param>
+            <param name="flags">The enum flags to test for.</param>
+        </member>
+        <member name="M:Groundbeef.Core.EnumExtention.HasAllFlags``1(``0,``0)">
+            <summary>
+            Indicates whether a enum <paramref name="value"/> has all <paramref name="flags"/>.
+            </summary>
+            <param name="value">The value of the enum.</param>
+            <param name="flags">The enum flags to test for.</param>
+        </member>
+        <member name="M:Groundbeef.Core.ExceptionHelper.Try(System.Action,System.Action{System.Exception})">
+            <summary>
+            Performs an action in the try-catch block.
+            </summary>
+            <param name="action">The action which will be invoked.</param>
+            <param name="handler">Custom exception handler.</param>
+        </member>
+        <member name="M:Groundbeef.Core.ExceptionHelper.Try``1(System.Action,System.Action{``0})">
+            <summary>
+            Performs an action in the try-catch block.
+            </summary>
+            <typeparam name="T">Intercepted exception type.</typeparam>
+            <param name="action">The action which will be invoked.</param>
+            <param name="handler">Custom exception handler.</param>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.IsPowerOfTwo(System.Int32)">
+            <summary>
+            Indicates whether the value is a power of two.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.IsPowerOfTwo(System.Int64)">
+            <summary>
+            Indicates whether the value is a power of two.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.RoundInt32(System.Single)">
+            <summary>
+            Rounds the value to the nearest 32bit signed integer.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.RoundInt64(System.Single)">
+            <summary>
+            Rounds the value to the nearest 64bit signed integer.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.RoundInt32(System.Double)">
+            <summary>
+            Rounds the value to the nearest 32bit signed integer.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.RoundInt64(System.Double)">
+            <summary>
+            Rounds the value to the nearest 64bit signed integer.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.RoundInt32(System.Decimal)">
+            <summary>
+            Rounds the value to the nearest 32bit signed integer.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.RoundInt64(System.Decimal)">
+            <summary>
+            Rounds the value to the nearest 64bit signed integer.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.Max``1(``0[])">
+            <summary>
+            Returns the highest value of the provided values.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.Min``1(``0[])">
+            <summary>
+            Returns the highest value of the provided values.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.MinMax``1(``0[])">
+            <summary>
+            Returns the minimum and maximum value of the provided value.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.Max(System.Byte[])">
+            <summary>
+            Returns the highest value of the provided values.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.Min(System.Byte[])">
+            <summary>
+            Returns the highest value of the provided values.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.MinMax(System.Byte[])">
+            <summary>
+            Returns the minimum and maximum value of the provided value.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.Max(System.Int32[])">
+            <summary>
+            Returns the highest value of the provided values.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.Min(System.Int32[])">
+            <summary>
+            Returns the highest value of the provided values.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.Range(System.Int32[])">
+            <summary>
+            Returns the difference between the highest and lowerst value of the provided values.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.MinMax(System.Int32[])">
+            <summary>
+            Returns the minimum and maximum value of the provided value.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.Max(System.Int64[])">
+            <summary>
+            Returns the highest value of the provided values.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.Min(System.Int64[])">
+            <summary>
+            Returns the highest value of the provided values.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.Range(System.Int64[])">
+            <summary>
+            Returns the difference between the highest and lowerst value of the provided values.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.MinMax(System.Int64[])">
+            <summary>
+            Returns the minimum and maximum value of the provided value.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.Max(System.Single[])">
+            <summary>
+            Returns the highest value of the provided values.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.Min(System.Single[])">
+            <summary>
+            Returns the highest value of the provided values.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.Range(System.Single[])">
+            <summary>
+            Returns the difference between the highest and lowerst value of the provided values.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.MinMax(System.Single[])">
+            <summary>
+            Returns the minimum and maximum value of the provided value.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.Max(System.Double[])">
+            <summary>
+            Returns the highest value of the provided values.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.Min(System.Double[])">
+            <summary>
+            Returns the highest value of the provided values.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.Range(System.Double[])">
+            <summary>
+            Returns the difference between the highest and lowerst value of the provided values.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.MinMax(System.Double[])">
+            <summary>
+            Returns the minimum and maximum value of the provided value.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.Max(System.Decimal[])">
+            <summary>
+            Returns the highest value of the provided values.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.Min(System.Decimal[])">
+            <summary>
+            Returns the highest value of the provided values.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.Range(System.Decimal[])">
+            <summary>
+            Returns the difference between the highest and lowerst value of the provided values.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.MathHelper.MinMax(System.Decimal[])">
+            <summary>
+            Returns the minimum and maximum value of the provided value.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.ObjectExtention.Cast``1(System.Object)">
+            <summary>
+            Casts the provided object to a specified type.
+            </summary>
+            <param name="value">The source object.</param>
+            <typeparam name="T">The cast type.</typeparam>
+        </member>
+        <member name="M:Groundbeef.Core.ObjectExtention.Convert``1(System.Object)">
+            <summary>
+            Converts the provided object to a specified type. Using the IConvetible interface.
+            </summary>
+            <param name="value">The source object.</param>
+            <typeparam name="T">The conversion type.</typeparam>
+        </member>
+        <member name="M:Groundbeef.Core.ObjectExtention.Combine(System.Guid,System.Guid)">
+            <summary>
+            Creates a new instance of <see cref="T:System.Guid"/> by combining a <see cref="T:System.Guid"/> with another. By appling the XOR operation to the first and last 8 bytes, of the 16-element byte arrays, crosswise.
+            </summary>
+            <param name="other">The <see cref="T:System.Guid"/> to combine with.</param>
+            <returns>The <see cref="T:System.Guid"/> created by combining two <see cref="T:System.Guid"/>s.</returns>
+        </member>
+        <member name="M:Groundbeef.Core.ObjectExtention.ThrowOnNull(System.Object,System.String@)">
+            <summary>
+            Throws an ArgumentNullException if the object is null.
+            </summary>
+            <param name="parameterName">The parameter name of the object.</param>
+        </member>
+        <member name="M:Groundbeef.Core.ObjectExtention.DerefOrThrow``1(``0,System.String@)">
+            <summary>
+            Dereferences the <see cref="T:System.Nullable"/> object, if the object is null throws a <see cref="T:System.ArgumentNullException"/>; otherwise returns the dereferenced object.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.ObjectExtention.DerefOrThrow``1(System.Nullable{``0},System.String@)">
+            <summary>
+            Dereferences the <see cref="T:System.Nullable"/> object, if the object is null throws a <see cref="T:System.ArgumentNullException"/>; otherwise returns the dereferenced object.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Core.STAThreadTask.Run``1(System.Func{``0})">
+            <summary>
+            Returns a new STAThread spawned <see cref="T:System.Threading.Tasks.Task`1"/> for the provided <see cref="T:System.Func`1"/>.
+            </summary>
+            <typeparam name="T">The return type of the <see cref="T:System.Threading.Tasks.Task`1"/>.</typeparam>
+            <param name="func">The function.</param>
+            <returns>A new STAThread spawned <see cref="T:System.Threading.Tasks.Task`1"/> for the provided <see cref="T:System.Func`1"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Core.STAThreadTask.Run(System.Action)">
+            <summary>
+            Returns a new STAThread spawned <see cref="T:System.Threading.Tasks.Task"/> for the provided <see cref="T:System.Action"/>.
+            </summary>
+            <param name="func">The function.</param>
+            <returns>A new STAThread spawned <see cref="T:System.Threading.Tasks.Task"/> for the provided <see cref="T:System.Action"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Core.TaskCollectionExtention.WaitAll(System.Threading.Tasks.Task[])">
+            <summary>
+            Waits for all of the provided System.Threading.Tasks.Task objects to complete execution.
+            </summary>
+            <param name="collection">The <see cref="!:Task[]"/> to await.</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Core.TaskCollectionExtention.WaitAll(System.Collections.Generic.IReadOnlyList{System.Threading.Tasks.Task})" -->
+        <member name="M:Groundbeef.Core.TaskCollectionExtention.WaitAny(System.Threading.Tasks.Task[])">
+            <summary>
+            Waits for any of the provided System.Threading.Tasks.Task objects to complete execution.
+            </summary>
+            <param name="collection">The <see cref="!:Task[]"/> to await.</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Core.TaskCollectionExtention.WaitAny(System.Collections.Generic.IReadOnlyList{System.Threading.Tasks.Task})" -->
+        <member name="M:Groundbeef.Core.TaskCollectionExtention.WhenAll(System.Threading.Tasks.Task[])">
+            <summary>
+            Creates a task that will complete when all of the System.Threading.Tasks.Task objects in an array have completed.
+            </summary>
+            <param name="collection">The <see cref="!:Task[]"/> to await.</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Core.TaskCollectionExtention.WhenAll(System.Collections.Generic.IReadOnlyList{System.Threading.Tasks.Task})" -->
+        <member name="M:Groundbeef.Core.TaskCollectionExtention.WhenAny(System.Threading.Tasks.Task[])">
+            <summary>
+            Creates a task that will complete when any of the supplied tasks have completed.
+            </summary>
+            <param name="collection">The <see cref="!:Task[]"/> to await.</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Core.TaskCollectionExtention.WhenAny(System.Collections.Generic.IReadOnlyList{System.Threading.Tasks.Task})" -->
+    </members>
+</doc>

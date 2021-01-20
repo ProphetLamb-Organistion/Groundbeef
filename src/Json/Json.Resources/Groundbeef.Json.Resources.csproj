@@ -10,6 +10,7 @@
   <PropertyGroup>
     <PackageOutputPath>$(MSBuildThisFileDirectory)nupkgs</PackageOutputPath>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <DocumentationFile>$(TargetDir)Groundbeef.Json.Resources.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>

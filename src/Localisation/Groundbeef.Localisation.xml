@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Groundbeef.Localisation</name>
+    </assembly>
+    <members>
+        <member name="P:Groundbeef.Localisation.DesignHelper.IsInDesignModeStatic">
+            <summary>
+            Gets a value indicating whether the control is in design mode (running in Blend or Visual Studio).
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Localisation.Locale.Name">
+            <summary>
+            Name of the locale
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Localisation.Locale.RTL">
+            <summary>
+             Is the locale right to left
+            </summary>
+        </member>
+        <member name="T:Groundbeef.Localisation.LocalisationHelper">
+            <summary>
+            Helper class for binding to resource strings
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Localisation.LocalisationHelper.#ctor">
+            <summary>
+            Initializes a new instance of the LocalisationHelper class.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Localisation.LocalisationHelper.Item(System.String)">
+            <summary>
+            Gets a resource string from the ResourceManager 
+            You can bind to this property using the .[KEY] syntax e.g.: 
+            {Binding Source={StaticResource localisation}, Path=.[MainScreenResources.IntroTextLine1]}
+            </summary>
+            <param name="key">Key to retrieve in the format [ManagerName].[ResourceKey]</param>
+        </member>
+        <member name="P:Groundbeef.Localisation.LocalisationHelper.DefaultManager">
+            <summary>
+            Gets or sets a string representing the default ResourceManager. 
+            When set a resource string can be obtained without specifing a ManagerName, in that case the value of DefaultManager is used as such.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Localisation.ResourceManagerService.CurrentLocale">
+            <summary>
+            Current application locale
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Localisation.ResourceManagerService.#cctor">
+            <summary>
+            Initializes a new instance of the ResourceManager class.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Localisation.ResourceManagerService.GetResourceString(System.String@,System.String@)">
+            <summary>
+            Retreives a string resource with the given key from the given /// resource manager. 
+            Will load the string relevant to the current culture.
+            </summary>
+            <param name="managerName">Name of the ResourceManager</param>
+            <param name="resourceKey">Resource to lookup</param>
+        </member>
+        <member name="M:Groundbeef.Localisation.ResourceManagerService.ChangeLocale(System.String@)">
+            <summary>
+            Changes the current locale
+            </summary>
+            <param name="newLocaleName">IETF locale name (e.g. en-US, en-GB)</param>
+        </member>
+        <member name="M:Groundbeef.Localisation.ResourceManagerService.Refresh">
+            <summary>
+            Fires the LocaleChange event to reload bindings
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Localisation.ResourceManagerService.RegisterManager(System.String@,System.Resources.ResourceManager@)">
+            <summary>
+            Register a ResourceManager, does not fire a refresh
+            </summary>
+            <param name="managerName">Name to store the manager under, used with GetResourceString/UnregisterManager</param>
+            <param name="manager">ResourceManager to store</param>
+        </member>
+        <member name="M:Groundbeef.Localisation.ResourceManagerService.RegisterManager(System.String@,System.Resources.ResourceManager@,System.Boolean)">
+            <summary>
+            Register a ResourceManager
+            </summary>
+            <param name="managerName">Name to store the manager under, used with GetResourceString/UnregisterManager</param>
+            <param name="manager">ResourceManager to store</param>
+            <param name="refresh">Whether to fire the LocaleChanged event to refresh bindings</param>
+        </member>
+        <member name="M:Groundbeef.Localisation.ResourceManagerService.UnregisterManager(System.String@)">
+            <summary>
+            Remove a ResourceManager
+            </summary>
+            <param name="name">Name of the manager to remove</param>
+        </member>
+    </members>
+</doc>

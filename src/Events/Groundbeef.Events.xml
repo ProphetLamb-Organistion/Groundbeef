@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Groundbeef.Events</name>
+    </assembly>
+    <members>
+        <member name="M:Groundbeef.Events.PropertyChangedEventArgs`1.#ctor(`0,`0,System.String)">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.Events.ValueChangedEventArgs`1"/>.
+            </summary>
+            <param name="oldValue">The old value.</param>
+            <param name="newValue">The new value.</param>
+            <param name="propertyName">The name of the property changed.</param>
+        </member>
+        <member name="P:Groundbeef.Events.PropertyChangedEventArgs`1.Name">
+            <summary>
+            Gets or sets the name of the property changed.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Events.PropertyChangedEventArgs.#ctor(System.Object,System.Object,System.String)">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.Events.ValueChangedEventArgs"/>, determining the type by the provided values, hence both cannot be null and must be of the same Type.
+            </summary>
+            <param name="oldValue">The old value.</param>
+            <param name="newValue">The new value.</param>
+            <exception name="ArgumentException">both oldValue and newValue are null or type of oldValue is not type of newValue.</exception>
+            <param name="propertyName">The name of the property changed.</param>
+        </member>
+        <member name="M:Groundbeef.Events.PropertyChangedEventArgs.#ctor(System.Object,System.Object,System.Type,System.String)">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.Events.ValueChangedEventArgs"/>.
+            </summary>
+            <param name="oldValue">The old value.</param>
+            <param name="newValue">The new value.</param>
+            <param name="valuesType">The type of both the old- and new value.</param>
+            <param name="propertyName">The name of the property changed.</param>
+        </member>
+        <member name="P:Groundbeef.Events.PropertyChangedEventArgs.Name">
+            <summary>
+            Gets or sets the name of the property changed.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Events.ValueChangedEventArgs`1.#ctor(`0,`0)">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.Events.ValueChangedEventArgs`1"/>.
+            </summary>
+            <param name="oldValue">The old value.</param>
+            <param name="newValue">The new value.</param>
+        </member>
+        <member name="P:Groundbeef.Events.ValueChangedEventArgs`1.OldValue">
+            <summary>
+            Represents the old value before the change.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Events.ValueChangedEventArgs`1.NewValue">
+            <summary>
+            Represents the new value after the change.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Events.ValueChangedEventArgs.#ctor(System.Object,System.Object)">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.Events.ValueChangedEventArgs"/>, determining the type by the provided values, hence both cannot be null and must be of the same Type.
+            </summary>
+            <param name="oldValue">The old value.</param>
+            <param name="newValue">The new value.</param>
+            <exception name="ArgumentException">both oldValue and newValue are null or type of oldValue is not type of newValue.</exception>
+        </member>
+        <member name="M:Groundbeef.Events.ValueChangedEventArgs.#ctor(System.Object,System.Object,System.Type)">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.Events.ValueChangedEventArgs"/>.
+            </summary>
+            <param name="oldValue">The old value.</param>
+            <param name="newValue">The new value.</param>
+            <param name="valuesType">The type of both the old- and new value.</param>
+        </member>
+        <member name="P:Groundbeef.Events.ValueChangedEventArgs.OldValue">
+            <summary>
+            Gets or sets the old value before the change.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Events.ValueChangedEventArgs.NewValue">
+            <summary>
+            Gets or sets the new value after the change.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Events.ValueChangedEventArgs.ValuesType">
+            <summary>
+            Gets or sets the <see cref="T:System.Type"/> of both the old- and new value.
+            </summary>
+        </member>
+    </members>
+</doc>

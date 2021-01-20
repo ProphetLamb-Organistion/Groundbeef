@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Groundbeef.Collections.BitCollections</name>
+    </assembly>
+    <members>
+        <member name="P:Groundbeef.Collections.BitCollections.BitArrayList.Count">
+            <summary>
+            Gets the number of <see cref="T:System.Boolean"/> elements in the collection.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Collections.BitCollections.BitArrayList.DataBlockCount">
+            <summary>
+            Gets the number of <see cref="T:System.UInt64"/> chunks allocated to encompass all <see cref="T:System.Boolean"/> elements in the collection. 
+            <see cref="P:Groundbeef.Collections.BitCollections.BitArrayList.DataBlockCount"/> : <see cref="P:Groundbeef.Collections.BitCollections.BitArrayList.Count"/> converges to 1 : 64 on a 64bit platform and to 1 : 32 on a 32bit platform.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Collections.BitCollections.BitArrayList.IsSynchronized">
+            <summary>
+            Indicates that the collection is syncronized.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Collections.BitCollections.BitArrayList.SyncRoot">
+            <summary>
+            Gets the <see cref="T:System.Object"/> that is the syncronization root for the current instance if <see cref="!:IsSyncronized"/>; otherwise, a reference to the instance itself.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Collections.BitCollections.BitArrayList.Clear">
+            <summary>
+            Clears all data from the collection.
+            </summary>
+            <remarks>Does not reallocate.</remarks>
+        </member>
+        <member name="M:Groundbeef.Collections.BitCollections.BitArrayList.TrimToSize">
+            <summary>
+            Trims the <see cref="P:Groundbeef.Collections.BitCollections.BitArrayList.DataBlockCount"/> to minimally fit the <see cref="P:Groundbeef.Collections.BitCollections.BitArrayList.Count"/> by reallocating the storage array.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Groundbeef.Collections.BitCollections.BitArrayList.EnforceOffsetRange" -->
+        <member name="M:Groundbeef.Collections.BitCollections.BitArrayList.EnsureCapacity(System.Int32)">
+            <summary>
+            Ensures that the storage array has enouth capacity to hoist the <paramref name="elementCount"/>.
+            </summary>
+        </member>
+    </members>
+</doc>

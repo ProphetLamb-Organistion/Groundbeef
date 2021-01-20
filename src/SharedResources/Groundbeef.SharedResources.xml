@@ -1,0 +1,269 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Groundbeef.SharedResources</name>
+    </assembly>
+    <members>
+        <member name="T:Groundbeef.SharedResources.ExceptionResource">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.ALPHABET_LENGTH_LESS_2">
+            <summary>
+              Looks up a localized string similar to The alphabet contains less then two characters..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.ANY_ELEMENT_NULL">
+            <summary>
+              Looks up a localized string similar to One or more element is null..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.ARRAY_LOWERBOUND_ZERO">
+            <summary>
+              Looks up a localized string similar to The lower bound of the array has to be zero..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.ARRAY_MULTIRANK_NOTSUPPORTED">
+            <summary>
+              Looks up a localized string similar to Multirank arrays are not supported..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.ARRAY_NOTEMPTY">
+            <summary>
+              Looks up a localized string similar to The array must conatin at least one element..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.CALL_FROM_CORE_ASSEMBLY_FAILED">
+            <summary>
+              Looks up a localized string similar to Cannot be called by the system assembly..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.CLASS_NOT_HAVE_ATTRIBUTE">
+            <summary>
+              Looks up a localized string similar to The class does not have the attribute required..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.COLLECTION_INVALID_ELEMENTTYPE">
+            <summary>
+              Looks up a localized string similar to Invalid type of elements in the array..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.COLLECTION_LENGTH_INVALID">
+            <summary>
+              Looks up a localized string similar to The number of elements in the collection do not match the expected value..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.COLLECTION_NOT_EMPTY">
+            <summary>
+              Looks up a localized string similar to The collection cannt be empty..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.COLLECTION_PREDICATE_NO_MATCH_FOUND">
+            <summary>
+              Looks up a localized string similar to No match for the predicate was found in the collection..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.CORE_ASSEMBY_NAME_INDETERMINABLE">
+            <summary>
+              Looks up a localized string similar to Could not determine the name of the System assembly..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.CTOR_INVOKE_FAILED">
+            <summary>
+              Looks up a localized string similar to Invoking the constructor method failed..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.CULTURE_INVALID">
+            <summary>
+              Looks up a localized string similar to Invalid culture name..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.DICTIONARY_CONCURRENT_NOTSUPPORTED">
+            <summary>
+              Looks up a localized string similar to The dictionary can not be a ConcurrentDictionary..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.ENUMERABLE_NOTEMPTY">
+            <summary>
+              Looks up a localized string similar to The enumerable has to enumerate at least one element..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.ENUMERATOR_STATE_ABNORMAL">
+            <summary>
+              Looks up a localized string similar to The state of the enumerator is abnormal..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.FILE_NOTONDEVICE">
+            <summary>
+              Looks up a localized string similar to The file specified does not exisit on the device..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.FORMAT_NOT_RECOGNIZED">
+            <summary>
+              Looks up a localized string similar to No known format recognized..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.INDEX_UPPERLIMIT">
+            <summary>
+              Looks up a localized string similar to The index was greater or equal to the length of the array..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.INTEGER_POSITIVEZERO">
+            <summary>
+              Looks up a localized string similar to The value must be a nonnegative integer..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.INVALID_DIRECTORY_PATH">
+            <summary>
+              Looks up a localized string similar to The path is invalid or does not point to a directory..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.JOBJECT_READER_LOAD_FAILED">
+            <summary>
+              Looks up a localized string similar to Failed to load the JObject form the reader..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.KEY_NOTFOUND">
+            <summary>
+              Looks up a localized string similar to The key specified was not found..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.LIST_NOTEMPTY">
+            <summary>
+              Looks up a localized string similar to The list must contain at least one element..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.METHOD_INVOKE_FAILED">
+            <summary>
+              Looks up a localized string similar to Invoking the method failed..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.METHOD_NOT_HAVE_ATTRIBUTE">
+            <summary>
+              Looks up a localized string similar to The method does not have the attribute required..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.PROPERTY_NAME_NOTFOUND">
+            <summary>
+              Looks up a localized string similar to No property with the name specified was found..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.PROPERTY_READONLY">
+            <summary>
+              Looks up a localized string similar to The requested property cannot be set to the specified value..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.RANGE_BOUNDS_NOT_ASSIGNED">
+            <summary>
+              Looks up a localized string similar to The bounds of the range must be fully assigned..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.RANGE_STARTEND_SMALLEREQUALS">
+            <summary>
+              Looks up a localized string similar to The start value must be smaller or equal to the end value..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.RANGE_TO_GENERIC_ISFROMEND">
+            <summary>
+              Looks up a localized string similar to Converting a System.Range to a Range&lt;int&gt; requires Index.IsFromEnd to be false..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.RESOURCEREADER_REQUIRE_READTOEND">
+            <summary>
+              Looks up a localized string similar to Call ReadToEnd before calling this method..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.RESOURCESET_CULTURE_EXISTS">
+            <summary>
+              Looks up a localized string similar to A resource set with the same culture already exisits..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.RESOURCESET_RESOURCEMISS">
+            <summary>
+              Looks up a localized string similar to The key is not present in the dictionary..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.SETTINGS_PROVIDER_ALREADY_REGISTERED">
+            <summary>
+              Looks up a localized string similar to A provider with this type of store object is already registered..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.SETTINGS_PROVIDER_NOTFOUND">
+            <summary>
+              Looks up a localized string similar to No provider with this type of store object exists..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.STRING_NULLEMPTY">
+            <summary>
+              Looks up a localized string similar to The value cannot be null or empty..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.STRING_NULLWHITESPACE">
+            <summary>
+              Looks up a localized string similar to The value cannot be null or whitespace..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.TYPE_CANNOT_CONVERT_TO_TYPE">
+            <summary>
+              Looks up a localized string similar to Cannot convert to the type specified..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.TYPE_INDETERMINABLE">
+            <summary>
+              Looks up a localized string similar to Could not determine the type of the arguments..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.TYPE_ISNOT_ATTRIBUTE">
+            <summary>
+              Looks up a localized string similar to The type is no attribute type..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.TYPE_ISNOT_INTERFACE">
+            <summary>
+              Looks up a localized string similar to The type specified is no interface.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.TYPE_MUST_BE_ENUM">
+            <summary>
+              Looks up a localized string similar to The type is required to be an enum..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.TYPE_NOT_IMPLEMENT_GENERIC_IENUMERABLE">
+            <summary>
+              Looks up a localized string similar to The type does implement the generic type definition IEnumerable&lt;&gt;..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.TYPE_NOTGENERIC">
+            <summary>
+              Looks up a localized string similar to The type does not have at least one generic type argument..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.UNICODE_ILLEGAL_SYMBOL">
+            <summary>
+              Looks up a localized string similar to The string source contains corrupted unicode symbols, at index {0}.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.VALUE_NOTNULL">
+            <summary>
+              Looks up a localized string similar to The value cannot be null..
+            </summary>
+        </member>
+        <member name="P:Groundbeef.SharedResources.ExceptionResource.VALUE_ONLY_SET_ONCE">
+            <summary>
+              Looks up a localized string similar to The value can only be set once..
+            </summary>
+        </member>
+    </members>
+</doc>

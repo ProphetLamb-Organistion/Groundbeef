@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Groundbeef.WPF</name>
+    </assembly>
+    <members>
+        <member name="T:Groundbeef.WPF.SyncronizedFilter">
+            <summary>
+            Syncronizes the <see cref="P:System.ComponentModel.ICollectionView.Filter"/> property of multiple <see cref="T:System.ComponentModel.ICollectionView"/>s with the <see cref="!:Predicate&lt;object?&gt;"/> provided.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.WPF.SyncronizedFilter.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.WPF.SyncronizedFilter"/>.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.WPF.SyncronizedFilter.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.WPF.SyncronizedFilter"/>, with a specifed name.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.WPF.SyncronizedFilter.#ctor(System.String,System.Collections.Generic.IEnumerable{System.ComponentModel.ICollectionView})">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.WPF.SyncronizedFilter"/>, with a specifed name and collection of subscribers.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.WPF.SyncronizedFilter.Name">
+            <summary>
+            Gets or sets the name of the instance. Empty by default.
+            </summary>
+            <remarks>Can only be assigned once. Must not be null or whitespace.</remarks>
+        </member>
+        <member name="P:Groundbeef.WPF.SyncronizedFilter.DefaultRefreshOnObservalbleChanged">
+            <summary>
+            Gets or sets the default value for the <see cref="P:Groundbeef.WPF.SyncronizedFilter.RefreshOnObservalbeChanged"/> property assigned when initializing a new instance of <see cref="T:Groundbeef.WPF.SyncronizedFilter"/>.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.WPF.SyncronizedFilter.RefreshOnObservalbeChanged">
+            <summary>
+            Gets or sets the value indicating whether to refresh subscribed <see cref="T:System.Windows.Controls.ItemsControl"/>s with a <see cref="T:System.Collections.Specialized.INotifyCollectionChanged"/> as <see cref="P:System.Windows.Controls.ItemsControl.ItemsSource"/> when they change.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.WPF.SyncronizedFilter.Filter">
+            <summary>
+            Gets or sets the filter syncronized across all subscribed <see cref="T:System.ComponentModel.ICollectionView"/>s.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.WPF.SyncronizedFilter.AddView(System.Windows.Controls.ItemsControl)">
+            <summary>
+            Subscribes a <see cref="T:System.Windows.Controls.ItemsControl"/> to the <see cref="T:Groundbeef.WPF.SyncronizedFilter"/>.
+            If the <see cref="P:System.Windows.Controls.ItemsControl.ItemsSource"/> is a <see cref="!:INotifyCollectionChanged&lt;T&gt;"/>, then also automatically refreshes the view when changed.
+            </summary>
+            <param name="itemsControl"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Groundbeef.WPF.SyncronizedFilter.RemoveView(System.Windows.Controls.ItemsControl)">
+            <summary>
+            Unsubscribes a <see cref="T:System.Windows.Controls.ItemsControl"/> from the <see cref="T:Groundbeef.WPF.SyncronizedFilter"/>.
+            </summary>
+            <param name="itemsControl"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Groundbeef.WPF.SyncronizedFilterManagerService.RegisterFilter(Groundbeef.WPF.SyncronizedFilter)">
+            <summary>
+            Registers a instance of filter with a unique name to the <see cref="T:Groundbeef.WPF.SyncronizedFilterManagerService"/>.
+            </summary>
+            <param name="filter">The filter to register.</param>
+            <returns><see cref="!:true"/> if the filter was registered successfully; otherwise, <see cref="!:false"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.WPF.SyncronizedFilterManagerService.UnregisterFilter(Groundbeef.WPF.SyncronizedFilter,System.Boolean)">
+            <summary>
+            Unregsitsters a already registered filter form the <see cref="T:Groundbeef.WPF.SyncronizedFilterManagerService"/>. If the filter was unregistered successfully, then disposes the filter.
+            </summary>
+            <param name="filter">The filter to unregister.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Groundbeef.WPF.VisualTreeTraverseHelper.GetSuperElement``1(System.Windows.DependencyObject@)">
+            <summary>
+            Traverses the VisualTree parentage until the first element of the type <typeparamref name="T"/> is traversed, then returns the instance of that <see cref="T:System.Windows.DependencyObject"/>.
+            </summary>
+            <typeparam name="T">Type of the desired super object.</typeparam>
+            <param name="entryObject">A <see cref="T:System.Windows.DependencyObject"/> in the VisualTree.</param>
+            <returns>The first element in the VisualTree parentage eligable.</returns>
+        </member>
+    </members>
+</doc>

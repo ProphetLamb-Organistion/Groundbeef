@@ -9,6 +9,7 @@
   <PropertyGroup>
     <PackageOutputPath>$(MSBuildThisFileDirectory)nupkgs</PackageOutputPath>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <DocumentationFile>$(TargetDir)Groundbeef.SharedResources.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>

@@ -1,0 +1,174 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Groundbeef.Drawing</name>
+    </assembly>
+    <members>
+        <member name="M:Groundbeef.Drawing.ColorExtention.ToRgb(System.Drawing.Color)">
+            <summary>
+            Converts the color to an <see cref="T:Groundbeef.Drawing.ColorX.RgbColor"/>.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorExtention.ToSRgb(System.Drawing.Color)">
+            <summary>
+            Converts the color to an <see cref="T:Groundbeef.Drawing.ColorX.SRgbColor"/>.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorExtention.ToScRgb(System.Drawing.Color)">
+            <summary>
+            Converts the color to an <see cref="T:Groundbeef.Drawing.ColorX.ScRgbColor"/>.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorExtention.ToHsl(System.Drawing.Color)">
+            <summary>
+            Converts the color to an <see cref="T:Groundbeef.Drawing.ColorX.HslColor"/>.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorExtention.ToHsv(System.Drawing.Color)">
+            <summary>
+            Converts the color to an <see cref="T:Groundbeef.Drawing.ColorX.HsvColor"/>.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorExtention.ToCmyk(System.Drawing.Color)">
+            <summary>
+            Converts the color to an <see cref="T:Groundbeef.Drawing.ColorX.CmykColor"/>.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorExtention.ToXyz(System.Drawing.Color)">
+            <summary>
+            Converts the color to an <see cref="T:Groundbeef.Drawing.ColorX.XyzColor"/>.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorExtention.ToAdobeRgb(System.Drawing.Color)">
+            <summary>
+            Converts the color to an <see cref="T:Groundbeef.Drawing.ColorX.AdobeRgbColor"/>.
+            </summary>
+        </member>
+        <member name="T:Groundbeef.Drawing.ColorX.AdobeRgbColorData">
+            <summary>
+            Value type containing 32bit floating point Adboe RGB color data, with a 8bit alpha component.
+            </summary>
+        </member>
+        <member name="T:Groundbeef.Drawing.ColorX.CmykColorData">
+            <summary>
+            Value type containing 32bit floating point CMYK color data, with a 8bit integer alpha component.
+            </summary>
+        </member>
+        <member name="P:Groundbeef.Drawing.ColorX.ColorBase`1.Data">
+            <summary>
+            Gets the color data structure.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorX.ColorBase`1.ToAdobeRgb">
+            <summary>
+            Converts the color to a <see cref="T:Groundbeef.Drawing.ColorX.AdobeRgbColor"/>.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorX.ColorBase`1.ToCmyk">
+            <summary>
+            Converts the color to a <see cref="T:Groundbeef.Drawing.ColorX.CmykColor"/>.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorX.ColorBase`1.ToHsl">
+            <summary>
+            Converts the color to a <see cref="T:Groundbeef.Drawing.ColorX.HslColor"/>.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorX.ColorBase`1.ToHsv">
+            <summary>
+            Converts the color to a <see cref="T:Groundbeef.Drawing.ColorX.HsvColor"/>.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorX.ColorBase`1.ToRgb">
+            <summary>
+            Converts the color to a <see cref="T:Groundbeef.Drawing.ColorX.RgbColor"/>.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorX.ColorBase`1.ToScRgb">
+            <summary>
+            Converts the color to a <see cref="T:Groundbeef.Drawing.ColorX.ScRgbColor"/>.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorX.ColorBase`1.ToSRgb">
+            <summary>
+            Converts the color to a <see cref="T:Groundbeef.Drawing.ColorX.SRgbColor"/>.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorX.ColorBase`1.ToXyz">
+            <summary>
+            Converts the color to a <see cref="T:Groundbeef.Drawing.ColorX.XyzColor"/>.
+            </summary>
+        </member>
+        <member name="T:Groundbeef.Drawing.ColorX.HslColorData">
+            <summary>
+            Value type containing 32bit floating point HSL color data, with a 8bit integer alpha component.
+            </summary>
+        </member>
+        <member name="T:Groundbeef.Drawing.ColorX.HsvColorData">
+            <summary>
+            Value type containing 32bit floating point HSV color data, with a 8bit integer alpha component.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorX.IConvertibleColor.ToRgb">
+            <summary>
+            Returns a new <see cref="T:Groundbeef.Drawing.ColorX.RgbColor"/> representing the color of this instance.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorX.IConvertibleColor.ToSRgb">
+            <summary>
+            Returns a new <see cref="T:Groundbeef.Drawing.ColorX.SRgbColor"/> representing the color of this instance.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorX.IConvertibleColor.ToScRgb">
+            <summary>
+            Returns a new <see cref="T:Groundbeef.Drawing.ColorX.ScRgbColor"/> representing the color of this instance.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorX.IConvertibleColor.ToHsl">
+            <summary>
+            Returns a new <see cref="T:Groundbeef.Drawing.ColorX.HslColor"/> representing the color of this instance.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorX.IConvertibleColor.ToHsv">
+            <summary>
+            Returns a new <see cref="T:Groundbeef.Drawing.ColorX.HsvColor"/> representing the color of this instance.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorX.IConvertibleColor.ToCmyk">
+            <summary>
+            Returns a new <see cref="T:Groundbeef.Drawing.ColorX.CmykColor"/> representing the color of this instance.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorX.IConvertibleColor.ToXyz">
+            <summary>
+            Returns a new <see cref="T:Groundbeef.Drawing.ColorX.XyzColor"/> representing the color of this instance.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Drawing.ColorX.IConvertibleColor.ToAdobeRgb">
+            <summary>
+            Returns a new <see cref="T:Groundbeef.Drawing.ColorX.AdobeRgbColor"/> representing the color of this instance.
+            </summary>
+        </member>
+        <member name="T:Groundbeef.Drawing.ColorX.RgbColorData">
+            <summary>
+            Value type containing 8bit integer sRGB color data, with a 8bit alpha component.
+            </summary>
+        </member>
+        <member name="T:Groundbeef.Drawing.ColorX.ScRgbColorData">
+            <summary>
+            Value type containing 32bit floating point scRGB color data, with a 8bit integer alpha component.
+            </summary>
+        </member>
+        <member name="T:Groundbeef.Drawing.ColorX.SRgbColorData">
+            <summary>
+            Value type containing 32bit floating point sRGB color data, with a 8bit alpha commponent.
+            </summary>
+        </member>
+        <member name="T:Groundbeef.Drawing.ColorX.XyzColorData">
+            <summary>
+            Value type containing 32bit floating point CIE 1931 - XYZ tristimulus color data, with a 8bit alpha component.
+            Conversion functions assume o = 2°, i = D65
+            </summary>
+        </member>
+    </members>
+</doc>

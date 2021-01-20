@@ -1,0 +1,330 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Groundbeef.Text</name>
+    </assembly>
+    <members>
+        <member name="T:Groundbeef.Text.BulkTokenizer">
+            <summary>
+            Splits a string by tokens and returns the elements inbetween tokens.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Text.BulkTokenizer.#ctor(Groundbeef.Text.ITokenizer@,System.String[]@)">
+            <summary>
+            Initializes a new instacne of <see cref="!:BulkTokenizer&lt;T&gt;"/>, with a specified <see cref="T:Groundbeef.Text.ITokenizer"/>.
+            </summary>
+            <param name="tokenizer">The <see cref="T:Groundbeef.Text.ITokenizer"/> used.</param>
+            <param name="tokens">The ordered <see cref="!:String?[]?"/> containing the tokens,</param>
+        </member>
+        <member name="M:Groundbeef.Text.BulkTokenizer.#ctor(System.String@,System.String[]@)">
+            <summary>
+            Initializes a new instacne of <see cref="!:BulkTokenizer&lt;T&gt;"/>, with the default <see cref="T:Groundbeef.Text.Tokenizer"/>.
+            </summary>
+            <param name="text">The source <see cref="T:System.String"/> to parse.</param>
+            <param name="tokens">The ordered <see cref="!:String?[]?"/> </param>
+        </member>
+        <member name="M:Groundbeef.Text.BulkTokenizer.Tokenize">
+            <summary>
+            Returns a <see cref="!:String?[]"/> with length equal to the number of tokens - 1, containing the elements inbetween all tokens. 
+            If a token was not found the value at the index will be null, and the token will be skipped.
+            </summary>
+            <returns>A <see cref="!:String?[]"/> with length equal to the number of tokens - 1, containing the elements inbetween all tokens.</returns>
+        </member>
+        <member name="T:Groundbeef.Text.FromString">
+            <summary>
+            Indicates that the method has public, static modifiers, has one <see cref="T:System.String"/> parameter, and returns a instance of the class.
+            </summary>
+        </member>
+        <member name="T:Groundbeef.Text.ToString">
+            <summary>
+            Indicates that the method has public, static modifiers, has one parameter of the type of the class, and returns a <see cref="T:System.String"/>.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.IsStringConvertible(System.Type)">
+            <summary>
+            Indicates whether the type is convertible to and from a string using the <see cref="T:Groundbeef.Text.StringHelper"/> functions. 
+            Eligeble are primitives, <see cref="T:System.Drawing.Color"/>, <see cref="T:System.DateTime"/>, <see cref="!:IEnumerable&lt;&gt;"/>, <see cref="!:KeyValuePair&lt;,&gt;"/>, <see cref="!:IDictionary&lt;,&gt;"/>, <see cref="!:Range&lt;&gt;"/>,
+            and all types that have a public static method with the <see cref="T:Groundbeef.Text.FromString"/> and <see cref="T:Groundbeef.Text.ToString"/> attribute.
+            </summary>
+            <param name="type">The type to check.</param>
+            <returns><see cref="!:true"/> if the type is eligable; otherwise, <see cref="!:false"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.GetBytes(System.String,System.Text.Encoding)">
+            <summary>
+            Encodes all characters in the <see cref="T:System.String"/> into a squence of <see cref="!:bytes"/> using the specified encoding.
+            </summary>
+            <param name="encoding">The character encoding used to encode the characters.</param>
+            <returns>A <see cref="!:Byte[]"/> containing the encoded <see cref="T:System.String"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.GetUTF8Bytes(System.String)">
+            <summary>
+            Encodes all characters in the <see cref="T:System.String"/> into a squence of <see cref="!:bytes"/> using the <see cref="P:System.Text.Encoding.UTF8"/>
+            </summary>
+            <returns>A <see cref="!:Byte[]"/> containing the encoded <see cref="T:System.String"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.GetASCIIBytes(System.String)">
+            <summary>
+            Encodes all characters in the <see cref="T:System.String"/> into a squence of <see cref="!:bytes"/> using the <see cref="P:System.Text.Encoding.ASCII"/>
+            </summary>
+            <returns>A <see cref="!:Byte[]"/> containing the encoded <see cref="T:System.String"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.IsASCIIString(System.String)">
+            <summary>
+            Indicates whether the string only contains ASCII characters.
+            </summary>
+            <returns><see cref="!:true"/> if the string contains only ASCII characters; otherwise, <see cref="!:false"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.Append(System.String,System.String@)">
+            <summary>
+            Returns a <see cref="T:System.Text.StringBuilder"/> appending the <paramref name="value"/> to the <see cref="T:System.String"/>.
+            </summary>
+            <param name="value">The <see cref="T:System.String"/> to append.</param>
+            <returns>A new instance <see cref="T:System.Text.StringBuilder"/> appending <paramref name="value"/> to the <see cref="T:System.String"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.IsEmpty(System.String)">
+            <summary>
+            Indicates whether the string is empty ("").
+            </summary>
+            <returns><see cref="!:true"/> if the string is empty; otherwise <see cref="!:false"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.IsWhitespace(System.String)">
+            <summary>
+            Indicates whether the string is empty or consisits only of white-space characters.
+            </summary>
+            <returns><see cref="!:true"/> if the string is empty or consisits only of white-space characters; otherwise <see cref="!:false"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.NullSafe(System.String)">
+            <summary>
+            Dereferences a <see cref="T:System.Nullable`1"/>, by coalescing the value with <see cref="F:System.String.Empty"/> on null.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.RandomString(System.Int32)">
+            <summary>
+            Returns a new randomly generated string with the specified <paramref name="length"/> containing lower and uppercase alphanumeric characters 0-9a-zA-Z.
+            </summary>
+            <param name="length">The number of chars in the random string.</param>
+            <returns>A new randomly generated string with the specified <paramref name="length"/> containing lower and uppercase alphanumeric characters 0-9a-zA-Z.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.RandomString(System.Int32,System.ReadOnlySpan{System.Char})">
+            <summary>
+            Returns a new randomly generated string with the specified <paramref name="length"/> containing characters in the <paramref name="alphabet"/>.
+            </summary>
+            <param name="length">The number of chars in the random string.</param>
+            <param name="alphabet">The alphabet used to generate characters in the string.</param>
+            <returns>A new randomly generated string with the specified <paramref name="length"/> containing characters in the <paramref name="alphabet"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.StringToConvertibleValue``1(System.String,System.IFormatProvider@,System.Nullable{System.Globalization.NumberStyles}@,Groundbeef.Core.ColorStyles@,System.Globalization.DateTimeStyles@)">
+            <summary>
+            Converts a string value to the type specified.
+            </summary>
+            <typeparam name="T">The type of the object.</typeparam>
+            <param name="value">The string value.</param>
+            <returns>A object of the type specified.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.StringToConvertibleValue(System.String@,System.Type,System.IFormatProvider@,System.Nullable{System.Globalization.NumberStyles}@,Groundbeef.Core.ColorStyles@,System.Globalization.DateTimeStyles@)">
+            <summary>
+            Converts a string value to the type specified.
+            </summary>
+            <param name="value">The string value.</param>
+            <param name="type">The type of the object.</param>
+            <returns>A object of the type specified.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.ConvertibleValueToString``1(``0,System.IFormatProvider@,System.String@,Groundbeef.Core.ColorStyles@)">
+            <summary>
+            Converts an object to its string representation.
+            </summary>
+            <typeparam name="T">The type of the object.</typeparam>
+            <param name="value">The object to convert.</param>
+            <returns>A string representing the object.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.ConvertibleValueToString(System.Object@,System.Type,System.IFormatProvider@,System.String@,Groundbeef.Core.ColorStyles@)">
+            <summary>
+            Converts an object to its string representation.
+            </summary>
+            <param name="value">The object to convert.</param>
+            <param name="type">The type of the object.</param>
+            <returns>A string representing the object.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.SplitAndTrim(System.String,System.Char)">
+            <summary>
+            Splits a <see cref="T:System.String"/> into substrings based on the <paramref name="separator"/>.
+            </summary>
+            <param name="separator">The char that delimits the substrings in this string.</param>
+            <returns>An array whose elements contain the substrings in this string that are delimited by one or more characters in separator.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.SplitAndTrim(System.String,System.Char,System.Char[],System.Int32,System.StringSplitOptions)">
+            <summary>
+            Splits a <see cref="T:System.String"/> into substrings based on the <paramref name="separator"/>.
+            </summary>
+            <param name="separator">The char that delimits the substrings in this string.</param>
+            <param name="trim">An array of Unicode characters to remove from the substring if leading, or trailing.</param>
+            <param name="count">The maximum number of substrings to return.</param>
+            <param name="options"><see cref="F:System.StringSplitOptions.RemoveEmptyEntries"/> to omit empty array elements from the array returned; or <see cref="F:System.StringSplitOptions.None"/> to include empty array elements in the array returned.</param>
+            <returns>An array whose elements contain the substrings in this string that are delimited by one or more characters in separator.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.SplitAndTrim(System.String,System.Char[])">
+            <summary>
+            Splits a <see cref="T:System.String"/> into substrings based on the <paramref name="separators"/>.
+            </summary>
+            <param name="separators">The char array that delimits the substrings in this string, an empty array that contains no delimiters.</param>
+            <returns>An array whose elements contain the substrings in this string that are delimited by one or more characters in separator.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.SplitAndTrim(System.String,System.Char[],System.Char[],System.Int32,System.StringSplitOptions)">
+            <summary>
+            Splits a <see cref="T:System.String"/> into substrings based on the <paramref name="separators"/>.
+            </summary>
+            <param name="separators">The char array that delimits the substrings in this string, an empty array that contains no delimiters.</param>
+            <param name="trim">An array of Unicode characters to remove from the substring if leading, or trailing.</param>
+            <param name="count">The maximum number of substrings to return.</param>
+            <param name="options"><see cref="F:System.StringSplitOptions.RemoveEmptyEntries"/> to omit empty array elements from the array returned; or <see cref="F:System.StringSplitOptions.None"/> to include empty array elements in the array returned.</param>
+            <returns>An array whose elements contain the substrings in this string that are delimited by one or more characters in separator.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.SplitAndTrim(System.String,System.String)">
+            <summary>
+            Splits a <see cref="T:System.String"/> into substrings based on the <paramref name="separator"/>.
+            </summary>
+            <param name="separator">The string that delimits the substrings in this string.</param>
+            <returns>An array whose elements contain the substrings in this string that are delimited by one or more characters in separator.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.SplitAndTrim(System.String,System.String,System.Char[],System.Int32,System.StringSplitOptions)">
+            <summary>
+            Splits a <see cref="T:System.String"/> into substrings based on the <paramref name="separator"/>.
+            </summary>
+            <param name="separator">The string that delimits the substrings in this string.</param>
+            <param name="trim">An array of Unicode characters to remove from the substring if leading, or trailing.</param>
+            <param name="count">The maximum number of substrings to return.</param>
+            <param name="options"><see cref="F:System.StringSplitOptions.RemoveEmptyEntries"/> to omit empty array elements from the array returned; or <see cref="F:System.StringSplitOptions.None"/> to include empty array elements in the array returned.</param>
+            <returns>An array whose elements contain the substrings in this string that are delimited by one or more characters in separator.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.SplitAndTrim(System.String,System.String[])">
+            <summary>
+            Splits a <see cref="T:System.String"/> into substrings based on the <paramref name="separators"/>.
+            </summary>
+            <param name="separators">The string array that delimits the substrings in this string, an empty array that contains no delimiters.</param>
+            <returns>An array whose elements contain the substrings in this string that are delimited by one or more characters in separator.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.SplitAndTrim(System.String,System.String[],System.Char[],System.Int32,System.StringSplitOptions)">
+            <summary>
+            Splits a <see cref="T:System.String"/> into substrings based on the <paramref name="separators"/>.
+            </summary>
+            <param name="separators">The string array that delimits the substrings in this string, an empty array that contains no delimiters.</param>
+            <param name="trim">An array of Unicode characters to remove from the substring if leading, or trailing.</param>
+            <param name="count">The maximum number of substrings to return.</param>
+            <param name="options"><see cref="F:System.StringSplitOptions.RemoveEmptyEntries"/> to omit empty array elements from the array returned; or <see cref="F:System.StringSplitOptions.None"/> to include empty array elements in the array returned.</param>
+            <returns>An array whose elements contain the substrings in this string that are delimited by one or more characters in separator.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.Crop(System.String,System.Int32,System.Boolean)">
+            <summary>
+            Crops the string into chunks of equal length. If not strict the last chunk may be of length equal to the remainder of the length of the string, and chunk length.
+            </summary>
+            <param name="self">The string to crop.</param>
+            <param name="chunkLength">The length of each chunk.</param>
+            <param name="strict">Whether to throw an exception if the length of the string is not a multiple of chunk length.</param>
+            <returns>An array of string of equal length.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.Crop(System.ReadOnlySpan{System.Char},System.Int32,System.Boolean)">
+            <summary>
+            Crops the string into chunks of equal length. If not strict the last chunk may be of length equal to the remainder of the length of the string, and chunk length.
+            </summary>
+            <param name="self">The string to crop.</param>
+            <param name="chunkLength">The length of each chunk.</param>
+            <param name="strict">Whether to throw an exception if the length of the string is not a multiple of chunk length.</param>
+            <returns>An array of string of equal length.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.Crop(System.String,System.Int32)">
+            <summary>
+            Crops the string into chunks of equal length. The last chunk may be of length equal to the remainder of the length of the string, and chunk length.
+            </summary>
+            <param name="self">The string to crop.</param>
+            <param name="chunkLength">The length of each chunk.</param>
+            <returns>An array of string of equal length.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.Crop(System.ReadOnlySpan{System.Char},System.Int32)">
+            <summary>
+            Crops the string into chunks of equal length. The last chunk may be of length equal to the remainder of the length of the string, and chunk length.
+            </summary>
+            <param name="self">The string to crop.</param>
+            <param name="chunkLength">The length of each chunk.</param>
+            <returns>An array of string of equal length.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.CountTextSymbols(System.ReadOnlySpan{System.Char})">
+            <summary>
+            Returns the number of valid unicode symbols in the string.
+            </summary>
+            <param name="self">The string to count.</param>
+            <returns>The number of valid unicode symbols in the string.</returns>
+            <exception cref="T:System.ArgumentException">Throws when encountering an illegal symbol in the character sequence.</exception>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.CountTextSymbols(System.ReadOnlySpan{System.Char},System.Boolean)">
+            <summary>
+            Returns the number of valid unicode symbols in the string.
+            </summary>
+            <param name="self">The string to count.</param>
+            <param name="throwOnIllegalSymbol">Whether to throw an exception, when encountering an illegal symbol or return the number of valid elements.</param>
+            <returns>The number of valid unicode symbols in the string.</returns>
+            <exception cref="T:System.ArgumentException">Throws when encountering an illegal symbol in the character sequence.</exception>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.ValidateUnicodeSymbol(System.Char*)">
+            <summary>Returns the number of 2byte characters that compose the next symbol. If the symbol is illegal returns the complement of the number of corrupted 2byte characters.</summary>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.UnicodeSymbolCharLength(System.Char*)">
+            <summary>
+            !Warning: Does not validate the symbol
+            !Warning: Assumes that the pointer does not point to the null terminator.
+            Returns the number of 2byte characters that compose the next symbol.
+            </summary>
+        </member>
+        <member name="T:Groundbeef.Text.Tokenizer">
+            <summary>
+            Splits a string by tokens and enumerates the elements inbetween tokens.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Text.Tokenizer.#ctor(System.String@)">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.Text.Tokenizer"/>.
+            </summary>
+            <param name="text">The source <see cref="T:System.String"/> to parse.</param>
+        </member>
+        <member name="M:Groundbeef.Text.Tokenizer.#ctor(System.String@,Groundbeef.Text.CharEquality.CharEqualityComparisions@)">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.Text.Tokenizer"/>, with a specified <see cref="T:Groundbeef.Text.CharEquality.CharEqualityComparisions"/>.
+            </summary>
+            <param name="text">The source <see cref="T:System.String"/> to parse.</param>
+            <param name="mode">The <see cref="T:Groundbeef.Text.CharEquality.CharEqualityComparisions"/> determining how two chars are compared</param>
+        </member>
+        <member name="M:Groundbeef.Text.Tokenizer.#ctor(System.String@,System.Collections.Generic.IEqualityComparer{System.Char}@)">
+            <summary>
+            Initializes a new instance of <see cref="T:Groundbeef.Text.Tokenizer"/>, with a specified <see cref="T:System.Collections.Generic.IEqualityComparer`1"/>.
+            </summary>
+            <param name="text">The source <see cref="T:System.String"/> to parse.</param>
+            <param name="comparer">The <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> used to determine if two chars are equal.</param>
+        </member>
+        <member name="P:Groundbeef.Text.Tokenizer.Current">
+            <summary>
+            Gets the current token, between the start of the previous consumed token and the end of the token before that.
+            </summary>
+        </member>
+        <member name="M:Groundbeef.Text.Tokenizer.First(System.ReadOnlySpan{System.Char})">
+            <summary>
+            Attempts to read the first token in the source text. 
+            If tokens were already consumed resets state. 
+            In case the token was not found does not change the state.
+            </summary>
+            <param name="token">The token searched in the source.</param>
+            <returns><see cref="!:true"/> if the token was found; otherwise, <see cref="!:false"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.Tokenizer.Next(System.ReadOnlySpan{System.Char})">
+            <summary>
+            Attempts to read the next token in the source text. 
+            In case the token was not found does not change the state.
+            </summary>
+            <param name="token">The token searched in the source.</param>
+            <returns><see cref="!:true"/> if the token was found; otherwise, <see cref="!:false"/>.</returns>
+        </member>
+        <member name="M:Groundbeef.Text.Tokenizer.Reset">
+            <summary>
+            Resets the state of the <see cref="T:Groundbeef.Text.Tokenizer"/>.
+            </summary>
+        </member>
+    </members>
+</doc>
