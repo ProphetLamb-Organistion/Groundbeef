@@ -27,8 +27,8 @@ namespace Groundbeef.Text
         private static readonly object[] s_fastAllocateStringParameters = new object[1];
         private static readonly Dictionary<Guid, Type[]?> s_genericTypeArguments = new Dictionary<Guid, Type[]?>();
         private static readonly Dictionary<Guid, int> s_convertibleTypeIndicies = new Dictionary<Guid, int>();
-        private static readonly int s_iEnumerableTypeDefinitionIndex = s_convertibleTypes.IndexOf(typeof(IEnumerable<>)),
-                                    s_iDictionaryTypeDefinitionIndex = s_convertibleTypes.IndexOf(typeof(IDictionary<,>));
+        private static readonly int s_iEnumerableTypeDefinitionIndex,
+                                    s_iDictionaryTypeDefinitionIndex;
 
         internal const int c_convertibleTypeIndex = 0x7FFFFFFF;
 
@@ -54,6 +54,8 @@ namespace Groundbeef.Text
 
         static StringHelper()
         {
+            s_iEnumerableTypeDefinitionIndex = s_convertibleTypes.IndexOf(typeof(IEnumerable<>));
+            s_iDictionaryTypeDefinitionIndex = s_convertibleTypes.IndexOf(typeof(IDictionary<,>));
             // Feed convertible type dictionary 
             foreach (Type t in s_convertibleTypes)
             {
@@ -150,10 +152,10 @@ namespace Groundbeef.Text
         /// <summary>
         /// Returns a <see cref="StringBuilder"/> appending the <paramref name="value"/> to the <see cref="String"/>.
         /// </summary>
-        /// <param name="value">The <see cref="String" to append.</param>
+        /// <param name="value">The <see cref="String"/> to append.</param>
         /// <returns>A new instance <see cref="StringBuilder"/> appending <paramref name="value"/> to the <see cref="String"/>.</returns>
         public static StringBuilder Append(this string self, in string value) => new StringBuilder(self).Append(value);
-
+        
         /// <summary>
         /// Indicates whether the string is empty ("").
         /// </summary>

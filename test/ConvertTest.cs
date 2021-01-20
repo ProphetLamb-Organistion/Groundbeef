@@ -18,10 +18,10 @@ namespace Groundbeef.UnitTest
         }
 
         [Test]
-        public unsafe void TestBase85()
+        public void TestBase85()
         {
             // Encode
-            string test = StringHelper.RandomString(100_000_000);
+            string test = StringHelper.RandomString(100_000);
             ReadOnlySpan<char> encoded = Base85.Encode(Encoding.UTF8.GetBytes(test), 0, test.Length);
             //Console.WriteLine(encoded.ToString());
             // Decode
