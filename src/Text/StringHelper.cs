@@ -934,7 +934,7 @@ namespace Groundbeef.Text
             {
                 source -= blockCharCount;
                 blockCharCount = 0;
-                while (*(source + blockCharCount) != '\0')
+                while (*(source + blockCharCount) != 0)
                     blockCharCount++;
                 output[outIndex] = new string(source, 0, blockCharCount);
             }
@@ -995,16 +995,23 @@ namespace Groundbeef.Text
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe int CountValidTextSymbols(char* c, int remainingChars)
         {
+            int increment;
             int length = 0;
-            int increment = 0;
-            for (int i = 0; i + increment <= remainingChars; i += increment, length++)
+            do
             {
-                increment = ValidateUnicodeSymbol(c + i);
-                if (increment <= 0)
+                increment = ValidateUnicodeSymbol(c);
+                if (increment > 0)
                 {
-                    return ~length;
+                    c += increment;
+                    length++;
                 }
+            } while (increment > 0);
+
+            if (increment < 0)
+            {
+                return ~length;
             }
+
             return length;
         }
 
@@ -1021,12 +1028,34 @@ namespace Groundbeef.Text
                 return 0;
 
             if (ch < 0xD800) // Char is up to first high surrogate
-                return 1;
+            {
+                uint chLow = *(c + 1);
 
+                if (chLow > 0x02F0 && chLow < 0x0370)
+                {
+                    // Found combining -> check for 1byte in hi
+                    if (ch == 0)
+                    {
+                        return ~1;
+                    }
+
+                    if ((ch & 0xFF00) == 0)
+                    {
+                        // Found pair
+                        return 2;
+                    }
+                }
+
+                // Did not find pair, preserve combining character.
+                return 1;
+            }
+
+            
             if (ch <= 0xDBFF)
             {
-                // Found high surrogate -> check surrogate pair
                 uint chLow = *(c + 1);
+
+                // Found high surrogate -> check surrogate pair
                 if (chLow == 0)
                 {
                     // Fast char is high surrogate, so it is missing its pair
@@ -1069,7 +1098,11 @@ namespace Groundbeef.Text
         private static unsafe int UnicodeSymbolCharLength(char* c)
         {
             // We can always check c and c + 1 (four bytes total) because of the null terminator.
-            bool isTwoChars = (*(uint*)c & 0xFC00FC00) == 0xDC00D800;
+            uint w32C = *(uint*)c;
+            // Check whether we have a utf32 character
+            bool isTwoChars = (w32C & 0xFC00FC00) == 0xDC00D800;
+            // Check whether we have a 1byte character in lo and a combining 2byte character in hi
+            isTwoChars |= ((w32C >> 16) > 0x02F0) & ((w32C >> 16) < 0x0370);
             return 1 + *(byte*)(&isTwoChars); // Casting bool to byte is 0 when false, 1 when true;
         }
 

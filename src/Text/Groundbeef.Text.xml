@@ -247,11 +247,28 @@
             <param name="chunkLength">The length of each chunk.</param>
             <returns>An array of string of equal length.</returns>
         </member>
+        <member name="M:Groundbeef.Text.StringHelper.CountTextSymbols(System.String)">
+            <summary>
+            Returns the number of valid unicode symbols in the string.
+            </summary>
+            <param name="self">The string to count.</param>
+            <returns>The number of valid unicode symbols in the string.</returns>
+            <exception cref="T:System.ArgumentException">Throws when encountering an illegal symbol in the character sequence.</exception>
+        </member>
         <member name="M:Groundbeef.Text.StringHelper.CountTextSymbols(System.ReadOnlySpan{System.Char})">
             <summary>
             Returns the number of valid unicode symbols in the string.
             </summary>
             <param name="self">The string to count.</param>
+            <returns>The number of valid unicode symbols in the string.</returns>
+            <exception cref="T:System.ArgumentException">Throws when encountering an illegal symbol in the character sequence.</exception>
+        </member>
+        <member name="M:Groundbeef.Text.StringHelper.CountTextSymbols(System.String,System.Boolean)">
+            <summary>
+            Returns the number of valid unicode symbols in the string.
+            </summary>
+            <param name="self">The string to count.</param>
+            <param name="throwOnIllegalSymbol">Whether to throw an exception, when encountering an illegal symbol or return the number of valid elements.</param>
             <returns>The number of valid unicode symbols in the string.</returns>
             <exception cref="T:System.ArgumentException">Throws when encountering an illegal symbol in the character sequence.</exception>
         </member>
