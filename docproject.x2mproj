@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Properties>
+    <Output Path="C:\Users\Public\source\repos\Groundbeef\docproject" />
+    <Index Name="index" />
+  </Properties>
+  <Assembly File="C:\Users\Public\source\repos\Groundbeef\src\BinaryEncoding\bin\x64\Release\netstandard2.1\Groundbeef.BinaryEncoding.dll">
+    <Documentation>C:\Users\Public\source\repos\Groundbeef\src\BinaryEncoding\bin\x64\Release\netstandard2.1\Groundbeef.BinaryEncoding.xml</Documentation>
+    <References />
+    <IndexHeader />
+  </Assembly>
+  <Assembly File="C:\Users\Public\source\repos\Groundbeef\src\Core\bin\x64\Release\netstandard2.1\Groundbeef.Core.dll">
+    <Documentation>C:\Users\Public\source\repos\Groundbeef\src\Core\bin\x64\Release\netstandard2.1\Groundbeef.Core.xml</Documentation>
+    <References />
+    <IndexHeader />
+  </Assembly>
+  <Assembly File="C:\Users\Public\source\repos\Groundbeef\src\Drawing\bin\x64\Release\netstandard2.1\Groundbeef.Drawing.dll">
+    <Documentation>C:\Users\Public\source\repos\Groundbeef\src\Drawing\bin\x64\Release\netstandard2.1\Groundbeef.Drawing.xml</Documentation>
+    <References />
+    <IndexHeader />
+  </Assembly>
+  <Assembly File="C:\Users\Public\source\repos\Groundbeef\src\Events\bin\x64\Release\netstandard2.1\Groundbeef.Events.dll">
+    <Documentation>C:\Users\Public\source\repos\Groundbeef\src\Events\bin\x64\Release\netstandard2.1\Groundbeef.Events.xml</Documentation>
+    <References />
+    <IndexHeader />
+  </Assembly>
+  <Assembly File="C:\Users\Public\source\repos\Groundbeef\src\IO\bin\x64\Release\netstandard2.1\Groundbeef.IO.dll">
+    <Documentation>C:\Users\Public\source\repos\Groundbeef\src\IO\bin\x64\Release\netstandard2.1\Groundbeef.IO.xml</Documentation>
+    <References />
+    <IndexHeader />
+  </Assembly>
+  <Assembly File="C:\Users\Public\source\repos\Groundbeef\src\Localisation\bin\x64\Release\netcoreapp3.1\Groundbeef.Localisation.dll">
+    <Documentation>C:\Users\Public\source\repos\Groundbeef\src\Localisation\bin\x64\Release\netcoreapp3.1\Groundbeef.Localisation.xml</Documentation>
+    <References />
+    <IndexHeader />
+  </Assembly>
+  <Assembly File="C:\Users\Public\source\repos\Groundbeef\src\Reflection\bin\x64\Release\netstandard2.1\Groundbeef.Reflection.dll">
+    <Documentation>C:\Users\Public\source\repos\Groundbeef\src\Reflection\bin\x64\Release\netstandard2.1\Groundbeef.Reflection.xml</Documentation>
+    <References />
+    <IndexHeader />
+  </Assembly>
+  <Assembly File="C:\Users\Public\source\repos\Groundbeef\src\SharedResources\bin\x64\Release\netstandard2.1\Groundbeef.SharedResources.dll">
+    <Documentation>C:\Users\Public\source\repos\Groundbeef\src\SharedResources\bin\x64\Release\netstandard2.1\Groundbeef.SharedResources.xml</Documentation>
+    <References />
+    <IndexHeader />
+  </Assembly>
+  <Assembly File="C:\Users\Public\source\repos\Groundbeef\src\Text\bin\x64\Release\netstandard2.1\Groundbeef.Text.dll">
+    <Documentation>C:\Users\Public\source\repos\Groundbeef\src\Text\bin\x64\Release\netstandard2.1\Groundbeef.Text.xml</Documentation>
+    <References />
+    <IndexHeader />
+  </Assembly>
+  <Assembly File="C:\Users\Public\source\repos\Groundbeef\src\WPF\bin\x64\Release\netcoreapp3.1\Groundbeef.WPF.dll">
+    <Documentation>C:\Users\Public\source\repos\Groundbeef\src\WPF\bin\x64\Release\netcoreapp3.1\Groundbeef.WPF.xml</Documentation>
+    <References />
+    <IndexHeader />
+  </Assembly>
+  <Assembly File="C:\Users\Public\source\repos\Groundbeef\src\Collections\Collections\bin\x64\Release\netstandard2.1\Groundbeef.Collections.BitCollections.dll">
+    <Documentation>C:\Users\Public\source\repos\Groundbeef\src\Collections\Collections\bin\x64\Release\netstandard2.1\Groundbeef.Collections.BitCollections.xml</Documentation>
+    <References />
+    <IndexHeader />
+  </Assembly>
+  <Assembly File="C:\Users\Public\source\repos\Groundbeef\src\Collections\Collections.BitCollections\bin\x64\Release\netstandard2.1\Groundbeef.Collections.BitCollections.dll">
+    <Documentation>C:\Users\Public\source\repos\Groundbeef\src\Collections\Collections.BitCollections\bin\x64\Release\netstandard2.1\Groundbeef.Collections.BitCollections.xml</Documentation>
+    <References />
+    <IndexHeader />
+  </Assembly>
+  <Assembly File="C:\Users\Public\source\repos\Groundbeef\src\Collections\Collections.Concurrent\bin\x64\Release\netstandard2.1\Groundbeef.Collections.Concurrent.dll">
+    <Documentation>C:\Users\Public\source\repos\Groundbeef\src\Collections\Collections.Concurrent\bin\x64\Release\netstandard2.1\Groundbeef.Collections.Concurrent.xml</Documentation>
+    <References />
+    <IndexHeader />
+  </Assembly>
+  <Assembly File="C:\Users\Public\source\repos\Groundbeef\src\Collections\Collections.Spans\bin\x64\Release\netstandard2.1\Groundbeef.Collections.Spans.dll">
+    <Documentation>C:\Users\Public\source\repos\Groundbeef\src\Collections\Collections.Spans\bin\x64\Release\netstandard2.1\Groundbeef.Collections.Spans.xml</Documentation>
+    <References />
+    <IndexHeader />
+  </Assembly>
+  <Assembly File="C:\Users\Public\source\repos\Groundbeef\src\Json\Json.Resources\bin\x64\Release\netstandard2.1\Groundbeef.Json.Resources.dll">
+    <Documentation>C:\Users\Public\source\repos\Groundbeef\src\Json\Json.Resources\bin\x64\Release\netstandard2.1\Groundbeef.Json.Resources.xml</Documentation>
+    <References />
+    <IndexHeader />
+  </Assembly>
+  <Assembly File="C:\Users\Public\source\repos\Groundbeef\src\Json\Json.Settings\bin\x64\Release\netstandard2.1\Groundbeef.Json.Settings.dll">
+    <Documentation>C:\Users\Public\source\repos\Groundbeef\src\Json\Json.Settings\bin\x64\Release\netstandard2.1\Groundbeef.Json.Settings.xml</Documentation>
+    <References />
+    <IndexHeader />
+  </Assembly>
+</Project>

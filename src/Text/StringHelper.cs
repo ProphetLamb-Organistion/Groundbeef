@@ -923,7 +923,14 @@ namespace Groundbeef.Text
                 int increment;
                 for (int blockSymbols = 0; i < symbolCount && blockSymbols < chunkLength; i++, blockSymbols++, blockCharCount += increment)
                 {
+                    /*
+                     * Requires the dotnet rt to have this pull request merged https://github.com/dotnet/runtime/pull/44609
+                     */
+#if NET5
+                    increment = StringInfo.GetNextTextElementLength(new ReadOnlySpan<char>(source + blockCharCount, 2));
+#else
                     increment = UnicodeSymbolCharLength(source + blockCharCount);
+#endif
                 }
 
                 output[outIndex++] = new string(source, 0, blockCharCount);
@@ -976,6 +983,20 @@ namespace Groundbeef.Text
         {
             if (self.IsEmpty)
                 return 0;
+#if NET5
+            ReadOnlySpan<char> input = self;
+            int length = 0;
+            int increment;
+            do
+            {
+                increment = StringInfo.GetNextTextElementLength(input);
+                if (increment != 0)
+                {
+                    input = input.Slice(increment);
+                    length++;
+                }
+            } while (increment != 0);
+#else
             int length;
             fixed (char* inPtr = &MemoryMarshal.GetReference(self))
             {
@@ -988,9 +1009,11 @@ namespace Groundbeef.Text
             length = ~length;
             if (throwOnIllegalSymbol)
                 throw new ArgumentException(string.Format(ExceptionResource.UNICODE_ILLEGAL_SYMBOL, length), nameof(self));
+#endif
             return length;
         }
 
+#if !NET5
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe int CountValidTextSymbols(char* c, int remainingChars)
@@ -1098,13 +1121,14 @@ namespace Groundbeef.Text
         private static unsafe int UnicodeSymbolCharLength(char* c)
         {
             // We can always check c and c + 1 (four bytes total) because of the null terminator.
-            uint w32C = *(uint*)c;
+            uint c32 = *(uint*)c;
             // Check whether we have a utf32 character
-            bool isTwoChars = (w32C & 0xFC00FC00) == 0xDC00D800;
+            bool isUnicode32Char = (c32 & 0xFC00FC00) == 0xDC00D800;
             // Check whether we have a 1byte character in lo and a combining 2byte character in hi
-            isTwoChars |= ((w32C >> 16) > 0x02F0) & ((w32C >> 16) < 0x0370);
-            return 1 + *(byte*)(&isTwoChars); // Casting bool to byte is 0 when false, 1 when true;
+            isUnicode32Char |= ((c32 >> 16) > 0x02F0) & ((c32 >> 16) < 0x0370);
+            return 1 + *(byte*)(&isUnicode32Char); // Casting bool to byte is 0 when false, 1 when true;
         }
+#endif
 
         #endregion
     }
